@@ -463,16 +463,31 @@
 <li>作用域内不能有与之相同名称的标示符（就是不能同名）</li>
 </ol>
 <h2 id="实践才是检验真理"><a href="#实践才是检验真理" class="headerlink" title="实践才是检验真理"></a>实践才是检验真理</h2><p>需求：需求很简单，我想打印一个RDD的元素，并且可以自定义展示元素的个数。不用考虑太多其他的优化问题。<br>分析：利用隐式转换，我们需要将：Rdd[Int]转换成自定义的：SimpleRdd[Int]。使Rdd[Int]能够调用SimpleRdd的方法。<br>代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">object RddImplicitAspect &#123;</span><br><span class="line">  implicit class SimpleRdd[T](rdd:RDD[T])&#123;</span><br><span class="line">    <span class="function">def <span class="title">printTopN</span><span class="params">(printLine:Int = <span class="number">20</span>)</span> </span>= &#123;</span><br><span class="line">      rdd.take(printLine).foreach(println)</span><br><span class="line">      println(s<span class="string">"$&#123;rdd.getClass.getSimpleName&#125; Output Over"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol>
+<pre><code>object RddImplicitAspect {
+  implicit class SimpleRdd[T](rdd:RDD[T]){
+    def printTopN(printLine:Int = 20) = {
+      rdd.take(printLine).foreach(println)
+      println(s&quot;${rdd.getClass.getSimpleName} Output Over&quot;)
+    }
+  }
+}</code></pre><ol>
 <li>首先建立一个工具类，取名<code>RddImplicitAspect</code>。</li>
 <li>弄一个<code>implicit class</code>，类名取为<code>SimpleRdd</code>（<strong>不要重名</strong>），接受的对象是<strong>RDD[T]</strong>。这样T类型的Rdd都能够使用这个方法吧。</li>
 <li>实际上我们应该限制Rdd的类型，比如说<code>[T&lt;:AnyVal]</code>把作用范围缩小。</li>
 <li>之后我们就可以对rdd进行操作了。</li>
 </ol>
 <p>使用：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">object TestApp &#123;</span><br><span class="line">  <span class="function">def <span class="title">main</span><span class="params">(args: Array[String])</span>: Unit </span>= &#123;</span><br><span class="line">    val sc = ContextUtils.getSparkContext(<span class="keyword">this</span>.getClass.getSimpleName)</span><br><span class="line"></span><br><span class="line">    val rdd= sc.parallelize(<span class="number">1</span> to <span class="number">30</span>)</span><br><span class="line">    <span class="keyword">import</span> com.test.spark.utils.RddImplicitAspect._</span><br><span class="line">    rdd.printTopN()</span><br><span class="line"></span><br><span class="line">    sc.stop()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol>
+<pre><code>object TestApp {
+  def main(args: Array[String]): Unit = {
+    val sc = ContextUtils.getSparkContext(this.getClass.getSimpleName)
+
+    val rdd= sc.parallelize(1 to 30)
+    import com.test.spark.utils.RddImplicitAspect._
+    rdd.printTopN()
+
+    sc.stop()
+  }
+}</code></pre><ol>
 <li><strong>不要忘记导入隐式转换。</strong></li>
 <li>直接调用即可。</li>
 </ol>
@@ -720,7 +735,7 @@
                         
                             hadoop fs -ls 相关使用问题记录新人新学，如有错误，烦请提出指正。
 1）直接使用：hadoop fs -ls正确的使用方式是：
-An highlighted block1hadoop fs [-ls [-d] [-h] [-R]
+hadoop fs [-ls [-d] [-h] [-R] [&lt;path&gt; ...]]如
                         
                     </div>
                     <div class="publish-info">

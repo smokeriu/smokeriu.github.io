@@ -7,7 +7,7 @@
     <meta name="keywords" content="hadoop fs -ls 相关使用问题的记录, Hexo">
     <meta name="description" content="hadoop fs -ls 相关使用问题记录新人新学，如有错误，烦请提出指正。
 1）直接使用：hadoop fs -ls正确的使用方式是：
-An highlighted block1hadoop fs [-ls [-d] [-h] [-R]">
+hadoop fs [-ls [-d] [-h] [-R] [&amp;lt;path&amp;gt; ...]]如">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -458,17 +458,12 @@ An highlighted block1hadoop fs [-ls [-d] [-h] [-R]">
             <div id="articleContent">
                 <h1 id="hadoop-fs-ls-相关使用问题记录"><a href="#hadoop-fs-ls-相关使用问题记录" class="headerlink" title="hadoop fs -ls 相关使用问题记录"></a>hadoop fs -ls 相关使用问题记录</h1><p>新人新学，如有错误，烦请提出指正。</p>
 <h2 id="1）直接使用：hadoop-fs-ls"><a href="#1）直接使用：hadoop-fs-ls" class="headerlink" title="1）直接使用：hadoop fs -ls"></a>1）直接使用：hadoop fs -ls</h2><p>正确的使用方式是：</p>
-<figure class="highlight plain"><figcaption><span>An highlighted block</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs [-ls [-d] [-h] [-R] [&lt;path&gt; ...]]</span><br></pre></td></tr></table></figure>
-<p>如果将path省去，系统会将：/user/hostname/ 添加。<br>所以实际这条指令等价于：</p>
+<pre><code>hadoop fs [-ls [-d] [-h] [-R] [&lt;path&gt; ...]]</code></pre><p>如果将path省去，系统会将：/user/hostname/ 添加。<br>所以实际这条指令等价于：</p>
 <pre><code>hadoop fs -ls /user/hostname/</code></pre><p>实验截图参考：<br><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog1.png" alt=""></p>
 <h2 id="2）使用：hadoop-fs-ls"><a href="#2）使用：hadoop-fs-ls" class="headerlink" title="2）使用：hadoop fs -ls /"></a>2）使用：hadoop fs -ls /</h2><p>实际会默认访问hdfs路径。即实际上，这条指令等价于：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -ls hdfs:&#x2F;&#x2F;&#x2F;</span><br></pre></td></tr></table></figure>
-
-<h2 id="3）使用：hadoop-fs-ls-hdfs-hostname-port"><a href="#3）使用：hadoop-fs-ls-hdfs-hostname-port" class="headerlink" title="3）使用：hadoop fs -ls hdfs://hostname:port/"></a>3）使用：hadoop fs -ls hdfs://hostname:port/</h2><p>访问hdfs的完整路径。即：访问hdfs文件系统上的hostname(ip亦可):port/</p>
+<pre><code>hadoop fs -ls hdfs:///</code></pre><h2 id="3）使用：hadoop-fs-ls-hdfs-hostname-port"><a href="#3）使用：hadoop-fs-ls-hdfs-hostname-port" class="headerlink" title="3）使用：hadoop fs -ls hdfs://hostname:port/"></a>3）使用：hadoop fs -ls hdfs://hostname:port/</h2><p>访问hdfs的完整路径。即：访问hdfs文件系统上的hostname(ip亦可):port/</p>
 <p>实际上，可以使用这条指令访问本地的文件系统：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hdfs dfs -ls file:&#x2F;&#x2F;&#x2F;home&#x2F;hadoop&#x2F;</span><br></pre></td></tr></table></figure>
-
-<p>参考：<br>[1] <a href="https://stackoverflow.com/questions/28241251/hadoop-fs-ls-results-in-no-such-file-or-directory" target="_blank" rel="noopener">hadoop fs -ls results in “no such file or directory”
+<pre><code>hdfs dfs -ls file:///home/hadoop/</code></pre><p>参考：<br>[1] <a href="https://stackoverflow.com/questions/28241251/hadoop-fs-ls-results-in-no-such-file-or-directory" target="_blank" rel="noopener">hadoop fs -ls results in “no such file or directory”
 </a></p>
 
             </div>
@@ -696,29 +691,32 @@ An highlighted block1hadoop fs [-ls [-d] [-h] [-R]">
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/02/14/hello-world/">
+                <a href="/2017/03/14/hadoop-fs-ls-xiang-guan-shi-yong-wen-ti-de-ji-lu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="hadoop fs -ls 相关使用问题的记录">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">hadoop fs -ls 相关使用问题的记录</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex
+                            hadoop fs -ls 相关使用问题记录新人新学，如有错误，烦请提出指正。
+1）直接使用：hadoop fs -ls正确的使用方式是：
+hadoop fs [-ls [-d] [-h] [-R] [&lt;path&gt; ...]]如
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-02-14
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2017-03-14
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -727,6 +725,7 @@ An highlighted block1hadoop fs [-ls [-d] [-h] [-R]">
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
