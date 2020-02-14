@@ -461,8 +461,7 @@ hadoop fs [-ls [-d] [-h] [-R] [&amp;lt;path&amp;gt; ...]]如">
 <pre><code>hadoop fs [-ls [-d] [-h] [-R] [&lt;path&gt; ...]]</code></pre><p>如果将path省去，系统会将：/user/hostname/ 添加。<br>所以实际这条指令等价于：</p>
 <pre><code>hadoop fs -ls /user/hostname/</code></pre><p>实验截图参考：<br><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog1.png" alt=""></p>
 <h2 id="2）使用：hadoop-fs-ls"><a href="#2）使用：hadoop-fs-ls" class="headerlink" title="2）使用：hadoop fs -ls /"></a>2）使用：hadoop fs -ls /</h2><p>实际会默认访问hdfs路径。即实际上，这条指令等价于：</p>
-<pre><code>hadoop fs -ls hdfs:///</code></pre><h2 id="3）使用：hadoop-fs-ls-hdfs-hostname-port"><a href="#3）使用：hadoop-fs-ls-hdfs-hostname-port" class="headerlink" title="3）使用：hadoop fs -ls hdfs://hostname:port/"></a>3）使用：hadoop fs -ls hdfs://hostname:port/</h2><p>访问hdfs的完整路径。即：访问hdfs文件系统上的hostname(ip亦可):port/</p>
-<p>实际上，可以使用这条指令访问本地的文件系统：</p>
+<pre><code>hadoop fs -ls hdfs:///</code></pre><h2 id="3）使用：hadoop-fs-ls-hdfs-hostname-port"><a href="#3）使用：hadoop-fs-ls-hdfs-hostname-port" class="headerlink" title="3）使用：hadoop fs -ls hdfs://hostname:port/"></a>3）使用：hadoop fs -ls hdfs://hostname:port/</h2><p>访问hdfs的完整路径。即：访问hdfs文件系统上的hostname(ip亦可):port/<br>实际上，可以使用这条指令访问本地的文件系统：</p>
 <pre><code>hdfs dfs -ls file:///home/hadoop/</code></pre><p>参考：<br>[1] <a href="https://stackoverflow.com/questions/28241251/hadoop-fs-ls-results-in-no-such-file-or-directory" target="_blank" rel="noopener">hadoop fs -ls results in “no such file or directory”
 </a></p>
 
