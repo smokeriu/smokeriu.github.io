@@ -139,7 +139,7 @@
 <h2 id="1）直接使用：hadoop-fs-ls"><a href="#1）直接使用：hadoop-fs-ls" class="headerlink" title="1）直接使用：hadoop fs -ls"></a>1）直接使用：hadoop fs -ls</h2><p>正确的使用方式是：</p>
 <figure class="highlight plain"><figcaption><span>An highlighted block</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs [-ls [-d] [-h] [-R] [&lt;path&gt; ...]]</span><br></pre></td></tr></table></figure>
 <p>如果将path省去，系统会将：/user/hostname/ 添加。<br>所以实际这条指令等价于：</p>
-<pre><code>hadoop fs -ls /user/hostname/</code></pre><p>实验截图参考：<br><img src="/Users/liushengwei/blogs/source/images/blog1.png" alt="在这里插入图片描述"></p>
+<pre><code>hadoop fs -ls /user/hostname/</code></pre><p>实验截图参考：<br><img src="https://github.com/smokeriu/smokeriu.github.io/tree/master/images/blog1.png" alt="在这里插入图片描述"></p>
 <h2 id="2）使用：hadoop-fs-ls"><a href="#2）使用：hadoop-fs-ls" class="headerlink" title="2）使用：hadoop fs -ls /"></a>2）使用：hadoop fs -ls /</h2><p>实际会默认访问hdfs路径。即实际上，这条指令等价于：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -ls hdfs:&#x2F;&#x2F;&#x2F;</span><br></pre></td></tr></table></figure>
 
