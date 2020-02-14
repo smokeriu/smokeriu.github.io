@@ -4,19 +4,6 @@
   
     
     <entry>
-      <title>test</title>
-      <link href="/2020/02/14/test/"/>
-      <url>/2020/02/14/test/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>使用隐式转换为Spark-RDD添加简单的算子</title>
       <link href="/2017/06/14/shi-yong-yin-shi-zhuan-huan-wei-spark-rdd-tian-jia-jian-dan-de-suan-zi/"/>
       <url>/2017/06/14/shi-yong-yin-shi-zhuan-huan-wei-spark-rdd-tian-jia-jian-dan-de-suan-zi/</url>
