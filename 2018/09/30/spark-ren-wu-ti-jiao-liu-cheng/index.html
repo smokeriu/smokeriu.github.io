@@ -1,0 +1,1039 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Spark任务提交流程, Ssiu Blog">
+    <meta name="description" content="前言：通过源码，整理了下Spark-submit任务提交-&amp;gt;执行流程。源码中其实有很多保证可靠性的判断代码，这边会将不那么核心的源码略去，所以贴的代码实际与源码会有些许区别。不过源码中的英文注释会保留重要的。任务执行流程会放在另一篇博">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Spark任务提交流程 | Ssiu Blog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Ssiu Blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Ssiu Blog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Spark任务提交流程</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Spark/">
+                                <span class="chip bg-color">Spark</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Spark/" class="post-category">
+                                Spark
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2018-09-30
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h1><p>通过源码，整理了下Spark-submit任务提交-&gt;执行流程。源码中其实有很多保证可靠性的判断代码，这边会将不那么核心的源码略去，所以贴的代码实际与源码会有些许区别。不过源码中的英文注释会保留重要的。<br>任务执行流程会放在另一篇博客。（马上就国庆节了~，连着写两篇）</p>
+<h1 id="Spark-submit提交"><a href="#Spark-submit提交" class="headerlink" title="Spark-submit提交"></a>Spark-submit提交</h1><h2 id="提交入口"><a href="#提交入口" class="headerlink" title="提交入口"></a>提交入口</h2><p>我们通过spark-submit提交我们的任务，所以打开spark-submit这个脚本，跳到最后，可以看到脚本具体调用的类<code>org.apache.spark.deploy.SparkSubmit</code>，<code>“$@”</code>表示所有传入参数</p>
+<pre class=" language-shell"><code class="language-shell"># disable randomized hash for string in Python 3.3+
+export PYTHONHASHSEED=0
+
+exec "${SPARK_HOME}"/bin/spark-class org.apache.spark.deploy.SparkSubmit "$@"</code></pre>
+<h2 id="提交作业"><a href="#提交作业" class="headerlink" title="提交作业"></a>提交作业</h2><p>1）前往<code>spark.deploy.SparkSubmit</code>,找到<code>main</code>函数：</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
+ * This entry point is used by the launcher library to start in-process Spark applications.
+ */</span>
+<span class="token keyword">private</span><span class="token punctuation">[</span>spark<span class="token punctuation">]</span> object InProcessSparkSubmit <span class="token punctuation">{</span>
+  def <span class="token function">main</span><span class="token punctuation">(</span>args<span class="token operator">:</span> Array<span class="token punctuation">[</span>String<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">:</span> Unit <span class="token operator">=</span> <span class="token punctuation">{</span>
+    val submit <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SparkSubmit</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    submit<span class="token punctuation">.</span><span class="token function">doSubmit</span><span class="token punctuation">(</span>args<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>通过注释和源码，我们可以看到这是SparkApp的启动入口，我们的参数会传入submit.doSubmit(args)。</p>
+<h3 id="2）doSubmit"><a href="#2）doSubmit" class="headerlink" title="2）doSubmit"></a>2）doSubmit</h3><pre class=" language-java"><code class="language-java">  def <span class="token function">doSubmit</span><span class="token punctuation">(</span>args<span class="token operator">:</span> Array<span class="token punctuation">[</span>String<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">:</span> Unit <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 初始化日志的一些操作</span>
+    val uninitLog <span class="token operator">=</span> <span class="token function">initializeLogIfNecessary</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">,</span> silent <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">// 解析我们传入的参数。</span>
+    val appArgs <span class="token operator">=</span> <span class="token function">parseArguments</span><span class="token punctuation">(</span>args<span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">// 判断我们的操作，我们会match上SUBMIT。</span>
+    appArgs<span class="token punctuation">.</span>action match <span class="token punctuation">{</span>
+      <span class="token keyword">case</span> SparkSubmitAction<span class="token punctuation">.</span>SUBMIT <span class="token operator">=</span><span class="token operator">></span> <span class="token function">submit</span><span class="token punctuation">(</span>appArgs<span class="token punctuation">,</span> uninitLog<span class="token punctuation">)</span>
+      <span class="token keyword">case</span> SparkSubmitAction<span class="token punctuation">.</span>KILL <span class="token operator">=</span><span class="token operator">></span> <span class="token function">kill</span><span class="token punctuation">(</span>appArgs<span class="token punctuation">)</span>
+      <span class="token keyword">case</span> SparkSubmitAction<span class="token punctuation">.</span>REQUEST_STATUS <span class="token operator">=</span><span class="token operator">></span> <span class="token function">requestStatus</span><span class="token punctuation">(</span>appArgs<span class="token punctuation">)</span>
+      <span class="token keyword">case</span> SparkSubmitAction<span class="token punctuation">.</span>PRINT_VERSION <span class="token operator">=</span><span class="token operator">></span> <span class="token function">printVersion</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span></code></pre>
+<p><code>doSubmit</code>方法主要的工作其实可以概括为：初始化日志服务、解析我们传入的参数。<br>接下来，由于我们是submit操作，理所应到会调用<code>submit(appArgs, uninitLog)</code>方法</p>
+<h3 id="3）submit-appArgs-uninitLog"><a href="#3）submit-appArgs-uninitLog" class="headerlink" title="3）submit(appArgs, uninitLog)"></a>3）submit(appArgs, uninitLog)</h3><pre class=" language-java"><code class="language-java">  <span class="token comment" spellcheck="true">/**
+   * Submit the application using the provided parameters, ensuring to first wrap
+   * in a doAs when --proxy-user is specified.
+   */</span>
+  <span class="token annotation punctuation">@tailrec</span>
+  <span class="token keyword">private</span> def <span class="token function">submit</span><span class="token punctuation">(</span>args<span class="token operator">:</span> SparkSubmitArguments<span class="token punctuation">,</span> uninitLog<span class="token operator">:</span> Boolean<span class="token punctuation">)</span><span class="token operator">:</span> Unit <span class="token operator">=</span> <span class="token punctuation">{</span>
+
+    def <span class="token function">doRunMain</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> Unit <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span>
+
+      <span class="token comment" spellcheck="true">// 这边以常用的Yarn/local为例，所以直接进入else。if里的内容暂时省略</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>args<span class="token punctuation">.</span>isStandaloneCluster <span class="token operator">&amp;&amp;</span> args<span class="token punctuation">.</span>useRest<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token comment" spellcheck="true">// 其实主要也是 doRunMain() 方法。不过会有一些其他判断。</span>
+      <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// 对于其他Mode，直接doRunMain</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token function">doRunMain</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span></code></pre>
+<p>因为这次以local或yarn模式进行演示，这个地方我们直接就来到了 <code>doRunMain</code>方法。</p>
+<h3 id="4）doRunMain"><a href="#4）doRunMain" class="headerlink" title="4）doRunMain()"></a>4）doRunMain()</h3><p>方法其实也就在这个方法里面。我们把方法具体展开：</p>
+<pre class=" language-java"><code class="language-java">def <span class="token function">doRunMain</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> Unit <span class="token operator">=</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>args<span class="token punctuation">.</span>proxyUser <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        val proxyUser <span class="token operator">=</span> UserGroupInformation<span class="token punctuation">.</span><span class="token function">createProxyUser</span><span class="token punctuation">(</span>args<span class="token punctuation">.</span>proxyUser<span class="token punctuation">,</span>
+          UserGroupInformation<span class="token punctuation">.</span><span class="token function">getCurrentUser</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+          proxyUser<span class="token punctuation">.</span><span class="token function">doAs</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">PrivilegedExceptionAction</span><span class="token punctuation">[</span>Unit<span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            override def <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> Unit <span class="token operator">=</span> <span class="token punctuation">{</span>
+              <span class="token function">runMain</span><span class="token punctuation">(</span>args<span class="token punctuation">,</span> uninitLog<span class="token punctuation">)</span>
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span> 
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token function">runMain</span><span class="token punctuation">(</span>args<span class="token punctuation">,</span> uninitLog<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span></code></pre>
+<p>主要就是判断下<code>args.proxyUser</code>，这个主要是模拟提交应用程序的用户，具体用途参考Spark的参数就好了。</p>
+<h3 id="5）runMain"><a href="#5）runMain" class="headerlink" title="5）runMain()"></a>5）runMain()</h3><p>源码中会有很多判断和log信息，这边删去方便看到核心</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">private</span> def <span class="token function">runMain</span><span class="token punctuation">(</span>args<span class="token operator">:</span> SparkSubmitArguments<span class="token punctuation">,</span> uninitLog<span class="token operator">:</span> Boolean<span class="token punctuation">)</span><span class="token operator">:</span> Unit <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token function">val</span> <span class="token punctuation">(</span>childArgs<span class="token punctuation">,</span> childClasspath<span class="token punctuation">,</span> sparkConf<span class="token punctuation">,</span> childMainClass<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token function">prepareSubmitEnvironment</span><span class="token punctuation">(</span>args<span class="token punctuation">)</span>
+
+    val loader <span class="token operator">=</span> Thread<span class="token punctuation">.</span>currentThread<span class="token punctuation">.</span>getContextClassLoader<span class="token punctuation">)</span>
+    Thread<span class="token punctuation">.</span>currentThread<span class="token punctuation">.</span><span class="token function">setContextClassLoader</span><span class="token punctuation">(</span>loader<span class="token punctuation">)</span>
+
+    <span class="token function">addJarToClasspath</span><span class="token punctuation">(</span>jar<span class="token punctuation">,</span> loader<span class="token punctuation">)</span>
+
+    var mainClass<span class="token operator">:</span> Class<span class="token punctuation">[</span>_<span class="token punctuation">]</span> <span class="token operator">=</span> null
+
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+      mainClass <span class="token operator">=</span> Utils<span class="token punctuation">.</span><span class="token function">classForName</span><span class="token punctuation">(</span>childMainClass<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">{</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span>
+
+    val app<span class="token operator">:</span> SparkApplication <span class="token operator">=</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>classOf<span class="token punctuation">[</span>SparkApplication<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">isAssignableFrom</span><span class="token punctuation">(</span>mainClass<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      mainClass<span class="token punctuation">.</span><span class="token function">newInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>asInstanceOf<span class="token punctuation">[</span>SparkApplication<span class="token punctuation">]</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token keyword">new</span> <span class="token class-name">JavaMainApplication</span><span class="token punctuation">(</span>mainClass<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+      app<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span>childArgs<span class="token punctuation">.</span>toArray<span class="token punctuation">,</span> sparkConf<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">{</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span>
+  <span class="token punctuation">}</span></code></pre>
+<p>这段代码其实将jar包、依赖加入<code>Classpath</code>，生成一个<code>SparkApplication</code>。调用<code>app.start</code>，将参数传入，启动app。由于<code>SparkApplication</code>是一个<code>trait</code>，它的具体实现类有三个：</p>
+<ul>
+<li>ClientApp </li>
+<li>RestSubmissionClientApp </li>
+<li>JavaMainApplication</li>
+</ul>
+<p>那么具体是调用哪个呢？我们先进入<code>prepareSubmitEnvironment(args)</code>，这个方法的内容非常多，我们只找我们需要的，通过观察源码，构建Spark Application的关键参数其实是<code>childMainClass</code>，我们现在找这个就行了，这是一个String类型的变量。</p>
+<h3 id="6）prepareSubmitEnvironment"><a href="#6）prepareSubmitEnvironment" class="headerlink" title="6）prepareSubmitEnvironment"></a>6）prepareSubmitEnvironment</h3><pre class=" language-java"><code class="language-java">var childMainClass <span class="token operator">=</span> <span class="token string">""</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>deployMode <span class="token operator">==</span> CLIENT<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      childMainClass <span class="token operator">=</span> args<span class="token punctuation">.</span>mainClass
+    <span class="token punctuation">}</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>args<span class="token punctuation">.</span>isStandaloneCluster<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>args<span class="token punctuation">.</span>useRest<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        childMainClass <span class="token operator">=</span> REST_CLUSTER_SUBMIT_CLASS
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        childMainClass <span class="token operator">=</span> STANDALONE_CLUSTER_SUBMIT_CLASS
+    <span class="token punctuation">}</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>isYarnCluster<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      childMainClass <span class="token operator">=</span> YARN_CLUSTER_SUBMIT_CLASS
+    <span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// 其他模式暂时省略，有兴趣可以翻阅具体源码</span>
+
+<span class="token comment" spellcheck="true">// 上述部分变量的具体值：</span>
+<span class="token keyword">private</span><span class="token punctuation">[</span>deploy<span class="token punctuation">]</span> val YARN_CLUSTER_SUBMIT_CLASS <span class="token operator">=</span>
+    <span class="token string">"org.apache.spark.deploy.yarn.YarnClusterApplication"</span>
+<span class="token keyword">private</span><span class="token punctuation">[</span>deploy<span class="token punctuation">]</span> val REST_CLUSTER_SUBMIT_CLASS <span class="token operator">=</span> classOf<span class="token punctuation">[</span>RestSubmissionClientApp<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">private</span><span class="token punctuation">[</span>deploy<span class="token punctuation">]</span> val STANDALONE_CLUSTER_SUBMIT_CLASS <span class="token operator">=</span> classOf<span class="token punctuation">[</span>ClientApp<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>这下就很清楚了，我们的SparkApplication是在<code>runMain</code>中的这里创建的。</p>
+<pre class=" language-java"><code class="language-java">    val app<span class="token operator">:</span> SparkApplication <span class="token operator">=</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>classOf<span class="token punctuation">[</span>SparkApplication<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">isAssignableFrom</span><span class="token punctuation">(</span>mainClass<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      mainClass<span class="token punctuation">.</span><span class="token function">newInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>asInstanceOf<span class="token punctuation">[</span>SparkApplication<span class="token punctuation">]</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token keyword">new</span> <span class="token class-name">JavaMainApplication</span><span class="token punctuation">(</span>mainClass<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span></code></pre>
+<p><code>StandaloneCluster的useRest</code>会进入<code>RestSubmissionClientApp</code>，其他会进入<code>ClientApp</code>。<br>而yarn并非SparkApplication的子类，则false进入创建<code>JavaMainApplication</code></p>
+<h3 id="7）JavaMainApplication"><a href="#7）JavaMainApplication" class="headerlink" title="7）JavaMainApplication"></a>7）JavaMainApplication</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">private</span><span class="token punctuation">[</span>deploy<span class="token punctuation">]</span> <span class="token keyword">class</span> <span class="token class-name">JavaMainApplication</span><span class="token punctuation">(</span>klass<span class="token operator">:</span> Class<span class="token punctuation">[</span>_<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token keyword">extends</span> <span class="token class-name">SparkApplication</span> <span class="token punctuation">{</span>
+
+  override def <span class="token function">start</span><span class="token punctuation">(</span>args<span class="token operator">:</span> Array<span class="token punctuation">[</span>String<span class="token punctuation">]</span><span class="token punctuation">,</span> conf<span class="token operator">:</span> SparkConf<span class="token punctuation">)</span><span class="token operator">:</span> Unit <span class="token operator">=</span> <span class="token punctuation">{</span>
+    val mainMethod <span class="token operator">=</span> klass<span class="token punctuation">.</span><span class="token function">getMethod</span><span class="token punctuation">(</span><span class="token string">"main"</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Array</span><span class="token punctuation">[</span>String<span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">.</span>getClass<span class="token punctuation">)</span>
+    val sysProps <span class="token operator">=</span> conf<span class="token punctuation">.</span>getAll<span class="token punctuation">.</span>toMap
+    sysProps<span class="token punctuation">.</span>foreach <span class="token punctuation">{</span> <span class="token keyword">case</span> <span class="token punctuation">(</span>k<span class="token punctuation">,</span> v<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span>
+      sys<span class="token punctuation">.</span><span class="token function">props</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span> <span class="token operator">=</span> v
+    <span class="token punctuation">}</span>
+    mainMethod<span class="token punctuation">.</span><span class="token function">invoke</span><span class="token punctuation">(</span>null<span class="token punctuation">,</span> args<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>最终就是调用<code>mainMethod.invoke(null, args)</code><br>后面就是Java部分的内容了。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>将主要的方法和参数用幕布整理了下。</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217224352.png" alt="Spark任务提交"></p>
+<p>其实提交流程简单来说可以是：</p>
+<ol>
+<li>解析参数。     </li>
+<li>将该添加的内容添加到ClassPath。     </li>
+<li>判断deploy模式。     </li>
+<li>提交任务。</li>
+</ol>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://blog.ibuer.fun" rel="external nofollow noreferrer">Ssiu</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://blog.ibuer.fun/2018/09/30/spark-ren-wu-ti-jiao-liu-cheng/">http://blog.ibuer.fun/2018/09/30/spark-ren-wu-ti-jiao-liu-cheng/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Spark/">
+                                    <span class="chip bg-color">Spark</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2018/10/01/sparkcontext-zhi-xing-liu-cheng/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="SparkContext执行流程">
+                        
+                        <span class="card-title">SparkContext执行流程</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            前言其实这个也算是Spark任务提交的内容之一。Spark任务的关键就是构建DAG图，Action触发然后去解析DAG图，将Stage交给Executor处理，executor处理完成后返回结果。Spark程序都是以SparkContext
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-10-01
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Spark/" class="post-category">
+                                    Spark
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Spark/">
+                        <span class="chip bg-color">Spark</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/08/05/tong-guo-baserelation-zi-ding-yi-sparksql-shu-ju-yuan/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="通过BaseRelation自定义SparkSQL数据源">
+                        
+                        <span class="card-title">通过BaseRelation自定义SparkSQL数据源</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            前言使用org.apache.spark.sql.sources.interfaces中的接口可以实现自定义SparkSql数据源。不过对此在官网和相关书籍中没有找到相关信息，使用网上资料实际使用时其实遇到很多坑，特此记录下。本身是用Spa
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-08-05
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Spark/" class="post-category">
+                                    Spark
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Spark/">
+                        <span class="chip bg-color">Spark</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2017-2020</span>
+            <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv" style="display:none">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv" style="display:none">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+
+
+    <a href="mailto:smokeriu@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=604522169" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 604522169" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+	var months = days * 30;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2017, 02, 12, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " +diffYears+" 年 "+diffDays + " 天 ";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    siteTime();
+</script>
+
+
+<script>
+    $(document).ready(function () {
+
+        var int = setInterval(fixCount, 50);  // 50ms周期检测函数
+        var pvcountOffset = 5423;  // 初始化首次数据
+        var uvcountOffset = 3322;
+
+        function fixCount() {
+            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
+                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
+                clearInterval(int);
+            }
+            if ($("#busuanzi_container_site_pv").css("display") != "none") {
+                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
+                clearInterval(int); // 停止检测
+            }
+        }
+    });
+</script>
+
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

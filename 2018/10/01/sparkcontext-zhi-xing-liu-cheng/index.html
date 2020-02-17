@@ -1,0 +1,1174 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="SparkContext执行流程, Ssiu Blog">
+    <meta name="description" content="前言其实这个也算是Spark任务提交的内容之一。Spark任务的关键就是构建DAG图，Action触发然后去解析DAG图，将Stage交给Executor处理，executor处理完成后返回结果。Spark程序都是以SparkContext">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>SparkContext执行流程 | Ssiu Blog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Ssiu Blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Ssiu Blog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">SparkContext执行流程</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Spark/">
+                                <span class="chip bg-color">Spark</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Spark/" class="post-category">
+                                Spark
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2018-10-01
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>其实这个也算是Spark任务提交的内容之一。Spark任务的关键就是构建DAG图，Action触发然后去解析DAG图，将Stage交给Executor处理，executor处理完成后返回结果。<br>Spark程序都是以SparkContext为入口，触发Action算子后执行具体任务，这边也会顺着这条思路写下去。</p>
+<blockquote>
+<p>部分源码为了方便阅读会进行精简或调整，与真实源码会略有不同。但整体思路是一样的。<br>Spark版本参照最新的2.3.x<br>涉及模式主要介绍Yarn和Local</p>
+</blockquote>
+<h1 id="流程图概览"><a href="#流程图概览" class="headerlink" title="流程图概览"></a>流程图概览</h1><p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217224954.png" alt="流程图"><br>先看图，整个流程可以分成四个步骤，具体会在源码中有所展现：</p>
+<ol>
+<li>根据我们的各种算子生成DAG图</li>
+<li>解析DAG图，拆分成Stage（Task集合）。将Task集合发往下一步。</li>
+<li>Cluster Manager来发起任务，错误或落伍(比如说数据倾斜导致某一任务始终跑不完)，会进行重试。</li>
+<li>将Task发往具体的Worker/Container执行。</li>
+</ol>
+<h2 id="1）获取SparkContext"><a href="#1）获取SparkContext" class="headerlink" title="1）获取SparkContext"></a>1）获取SparkContext</h2><p>在程序里我们会通过<code>new SparkContext(Conf)</code>来得到一个SparkContext实例，具体到SparkContext里，由于代码很多，这边主要的其实就是初始化三个变量：    </p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">SparkContext</span><span class="token punctuation">(</span>config<span class="token operator">:</span> SparkConf<span class="token punctuation">)</span> <span class="token keyword">extends</span> <span class="token class-name">Logging</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 初始化三个主要变量</span>
+    <span class="token keyword">private</span> var _schedulerBackend<span class="token operator">:</span> SchedulerBackend <span class="token operator">=</span> _
+    <span class="token keyword">private</span> var _taskScheduler<span class="token operator">:</span> TaskScheduler <span class="token operator">=</span> _
+    @<span class="token keyword">volatile</span> <span class="token keyword">private</span> var _dagScheduler<span class="token operator">:</span> DAGScheduler <span class="token operator">=</span> _
+
+    <span class="token comment" spellcheck="true">// 之后会对上述三个变量进行初始化：</span>
+    <span class="token function">val</span> <span class="token punctuation">(</span>sched<span class="token punctuation">,</span> ts<span class="token punctuation">)</span> <span class="token operator">=</span> SparkContext<span class="token punctuation">.</span><span class="token function">createTaskScheduler</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> master<span class="token punctuation">,</span> deployMode<span class="token punctuation">)</span>
+    _schedulerBackend <span class="token operator">=</span> sched
+    _taskScheduler <span class="token operator">=</span> ts
+    _dagScheduler <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DAGScheduler</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>这里代码根据具体的master、deployMode来对<code>_schedulerBackend</code>和<code>_taskScheduler</code>进行初始化，同时还会初始化<code>_dagScheduler</code></p>
+<h3 id="1-1）其中createTaskScheduler方法"><a href="#1-1）其中createTaskScheduler方法" class="headerlink" title="1.1）其中createTaskScheduler方法"></a>1.1）其中createTaskScheduler方法</h3><p>主要用来初始化<code>_schedulerBackend</code>和<code>_taskScheduler</code>，这里以local为例：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">private</span> def <span class="token function">createTaskScheduler</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    master match <span class="token punctuation">{</span>
+      <span class="token keyword">case</span> <span class="token string">"local"</span> <span class="token operator">=</span><span class="token operator">></span>
+        val scheduler <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TaskSchedulerImpl</span><span class="token punctuation">(</span>sc<span class="token punctuation">,</span> MAX_LOCAL_TASK_FAILURES<span class="token punctuation">,</span> isLocal <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+        val backend <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LocalSchedulerBackend</span><span class="token punctuation">(</span>sc<span class="token punctuation">.</span>getConf<span class="token punctuation">,</span> scheduler<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+        scheduler<span class="token punctuation">.</span><span class="token function">initialize</span><span class="token punctuation">(</span>backend<span class="token punctuation">)</span>
+        <span class="token punctuation">(</span>backend<span class="token punctuation">,</span> scheduler<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>通过这段代码，我们可以知道，一个是<code>TaskSchedulerImpl</code>的实例，一个是<code>LocalSchedulerBackend</code>的实例。里面主要就是初始化一些参数内容。具体的方法在后续过程会使用到，这里不进行过多赘述。</p>
+<h3 id="1-2）其中new-DAGScheduler-this-里"><a href="#1-2）其中new-DAGScheduler-this-里" class="headerlink" title="1.2）其中new DAGScheduler(this)里"></a>1.2）其中new DAGScheduler(this)里</h3><p>初始化时有两个关键点：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">private</span><span class="token punctuation">[</span>spark<span class="token punctuation">]</span> <span class="token keyword">class</span> <span class="token class-name">DAGScheduler</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">private</span><span class="token punctuation">[</span>spark<span class="token punctuation">]</span> val eventProcessLoop <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DAGSchedulerEventProcessLoop</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span>
+    taskScheduler<span class="token punctuation">.</span><span class="token function">setDAGScheduler</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>这边会生成一个事件队列<code>eventProcessLoop</code>，同时设置我们的<code>taskScheduler</code>。这些内容会在之后使用到。<br>至此，这个阶段SparkContext的主要任务已经基本完成：设置我们上面提到的三个参数。<br>接下来，就要等到Action算子触发实际的作业运行了。</p>
+<h2 id="2）Action"><a href="#2）Action" class="headerlink" title="2）Action"></a>2）Action</h2><p>这里以Collect算子为例，里面会调用<code>runJob</code>这个方法：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">RDD</span><span class="token punctuation">[</span>T<span class="token operator">:</span> ClassTag<span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    def <span class="token function">collect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> Array<span class="token punctuation">[</span>T<span class="token punctuation">]</span> <span class="token operator">=</span> withScope <span class="token punctuation">{</span>
+    val results <span class="token operator">=</span> sc<span class="token punctuation">.</span><span class="token function">runJob</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>iter<span class="token operator">:</span> Iterator<span class="token punctuation">[</span>T<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> iter<span class="token punctuation">.</span>toArray<span class="token punctuation">)</span>
+    Array<span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>results<span class="token operator">:</span> _<span class="token operator">*</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>里面点进去，实际会进行多次跳转，这边把中间过程进行省略，最后我们会来到：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">SparkContext</span><span class="token punctuation">(</span>config<span class="token operator">:</span> SparkConf<span class="token punctuation">)</span> <span class="token keyword">extends</span> <span class="token class-name">Logging</span> <span class="token punctuation">{</span>
+  def runJob<span class="token punctuation">[</span>T<span class="token punctuation">,</span> U<span class="token operator">:</span> ClassTag<span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+      val callSite <span class="token operator">=</span> getCallSite
+    val cleanedFunc <span class="token operator">=</span> <span class="token function">clean</span><span class="token punctuation">(</span>func<span class="token punctuation">)</span>
+      <span class="token comment" spellcheck="true">// 前面是一些参数初始化</span>
+
+      <span class="token comment" spellcheck="true">// 核心，进入runJob。</span>
+      dagScheduler<span class="token punctuation">.</span><span class="token function">runJob</span><span class="token punctuation">(</span>rdd<span class="token punctuation">,</span> cleanedFunc<span class="token punctuation">,</span> partitions<span class="token punctuation">,</span> callSite<span class="token punctuation">,</span> resultHandler<span class="token punctuation">,</span> localProperties<span class="token punctuation">.</span>get<span class="token punctuation">)</span>
+
+      <span class="token comment" spellcheck="true">// 其他处理</span>
+    progressBar<span class="token punctuation">.</span><span class="token function">foreach</span><span class="token punctuation">(</span>_<span class="token punctuation">.</span><span class="token function">finishAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    rdd<span class="token punctuation">.</span><span class="token function">doCheckpoint</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>我们这里主要需要关注<code>dagScheduler.runJob</code>方法，跟这个这个方法，我们来到了DAGScheduler：</p>
+<h2 id="3）DAGScheduler"><a href="#3）DAGScheduler" class="headerlink" title="3）DAGScheduler"></a>3）DAGScheduler</h2><pre class=" language-java"><code class="language-java">def runJob<span class="token punctuation">[</span>T<span class="token punctuation">,</span> U<span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    val start <span class="token operator">=</span> System<span class="token punctuation">.</span>nanoTime
+    val waiter <span class="token operator">=</span> <span class="token function">submitJob</span><span class="token punctuation">(</span>rdd<span class="token punctuation">,</span> func<span class="token punctuation">,</span> partitions<span class="token punctuation">,</span> callSite<span class="token punctuation">,</span> resultHandler<span class="token punctuation">,</span> properties<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        eventProcessLoop<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token function">JobSubmitted</span><span class="token punctuation">(</span>
+            jobId<span class="token punctuation">,</span> rdd<span class="token punctuation">,</span> func2<span class="token punctuation">,</span> partitions<span class="token punctuation">.</span>toArray<span class="token punctuation">,</span> callSite<span class="token punctuation">,</span> waiter<span class="token punctuation">,</span>
+            SerializationUtils<span class="token punctuation">.</span><span class="token function">clone</span><span class="token punctuation">(</span>properties<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        waiter
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>这里我将两段代码进行了合并，runJob会调用<code>submitJob</code>方法，这个方法会返回一个<code>JobWaiter</code>对象，简单来说，就是将我们的Func、Rdd加入之前创建的<code>eventProcessLoop</code>。</p>
+<h3 id="3-1）DAGSchedulerEventProcessLoop"><a href="#3-1）DAGSchedulerEventProcessLoop" class="headerlink" title="3.1）DAGSchedulerEventProcessLoop"></a>3.1）DAGSchedulerEventProcessLoop</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">private</span><span class="token punctuation">[</span>scheduler<span class="token punctuation">]</span> <span class="token keyword">class</span> <span class="token class-name">DAGSchedulerEventProcessLoop</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/**
+    * The main event loop of the DAG scheduler.
+    */</span>
+    override def <span class="token function">onReceive</span><span class="token punctuation">(</span>event<span class="token operator">:</span> DAGSchedulerEvent<span class="token punctuation">)</span><span class="token operator">:</span> Unit <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">.</span><span class="token punctuation">.</span>doOnReceive<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span>
+    <span class="token keyword">private</span> def <span class="token function">doOnReceive</span><span class="token punctuation">(</span>event<span class="token operator">:</span> DAGSchedulerEvent<span class="token punctuation">)</span><span class="token operator">:</span> Unit <span class="token operator">=</span> event match <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> <span class="token function">JobSubmitted</span><span class="token punctuation">(</span>jobId<span class="token punctuation">,</span> rdd<span class="token punctuation">,</span> func<span class="token punctuation">,</span> partitions<span class="token punctuation">,</span> callSite<span class="token punctuation">,</span> listener<span class="token punctuation">,</span> properties<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span>
+      dagScheduler<span class="token punctuation">.</span><span class="token function">handleJobSubmitted</span><span class="token punctuation">(</span>jobId<span class="token punctuation">,</span> rdd<span class="token punctuation">,</span> func<span class="token punctuation">,</span> partitions<span class="token punctuation">,</span> callSite<span class="token punctuation">,</span> listener<span class="token punctuation">,</span> properties<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>这个类我同样进行了简化，实际上就是判断我们提交过来的是什么，然后指向对应的方法。</p>
+<blockquote>
+<p>这里我们是JobSubmitted。所以指向dagScheduler.handleJobSubmitted</p>
+</blockquote>
+<h3 id="3-2）handleJobSubmitted"><a href="#3-2）handleJobSubmitted" class="headerlink" title="3.2）handleJobSubmitted"></a>3.2）handleJobSubmitted</h3><p>实际上源码会有很多的try catch，这边进行部分简写方便阅读</p>
+<pre class=" language-java"><code class="language-java">def <span class="token function">handleJobSubmitted</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    var finalStage<span class="token operator">:</span> ResultStage <span class="token operator">=</span> 
+        <span class="token function">createResultStage</span><span class="token punctuation">(</span>finalRDD<span class="token punctuation">,</span> func<span class="token punctuation">,</span> partitions<span class="token punctuation">,</span> jobId<span class="token punctuation">,</span> callSite<span class="token punctuation">)</span>
+    val job <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ActiveJob</span><span class="token punctuation">(</span>jobId<span class="token punctuation">,</span> finalStage<span class="token punctuation">,</span> callSite<span class="token punctuation">,</span> listener<span class="token punctuation">,</span> properties<span class="token punctuation">)</span>
+    finalStage<span class="token punctuation">.</span><span class="token function">setActiveJob</span><span class="token punctuation">(</span>job<span class="token punctuation">)</span>
+    <span class="token function">submitStage</span><span class="token punctuation">(</span>finalStage<span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>这里首先会拿到最后一个Stage，并通过它生成running job。最终我们将finalStage提交。</p>
+<blockquote>
+<p>A running job in the DAGScheduler. Jobs can be of two types:<br>1）a result job, which computes a ResultStage to execute an action,<br>2）or a map-stage job, which computes the map outputs for a ShuffleMapStage before any downstream stages are submitted.</p>
+</blockquote>
+<h3 id="3-3）submitStage"><a href="#3-3）submitStage" class="headerlink" title="3.3）submitStage"></a>3.3）submitStage</h3><p>这个部分实际就承担了拆分Stage的职责，其实就是通过递归完成的，为了方便理解就直接搬源码了。大家可以结合提交的作业时打印的log看看。</p>
+<pre class=" language-java"><code class="language-java">  <span class="token keyword">private</span> def <span class="token function">submitStage</span><span class="token punctuation">(</span>stage<span class="token operator">:</span> Stage<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    val jobId <span class="token operator">=</span> <span class="token function">activeJobForStage</span><span class="token punctuation">(</span>stage<span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>jobId<span class="token punctuation">.</span>isDefined<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token function">logDebug</span><span class="token punctuation">(</span><span class="token string">"submitStage("</span> <span class="token operator">+</span> stage <span class="token operator">+</span> <span class="token string">")"</span><span class="token punctuation">)</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">waitingStages</span><span class="token punctuation">(</span>stage<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span><span class="token function">runningStages</span><span class="token punctuation">(</span>stage<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span><span class="token function">failedStages</span><span class="token punctuation">(</span>stage<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        val missing <span class="token operator">=</span> <span class="token function">getMissingParentStages</span><span class="token punctuation">(</span>stage<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">sortBy</span><span class="token punctuation">(</span>_<span class="token punctuation">.</span>id<span class="token punctuation">)</span>
+        <span class="token function">logDebug</span><span class="token punctuation">(</span><span class="token string">"missing: "</span> <span class="token operator">+</span> missing<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>missing<span class="token punctuation">.</span>isEmpty<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token function">logInfo</span><span class="token punctuation">(</span><span class="token string">"Submitting "</span> <span class="token operator">+</span> stage <span class="token operator">+</span> <span class="token string">" ("</span> <span class="token operator">+</span> stage<span class="token punctuation">.</span>rdd <span class="token operator">+</span> <span class="token string">"), which has no missing parents"</span><span class="token punctuation">)</span>
+          <span class="token function">submitMissingTasks</span><span class="token punctuation">(</span>stage<span class="token punctuation">,</span> jobId<span class="token punctuation">.</span>get<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+          <span class="token keyword">for</span> <span class="token punctuation">(</span>parent <span class="token operator">&lt;</span><span class="token operator">-</span> missing<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">submitStage</span><span class="token punctuation">(</span>parent<span class="token punctuation">)</span>
+          <span class="token punctuation">}</span>
+          waitingStages <span class="token operator">+=</span> stage
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token function">abortStage</span><span class="token punctuation">(</span>stage<span class="token punctuation">,</span> <span class="token string">"No active job for stage "</span> <span class="token operator">+</span> stage<span class="token punctuation">.</span>id<span class="token punctuation">,</span> None<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span></code></pre>
+<p>方法首先接收到的是finalStage，关键是<code>getMissingParentStages(stage)</code>，方法返回<code>List[Stage]</code>。这里能够得到尚未执行的ParentStage，并按照id排序。<br>所以这边的逻辑实际是：提交finalStage → 尚有父Stage没执行 → 提交父Stage，递归，直到所有父Stage都执行。<br>最终，对于每个Stage，底层都会来到<code>submitMissingTasks(stage, jobId.get)</code></p>
+<h3 id="3-4）submitMissingTasks"><a href="#3-4）submitMissingTasks" class="headerlink" title="3.4）submitMissingTasks"></a>3.4）submitMissingTasks</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">private</span> def <span class="token function">submitMissingTasks</span><span class="token punctuation">(</span>stage<span class="token operator">:</span> Stage<span class="token punctuation">,</span> jobId<span class="token operator">:</span> Int<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//..省略一些前置处理..</span>
+    <span class="token comment" spellcheck="true">//..主要就是将Stage包装成Tasks用来提交</span>
+    val tasks<span class="token operator">:</span> Seq<span class="token punctuation">[</span>Task<span class="token punctuation">[</span>_<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        stage match <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> stage<span class="token operator">:</span> ShuffleMapStage <span class="token operator">=</span><span class="token operator">></span>
+          stage<span class="token punctuation">.</span>pendingPartitions<span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+          partitionsToCompute<span class="token punctuation">.</span>map <span class="token punctuation">{</span> id <span class="token operator">=</span><span class="token operator">></span>
+            <span class="token punctuation">{</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span>
+            <span class="token keyword">new</span> <span class="token class-name">ShuffleMapTask</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span>
+          <span class="token punctuation">}</span>
+
+        <span class="token keyword">case</span> stage<span class="token operator">:</span> ResultStage <span class="token operator">=</span><span class="token operator">></span>
+          partitionsToCompute<span class="token punctuation">.</span>map <span class="token punctuation">{</span> id <span class="token operator">=</span><span class="token operator">></span>
+            <span class="token punctuation">{</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span>
+            <span class="token keyword">new</span> <span class="token class-name">ResultTask</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span>
+          <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">//..提交tasks..//</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>tasks<span class="token punctuation">.</span>size <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        taskScheduler<span class="token punctuation">.</span><span class="token function">submitTasks</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">TaskSet</span><span class="token punctuation">(</span>
+            tasks<span class="token punctuation">.</span>toArray<span class="token punctuation">,</span> stage<span class="token punctuation">.</span>id<span class="token punctuation">,</span> stage<span class="token punctuation">.</span>latestInfo<span class="token punctuation">.</span>attemptNumber<span class="token punctuation">,</span> jobId<span class="token punctuation">,</span> properties<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>调用<code>taskScheduler</code>的<code>submitTasks</code>方法进行task的提交，这段方法的用途注释已经说明，其实目的就是将Stage包装成Task集合。里面有大量的判断这边就忽略了。<br>其实刚刚也提到过，Task在内部被Spark分为中间的：ShuffleMap，以及最后的：Result。这个也对应的不同的Job。<br>代码跟着就来到了TasklScheduler</p>
+<h2 id="4）TaskScheduler"><a href="#4）TaskScheduler" class="headerlink" title="4）TaskScheduler"></a>4）TaskScheduler</h2><p>实际上TaskScheduler是一个trait，通过之前的分析(初始化SparkContext)，我们可以知道实际上我们建立的是一个<code>TaskSchedulerImpl</code>对象，实际上Spark本身就实现了这么一个子类。这里直接定位到对应方法即可。</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">private</span><span class="token punctuation">[</span>spark<span class="token punctuation">]</span> <span class="token keyword">class</span> <span class="token class-name">TaskSchedulerImpl</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    override def <span class="token function">submitTasks</span><span class="token punctuation">(</span>taskSet<span class="token operator">:</span> TaskSet<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        val tasks <span class="token operator">=</span> taskSet<span class="token punctuation">.</span>tasks
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token keyword">synchronized</span> <span class="token punctuation">{</span>
+            val manager <span class="token operator">=</span> <span class="token function">createTaskSetManager</span><span class="token punctuation">(</span>taskSet<span class="token punctuation">,</span> maxTaskFailures<span class="token punctuation">)</span>
+            val stage <span class="token operator">=</span> taskSet<span class="token punctuation">.</span>stageId
+            val stageTaskSets <span class="token operator">=</span>
+                taskSetsByStageIdAndAttempt<span class="token punctuation">.</span><span class="token function">getOrElseUpdate</span><span class="token punctuation">(</span>stage<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token punctuation">[</span>Int<span class="token punctuation">,</span> TaskSetManager<span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+            <span class="token comment" spellcheck="true">// 建立taskset与manager 的对应关系</span>
+            <span class="token function">stageTaskSets</span><span class="token punctuation">(</span>taskSet<span class="token punctuation">.</span>stageAttemptId<span class="token punctuation">)</span> <span class="token operator">=</span> manager
+
+            <span class="token comment" spellcheck="true">// TaskSetManager会被放入调度池中。</span>
+            schedulableBuilder<span class="token punctuation">.</span><span class="token function">addTaskSetManager</span><span class="token punctuation">(</span>manager<span class="token punctuation">,</span> manager<span class="token punctuation">.</span>taskSet<span class="token punctuation">.</span>properties<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 为tasks分配资源，调度任务</span>
+        backend<span class="token punctuation">.</span><span class="token function">reviveOffers</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>这里会初始化一个Manager对Tasks进行管理，在最开始也说过，对于失败或者落队的任务Manager会进行重试，并与上一级交互执行情况。不过对于本文章讨论的流程来说，这部分实际上最重要的，就是将Task提交到具体的Executor。也就是<code>backend.reviveOffers()</code>。<br>对于不同的任务，SchedulerBackend有两个实现类：</p>
+<ul>
+<li>CoarseGrainedSchedulerBackend</li>
+<li>LocalSchedulerBackend。</li>
+</ul>
+<p>这边就以CoarseGrainedSchedulerBackend为例进行继续讲解。他们的区别从命名其实就能猜到。</p>
+<h3 id="4-1）CoarseGrainedSchedulerBackend"><a href="#4-1）CoarseGrainedSchedulerBackend" class="headerlink" title="4.1）CoarseGrainedSchedulerBackend"></a>4.1）CoarseGrainedSchedulerBackend</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">private</span><span class="token punctuation">[</span>spark<span class="token punctuation">]</span> <span class="token keyword">class</span> <span class="token class-name">CoarseGrainedSchedulerBackend</span><span class="token punctuation">(</span>scheduler<span class="token operator">:</span> TaskSchedulerImpl<span class="token punctuation">,</span> val rpcEnv<span class="token operator">:</span> RpcEnv<span class="token punctuation">)</span>
+  <span class="token keyword">extends</span> <span class="token class-name">ExecutorAllocationClient</span> with SchedulerBackend with Logging <span class="token punctuation">{</span>
+
+    override def <span class="token function">reviveOffers</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        driverEndpoint<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>ReviveOffers<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// driverEndpoint的初始化，都在CoarseGrainedSchedulerBackend类里。</span>
+    override def <span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        val properties <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayBuffer</span><span class="token punctuation">[</span><span class="token punctuation">(</span>String<span class="token punctuation">,</span> String<span class="token punctuation">)</span><span class="token punctuation">]</span>
+        driverEndpoint <span class="token operator">=</span> <span class="token function">createDriverEndpointRef</span><span class="token punctuation">(</span>properties<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>    
+    <span class="token keyword">protected</span> def <span class="token function">createDriverEndpointRef</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token operator">:</span> RpcEndpointRef <span class="token operator">=</span> <span class="token punctuation">{</span>
+        rpcEnv<span class="token punctuation">.</span><span class="token function">setupEndpoint</span><span class="token punctuation">(</span>ENDPOINT_NAME<span class="token punctuation">,</span> <span class="token function">createDriverEndpoint</span><span class="token punctuation">(</span>properties<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">protected</span> def <span class="token function">createDriverEndpoint</span><span class="token punctuation">(</span>properties<span class="token operator">:</span> Seq<span class="token punctuation">[</span><span class="token punctuation">(</span>String<span class="token punctuation">,</span> String<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">:</span> DriverEndpoint <span class="token operator">=</span> <span class="token punctuation">{</span>
+        <span class="token keyword">new</span> <span class="token class-name">DriverEndpoint</span><span class="token punctuation">(</span>rpcEnv<span class="token punctuation">,</span> properties<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>由于<code>reviveOffers</code>方法里会使用到<code>driverEndpoint</code>，这边一并将他的初始化源码附上。通过源码我们也能注意到，这里主要是<code>DriverEndpoint</code>完成了实际工作，毕竟，我们要发送ReviveOffers事件，这个事件从哪来的？进入DriverEndPoint一探究竟。</p>
+<blockquote>
+<p>DriverEndpoint是CoarseGrainedSchedulerBackend的一个内部类。</p>
+</blockquote>
+<h3 id="4-2）DriverEndpoint"><a href="#4-2）DriverEndpoint" class="headerlink" title="4.2）DriverEndpoint"></a>4.2）DriverEndpoint</h3><p>实际上，driverEndpoint.send(ReviveOffers)会触发DriverEndPoint的makeOffers方法。</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">DriverEndpoint</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span> <span class="token keyword">extends</span> <span class="token class-name">ThreadSafeRpcEndpoint</span> with Logging <span class="token punctuation">{</span>
+    override def receive<span class="token operator">:</span> PartialFunction<span class="token punctuation">[</span>Any<span class="token punctuation">,</span> Unit<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> ReviveOffers <span class="token operator">=</span><span class="token operator">></span>
+            <span class="token function">makeOffers</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// 调用makeOffers</span>
+    <span class="token keyword">private</span> def <span class="token function">makeOffers</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 主要是找出要在哪些Worker上启动哪些task。</span>
+        val taskDescs <span class="token operator">=</span> withLock <span class="token punctuation">{</span>
+            scheduler<span class="token punctuation">.</span><span class="token function">resourceOffers</span><span class="token punctuation">(</span>workOffers<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>taskDescs<span class="token punctuation">.</span>isEmpty<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">launchTasks</span><span class="token punctuation">(</span>taskDescs<span class="token punctuation">)</span>
+          <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>resourceOffers返回的是Seq[Seq[TaskDescription]] 类型，主要用途是找出要在哪些Worker上启动哪些task。最后调用launchTasks(taskDescs)。</p>
+<h3 id="4-3）launchTasks"><a href="#4-3）launchTasks" class="headerlink" title="4.3）launchTasks"></a>4.3）launchTasks</h3><p>主要完成序列化，发送任务的工作：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">private</span> def <span class="token function">launchTasks</span><span class="token punctuation">(</span>tasks<span class="token operator">:</span> Seq<span class="token punctuation">[</span>Seq<span class="token punctuation">[</span>TaskDescription<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>task <span class="token operator">&lt;</span><span class="token operator">-</span> tasks<span class="token punctuation">.</span>flatten<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 序列化Task</span>
+        val serializedTask <span class="token operator">=</span> TaskDescription<span class="token punctuation">.</span><span class="token function">encode</span><span class="token punctuation">(</span>task<span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">// 省略一些判断</span>
+        <span class="token comment" spellcheck="true">// 发送序列化后的Task</span>
+        executorData<span class="token punctuation">.</span>executorEndpoint<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token function">LaunchTask</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">SerializableBuffer</span><span class="token punctuation">(</span>serializedTask<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span></code></pre>
+<p>至此，任务已经发往了Executor</p>
+<h2 id="5）Executor"><a href="#5）Executor" class="headerlink" title="5）Executor"></a>5）Executor</h2><p>先找到：CoarseGrainedExecutorBackend.scala</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">private</span><span class="token punctuation">[</span>spark<span class="token punctuation">]</span> <span class="token keyword">class</span> <span class="token class-name">CoarseGrainedExecutorBackend</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span>
+    <span class="token keyword">extends</span> <span class="token class-name">ThreadSafeRpcEndpoint</span> with ExecutorBackend with Logging <span class="token punctuation">{</span>
+
+    override def receive<span class="token operator">:</span> PartialFunction<span class="token punctuation">[</span>Any<span class="token punctuation">,</span> Unit<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> <span class="token function">LaunchTask</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span>
+            val taskDesc <span class="token operator">=</span> TaskDescription<span class="token punctuation">.</span><span class="token function">decode</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span>value<span class="token punctuation">)</span>
+            <span class="token function">logInfo</span><span class="token punctuation">(</span><span class="token string">"Got assigned task "</span> <span class="token operator">+</span> taskDesc<span class="token punctuation">.</span>taskId<span class="token punctuation">)</span>
+            executor<span class="token punctuation">.</span><span class="token function">launchTask</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> taskDesc<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>这部分代码完成：接收，生成Executor，在Executor上launchTask的任务。代码进入到Executor.scala</p>
+<h3 id="5-1）Executor-scala"><a href="#5-1）Executor-scala" class="headerlink" title="5.1）Executor.scala"></a>5.1）Executor.scala</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">private</span><span class="token punctuation">[</span>spark<span class="token punctuation">]</span> <span class="token keyword">class</span> <span class="token class-name">Executor</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">private</span> val runningTasks <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ConcurrentHashMap</span><span class="token punctuation">[</span>Long<span class="token punctuation">,</span> TaskRunner<span class="token punctuation">]</span>
+      def <span class="token function">launchTask</span><span class="token punctuation">(</span>context<span class="token operator">:</span> ExecutorBackend<span class="token punctuation">,</span> taskDescription<span class="token operator">:</span> TaskDescription<span class="token punctuation">)</span><span class="token operator">:</span> Unit <span class="token operator">=</span> <span class="token punctuation">{</span>
+        val tr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TaskRunner</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> taskDescription<span class="token punctuation">)</span>
+        runningTasks<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>taskDescription<span class="token punctuation">.</span>taskId<span class="token punctuation">,</span> tr<span class="token punctuation">)</span>
+        threadPool<span class="token punctuation">.</span><span class="token function">execute</span><span class="token punctuation">(</span>tr<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>这里就是将我们的Task新起一个TaskRunner，并加入了线程池，所以具体的处理需要进入TaskRunner里。</p>
+<h3 id="5-2）TaskRunner"><a href="#5-2）TaskRunner" class="headerlink" title="5.2）TaskRunner"></a>5.2）TaskRunner</h3><p>这是一个继承了Runnable的线程，所以我们直接找到run方法，其实主要干了三件事：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">TaskRunner</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span> <span class="token keyword">extends</span> <span class="token class-name">Runnable</span> <span class="token punctuation">{</span>
+    override def <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> Unit <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 反序列化</span>
+        Executor<span class="token punctuation">.</span>taskDeserializationProps<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>taskDescription<span class="token punctuation">.</span>properties<span class="token punctuation">)</span>
+        <span class="token function">updateDependencies</span><span class="token punctuation">(</span>taskDescription<span class="token punctuation">.</span>addedFiles<span class="token punctuation">,</span> taskDescription<span class="token punctuation">.</span>addedJars<span class="token punctuation">)</span>
+        task <span class="token operator">=</span> ser<span class="token punctuation">.</span>deserialize<span class="token punctuation">[</span>Task<span class="token punctuation">[</span>Any<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">(</span>
+          taskDescription<span class="token punctuation">.</span>serializedTask<span class="token punctuation">,</span> Thread<span class="token punctuation">.</span>currentThread<span class="token punctuation">.</span>getContextClassLoader<span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true">// 运行我们的任务，得到结果</span>
+        val value <span class="token operator">=</span> Utils<span class="token punctuation">.</span>tryWithSafeFinally <span class="token punctuation">{</span>
+            task<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span>
+                taskAttemptId <span class="token operator">=</span> taskId<span class="token punctuation">,</span>
+                attemptNumber <span class="token operator">=</span> taskDescription<span class="token punctuation">.</span>attemptNumber<span class="token punctuation">,</span>
+                metricsSystem <span class="token operator">=</span> env<span class="token punctuation">.</span>metricsSystem<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// 包装结果，序列化，并发回。</span>
+    val valueBytes <span class="token operator">=</span> resultSer<span class="token punctuation">.</span><span class="token function">serialize</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span>
+    val directResult <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DirectTaskResult</span><span class="token punctuation">(</span>valueBytes<span class="token punctuation">,</span> accumUpdates<span class="token punctuation">)</span>
+    val serializedDirectResult <span class="token operator">=</span> ser<span class="token punctuation">.</span><span class="token function">serialize</span><span class="token punctuation">(</span>directResult<span class="token punctuation">)</span>
+    val serializedResult<span class="token operator">:</span> ByteBuffer <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>serializedDirectResult<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span>
+    execBackend<span class="token punctuation">.</span><span class="token function">statusUpdate</span><span class="token punctuation">(</span>taskId<span class="token punctuation">,</span> TaskState<span class="token punctuation">.</span>FINISHED<span class="token punctuation">,</span> serializedResult<span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>基本上到这里，整个执行流程就说完了。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ol>
+<li>SparkContext<br> 1）根据提交的master类型，deploy类型等，生成TaskScheduler、DAGScheduler、 SchedulerBackend<br> 2）解析程序的业务逻辑：数据源 → trans → action<br> 3）触发Action，就到了DAGScheduler </li>
+<li>DAGScheduler<br>1）runJob方法，最终目的就是拆分Stage<br>2）拆分方式是：先提交finalStage，如果尚有父Stage未提交，则会触发拆分。根据shuﬀle来 拆分。<br>3）总的来说，会一直递归，直到最父的Stage提交。最终才会提交finalStage 每次提交Stage，最终就会来到taskScheduler.submitTasks(new TaskSet) </li>
+<li>TaskScheduler<br> 1）将接收到的Stage封装成TaskSet。使用submitTasks(taskSet: TaskSet)提交。<br> 2）将每个Task拿出来，通过TaskDescription.encode(task)序列化，用于网络传输。<br> 3）通过executorData.executorEndpoint.send将任务发往Executor </li>
+<li>Executor<br> 1）receive方法接收发过来的Task。<br> 2）最终的处理逻辑在TaskRunner里。 <pre><code> 2.1）反序列化。task = ser.deserialize 执行func，
+ 2.2）返回结果。val value = Utils.tryWithSafeFinally { task.run() }
+ 2.3）将结果序列化。val serializedResult = serializedDirectResult 将结果发回。execBackend.statusUpdate</code></pre></li>
+</ol>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://blog.ibuer.fun" rel="external nofollow noreferrer">Ssiu</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://blog.ibuer.fun/2018/10/01/sparkcontext-zhi-xing-liu-cheng/">http://blog.ibuer.fun/2018/10/01/sparkcontext-zhi-xing-liu-cheng/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Spark/">
+                                    <span class="chip bg-color">Spark</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2018/12/31/spark-zhong-de-chuang-kou-han-shu-shi-yong/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Spark中的窗口函数使用">
+                        
+                        <span class="card-title">Spark中的窗口函数使用</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            前言spark自1.4版本后就支持了window function。与sql里的xxx over xxx类似，便于人们进行聚合参数。本文主要是学习时的一些理解，已经遇到的一些注意点。有错误望指正。
+创建window//需要import这个包
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-12-31
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Spark/" class="post-category">
+                                    Spark
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Spark/">
+                        <span class="chip bg-color">Spark</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/09/30/spark-ren-wu-ti-jiao-liu-cheng/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Spark任务提交流程">
+                        
+                        <span class="card-title">Spark任务提交流程</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            前言：通过源码，整理了下Spark-submit任务提交-&gt;执行流程。源码中其实有很多保证可靠性的判断代码，这边会将不那么核心的源码略去，所以贴的代码实际与源码会有些许区别。不过源码中的英文注释会保留重要的。任务执行流程会放在另一篇博
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-09-30
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Spark/" class="post-category">
+                                    Spark
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Spark/">
+                        <span class="chip bg-color">Spark</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2017-2020</span>
+            <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv" style="display:none">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv" style="display:none">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+
+
+    <a href="mailto:smokeriu@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=604522169" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 604522169" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+	var months = days * 30;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2017, 02, 12, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " +diffYears+" 年 "+diffDays + " 天 ";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    siteTime();
+</script>
+
+
+<script>
+    $(document).ready(function () {
+
+        var int = setInterval(fixCount, 50);  // 50ms周期检测函数
+        var pvcountOffset = 5423;  // 初始化首次数据
+        var uvcountOffset = 3322;
+
+        function fixCount() {
+            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
+                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
+                clearInterval(int);
+            }
+            if ($("#busuanzi_container_site_pv").css("display") != "none") {
+                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
+                clearInterval(int); // 停止检测
+            }
+        }
+    });
+</script>
+
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
