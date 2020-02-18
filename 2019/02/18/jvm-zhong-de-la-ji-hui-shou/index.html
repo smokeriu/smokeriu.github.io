@@ -1,0 +1,1043 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="JVM中的垃圾回收, Ssiu Blog">
+    <meta name="description" content="垃圾回收算法JVM的垃圾回收针对哪些内容Java堆、方法栈。
+如何定位垃圾
+引用计数法（已经基本不用）
+每个对象都有一个引用计数器。被引用是计数器+1。引用失效时，计数器-1。回收计数器为0的对象。
+存在问题：两个对象相互引用时，无法回收。">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>JVM中的垃圾回收 | Ssiu Blog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Ssiu Blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Ssiu Blog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">JVM中的垃圾回收</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/JVM/">
+                                <span class="chip bg-color">JVM</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/JVM/" class="post-category">
+                                JVM
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-02-18
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="垃圾回收算法"><a href="#垃圾回收算法" class="headerlink" title="垃圾回收算法"></a>垃圾回收算法</h2><h3 id="JVM的垃圾回收针对哪些内容"><a href="#JVM的垃圾回收针对哪些内容" class="headerlink" title="JVM的垃圾回收针对哪些内容"></a>JVM的垃圾回收针对哪些内容</h3><p>Java堆、方法栈。</p>
+<h3 id="如何定位垃圾"><a href="#如何定位垃圾" class="headerlink" title="如何定位垃圾"></a>如何定位垃圾</h3><ol>
+<li><p>引用计数法（已经基本不用）</p>
+<p>每个对象都有一个引用计数器。被引用是计数器+1。引用失效时，计数器-1。回收计数器为0的对象。</p>
+<p>存在问题：两个对象相互引用时，无法回收。</p>
+</li>
+<li><p>跟搜索法</p>
+<p>以一系列，名为GC Root的对象作为起始点。GCRoot无法到达的对象（无引用关系的对象），即为可被回收的。</p>
+<p>GCRoot是一种对象，可能是：</p>
+<ul>
+<li>JVM栈中的引用的对象。</li>
+<li>方法区中静态属性（Static）引用的对象。</li>
+<li>等等….</li>
+</ul>
+</li>
+</ol>
+<h3 id="方法区回收了什么"><a href="#方法区回收了什么" class="headerlink" title="方法区回收了什么"></a>方法区回收了什么</h3><ol>
+<li>废弃的常量。如没有任何String对象引用的String常量。</li>
+<li>无用的类：同时满足：<ol>
+<li>Java堆中不存在该类的任何实例对象；</li>
+<li>加载该类的类加载器（ClassLoader）已经被回收；</li>
+<li>该类对应的java.lang.Class对象不在任何地方被引用，且无法在任何地方通过反射访问该类的方法。</li>
+</ol>
+</li>
+</ol>
+<h3 id="垃圾清除算法"><a href="#垃圾清除算法" class="headerlink" title="垃圾清除算法"></a>垃圾清除算法</h3><p>主要由三种算法，在垃圾回收中会结合起来使用。</p>
+<h4 id="标记清除"><a href="#标记清除" class="headerlink" title="标记清除"></a>标记清除</h4><p>标记出需要回收的对象。统一回收标记了的对象。</p>
+<p>缺点：清除后，存活对象所占的内存位置不变，会产生<strong>内存碎片</strong>。new大对象可能会触发full GC</p>
+<h4 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h4><p>将整个内存空间均分为两块，同时只使用一块。GC时，存活对象复制到另一块区中，清空正在使用块中的所有对象。这样就解决了内存碎片问题，回收只需要移动堆顶指针，效率高。</p>
+<p>缺点：只能使用一半的内存空间。</p>
+<h4 id="标记整理"><a href="#标记整理" class="headerlink" title="标记整理"></a>标记整理</h4><p>在标记-清除的基础上。将存活对象全部移动到一侧。</p>
+<p>缺点：效率低。</p>
+<hr>
+<h2 id="垃圾回收器"><a href="#垃圾回收器" class="headerlink" title="垃圾回收器"></a>垃圾回收器</h2><p>垃圾回收器中整体分为老年代和新生代。新生代存放比较新的对象，这部分对象的特点就是经常被回收。老年代的对象一般是很久都没被回收的对象。</p>
+<p>默认情况下，内存比率：老年代:新生代=2:1。新生代内存比率：eden:s0:s1 = 8:1:1。</p>
+<p>新对象会new在eden区。每次新生代回收后，存活的对象年龄+1，进入s0/s1区。年龄到15后，进入老年代。</p>
+<p>一般来说，老年代和新生代会采用不同的垃圾回收器。JDK7以后引入了G1回收，会在最后单独讨论。</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200218114634.png" alt="垃圾回收对应关系"></p>
+<h3 id="新生代的垃圾回收器"><a href="#新生代的垃圾回收器" class="headerlink" title="新生代的垃圾回收器"></a>新生代的垃圾回收器</h3><h4 id="Serial（单线程）"><a href="#Serial（单线程）" class="headerlink" title="Serial（单线程）"></a>Serial（单线程）</h4><p>基于复制算法。GC靠单线程完成工作。触发时，会<strong>stw</strong>，导致其他工作线程暂停。</p>
+<p>开启：-XX:UseSerialGC（同时老年代会采用Serial Old（单线程的老年代版本））</p>
+<h4 id="ParNew（多线程版Serial）"><a href="#ParNew（多线程版Serial）" class="headerlink" title="ParNew（多线程版Serial）"></a>ParNew（多线程版Serial）</h4><p>基于复制算法。GC靠多线程完成工作。触发时，会<strong>stw</strong>，导致其他工作线程暂停。</p>
+<p>开启：-XX:+UseParNewGC（同时老年代会采用Serial Old（注意，单线程））</p>
+<p>注：但可以和CMS配合使用（需要通过老年代开启CMS收集器，这边开启不行）</p>
+<h4 id="Parallel-Scavenge收集器"><a href="#Parallel-Scavenge收集器" class="headerlink" title="Parallel Scavenge收集器"></a>Parallel Scavenge收集器</h4><p>基于复制算法。可看作ParNew的加强版。<strong>重视吞吐量</strong>的垃圾收集器。吞吐量 = 运行代码时间/ (运行代码时间+GC时间)，适合后台运算而无需太多交互的任务。<strong>是JDK8的默认新生代收集器</strong>。触发时，会“stw”，导致其他工作线程暂停。</p>
+<p>开启：+XX:UseParallelGC（老年代会使用Parallel Old（Parallel Scavenge的老年代版本））</p>
+<h3 id="老年代的垃圾回收器"><a href="#老年代的垃圾回收器" class="headerlink" title="老年代的垃圾回收器"></a>老年代的垃圾回收器</h3><h4 id="Serial-old"><a href="#Serial-old" class="headerlink" title="Serial old"></a>Serial old</h4><p>使用标记整理算法。单线程的。主要是作为CMS的后备方案使用。</p>
+<p>开启参数JDK8已移除。</p>
+<h4 id="Parallel-Old收集器"><a href="#Parallel-Old收集器" class="headerlink" title="Parallel Old收集器"></a>Parallel Old收集器</h4><p>基于标记整理算法。其他基本同：Parallel Scavenge收集器</p>
+<p>开启：-XX:+UseParallelOldGC（会同时让新生代开启Parallel Scavenge收集器）</p>
+<h4 id="CMS收集器"><a href="#CMS收集器" class="headerlink" title="CMS收集器"></a>CMS收集器</h4><p>基于标记清除算法。分为4大阶段：（1,3阶段速度快，会触发stw）</p>
+<pre><code>- 初始标记：仅标记GC ROOT能直接关联的对象。速度很快，会触发stw。
+- 并发标记：进行GC Root Tracing过程（即跟搜索过程）。速度慢，不会触发stw。
+- 重新标记：修改并发标记期间，由于程序运行额外产生的变化。速度快，会触发stw。
+- 并发清除：清除工作。速度慢，不会触发stw。</code></pre><p>重视短暂停的垃圾处理器。可以近似看做是并发的垃圾处理器（用户进程和GC进程能够同时运行）</p>
+<p>开启：-XX:+UseConcMarkSweepGC（会同时让新生代采用ParNewGC）（同时让老年代采用Serial Old作为备选GC）</p>
+<p>缺点：</p>
+<ul>
+<li>GC时耗费CPU性能。</li>
+<li>无法处理浮动垃圾（即GC处理过程中产生的垃圾）</li>
+<li>会产生大量空间碎片。可通过参数缓解：<ul>
+<li>-XX:Usecmscompactfullcollection：Full GC后会进行碎片整理</li>
+<li>-XX:CMSFULLGCSBeforeCompaction：多少次FullGC进行碎片整理。</li>
+</ul>
+</li>
+</ul>
+<h3 id="G1垃圾回收器"><a href="#G1垃圾回收器" class="headerlink" title="G1垃圾回收器"></a>G1垃圾回收器</h3><h4 id="区域划分"><a href="#区域划分" class="headerlink" title="区域划分"></a>区域划分</h4><p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200218120617.png" alt="G1垃圾回收器"></p>
+<p>G1将整个内存区域划成等大小的块。一般约为2000个。有些块是年轻代的Eden、survivor，有些则是老年代。（当前块所属的代并不是确定的，可能现在是Eden，明天就是老年代，后天就是survivor）</p>
+<p>块之间是不相连的，意味这一个对象不能跨块保存。垃圾回收是按照区域来回收的，即回收区域A的同时，不会回收区域B。（不过在一整个GC中，可能回收多个区域）</p>
+<h4 id="回收阶段划分"><a href="#回收阶段划分" class="headerlink" title="回收阶段划分"></a>回收阶段划分</h4><ol>
+<li><p>年轻代的回收</p>
+<p>所有的eden区满后，触发young GC。young GC会回收eden区，上次存放存活对象的survivor区。young GC后，两个区中存活的对象会被copy到一个新的survivor区，eden区则会被清空。达到年龄阈值的对象则会被送往老年区。<strong>年轻代的回收会stw</strong></p>
+</li>
+<li><p>并发标记周期</p>
+<p>当对象占用空间的总和，达到整个堆的大小的45%时触发该阶段。（45%可调整）</p>
+<p>标记周期分为6个步骤：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th>重要特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>初始标记</td>
+<td>标记从GC Root<strong>直接可达</strong>的对象。触发这个步骤时，会<strong>伴随一个youngGC</strong>。</td>
+<td>需要stw</td>
+</tr>
+<tr>
+<td>根区域扫描</td>
+<td>扫描由survivor区域直接可达的老年代区域。并标记这些直接可达的对象。<br />该步骤必须在下一次youngGC前完成（即下一次youngGC会等待该步骤完成再进行。）</td>
+<td>不需要stw<br />必须在下一次youngGC前完成</td>
+</tr>
+<tr>
+<td>并发标记</td>
+<td>扫描<strong>整个堆中</strong>的存活对象，并标记。<br />该步骤可以被young GC打断。</td>
+<td>不需要stw<br />可被youngGC打断</td>
+</tr>
+<tr>
+<td>重新标记</td>
+<td>重新标记并发标记期间产生的变化。<br />采用SATB算法（初始快照-G1标记之初为存货对象创建了一个快照。）</td>
+<td>需要stw</td>
+</tr>
+<tr>
+<td>独占清理</td>
+<td>1）计算每个区域中，存活对象与GC回收对象的比例，并排序，识别出可供混合回收的区域。<br />2）标记需要混合回收的区域。<br />3）更新记忆集(RSet)</td>
+<td>需要stw<br />混合回收阶段依靠与这步的标记</td>
+</tr>
+<tr>
+<td>并发清理</td>
+<td>识别清理完全空闲的区域。</td>
+<td>不需要stw</td>
+</tr>
+</tbody></table>
+<p>并发标记的结果和目的：</p>
+<pre><code>- 并发标记的结果时增加了一些标记为G的区域。这些区域的内部垃圾占比高。会在之后的混合回收中清除。
+- 这些G区域，被G1记录在Collection Sets（回收集）中。
+- 并发标记阶段，G1并不会回收老年代的垃圾，只是为之后的混合回收做好标记。</code></pre></li>
+<li><p>混合回收</p>
+<p>混合回收会执行多次，每次也会伴随youngGC，也会有OldGC。可以理解为这个阶段，mixedGC（youngGC+oldGC）替代了youngGC。</p>
+<p>mixedGC后：eden区必被清空，存活对象会前往survivor（youngGC），标记为G的分区会被选取一些来清空。存活对象会移到其他没被标记为G的老年代分区。</p>
+</li>
+<li><p>Full GC：</p>
+<p>当混合GC时空间不足，或youngGC时survivor区和老年代无法容纳幸存对象时，会触发FullGC。FullGC是单线程的stw阶段</p>
+</li>
+</ol>
+<h4 id="常用参数"><a href="#常用参数" class="headerlink" title="常用参数"></a>常用参数</h4><ul>
+<li>-XX:+UseG1GC：开启G1回收器。</li>
+<li>-XX:MaxGCPauseMillis：目标最大停顿时间。过小可能增加fullGC的可能性。</li>
+<li>-XX:ParallelGCThreads：并行回收时，GC的工作现场数量。</li>
+<li>-XX:InitiatingHeapOccupancyPercent：触发并发标记的使用率。默认为45（即堆的使用率达到45%时触发。）</li>
+</ul>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://blog.ibuer.fun" rel="external nofollow noreferrer">Ssiu</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://blog.ibuer.fun/2019/02/18/jvm-zhong-de-la-ji-hui-shou/">http://blog.ibuer.fun/2019/02/18/jvm-zhong-de-la-ji-hui-shou/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/JVM/">
+                                    <span class="chip bg-color">JVM</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2019/05/01/hbase-gai-nian-ji-jia-gou/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="HBase概念及架构">
+                        
+                        <span class="card-title">HBase概念及架构</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            基础概念
+HBase版本：1.2.x
+
+组成HBase也是主从结构，本身主要由两部分组成：
+
+HMaster：主节点，表相关的工作都会经过Hmaster，包括表的管理、Region的管理。
+HRegionServer：从节点，主要关注数据的
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-05-01
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/HBase/" class="post-category">
+                                    HBase
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/HBase/">
+                        <span class="chip bg-color">HBase</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/02/02/jvm-de-yun-xing-shi-shu-ju-qu/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="JVM的运行时数据区">
+                        
+                        <span class="card-title">JVM的运行时数据区</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            前言JDK8中，JVM的运行时数据区逻辑上由5个部分组成：
+
+程序计数器（PC Register）
+JVM栈
+本地方法栈
+堆
+方法区
+
+
+
+程序计数器主要功能：指向当前线程字节码文件执行到哪了。直白来说，就是指向当前线程执行到哪行代码了。
+
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-02-02
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/JVM/" class="post-category">
+                                    JVM
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/JVM/">
+                        <span class="chip bg-color">JVM</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2017-2020</span>
+            <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv" style="display:none">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv" style="display:none">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+
+
+    <a href="mailto:smokeriu@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=604522169" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 604522169" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+	var months = days * 30;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2017, 02, 12, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " +diffYears+" 年 "+diffDays + " 天 ";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    siteTime();
+</script>
+
+
+<script>
+    $(document).ready(function () {
+
+        var int = setInterval(fixCount, 50);  // 50ms周期检测函数
+        var pvcountOffset = 5423;  // 初始化首次数据
+        var uvcountOffset = 3322;
+
+        function fixCount() {
+            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
+                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
+                clearInterval(int);
+            }
+            if ($("#busuanzi_container_site_pv").css("display") != "none") {
+                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
+                clearInterval(int); // 停止检测
+            }
+        }
+    });
+</script>
+
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

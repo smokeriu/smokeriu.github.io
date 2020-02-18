@@ -627,37 +627,42 @@ val myWindow <span class="token operator">=</span> Window<span class="token punc
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/05/01/hbase-gai-nian-ji-jia-gou/">
+                <a href="/2019/02/02/jvm-de-yun-xing-shi-shu-ju-qu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="HBase概念及架构">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="JVM的运行时数据区">
                         
-                        <span class="card-title">HBase概念及架构</span>
+                        <span class="card-title">JVM的运行时数据区</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            基础概念
-HBase版本：1.2.x
+                            前言JDK8中，JVM的运行时数据区逻辑上由5个部分组成：
 
-组成HBase也是主从结构，本身主要由两部分组成：
+程序计数器（PC Register）
+JVM栈
+本地方法栈
+堆
+方法区
 
-HMaster：主节点，表相关的工作都会经过Hmaster，包括表的管理、Region的管理。
-HRegionServer：从节点，主要关注数据的
+
+
+程序计数器主要功能：指向当前线程字节码文件执行到哪了。直白来说，就是指向当前线程执行到哪行代码了。
+
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-05-01
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-02-02
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/HBase/" class="post-category">
-                                    HBase
+                            <a href="/categories/JVM/" class="post-category">
+                                    JVM
                                 </a>
                             
                             
@@ -667,8 +672,8 @@ HRegionServer：从节点，主要关注数据的
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/HBase/">
-                        <span class="chip bg-color">HBase</span>
+                    <a href="/tags/JVM/">
+                        <span class="chip bg-color">JVM</span>
                     </a>
                     
                 </div>

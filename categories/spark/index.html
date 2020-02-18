@@ -247,11 +247,11 @@
                 
                 
                 
-                <a href="/categories/Spark/" title="Spark: 8">
+                <a href="/categories/Spark/" title="Spark: 10">
                     <span class="chip center-align waves-effect waves-light
                              chip-active "
                             style="background-color: #F9EBEA;">Spark
-                        <span class="tag-length">8</span>
+                        <span class="tag-length">10</span>
                     </span>
                 </a>
                 
@@ -310,29 +310,38 @@
                 </a>
                 
                 
-                <a href="/categories/MaxWell/" title="MaxWell: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #D7BDE2;">MaxWell
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
                 <a href="/categories/Docker/" title="Docker: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #A3E4D7;">Docker
+                            style="background-color: #D7BDE2;">Docker
                         <span class="tag-length">1</span>
                     </span>
                 </a>
                 
                 
-                <a href="/categories/Zookeeper/" title="Zookeeper: 1">
+                <a href="/categories/Utils/" title="Utils: 2">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #85C1E9;">Zookeeper
+                            style="background-color: #A3E4D7;">Utils
+                        <span class="tag-length">2</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/categories/%E6%95%B0%E4%BB%93/" title="数仓: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            style="background-color: #85C1E9;">数仓
                         <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/categories/JVM/" title="JVM: 2">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            style="background-color: #F8C471;">JVM
+                        <span class="tag-length">2</span>
                     </span>
                 </a>
                 
@@ -369,6 +378,52 @@ Manager running on every node (driver and
                         <div class="publish-info">
                             <span class="publish-date">
                                 <i class="far fa-clock fa-fw icon-date"></i>2019-11-17
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/Spark/" class="post-category">
+                                    Spark
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/Spark/">
+                            <span class="chip bg-color">Spark</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2019/07/26/updatestatebykey-vs-mapwithstate/">
+                        <div class="card-image tag-image">
+                            
+                            
+                            <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="updateStateByKey vs mapWithState">
+                            
+                            <span class="card-title">updateStateByKey vs mapWithState</span>
+                        </div>
+                    </a>
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                有状态转换在SparkStreaming中，有时候我们需要进行聚合操作，且依赖于以前的数据，就需要使用到有状态算子。不过由于SparkStreaming中，有状态算子依赖Checkpoint，而Checkpoint有个很大的弊端就是修改代码
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-07-26
                             </span>
                             <span class="publish-author">
                                 
@@ -582,6 +637,52 @@ Manager running on every node (driver and
             
             <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
+                    <a href="/2018/06/16/shuffle-in-spark/">
+                        <div class="card-image tag-image">
+                            
+                            
+                            <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="Shuffle in Spark">
+                            
+                            <span class="card-title">Shuffle in Spark</span>
+                        </div>
+                    </a>
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                什么是ShuffleShuffle简单来说就是将同一特征的数据经过网络/磁盘IO，分别分发聚集到各自的Executor上，因为这个过程涉及着数据的落地，传输。自然是费性能的。在Spark中，负责shuffle过程的执行、计算和处理的组件主要
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-06-16
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/Spark/" class="post-category">
+                                    Spark
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/Spark/">
+                            <span class="chip bg-color">Spark</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
                     <a href="/2018/04/15/spark-nei-cun-guan-li/">
                         <div class="card-image tag-image">
                             
@@ -673,6 +774,10 @@ Config
                         
                         <a href="/tags/Spark/">
                             <span class="chip bg-color">Spark</span>
+                        </a>
+                        
+                        <a href="/tags/Hadoop/">
+                            <span class="chip bg-color">Hadoop</span>
                         </a>
                         
                     </div>

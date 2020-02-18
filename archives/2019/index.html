@@ -357,8 +357,8 @@ Curator框架在zookeeper原生API接口上进行了包装，解决了很多ZooK
                                     
                                     <i class="fas fa-bookmark fa-fw icon-category"></i>
                                     
-                                    <a href="/categories/Zookeeper/" class="post-category">
-                                    Zookeeper
+                                    <a href="/categories/Utils/" class="post-category">
+                                    Utils
                                     </a>
                                     
                                     
@@ -369,7 +369,7 @@ Curator框架在zookeeper原生API接口上进行了包装，解决了很多ZooK
                         
                         <div class="card-action article-tags">
                             
-                            <a href="/tags/Zookeeper/"><span class="chip bg-color">Zookeeper</span></a>
+                            <a href="/tags/Utils/"><span class="chip bg-color">Utils</span></a>
                             
                         </div>
                         
@@ -549,13 +549,23 @@ Curator框架在zookeeper原生API接口上进行了包装，解决了很多ZooK
                                 </span>
                                 <span class="publish-author">
                                     
-                                    <i class="fas fa-user fa-fw"></i>
-                                    Ssiu
+                                    <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                    
+                                    <a href="/categories/Spark/" class="post-category">
+                                    Spark
+                                    </a>
+                                    
                                     
                                 </span>
                             </div>
                         </div>
 
+                        
+                        <div class="card-action article-tags">
+                            
+                            <a href="/tags/Spark/"><span class="chip bg-color">Spark</span></a>
+                            
+                        </div>
                         
                     </div>
                 </div>
@@ -606,8 +616,8 @@ Curator框架在zookeeper原生API接口上进行了包装，解决了很多ZooK
                                     
                                     <i class="fas fa-bookmark fa-fw icon-category"></i>
                                     
-                                    <a href="/categories/MaxWell/" class="post-category">
-                                    MaxWell
+                                    <a href="/categories/%E6%95%B0%E4%BB%93/" class="post-category">
+                                    数仓
                                     </a>
                                     
                                     
@@ -617,6 +627,8 @@ Curator框架在zookeeper原生API接口上进行了包装，解决了很多ZooK
 
                         
                         <div class="card-action article-tags">
+                            
+                            <a href="/tags/Kafka/"><span class="chip bg-color">Kafka</span></a>
                             
                             <a href="/tags/MaxWell/"><span class="chip bg-color">MaxWell</span></a>
                             
@@ -752,6 +764,144 @@ HRegionServer：从节点，主要关注数据的
                         <div class="card-action article-tags">
                             
                             <a href="/tags/HBase/"><span class="chip bg-color">HBase</span></a>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </article>
+        </div>
+        
+        <div class="cd-timeline-block">
+
+            
+            
+
+            
+            
+            
+            <div class="cd-timeline-img month" data-aos="zoom-in-up">
+                <a href="/archives/2019/02">02</a>
+            </div>
+            
+
+            
+            <div class="cd-timeline-img day" data-aos="zoom-in-up">
+                <span>18</span>
+            </div>
+            <article class="cd-timeline-content" data-aos="fade-up">
+                <div class="article col s12 m6">
+                    <div class="card">
+                        <a href="/2019/02/18/jvm-zhong-de-la-ji-hui-shou/">
+                            <div class="card-image">
+                                
+                                
+                                <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="JVM中的垃圾回收">
+                                
+                                <span class="card-title">JVM中的垃圾回收</span>
+                            </div>
+                        </a>
+                        <div class="card-content article-content">
+                            <div class="summary block-with-text">
+                                
+                                    垃圾回收算法JVM的垃圾回收针对哪些内容Java堆、方法栈。
+如何定位垃圾
+引用计数法（已经基本不用）
+每个对象都有一个引用计数器。被引用是计数器+1。引用失效时，计数器-1。回收计数器为0的对象。
+存在问题：两个对象相互引用时，无法回收。
+                                
+                            </div>
+                            <div class="publish-info">
+                                <span class="publish-date">
+                                    <i class="far fa-clock fa-fw icon-date"></i>2019-02-18
+                                </span>
+                                <span class="publish-author">
+                                    
+                                    <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                    
+                                    <a href="/categories/JVM/" class="post-category">
+                                    JVM
+                                    </a>
+                                    
+                                    
+                                </span>
+                            </div>
+                        </div>
+
+                        
+                        <div class="card-action article-tags">
+                            
+                            <a href="/tags/JVM/"><span class="chip bg-color">JVM</span></a>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </article>
+        </div>
+        
+        <div class="cd-timeline-block">
+
+            
+            
+
+            
+            
+
+            
+            <div class="cd-timeline-img day" data-aos="zoom-in-up">
+                <span>02</span>
+            </div>
+            <article class="cd-timeline-content" data-aos="fade-up">
+                <div class="article col s12 m6">
+                    <div class="card">
+                        <a href="/2019/02/02/jvm-de-yun-xing-shi-shu-ju-qu/">
+                            <div class="card-image">
+                                
+                                
+                                <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="JVM的运行时数据区">
+                                
+                                <span class="card-title">JVM的运行时数据区</span>
+                            </div>
+                        </a>
+                        <div class="card-content article-content">
+                            <div class="summary block-with-text">
+                                
+                                    前言JDK8中，JVM的运行时数据区逻辑上由5个部分组成：
+
+程序计数器（PC Register）
+JVM栈
+本地方法栈
+堆
+方法区
+
+
+
+程序计数器主要功能：指向当前线程字节码文件执行到哪了。直白来说，就是指向当前线程执行到哪行代码了。
+
+                                
+                            </div>
+                            <div class="publish-info">
+                                <span class="publish-date">
+                                    <i class="far fa-clock fa-fw icon-date"></i>2019-02-02
+                                </span>
+                                <span class="publish-author">
+                                    
+                                    <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                    
+                                    <a href="/categories/JVM/" class="post-category">
+                                    JVM
+                                    </a>
+                                    
+                                    
+                                </span>
+                            </div>
+                        </div>
+
+                        
+                        <div class="card-action article-tags">
+                            
+                            <a href="/tags/JVM/"><span class="chip bg-color">JVM</span></a>
                             
                         </div>
                         
