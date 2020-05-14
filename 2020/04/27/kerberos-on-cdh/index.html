@@ -1,0 +1,1036 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="kerberos on CDH, Ssiu Blog">
+    <meta name="description" content="为CDH添加kerberos认证">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>kerberos on CDH | Ssiu Blog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Ssiu Blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Ssiu Blog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">kerberos on CDH</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/CDH/">
+                                <span class="chip bg-color">CDH</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/CDH/" class="post-category">
+                                CDH
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-04-27
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="为CDH提供kerberos认证："><a href="#为CDH提供kerberos认证：" class="headerlink" title="为CDH提供kerberos认证："></a>为CDH提供kerberos认证：</h2><h3 id="0-准备工作："><a href="#0-准备工作：" class="headerlink" title="0.准备工作："></a>0.准备工作：</h3><ol>
+<li>部署JDK、CDH。网上文章很多，暂略。</li>
+<li>安装NTP保证时间同步。网上文章很多，暂略。</li>
+<li>修改hosts，指定域名。.localdomain 就是域名，之后会使用到。<pre><code> 192.168.xx.xx hadoop       hadoop.localdomain</code></pre></li>
+</ol>
+<h3 id="1-kerberos安装与配置："><a href="#1-kerberos安装与配置：" class="headerlink" title="1.kerberos安装与配置："></a>1.kerberos安装与配置：</h3><h4 id="1-1-kdc-server-安装"><a href="#1-1-kdc-server-安装" class="headerlink" title="1.1 kdc server 安装"></a>1.1 kdc server 安装</h4><p>选择一台机器作为kdc server。其他机器就是client。<br>这里用的是MIT，这是官网：<a href="https://web.mit.edu/kerberos/" target="_blank" rel="noopener">Kerberos: The Network Authentication Protocol
+</a><br>centos貌似会自带，没有带用yum安装一下就好</p>
+<pre><code>yum -y install krb5-server krb5-libs__</code></pre><blockquote>
+<p>tips：生产上一般建议单独提供一台安装kdc server的机器。这边是测试所以会把cm和kdc server装一台机器上</p>
+</blockquote>
+<h4 id="1-2-kdc-server配置"><a href="#1-2-kdc-server配置" class="headerlink" title="1.2 kdc server配置"></a>1.2 kdc server配置</h4><h5 id="1-2-1-配置-etc-krb5-conf，下面是一个示例："><a href="#1-2-1-配置-etc-krb5-conf，下面是一个示例：" class="headerlink" title="1.2.1 配置/etc/krb5.conf，下面是一个示例："></a>1.2.1 配置/etc/krb5.conf，下面是一个示例：</h5><pre><code>[libdefaults]
+    default_realm = LOCALDOMAIN
+    dns_lookup_realm = false
+    dns_lookup_kdc = false
+    ticket_lifetime = 24h
+    forwardable = true
+    udp_preference_limit = 1000000
+[realms]
+    LOCALDOMAIN = {
+        kdc = hadoop
+        admin_server = hadoop
+    }
+
+[domain_realm]
+    .localdomain = LOCALDOMAIN
+    localdomain = LOCALDOMAIN
+
+[logging]
+    kdc = FILE:/var/log/krb5kdc.log
+    admin_server = FILE:/var/log/kadmin.log
+    default = FILE:/var/log/krb5lib.log</code></pre><p>几个注意点：</p>
+<blockquote>
+<p>[realms]里的hadoop ，配置成自己的hostname。后面可以跟域名也可以不跟。<br>注意域名LOCALDOMAIN要大写（domain_realm左边要小写）。最好和准备里hosts里的一样。不一样没测试过。</p>
+</blockquote>
+<h5 id="1-2-2-配置-var-kerberos-krb5kdc-kdc-conf，下面是一个示例："><a href="#1-2-2-配置-var-kerberos-krb5kdc-kdc-conf，下面是一个示例：" class="headerlink" title="1.2.2 配置/var/kerberos/krb5kdc/kdc.conf，下面是一个示例："></a>1.2.2 配置/var/kerberos/krb5kdc/kdc.conf，下面是一个示例：</h5><pre><code>default_realm = LOCALDOMAIN
+
+[kdcdefaults]
+ kdc_ports = 88
+ kdc_tcp_ports = 88
+
+[realms]
+ LOCALDOMAIN = {
+  acl_file = /var/kerberos/krb5kdc/kadm5.acl
+  dict_file = /usr/share/dict/words
+  admin_keytab = /var/kerberos/krb5kdc/kadm5.keytab
+  supported_enctypes = aes128-cts:normal des3-hmac-sha1:normal arcfour-hmac:normal camellia128-cts:normal des-hmac-sha1:normal des-cbc-md5:normal des-cbc-crc:normal
+ }</code></pre><p>注意点：</p>
+<blockquote>
+<p>supported_enctypes这一项，默认包含aes256-cts。这个需要在server和client上额外安装。本次示例没使用，直接删去该项。如果需要，可参考：</p>
+<pre><code>sudo wget http://download.oracle.com/otn-pub/java/jce/8/jce_policy-8.zip
+sudo unzip jce_policy-8.zip
+sudo mv UnlimitedJCEPolicyJDK8/*.jar $JAVA_HOME/jre/lib/security 
+pscp -h list_krb_clients $JAVA_HOME/jre/lib/security/US_export_policy.jar /tmp 
+pscp -h list_krb_clients $JAVA_HOME/jre/lib/security/local_policy.jar /tmp 
+pssh -h list -l admin -A &quot;sudo cp /tmp/US_export_policy.jar $JAVA_HOME/jre/lib/security/&quot; 
+pssh -h list -l admin -A &quot;sudo cp /tmp/local_policy.jar $JAVA_HOME/jre/lib/security/&quot;</code></pre></blockquote>
+<h5 id="1-2-3-配置-var-kerberos-krb5kdc-kadm5-acl"><a href="#1-2-3-配置-var-kerberos-krb5kdc-kadm5-acl" class="headerlink" title="1.2.3 配置/var/kerberos/krb5kdc/kadm5.acl"></a>1.2.3 配置/var/kerberos/krb5kdc/kadm5.acl</h5><pre><code>*/admin@LOCALDOMAIN        *</code></pre><h5 id="1-2-4-为kerberos创建数据库"><a href="#1-2-4-为kerberos创建数据库" class="headerlink" title="1.2.4 为kerberos创建数据库"></a>1.2.4 为kerberos创建数据库</h5><ol>
+<li><p>创建数据库：</p>
+<pre><code> kdb5_util create -r CW.COM -s</code></pre><p> 这段代码含义是：-r 指定realm，简单来说就是本例的LOCALDOMAIN。-s表示会给master key在stash file中创建一份copy。<br> 这一步会要求为这个数据库设置密码。</p>
+</li>
+<li><p>创建用户：</p>
+<pre><code> [root@kdc ~]# kadmin.local
+ kadmin.local:  addprinc root/admin  &lt;= 创建一个root/admin用户。接着会让你设置密码
+ kadmin.local:  ktadd -k /var/kerberos/krb5kdc/root.keytab root/admin  &lt;= 将该用户写入keytab，可选。
+ kadmin.local:  exit</code></pre></li>
+<li><p>启动服务，并设置自启：</p>
+<pre><code> systemctl start krb5kdc.service
+ systemctl start kadmin.service
+ systemctl enable krb5kdc.service
+ systemctl enable kadmin.service</code></pre></li>
+</ol>
+<h5 id="1-2-5-测试："><a href="#1-2-5-测试：" class="headerlink" title="1.2.5 测试："></a>1.2.5 测试：</h5><pre><code>kinit root/admin  &lt;= 刚刚创建的，回车输入密码。
+kinit -kt /var/kerberos/krb5kdc/root.keytab root/admin@LOCALDOMAIN &lt;= 使用keytab登陆。密码已存在keytab中。
+klist  &lt;= 查看当前认证的用户</code></pre><h4 id="1-3-client安装："><a href="#1-3-client安装：" class="headerlink" title="1.3 client安装："></a>1.3 client安装：</h4><h5 id="1-3-1-所有client安装："><a href="#1-3-1-所有client安装：" class="headerlink" title="1.3.1 所有client安装："></a>1.3.1 所有client安装：</h5><pre><code>yum -y install krb5-workstation krb5-libs</code></pre><p>然后将kdc server的/etc/krb5.conf 分发到所有集群上。替换他们的/etc/krb5.conf。</p>
+<pre><code>scp /etc/krb5.conf hadoop002:/etc/</code></pre><h5 id="1-3-2-cm所在节点额外安装："><a href="#1-3-2-cm所在节点额外安装：" class="headerlink" title="1.3.2 cm所在节点额外安装："></a>1.3.2 cm所在节点额外安装：</h5><pre><code>yum -y install openldap-clients</code></pre><h2 id="2-kerberos-on-cdh"><a href="#2-kerberos-on-cdh" class="headerlink" title="2.kerberos on cdh"></a>2.kerberos on cdh</h2><h3 id="2-1-为cm创建账号："><a href="#2-1-为cm创建账号：" class="headerlink" title="2.1 为cm创建账号："></a>2.1 为cm创建账号：</h3><p>和1.2.4中一样，记住这步设置的密码：</p>
+<pre><code>[root@kdc ~]# kadmin.local
+Authenticating as principal root/admin@LOCALDOMAIN with password.    
+kadmin.local:  addprinc cloudera-scm/admin@LOCALDOMAIN
+kadmin.local:  exit</code></pre><h3 id="2-2-cm启用kerberos："><a href="#2-2-cm启用kerberos：" class="headerlink" title="2.2 cm启用kerberos："></a>2.2 cm启用kerberos：</h3><blockquote>
+<p>主要是界面操作。这一步的坑主要是第四步的加密算法。</p>
+</blockquote>
+<ol>
+<li><p>点击Administration -&gt; security -&gt; kerberos -&gt; enable</p>
+</li>
+<li><p>阅读一些提示信息，没问题就下一步。(基本就是让你确认kerberos是否装好了)</p>
+<ul>
+<li>KDC已经安装好并且正在运行</li>
+<li>将KDC配置为允许renewable tickets with non-zerolifetime，我们在之前修改kdc.conf文件的时候已经添加了max_life和max_renewable_life这个2个属性，前者表示服务端允许的Service ticket最大生命周期，后者表示服务端允许的Service ticket更新周期。这2个属性必须分别大于等于客户端对应的配置ticket_lifetime和renew_lifetime。我们假设，不这样进行配置：ticket_lifetime = 8d, max_life = 7d, renew_lifetime = 25h, max_renew_life = 24h，那么可能造成的结果就是当service持有的票据超过24小时没有去更新，在第24.5小时的时候去进行更新，请求会遭到拒绝，报错：Ticket expired while renewing credentials，永远无法进行正常更新。对于Cloudera来说，因为更新机制被透明(Cloudera有renew进程会去定期更新)，即使我们手动使用<code>modprinc -maxrenewlife 1week krbtgt/DOMAIN.COM@DOMAIN.COM</code> 进行更新，也无济于事。</li>
+<li>在Cloudera Manager Server上安装openldap-clients；</li>
+<li>为Cloudera Manager创建了超级管理员principal，使其能够有权限在KDC中创建其他的principals；</li>
+</ul>
+</li>
+<li><p>配置kdc信息：</p>
+<ul>
+<li>注意填写的内容与krb5.conf里一一对应。</li>
+<li>这里的 Kerberos Encryption Types 一定要选择之前krb5.conf或/var/kerberos/krb5kdc/kdc.conf里配置有的。不然可能会报错：<pre><code>KDC has no support for encryption type while getting initial credentials</code></pre></li>
+</ul>
+</li>
+<li><p>尽量不让cdh管理krb5.conf：</p>
+</li>
+<li><p>后面一路continue即可。</p>
+</li>
+</ol>
+<p>这一步cdh实际会进行如下操作：</p>
+<pre><code>1. 集群中有多少个节点，每个账户就会生成对应个数的 principal ;
+2. 为每个对应的 principal 创建 keytab；
+3. 部署 keytab 文件到指定的节点中；
+4. 在每个服务的配置文件中加入有关 Kerberos 的配置；</code></pre><p>到这里，其实集群就已经完成kerberos认证了。不过真正要使用，还需要些其他操作。</p>
+<h3 id="2-3-创建我们使用的认证账户"><a href="#2-3-创建我们使用的认证账户" class="headerlink" title="2.3 创建我们使用的认证账户"></a>2.3 创建我们使用的认证账户</h3><p>之前，我们使用hdfs，都会使用cdh提供的hdfs账户。不过完成kerberos认证后，hdfs账户不能直接使用了，而cdh创建的我们又不知道密码。所以我们可以为其在kerberos生成一个key：</p>
+<pre><code>[root@kdc ~]# kadmin.local
+Authenticating as principal root/admin@LOCALDOMAIN with password.    
+kadmin.local:  addprinc hdfs/test@LOCALDOMAIN  &lt;= 保证/前是hdfs即可
+kadmin.local:  exit</code></pre><p>之后通过kinit登陆该认证，就可以以hdfs用户的身份操作cdh了。</p>
+<h2 id="3-测试及常见问题："><a href="#3-测试及常见问题：" class="headerlink" title="3.测试及常见问题："></a>3.测试及常见问题：</h2><h3 id="3-1-基本测试："><a href="#3-1-基本测试：" class="headerlink" title="3.1 基本测试："></a>3.1 基本测试：</h3><ol>
+<li><p>登陆：</p>
+<pre><code> kadmin.local &lt;= kdc可以直接使用kadmin.local登陆。client需要先kinit认证后，使用kadmin登陆。
+ klist &lt;= 登陆后使用klist列出当前的认证账户。</code></pre></li>
+<li><p>hdfs使用：</p>
+<pre><code> kinit后可以直接使用hadoop fs -ls / 查看hdfs的情况。
+ kdestory后将无法使用hadoop fs -ls / 查看hdfs的情况。</code></pre></li>
+<li><p>运行mr/spark任务：</p>
+<blockquote>
+<p>spark需要额外设置才能使用,点一点界面就能完成很简单,参考：<a href="https://docs.cloudera.com/documentation/enterprise/6/6.3/topics/sg_spark_auth.html" target="_blank" rel="noopener">Spark Authentication</a></p>
+</blockquote>
+<pre><code> hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-0.20-mapreduce/hadoop-examples.jar pi 10 10000
+
+ spark-submit --class org.apache.spark.examples.SparkPi --master yarn --deploy-mode cluster $SPARK_HOME/lib/spark-examples.jar 10</code></pre></li>
+<li><p>使用yarn查看任务log：</p>
+<pre><code> yarn logs -applicationId &lt;ID&gt;</code></pre><p> 注意查看log的认证账户要与提交的用户一致，否则看不到log</p>
+<h3 id="3-2-常见问题："><a href="#3-2-常见问题：" class="headerlink" title="3.2 常见问题："></a>3.2 常见问题：</h3></li>
+<li><p>运行mr/spark任务时提示没有用户：<br> 问题：</p>
+<pre><code> Application application_1527494654301_0004 failed 2 times due to AM Container for appattempt_1527494654301_0004_000002 exited with exitCode: -1000
+For more detailed output, check application tracking page:http://fetch-master:8088/proxy/application_1527494654301_0004/Then, click on links to logs of each attempt.
+Diagnostics: Application application_1527494654301_0004 initialization failed (exitCode=255) with output: main : command provided 0
+main : run as user is admin
+main : requested hdfs user is admin
+User admin not found
+Failing this attempt. Failing the application.</code></pre><p> 解决：<br> 参考2.3，创建需要的用户认证。这里就是创建一个admin@xxx</p>
+</li>
+<li><p>运行mr/spark任务时提示id异常：<br> 问题：</p>
+<pre><code> Requested user hdfs is not whitelisted and has id 488,which is below the minimum allowed 1000</code></pre><p> 解决：</p>
+<ol>
+<li>修改用户id。</li>
+<li>或修改Clouder关于这个该项的设置 ：ARN -&gt; NodeManager -&gt; Security -&gt; min.user.id改为0</li>
+</ol>
+</li>
+<li><p>运行mr/spark任务时提示用户被禁用：<br> 问题：</p>
+<pre><code> Requested user hdfs is banned</code></pre><p> 解决：<br> 在CM yarn-&gt; Configuration页面，配置禁止的系统用户banned.users列表。</p>
+</li>
+<li><p>找不到yarn log<br> 问题：</p>
+<pre><code> Can not find the logs for the application with the appOwner: hdfs</code></pre><p> 解决：<br> 用运行这个任务的认证查看yarn log</p>
+</li>
+</ol>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://blog.ibuer.fun" rel="external nofollow noreferrer">Ssiu</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://blog.ibuer.fun/2020/04/27/kerberos-on-cdh/">http://blog.ibuer.fun/2020/04/27/kerberos-on-cdh/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/CDH/">
+                                    <span class="chip bg-color">CDH</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2020/05/14/manage-sparktask-in-code/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="manage sparkTask in code">
+                        
+                        <span class="card-title">manage sparkTask in code</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Manage SparkTask in codesubmit Spark
+Get SparkLauncher:
+
+// init SparkLauncher
+SparkLauncher sparkLauncher = new SparkLa
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-14
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Ssiu
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/02/24/liao-liao-submit-de-chang-yong-can-shu/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="聊聊spark-submit的常用参数">
+                        
+                        <span class="card-title">聊聊spark-submit的常用参数</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            在使用spark-submit在yarn跑应用程序时，我们除了设置参数，一般还会附加jar包，file文件等。这些东西实际去哪了？答案就是我们配置的yarn.nodemanager.local-dirstmp目录。
+&lt;property
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-02-24
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Spark/" class="post-category">
+                                    Spark
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Spark/">
+                        <span class="chip bg-color">Spark</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2017-2020</span>
+            <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv" style="display:none">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv" style="display:none">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+
+
+    <a href="mailto:smokeriu@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=604522169" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 604522169" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+	var months = days * 30;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2017, 02, 12, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " +diffYears+" 年 "+diffDays + " 天 ";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    siteTime();
+</script>
+
+
+<script>
+    $(document).ready(function () {
+
+        var int = setInterval(fixCount, 50);  // 50ms周期检测函数
+        var pvcountOffset = 5423;  // 初始化首次数据
+        var uvcountOffset = 3322;
+
+        function fixCount() {
+            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
+                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
+                clearInterval(int);
+            }
+            if ($("#busuanzi_container_site_pv").css("display") != "none") {
+                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
+                clearInterval(int); // 停止检测
+            }
+        }
+    });
+</script>
+
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
