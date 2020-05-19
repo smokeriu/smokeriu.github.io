@@ -4,12 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="manage sparkTask in code, Ssiu Blog">
-    <meta name="description" content="Manage SparkTask in codesubmit Spark
-Get SparkLauncher:
-
-// init SparkLauncher
-SparkLauncher sparkLauncher = new SparkLa">
+    <meta name="keywords" content="structured里使用state计算, Ssiu Blog">
+    <meta name="description" content="structured里使用state计算 | Ssiu Blog">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +13,7 @@ SparkLauncher sparkLauncher = new SparkLa">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>manage sparkTask in code | Ssiu Blog</title>
+    <title>structured里使用state计算 | Ssiu Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -200,12 +196,12 @@ SparkLauncher sparkLauncher = new SparkLa">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">manage sparkTask in code</h1>
+                    <h1 class="description center-align post-title">structured里使用state计算</h1>
                 </div>
             </div>
         </div>
@@ -334,7 +330,7 @@ SparkLauncher sparkLauncher = new SparkLa">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-05-14
+                    2020-05-15
                 </div>
                 
 
@@ -351,43 +347,7 @@ SparkLauncher sparkLauncher = new SparkLa">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Manage-SparkTask-in-code"><a href="#Manage-SparkTask-in-code" class="headerlink" title="Manage SparkTask in code"></a>Manage SparkTask in code</h1><h2 id="submit-Spark"><a href="#submit-Spark" class="headerlink" title="submit Spark"></a>submit Spark</h2><ol>
-<li>Get SparkLauncher:</li>
-</ol>
-<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// init SparkLauncher</span>
-SparkLauncher sparkLauncher <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SparkLauncher</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">// set SparkLauncher</span>
-sparkLauncher<span class="token punctuation">.</span><span class="token function">setConf</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setXXX</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">;</span>
-<span class="token keyword">return</span> sparkLauncher<span class="token punctuation">;</span></code></pre>
-<ol start="2">
-<li>Start SparkTask, get SparkAppHandle:</li>
-</ol>
-<pre class=" language-java"><code class="language-java">SparkAppHandle handle <span class="token operator">=</span> sparkLauncher<span class="token punctuation">.</span><span class="token function">startApplication</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<ol>
-<li>(optional) 如果使用yarn的cluster模式，在Saprk任务running后，需要切断当前机器与AM的联系，这样可以释放一些资源。</li>
-</ol>
-<pre><code>String appIdOnYarn = handle.getAppId();
-    if (appIdOnYarn != null) {
-    handle.disconnect();
-    handle.kill();
-}
-    // 切段后，需要在我们本地管理的中将handle职位null，这有助于之后判断如何去管理这个spark任务。</code></pre><h2 id="stop-Spark"><a href="#stop-Spark" class="headerlink" title="stop Spark"></a>stop Spark</h2><h3 id="Task-have-not-submit-success"><a href="#Task-have-not-submit-success" class="headerlink" title="Task have not submit success."></a>Task have not submit success.</h3><p>use SparkHandle to Stop:</p>
-<pre><code>// get SparkHandle , eg. manage in a map: runningApplications.
-runningApplications.get(appId).getSparkAppHandle().kill();</code></pre><h3 id="Task-on-Yarn"><a href="#Task-on-Yarn" class="headerlink" title="Task on Yarn"></a>Task on Yarn</h3><p>use YarnClient to Stop:</p>
-<pre><code>// 0. 之前操作有拿到appIdOnYarn
-String appIdOnYarn = handle.getAppId();
-// 1. 拼接。为上面拿到的appIdOnYarn增加前缀，并生成ApplicationId
-int pos1 = &quot;application_&quot;.length() - 1;
-int pos2 = appIdStr.indexOf(95, pos1 + 1);
-if (pos2 &lt; 0) {
-    throw new IllegalArgumentException(&quot;Invalid ApplicationId: &quot; + appIdStr);
-} else {
-    long rmId = Long.parseLong(appIdStr.substring(pos1 + 1, pos2));
-    int appId = Integer.parseInt(appIdStr.substring(pos2 + 1));
-    return ApplicationId.newInstance(rmId, appId); =&gt; ApplicationIdInstance
-}
-// 3. Stop:
-yarnClient.killApplication(ApplicationIdInstance);</code></pre>
+                
             </div>
             <hr/>
 
@@ -412,7 +372,7 @@ yarnClient.killApplication(ApplicationIdInstance);</code></pre>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://blog.ibuer.fun/2020/05/14/manage-sparktask-in-code/">http://blog.ibuer.fun/2020/05/14/manage-sparktask-in-code/</a>
+                    <a href="http://blog.ibuer.fun/2020/05/15/structured-li-shi-yong-state-ji-suan/">http://blog.ibuer.fun/2020/05/15/structured-li-shi-yong-state-ji-suan/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -492,32 +452,44 @@ yarnClient.killApplication(ApplicationIdInstance);</code></pre>
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/05/15/structured-li-shi-yong-state-ji-suan/">
+                <a href="/2020/05/18/flink-zhong-shi-yong-cep/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="structured里使用state计算">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Flink中使用cep">
                         
-                        <span class="card-title">structured里使用state计算</span>
+                        <span class="card-title">Flink中使用cep</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            Flink中使用CEP进行复杂计算CEP简介：官网介绍: Complex event processing for FlinkCEP主要用于流式处理过程中的数据状态转移，我们假设一个场景，我们接受的流数据有2两个字段：（id，name），利
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-15
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-18
                         </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            Ssiu
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Flink/" class="post-category">
+                                    Flink
+                                </a>
+                            
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Flink/">
+                        <span class="chip bg-color">Flink</span>
+                    </a>
+                    
                 </div>
                 
             </div>
@@ -529,44 +501,36 @@ yarnClient.killApplication(ApplicationIdInstance);</code></pre>
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/04/27/kerberos-on-cdh/">
+                <a href="/2020/05/14/manage-sparktask-in-code/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="kerberos on CDH">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="manage sparkTask in code">
                         
-                        <span class="card-title">kerberos on CDH</span>
+                        <span class="card-title">manage sparkTask in code</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            为CDH添加kerberos认证
+                            Manage SparkTask in codesubmit Spark
+Get SparkLauncher:
+
+// init SparkLauncher
+SparkLauncher sparkLauncher = new SparkLa
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-27
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-14
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/CDH/" class="post-category">
-                                    CDH
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Ssiu
                             
                         </span>
                     </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/CDH/">
-                        <span class="chip bg-color">CDH</span>
-                    </a>
-                    
                 </div>
                 
             </div>
