@@ -5,7 +5,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="keywords" content="structured里使用state计算, Ssiu Blog">
-    <meta name="description" content="structured里使用state计算 | Ssiu Blog">
+    <meta name="description" content="structured里使用state计算structured主要提供了mapGroupsWithState和flatMapGroupsWithState来进行有状态计算，以mapGroupsWithState为例，其主要接受：
+def ma">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -316,12 +317,25 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Spark/">
+                                <span class="chip bg-color">Spark</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Spark/" class="post-category">
+                                Spark
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -347,7 +361,43 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h1 id="structured里使用state计算"><a href="#structured里使用state计算" class="headerlink" title="structured里使用state计算"></a>structured里使用state计算</h1><p>structured主要提供了mapGroupsWithState和flatMapGroupsWithState来进行有状态计算，以mapGroupsWithState为例，其主要接受：</p>
+<pre class=" language-scala"><code class="language-scala"><span class="token keyword">def</span> mapGroupsWithState<span class="token punctuation">[</span>S<span class="token operator">:</span> Encoder<span class="token punctuation">,</span> U<span class="token operator">:</span> Encoder<span class="token punctuation">]</span><span class="token punctuation">(</span>
+      timeoutConf<span class="token operator">:</span> GroupStateTimeout<span class="token punctuation">)</span><span class="token punctuation">(</span>
+      func<span class="token operator">:</span> <span class="token punctuation">(</span>K<span class="token punctuation">,</span> Iterator<span class="token punctuation">[</span>V<span class="token punctuation">]</span><span class="token punctuation">,</span> GroupState<span class="token punctuation">[</span>S<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token keyword">=></span> U<span class="token punctuation">)</span><span class="token operator">:</span> Dataset<span class="token punctuation">[</span>U<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span></code></pre>
+<p>对于func来说：</p>
+<ul>
+<li>K：Key</li>
+<li>Iterator[V]：Value的迭代器</li>
+<li>GroupState[S]：现在的State</li>
+<li>U：输出的类型。</li>
+</ul>
+<h2 id="超时"><a href="#超时" class="headerlink" title="超时"></a>超时</h2><p>在使用[map|flatMap]GroupsWithState是，可以通过GroupStateTimeout完成对与超时数据的设置。</p>
+<pre class=" language-scala"><code class="language-scala"><span class="token punctuation">.</span>mapGroupsWithState<span class="token punctuation">(</span>GroupStateTimeout<span class="token punctuation">.</span>EventTimeTimeout<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">(</span>updateAcrossEvents<span class="token punctuation">)</span></code></pre>
+<p>几个注意点：</p>
+<ol>
+<li><p>GroupStateTimeout设置的参数类型对整个GroupState都有效。但具体的值设置是当group使用setTimeout方法时确定的。</p>
+</li>
+<li><p>对于ProcessingTimeTimeout，可以通过<strong>GroupState.setTimeoutDuration</strong>设置超时值。如果超时时间设置为Dms：</p>
+<ul>
+<li>时钟时间增加Dms前，超时不会发生。</li>
+<li>超时时间没有严格的上限限制，<strong>即如果数据流中没有任何数据，就没有出发超时的机会，知道有数据时才会触发超时处理。</strong></li>
+</ul>
+</li>
+<li><p>对于EventTimeTimeout，需要设置Dataset.withWatermark()，这样，超时的事件时间会被直接过滤。超时值可以通过<strong>GroupState.setTimeoutTimestamp()</strong>来设置。setTimeoutTimestamp有两类版本，一类是设定一个固定时间戳，另一类是在一个指定的时间戳上再指定一个duration：</p>
+<pre class=" language-scala"><code class="language-scala"><span class="token keyword">def</span> setTimeoutTimestamp<span class="token punctuation">(</span>timestampMs<span class="token operator">:</span> <span class="token builtin">Long</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Unit</span>
+<span class="token keyword">def</span> setTimeoutTimestamp<span class="token punctuation">(</span>timestampMs<span class="token operator">:</span> <span class="token builtin">Long</span><span class="token punctuation">,</span> additionalDuration<span class="token operator">:</span> <span class="token builtin">String</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Unit</span></code></pre>
+</li>
+</ol>
+<p>   对于事件时间，是否超时将有两个因素控制：水位线和timeout设置：</p>
+<ul>
+<li>当水印时间大于timeout设置时，timeout永远不会发生。</li>
+<li>与ProcessingTimeout一样，<strong>超时时间没有严格的上限限制</strong>。</li>
+</ul>
+<ol start="4">
+<li>在func被调用时，timeout会被重置。即当有新数据到达，或发生超时时。</li>
+</ol>
+
             </div>
             <hr/>
 
@@ -409,7 +459,11 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/Spark/">
+                                    <span class="chip bg-color">Spark</span>
+                                </a>
+                            
                         </div>
                     
                 </div>

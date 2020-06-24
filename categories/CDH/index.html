@@ -247,20 +247,11 @@
                 
                 
                 
-                <a href="/categories/Spark/" title="Spark: 11">
+                <a href="/categories/CDH/" title="CDH: 2">
                     <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #F9EBEA;">Spark
-                        <span class="tag-length">11</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/Hadoop/" title="Hadoop: 5">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #F5EEF8;">Hadoop
-                        <span class="tag-length">5</span>
+                             chip-active "
+                            style="background-color: #F9EBEA;">CDH
+                        <span class="tag-length">2</span>
                     </span>
                 </a>
                 
@@ -268,7 +259,7 @@
                 <a href="/categories/Flink/" title="Flink: 2">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #D5F5E3;">Flink
+                            style="background-color: #F5EEF8;">Flink
                         <span class="tag-length">2</span>
                     </span>
                 </a>
@@ -277,8 +268,17 @@
                 <a href="/categories/HBase/" title="HBase: 4">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #E8F8F5;">HBase
+                            style="background-color: #D5F5E3;">HBase
                         <span class="tag-length">4</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/categories/Hadoop/" title="Hadoop: 5">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            style="background-color: #E8F8F5;">Hadoop
+                        <span class="tag-length">5</span>
                     </span>
                 </a>
                 
@@ -301,20 +301,20 @@
                 </a>
                 
                 
-                <a href="/categories/Kafka/" title="Kafka: 1">
+                <a href="/categories/JVM/" title="JVM: 2">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #82E0AA;">Kafka
-                        <span class="tag-length">1</span>
+                            style="background-color: #82E0AA;">JVM
+                        <span class="tag-length">2</span>
                     </span>
                 </a>
                 
                 
-                <a href="/categories/Docker/" title="Docker: 1">
+                <a href="/categories/Spark/" title="Spark: 12">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #D7BDE2;">Docker
-                        <span class="tag-length">1</span>
+                            style="background-color: #D7BDE2;">Spark
+                        <span class="tag-length">12</span>
                     </span>
                 </a>
                 
@@ -328,28 +328,37 @@
                 </a>
                 
                 
-                <a href="/categories/%E6%95%B0%E4%BB%93/" title="数仓: 1">
+                <a href="/categories/Kafka/" title="Kafka: 2">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #85C1E9;">数仓
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/JVM/" title="JVM: 2">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #F8C471;">JVM
+                            style="background-color: #85C1E9;">Kafka
                         <span class="tag-length">2</span>
                     </span>
                 </a>
                 
                 
-                <a href="/categories/CDH/" title="CDH: 1">
+                <a href="/categories/Spark3/" title="Spark3: 3">
                     <span class="chip center-align waves-effect waves-light
-                             chip-active "
-                            style="background-color: #F9E79F;">CDH
+                             chip-default "
+                            style="background-color: #F8C471;">Spark3
+                        <span class="tag-length">3</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/categories/%E6%95%B0%E4%BB%93/" title="数仓: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            style="background-color: #F9E79F;">数仓
+                        <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/categories/Docker/" title="Docker: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            style="background-color: #F9EBEA;">Docker
                         <span class="tag-length">1</span>
                     </span>
                 </a>
@@ -364,6 +373,76 @@
 
     <article id="articles" class="container articles">
         <div class="row tags-posts">
+            
+            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2020/05/28/cdh-zhong-jin-yong-kerberos/">
+                        <div class="card-image tag-image">
+                            
+                            
+                            <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="CDH中禁用kerberos">
+                            
+                            <span class="card-title">CDH中禁用kerberos</span>
+                        </div>
+                    </a>
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                免费版的CDH关闭kerberos会相对复杂。
+
+关闭所有组件。
+
+一、操作zookeeper
+关闭zk的认证配置：
+
+
+
+找到zk的数据目录：[][1]
+
+
+
+删除目录下的内容：
+
+
+
+初始化zk：
+
+
+
+
+确认初始化成功：
+
+HDFS篇
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-28
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/CDH/" class="post-category">
+                                    CDH
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/CDH/">
+                            <span class="chip bg-color">CDH</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
             
             <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
