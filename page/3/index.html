@@ -247,34 +247,56 @@
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2019/11/17/spark-zhong-de-blockmanager/">
+                    <a href="/2020/05/28/cdh-zhong-jin-yong-kerberos/">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="Spark中的BlockManager">
+                            <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="CDH中禁用kerberos">
                             
-                            <span class="card-title">Spark中的BlockManager</span>
+                            <span class="card-title">CDH中禁用kerberos</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                一、BlockManager的用途。BlockManager会运行在所有节点之上（driver+executor），管理整个Spark运行时的数据读写的。
+                                免费版的CDH关闭kerberos会相对复杂。
 
-Manager running on every node (driver and
+关闭所有组件。
+
+一、操作zookeeper
+关闭zk的认证配置：
+
+
+
+找到zk的数据目录：[][1]
+
+
+
+删除目录下的内容：
+
+
+
+初始化zk：
+
+
+
+
+确认初始化成功：
+
+HDFS篇
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-11-17
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-28
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fas fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Spark/" class="post-category">
-                                    Spark
+                                <a href="/categories/CDH/" class="post-category">
+                                    CDH
                                 </a>
                                 
                                 
@@ -285,8 +307,8 @@ Manager running on every node (driver and
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Spark/">
-                            <span class="chip bg-color">Spark</span>
+                        <a href="/tags/CDH/">
+                            <span class="chip bg-color">CDH</span>
                         </a>
                         
                     </div>
@@ -296,225 +318,68 @@ Manager running on every node (driver and
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2019/10/27/tong-guo-curator-api-cao-zuo-zookeeper-de-xue-xi-yu-jian-dan-shi-yong-jie-shao/">
+                    <a href="/2020/05/21/structured-li-hui-fu-ying-yong-cheng-xu/">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="通过Curator API操作zookeeper的学习与简单使用介绍">
+                            <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="structured里恢复应用程序">
                             
-                            <span class="card-title">通过Curator API操作zookeeper的学习与简单使用介绍</span>
+                            <span class="card-title">structured里恢复应用程序</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                主要记录些使用Curator的学习记录，方便随时查阅。
-Curator
-Curator框架在zookeeper原生API接口上进行了包装，解决了很多ZooKeeper客户端非常底层的细节开发。提供ZooKeeper各种应用场景(recipe
+                                
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-10-27
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-21
                             </span>
                             <span class="publish-author">
                                 
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Utils/" class="post-category">
-                                    Utils
-                                </a>
-                                
+                                <i class="fas fa-user fa-fw"></i>
+                                Ssiu
                                 
                             </span>
                         </div>
                     </div>
 
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Utils/">
-                            <span class="chip bg-color">Utils</span>
-                        </a>
-                        
-                    </div>
                     
                 </div>
             </div>
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2019/09/30/hbase-de-rowkey-she-ji/">
+                    <a href="/2020/05/20/kafka-bu-fen-topic-wu-fa-tong-guo-wu-ren-zheng-duan-kou-cha-xun-de-wen-ti-chu-li/">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="HBase的RowKey设计">
+                            <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="kafka部分topic无法通过无认证端口查询的问题处理">
                             
-                            <span class="card-title">HBase的RowKey设计</span>
+                            <span class="card-title">kafka部分topic无法通过无认证端口查询的问题处理</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                前言对于hbase，会将一张Table中的数据，按照定义的RowKey，将数据切分到不同的Region中。一般不同的Region会被Master分配到不同的机器上。所以如果RowKey设计良好，能够让集群负载均衡，提高吞吐量。防止出现热点问
+                                kafka部分topic无法通过无认证端口查询的问题处理环境概述公司一套XX系统，采用无认证的方式访问XX的kafka集群。另外现场环境开启了kerberos认证。
+情况概述现场由于还是部署测试环境。忽然有一天部署小哥给我说之前好好的top
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-09-30
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-20
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fas fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/HBase/" class="post-category">
-                                    HBase
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/HBase/">
-                            <span class="chip bg-color">HBase</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2019/08/17/hbase-guan-jian-can-shu-diao-you/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="HBase关键参数调优及建议">
-                            
-                            <span class="card-title">HBase关键参数调优及建议</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                HBase在哪些地方调优HBase用下来主要有两类需要调优的地方，是最容易影响性能，最容易出问题的步骤：Flush和Compaction。
-查资料时也发现很多文章并没有给这两方面的建议，有些参数还已经过时了，所以才写了这篇文章。
-其他的比如
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-08-17
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/HBase/" class="post-category">
-                                    HBase
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/HBase/">
-                            <span class="chip bg-color">HBase</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2019/07/26/updatestatebykey-vs-mapwithstate/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="updateStateByKey vs mapWithState">
-                            
-                            <span class="card-title">updateStateByKey vs mapWithState</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                有状态转换在SparkStreaming中，有时候我们需要进行聚合操作，且依赖于以前的数据，就需要使用到有状态算子。不过由于SparkStreaming中，有状态算子依赖Checkpoint，而Checkpoint有个很大的弊端就是修改代码
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-07-26
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Spark/" class="post-category">
-                                    Spark
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Spark/">
-                            <span class="chip bg-color">Spark</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2019/06/20/chu-shi-maxwell/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="初识MaxWell">
-                            
-                            <span class="card-title">初识MaxWell</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                Maxwell背景最近需要实时采集MySQL的数据到HBase，找了下目前主要有MaxWell和Canal。介于Maxwell部署简单，且支持断点还原，最后选择了MaxWell。
-功能MaxWell通过采集MySQL的binlog日志，将详
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-06-20
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E6%95%B0%E4%BB%93/" class="post-category">
-                                    数仓
+                                <a href="/categories/Kafka/" class="post-category">
+                                    Kafka
                                 </a>
                                 
                                 
@@ -529,11 +394,141 @@ Curator框架在zookeeper原生API接口上进行了包装，解决了很多ZooK
                             <span class="chip bg-color">Kafka</span>
                         </a>
                         
-                        <a href="/tags/MaxWell/">
-                            <span class="chip bg-color">MaxWell</span>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2020/05/18/flink-zhong-shi-yong-cep/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Flink中使用cep">
+                            
+                            <span class="card-title">Flink中使用cep</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                Flink中使用CEP进行复杂计算CEP简介：官网介绍: Complex event processing for FlinkCEP主要用于流式处理过程中的数据状态转移，我们假设一个场景，我们接受的流数据有2两个字段：（id，name），利
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-18
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/Flink/" class="post-category">
+                                    Flink
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/Flink/">
+                            <span class="chip bg-color">Flink</span>
                         </a>
                         
                     </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2020/05/15/structured-li-shi-yong-state-ji-suan/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="structured里使用state计算">
+                            
+                            <span class="card-title">structured里使用state计算</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                structured里使用state计算structured主要提供了mapGroupsWithState和flatMapGroupsWithState来进行有状态计算，以mapGroupsWithState为例，其主要接受：
+def ma
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-15
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/Spark/" class="post-category">
+                                    Spark
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/Spark/">
+                            <span class="chip bg-color">Spark</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2020/05/14/manage-sparktask-in-code/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="manage sparkTask in code">
+                            
+                            <span class="card-title">manage sparkTask in code</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                Manage SparkTask in codesubmit Spark
+Get SparkLauncher:
+
+// init SparkLauncher
+SparkLauncher sparkLauncher = new SparkLa
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-14
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-user fa-fw"></i>
+                                Ssiu
+                                
+                            </span>
+                        </div>
+                    </div>
+
                     
                 </div>
             </div>
@@ -555,7 +550,7 @@ Curator框架在zookeeper原生API接口上进行了包装，解决了很多ZooK
             
         </div>
         <div class="page-info col m4 l4 hide-on-small-only">
-            <div class="center-align b-text-gray">3 / 7</div>
+            <div class="center-align b-text-gray">3 / 9</div>
         </div>
         <div class="col s6 m4 l4">
             

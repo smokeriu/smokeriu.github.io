@@ -1,0 +1,1369 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Flink的时间语义及简单使用, Ssiu Blog">
+    <meta name="description" content="
+本文Flink API版本：java-1.12
+
+
+注1 ： Flink在1.11后，通过WatermarkStrategy来指定水位线及事件时间。将AssignerWithPeriodicWatermarks和AssignerWithP">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Flink的时间语义及简单使用 | Ssiu Blog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Ssiu Blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Ssiu Blog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Flink的时间语义及简单使用</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Flink/">
+                                <span class="chip bg-color">Flink</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2021-01-17
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <blockquote>
+<p>本文Flink API版本：java-1.12</p>
+</blockquote>
+<blockquote>
+<p>注1 ： Flink在1.11后，通过WatermarkStrategy来指定水位线及事件时间。将AssignerWithPeriodicWatermarks<code>和</code>AssignerWithPunctuatedWatermarks标记为过时。本文也主要是记录新接口的使用方法。</p>
+<p>注2 ： Flink在1.12（大概）后，默认的时间策略为事件时间。</p>
+<p>注3 ： 本文主要以Kafka作为输入元为例。仅简单介绍用法，共后续使用时的资料翻阅。</p>
+<p>注4 ： 为了前后的连贯性，本文将不讨论在1.12中已被标记为过时的方法。若需使用早先的API，可翻阅其他资料。</p>
+</blockquote>
+<h2 id="分配时间戳和生成水位线"><a href="#分配时间戳和生成水位线" class="headerlink" title="分配时间戳和生成水位线"></a>分配时间戳和生成水位线</h2><p>使用事件时间，需要提供数据中<strong>代表时间的字段</strong>，并指定水位线。在新的FlinkAPI中，提供了常见的默认实现，来讲时间戳的分配简单化：</p>
+<h3 id="默认实现"><a href="#默认实现" class="headerlink" title="默认实现"></a>默认实现</h3><p>简单使用：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">final</span> WatermarkStrategy<span class="token operator">&lt;</span>ObjectNode<span class="token operator">></span> watermarkStrategy <span class="token operator">=</span> WatermarkStrategy<span class="token punctuation">.</span>
+                <span class="token operator">&lt;</span>ObjectNode<span class="token operator">></span><span class="token function">forBoundedOutOfOrderness</span><span class="token punctuation">(</span>Duration<span class="token punctuation">.</span><span class="token function">ofMillis</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token operator">*</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">withTimestampAssigner</span><span class="token punctuation">(</span><span class="token punctuation">(</span>SerializableTimestampAssigner<span class="token operator">&lt;</span>ObjectNode<span class="token operator">></span><span class="token punctuation">)</span> <span class="token punctuation">(</span>element<span class="token punctuation">,</span> recordTimestamp<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> element<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"value"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"log_time"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">longValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="水位线分配"><a href="#水位线分配" class="headerlink" title="水位线分配"></a>水位线分配</h4><p>通过调用WatermarkStrategy接口的默认方法，可以直接使用内置的通用策略。分别是</p>
+<ul>
+<li><p><code>forMonotonousTimestamps()</code>：单调递增的水位线分配器。</p>
+<ul>
+<li><p>当前时间的时间戳就充当watermark，如果后续数据时间戳更小，则认为是过期数据。</p>
+</li>
+<li><p>对于并行数据源。则是每个分区独立计算。</p>
+<ul>
+<li><blockquote>
+<p>注释原文：</p>
+<p>Creates a watermark strategy for situations with monotonously ascending timestamps.<br>The watermarks are generated periodically and tightly follow the latest timestamp in the data. The delay introduced by this strategy is mainly the periodic interval in which the watermarks are generated.</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>forBoundedOutOfOrderness(Duration.ofSeconds(10))</code></p>
+<ul>
+<li><p>参数表示数据之间允许的最大延迟。</p>
+</li>
+<li><p>如果新数据的时间戳 比 <strong>水位线-最大延迟 还要小</strong>。则认为是过期数据</p>
+<ul>
+<li><blockquote>
+<p>注释原文：</p>
+<p>Creates a watermark strategy for situations where records are out of order, but you can place an upper bound on how far the events are out of order. An out-of-order bound B means that once the an event with timestamp T was encountered, no events older than T - B will follow any more.<br>The watermarks are generated periodically. The delay introduced by this watermark strategy is the periodic interval length, plus the out of orderness bound.</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>默认实现的水位线是周期性分配的。</p>
+<ul>
+<li>分配的周期取决于取决于<code>ExecutionConfig.getAutoWatermarkInterval()</code>。</li>
+<li>该间隔可通过<code>env.getConfig().setAutoWatermarkInterval(long interval_ms)</code>设置。</li>
+</ul>
+</li>
+</ul>
+<h4 id="分配事件时间戳"><a href="#分配事件时间戳" class="headerlink" title="分配事件时间戳"></a>分配事件时间戳</h4><p>通过<em>.withTimestampAssigner</em>,可指定如何将数据的某个字段分配为时间戳，对于Kafka来说，若不指定则是将Kafka的record-time作为事件时间。</p>
+<p>Flink提供两种方式来指定：</p>
+<ul>
+<li><p>TimestampAssignerSupplier<T>：为时间分配器提供更多上下文。</p>
+<ul>
+<li><p>实现方法需要返回一个TimestampAssigner。</p>
+<ul>
+<li><blockquote>
+<p>注释原文：</p>
+<p>You can use this when a TimestampAssigner needs additional context, for example access to the metrics system.</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>SerializableTimestampAssigner<T> ：指定如何将数据的某个字段分配为时间戳</p>
+<ul>
+<li><p>实现extractTimestamp方法，用来指定时间戳</p>
+</li>
+<li><p>SerializableTimestampAssigner实现的就是TimestampAssigner，并增加了序列化。</p>
+<ul>
+<li><blockquote>
+<p>注释原文：</p>
+<p>You can use this in case you want to specify a TimestampAssigner via a lambda function.</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="空闲数据"><a href="#空闲数据" class="headerlink" title="空闲数据"></a>空闲数据</h4><blockquote>
+<p>摘自官网：</p>
+<p>如果数据源中的某一个分区/分片在一段时间内未发送事件数据，则意味着 <code>WatermarkGenerator</code> 也不会获得任何新数据去生成 watermark。在这种情况下，当某些其他分区仍然发送事件数据的时候就会出现问题。由于下游算子 watermark 的计算方式是取所有不同的上游并行数据源 watermark 的最小值，则其 watermark 将不会发生变化。</p>
+<p>故可以使用 <code>WatermarkStrategy</code> 来检测空闲输入并将其标记为空闲状态。</p>
+</blockquote>
+<p>WatermarkStrategy接口提供了<code>withIdleness(Duration idleTimeout)</code>默认方法。</p>
+<p>即当某一个分区超过<em>多长时间</em>没有数据时，则标记为空闲。就算该分区的水位线没有变化，也不会影响整体水位线的变化。</p>
+<ul>
+<li><blockquote>
+<p>注释原文：</p>
+<p>Creates a new enriched WatermarkStrategy that also does idleness detection in the created WatermarkGenerator.<br>Add an idle timeout to the watermark strategy. If no records flow in a partition of a stream for that amount of time, then that partition is considered “idle” and will not hold back the progress of watermarks in downstream operators.<br>Idleness can be important if some partitions have little data and might not have events during some periods. Without idleness, these streams can stall the overall event time progress of the application</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="注意点："><a href="#注意点：" class="headerlink" title="注意点："></a>注意点：</h4><ul>
+<li>需<code>&lt;ObjectNode&gt;forBoundedOutOfOrderness</code>这般显示指定数据类型。</li>
+</ul>
+<h3 id="自定义实现"><a href="#自定义实现" class="headerlink" title="自定义实现"></a>自定义实现</h3><p>可以实现WatermarkStrategy接口，来自定义水位线策略：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">new</span> <span class="token class-name">WatermarkStrategy</span><span class="token operator">&lt;</span>ObjectNode<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 必须实现</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> WatermarkGenerator<span class="token operator">&lt;</span>ObjectNode<span class="token operator">></span> <span class="token function">createWatermarkGenerator</span><span class="token punctuation">(</span>WatermarkGeneratorSupplier<span class="token punctuation">.</span>Context context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">WatermarkGenerator</span><span class="token operator">&lt;</span>ObjectNode<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token annotation punctuation">@Override</span>
+            <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onEvent</span><span class="token punctuation">(</span>ObjectNode event<span class="token punctuation">,</span> <span class="token keyword">long</span> eventTimestamp<span class="token punctuation">,</span> WatermarkOutput output<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+            <span class="token punctuation">}</span>
+
+            <span class="token annotation punctuation">@Override</span>
+            <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onPeriodicEmit</span><span class="token punctuation">(</span>WatermarkOutput output<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 选择实现</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> TimestampAssigner<span class="token operator">&lt;</span>ObjectNode<span class="token operator">></span> <span class="token function">createTimestampAssigner</span><span class="token punctuation">(</span>TimestampAssignerSupplier<span class="token punctuation">.</span>Context context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<h4 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h4><ul>
+<li><p><code>createWatermarkGenerator</code>：必须实现</p>
+<ul>
+<li><p>方法需要返回一个<code>WatermarkGenerator</code>。可以通过实现对应接口自定义。</p>
+<ul>
+<li><code>onEvent(T event, long eventTimestamp, WatermarkOutput output)</code><ul>
+<li>每条记录都会调用。根据记录记住事件时间戳，或更新水位线。</li>
+</ul>
+</li>
+<li><code>onPeriodicEmit(WatermarkOutput output)</code><ul>
+<li>定期调用。可能生成新的时间戳（也可能不会）生成间隔取决于ExecutionConfig.getAutoWatermarkInterval()</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>watermark 的生成方式本质上是有两种：<em>周期性生成</em> 和 <em>标记生成</em>。</p>
+</li>
+<li><p><strong>周期性</strong>生成器通常的实现逻辑：</p>
+<ul>
+<li><p>通过 <code>onEvent()</code>更新事件时间戳。</p>
+</li>
+<li><p>通过<code>onPeriodicEmit()</code>发出水位线。注意：<em>onPeriodicEmit方法的调用是定时调用的</em></p>
+</li>
+<li><blockquote>
+<p> 官网示例：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">BoundedOutOfOrdernessGenerator</span> <span class="token keyword">implements</span> <span class="token class-name">WatermarkGenerator</span><span class="token operator">&lt;</span>MyEvent<span class="token operator">></span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token keyword">long</span> maxOutOfOrderness <span class="token operator">=</span> <span class="token number">3500</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 3.5 秒</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">long</span> currentMaxTimestamp<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onEvent</span><span class="token punctuation">(</span>MyEvent event<span class="token punctuation">,</span> <span class="token keyword">long</span> eventTimestamp<span class="token punctuation">,</span> WatermarkOutput output<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        currentMaxTimestamp <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span>currentMaxTimestamp<span class="token punctuation">,</span> eventTimestamp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onPeriodicEmit</span><span class="token punctuation">(</span>WatermarkOutput output<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 发出的 watermark = 当前最大时间戳 - 最大乱序时间</span>
+        output<span class="token punctuation">.</span><span class="token function">emitWatermark</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Watermark</span><span class="token punctuation">(</span>currentMaxTimestamp <span class="token operator">-</span> maxOutOfOrderness <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span></code></pre>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p><strong>标记</strong>生成器通常的实现逻辑：</p>
+<ul>
+<li><p>通过 <code>onEvent()</code>判断是否需要更新（如数据中明确的字段值），如果需要则直接更新。</p>
+</li>
+<li><blockquote>
+<p>官网示例：</p>
+<pre><code>public class PunctuatedAssigner implements WatermarkGenerator&lt;MyEvent&gt; {
+
+ @Override
+ public void onEvent(MyEvent event, long eventTimestamp, WatermarkOutput output) {
+     if (event.hasWatermarkMarker()) {
+         output.emitWatermark(new Watermark(event.getWatermarkTimestamp()));
+     }
+ }
+
+ @Override
+ public void onPeriodicEmit(WatermarkOutput output) {
+     // onEvent 中已经实现
+ }
+}</code></pre></blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>createTimestampAssigner</code>：选择实现</p>
+<ul>
+<li>参考：[分配事件时间戳](# 分配事件时间戳)</li>
+</ul>
+</li>
+</ul>
+<h3 id="为数据源指定事件时间"><a href="#为数据源指定事件时间" class="headerlink" title="为数据源指定事件时间"></a>为数据源指定事件时间</h3><p>通过上述过程，我们很容易得到一个<strong>WatermarkStrategy</strong>，通过这个，我们就能够用来指定数据中的事件时间戳和水位线了。</p>
+<p>以Kafka为例，如果要修改默认的水位线策略，只需通过<code>.assignTimestampsAndWatermarks()</code>方法。</p>
+<pre class=" language-java"><code class="language-java">myConsumer<span class="token punctuation">.</span><span class="token function">assignTimestampsAndWatermarks</span><span class="token punctuation">(</span>watermarkStrategy<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<blockquote>
+<p><code>.assignTimestampsAndWatermarks</code>方法同样是DataStream中提供的方法。</p>
+</blockquote>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h2 id="使用事件时间及水位线"><a href="#使用事件时间及水位线" class="headerlink" title="使用事件时间及水位线"></a>使用事件时间及水位线</h2><p>todo 概述</p>
+<h3 id="处理函数"><a href="#处理函数" class="headerlink" title="处理函数"></a>处理函数</h3><p>上述内容中得到的时间戳和水位线存放于程序的上下文<code>(Context ctx)</code>中，一般而言可以通过Process及相关的函数进行访问。</p>
+<blockquote>
+<p>处理函数都实现了RichFunction接口</p>
+</blockquote>
+<p>对于ProcessFunction，一般提供下述两个方法：</p>
+<ul>
+<li><code>processElement(I value, Context ctx, Collector&lt;O&gt; out)</code>：必须实现<ul>
+<li>每条记录调用一次。</li>
+<li>通过<code>Context ctx</code>访问<strong>时间戳</strong>。（也可以访问一些其他的上下文信息，如TimerService，将结果发往副结果）</li>
+</ul>
+</li>
+<li><code>onTimer(long timestamp, OnTimerContext ctx, Collector&lt;O&gt; out)</code>：选择实现<ul>
+<li>会在计时器触发时调用。<strong>故一般计时器会在<code>processElement</code>中设置</strong></li>
+<li><code>timestamp</code>参数指的是触发计时器的时间戳。</li>
+<li>用在<code>KeyedProcessFunction</code>中，用来在某些键值不再使用后，清除分区状态/或实现一些基于时间的自定义窗口逻辑。</li>
+</ul>
+</li>
+<li>计时器：通过ctx的<code>timerService</code>使用<ul>
+<li><strong>只能在键值流中使用计时器</strong>（<em>Setting timers is only supported on a keyed streams.</em>）</li>
+<li>每个时间戳可以拥有一个计时器。一个key可以有多个计时器（key不同时，计时器的时间戳允许重复）</li>
+<li><strong>不应该注册过多的计时器。建议在每个processFunction通过维护状态来管理计时器（注册+删除）。</strong></li>
+<li>计时器触发后，就自动删除了？（todo）</li>
+<li><code>timerService</code>：<ul>
+<li><code>registerEventTimeTimer(long time)</code>：注册一个事件时间计时器。<ul>
+<li>参数就相当于计时器id及出发条件。</li>
+<li>当水位线时间戳 大于或等于计时器时间戳，则触发。</li>
+</ul>
+</li>
+<li><code>deleteEventTimeTimer(long time)</code>：删除一个事件时间计时器</li>
+<li><code>currentProcessingTime()</code>返回当前的处理时间</li>
+<li><code>currentWatermark()</code>返回当前水位线</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="窗口算子"><a href="#窗口算子" class="headerlink" title="窗口算子"></a>窗口算子</h3><blockquote>
+<p>1、本文只考虑基于时间的窗口。</p>
+<p>2、窗口可用于键值与非键值数据流。本文主要以键值数据流为例进行说明。</p>
+<p>3、对于键值数据流，窗口算子为并行计算。对于非键值，考虑到需要处理整个窗口的所有元素，需要单线程处理。</p>
+</blockquote>
+<p>实际使用窗口算子时，必需要指定两个窗口组件：</p>
+<ul>
+<li>窗口分配器<code>WindowAssigner</code>，得到<code>WindowedStream</code>：决定了元素如何划分到不同的窗口中。</li>
+<li>作用于<code>WindowedStream</code>上的处理函数：如何处理单个窗口中的数据。</li>
+</ul>
+<p>如果需要自定义某些实现逻辑，还可以指定其他窗口组件：</p>
+<ul>
+<li>触发器<code>trigger</code>：定义了窗口何时准备好执行计算、何时需要清除自身内容。</li>
+<li>移除器<code>evictor</code>：用来从窗口中删除已收集元素。可以在ProcessWindowFunc前/后使用。</li>
+</ul>
+<p>简单示例：</p>
+<pre class=" language-java"><code class="language-java">baseInput<span class="token punctuation">.</span><span class="token function">keyBy</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span>KeySelector<span class="token operator">&lt;</span>Tuple4<span class="token operator">&lt;</span>Integer<span class="token punctuation">,</span> Long<span class="token punctuation">,</span> Long<span class="token punctuation">,</span> String<span class="token operator">></span><span class="token punctuation">,</span> Integer<span class="token operator">></span><span class="token punctuation">)</span> value <span class="token operator">-</span><span class="token operator">></span> value<span class="token punctuation">.</span>f0<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">window</span><span class="token punctuation">(</span>SlidingEventTimeWindows<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span>Time<span class="token punctuation">.</span><span class="token function">seconds</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">,</span> Time<span class="token punctuation">.</span><span class="token function">seconds</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">process</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ProcessWindowFunction</span><span class="token operator">&lt;</span>Tuple4<span class="token operator">&lt;</span>Integer<span class="token punctuation">,</span> Long<span class="token punctuation">,</span> Long<span class="token punctuation">,</span> String<span class="token operator">></span><span class="token punctuation">,</span> String<span class="token punctuation">,</span> Integer<span class="token punctuation">,</span> TimeWindow<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token annotation punctuation">@Override</span>
+                    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">process</span><span class="token punctuation">(</span>Integer integer<span class="token punctuation">,</span> Context context<span class="token punctuation">,</span> Iterable<span class="token operator">&lt;</span>Tuple4<span class="token operator">&lt;</span>Integer<span class="token punctuation">,</span> Long<span class="token punctuation">,</span> Long<span class="token punctuation">,</span> String<span class="token operator">>></span> elements<span class="token punctuation">,</span> Collector<span class="token operator">&lt;</span>String<span class="token operator">></span> out<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+                        StringBuffer buffer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuffer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        buffer<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>integer<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">"!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        elements<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>ele <span class="token operator">-</span><span class="token operator">></span> buffer<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>ele<span class="token punctuation">.</span>f3<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">"-"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        out<span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span>buffer<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="窗口分配器"><a href="#窗口分配器" class="headerlink" title="窗口分配器"></a>窗口分配器</h4><h5 id="内置窗口分配器"><a href="#内置窗口分配器" class="headerlink" title="内置窗口分配器"></a>内置窗口分配器</h5><ul>
+<li><p>TumblingWindow（滚动窗口）：下一个窗口的开始为：这个窗口的结束时间。</p>
+<ul>
+<li><p>提供两个内置实现（事件时间和处理时间各一个）：</p>
+<ul>
+<li><p><code>TumblingEventTimeWindows</code>：基于事件时间的滚动窗口。</p>
+</li>
+<li><p><code>of</code>方法接收参数：</p>
+<ul>
+<li><p>size : 窗口大小</p>
+</li>
+<li><p>offset : 偏移量。相比于UTC±00:00。否则第一个滚动窗口开始时间一定是0点。</p>
+</li>
+<li><p>windowStagger：交错策略。实际源码中表现为会影响offset的效果。</p>
+<ul>
+<li><blockquote>
+<p>The utility that produces staggering offset in runtime. </p>
+<p>有三类：</p>
+<p>​    ALIGNED：默认。不产生任何影响。所有分区的窗口开始时间都是一样的</p>
+<p>​    RANDOM：加入一个随机值作为交错参数。即每个分区的第一个窗口的开始时间会随机开始。</p>
+<p>​    NATURAL：根据每个线程得到的第一个元素，来作为该分区的第一个窗口的开始时间。</p>
+<p>（待验证）</p>
+<p>Flink会在WindowOperator中的processElement方法中，对每个接收到的流元素进行窗口画风。而这个参数会影响到最后生成的elementWindows，windowStagger主要就是通过影响offset，来影响elementWindows的生成。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>窗口大小决定了多久会生成一个新的窗口。</p>
+</li>
+</ul>
+</li>
+<li><p>SlidingTimeWindow（滑动窗口）：下一个窗口开始时间为：这个窗口开始时间+滑动距离。</p>
+<ul>
+<li>提供两个内置实现（事件时间和处理时间各一个）：<ul>
+<li><code>SlidingEventTimeWindows</code>：基于事件时间的滑动窗口。</li>
+<li><code>of</code>方法接收参数：<ul>
+<li>size : 窗口大小。</li>
+<li>slide：滑动距离。</li>
+<li>offset : 偏移量。相比于UTC±00:00。否则第一个滚动窗口开始时间一定是0点。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>滑动距离决定了多久会生成一个新的窗口。</li>
+</ul>
+</li>
+<li><p>sessionWindow（会话窗口）：下一个窗口开始时间为：新元素到达 且距离上一个元素到达时间超过阈值。</p>
+<ul>
+<li><p>提供两类(动态和固定)，供四个（事件时间和处理时间各两个）内置实现：</p>
+<ul>
+<li><p><code>EventTimeSessionWindows</code>：基于事件时间的会话窗口。</p>
+<ul>
+<li>方法：<ul>
+<li><code>withGap(Time size)</code>：间隔阈值。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>DynamicEventTimeSessionWindows</code>：基于事件时间的动态会话窗口。</p>
+<ul>
+<li><p>方法：</p>
+<ul>
+<li><p><code>withDynamicGap(SessionWindowTimeGapExtractor&lt;T&gt; sessionWindowTimeGapExtractor)</code>：</p>
+<ul>
+<li><blockquote>
+<p>SessionWindowTimeGapExtractor能够从数据中提取超时间隔。</p>
+<p>即数据中可以有一个字段，来作为这条数据距离上一条数据多久。<code>SessionWindowTimeGapExtractor</code>接口需要手动实现。且只有一个方法，从数据中拿到这他的间隔<code>long extract(T element);</code></p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>两者的主要区别：</p>
+<ul>
+<li>非动态：超时间隔是固定的。</li>
+<li>动态：有数据自己决定是否划分新窗口。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>globalWindow（全局窗口）: 只会产生一个窗口</p>
+<ul>
+<li>不会自动触发，必须手动指定<em>触发器</em>。</li>
+<li>必须指定<em>移除器</em>来移除窗口中的元素</li>
+</ul>
+</li>
+</ul>
+<h5 id="自定义窗口分配器"><a href="#自定义窗口分配器" class="headerlink" title="自定义窗口分配器"></a>自定义窗口分配器</h5><p><code>WindowAssigner</code>接口提供了四个方法需要实现：</p>
+<ul>
+<li><code>assignWindows(T element, long timestamp, WindowAssignerContext context)</code>：返回元素归属的窗口集合（这条记录归属哪些窗口）<ul>
+<li>由于一般都是针对时间设计，所以一般都是返回TimeWindow。基于数量的窗口可以使用<code>countWindow</code></li>
+</ul>
+</li>
+<li><code>getDefaultTrigger(StreamExecutionEnvironment env)</code>：返回该分配器的默认触发器。<ul>
+<li>请参考自定义触发器，或者Trigger子类的内部实现。</li>
+</ul>
+</li>
+<li><code>getWindowSerializer(ExecutionConfig executionConfig)</code>：返回窗口的TypeSerializer<ul>
+<li>对于TimeWindow而言，则返回<code>new TimeWindow.Serializer()</code>即可。</li>
+</ul>
+</li>
+<li><code>isEventTime()</code>：是否是事件时间窗口</li>
+</ul>
+<h4 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h4><p>触发器决定何时对窗口进行计算并发出结果。每次调用触发器都会生成一个<code>TriggerResult</code>，用于决定窗口接下来的行为：</p>
+<ul>
+<li>CONTINUE：什么都不做。</li>
+<li>FIRE：调用<code>ProcessFunction</code>（如果有使用），并发出结果。如果包含增量聚合函数，则直接发出结果。</li>
+<li>PURGE：清空窗口内容，并删除窗口、及窗口元数据。并调用<code>ProcessWindowFunction.clear()</code>方法。</li>
+<li>FIRE_AND_PURGE：先FIRE，再PURGE。</li>
+</ul>
+<h5 id="内置触发器"><a href="#内置触发器" class="headerlink" title="内置触发器"></a>内置触发器</h5><p>Flink提供一些内置的触发器，包括（只说明事件时间的，处理时间一样的）：</p>
+<ul>
+<li><p><code>EventTimeTrigger</code>：水位线大于窗口结束时间，则触发。</p>
+</li>
+<li><p><code>CountTrigger</code>：当窗口内元素数量大于阈值时则触发。</p>
+</li>
+<li><p><code>DeltaTrigger</code>：初始化是需要给定一个<code>DeltaFunction</code>，根据接入数据计算出来的Delta指标是否超过指定的Threshold去判断是否触发窗口计算。</p>
+<ul>
+<li>计算当前元素与上一个触发计算元素的Delta值来与阈值进行比较。</li>
+</ul>
+</li>
+<li><p><code>ContinuousEventTimeTrigger</code>:</p>
+<ul>
+<li><p>水位线大于窗口结束时间，则触发。</p>
+</li>
+<li><p>定期设置处理时间计时器。（计时器触发时会调用触发器的<code>onEventTime</code>方法。详见自定义）</p>
+<ul>
+<li><blockquote>
+<p>1、当第一个元素达到时，会根据时间间隔注册一个计时器。触发时间约为开始时间+时间间隔（<code>start = timestamp - (timestamp % interval)+interval</code>）</p>
+<p>2、当计时器触发时（），进行判断。</p>
+<p>​    2.1、如果触发事件 等于 窗口结束时间，则触发触发器。</p>
+<p>​    2.2、其他情况，则判断计时器是否有效，若有效则触发触发器，并根据设定的间隔注册下一个计时器。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>PurgingTrigger</code>：是一个trigger的包装类。具体作用为：如果被包装的trigger触发返回FIRE，则PurgingTrigger将返回修改为FIRE_AND_PURGE，其他的返回值不做处理。</p>
+<ul>
+<li>通过<code>of(Trigger&lt;T, W&gt; nestedTrigger)</code>来包装其他<code>Trigger</code></li>
+</ul>
+</li>
+<li><p><code>ProcessingTimeoutTrigger</code>是一个trigger的包装类，作用于处理时间。具体作用为：为元素配置处理时间超时。当到达超时时间时，清除触发器状态</p>
+</li>
+</ul>
+<h5 id="自定义触发器"><a href="#自定义触发器" class="headerlink" title="自定义触发器"></a>自定义触发器</h5><p>自定义触发器需要实现触发器API的下述方法：</p>
+<ul>
+<li><code>onElement(T element, long timestamp, W window, TriggerContext ctx)</code>：每有元素添加到窗口时就调用。<ul>
+<li>入参<code>long timestamp</code>为事件的时间属性。</li>
+<li>入参<code>W window</code>为时间所属的窗口对象。（对于一个元素所属多个窗口时，会对应有多个触发器，每个触发器只负责一个窗口）</li>
+</ul>
+</li>
+<li><code>onProcessingTime(long time, W window, TriggerContext ctx)</code>：处理时间计时器触发时调用。计时器通过ctx注册/清除。</li>
+<li><code>onEventTime(long time, W window, TriggerContext ctx)</code>事件时间计时器触发时调用。计时器通过ctx注册/清除。<ul>
+<li>入参<code>long time</code>为触发计时器的时间。等于计时器注册时间。</li>
+</ul>
+</li>
+<li><code>canMerge()</code>：该触发器是否支持合并。</li>
+<li><code>onMerge(W window, OnMergeContext ctx)</code>：合并逻辑（将多个窗口合并为一个窗口），需要合并时则调用该方法。<ul>
+<li>在触发器与<code>MergingWindowAssigner</code>一起使用时，需要实现该方法。</li>
+<li>触发器的自定义状态同样需要合并。</li>
+<li>入参<code>W window</code>为合并后的窗口。</li>
+</ul>
+</li>
+<li><code>clear(W window, TriggerContext ctx)</code>：在触发器中清除那些为给定窗口保存的状态。</li>
+</ul>
+<h4 id="移除器"><a href="#移除器" class="headerlink" title="移除器"></a>移除器</h4><p>用于在窗口执行计算前或计算后删除窗口中的元素。是一个可选组件。</p>
+<h5 id="内置移除器"><a href="#内置移除器" class="headerlink" title="内置移除器"></a>内置移除器</h5><p>Flink提供了三类内置的<code>Evictor</code>：</p>
+<ul>
+<li><code>TimeEvictor</code>：以时间为判断标准，决定元素是否会被移除。<ul>
+<li>该移除器初始化时需要赋予一个时间size大小。移除比 最大时间-size 还小的数据。</li>
+</ul>
+</li>
+<li><code>CountEvictor</code>：以元素计数为标准，决定元素是否会被移除。<ul>
+<li>该移除器初始化时需要赋予一个数量size大小。移除多余的元素。从前向后移除。</li>
+</ul>
+</li>
+<li><code>DeltaEvictor</code>：DeltaEvictor通过计算DeltaFunction的值（依次传入每个元素和最后一个元素），并将其与threshold进行对比，如果函数计算结果大于等于threshold，则该元素会被移除。</li>
+</ul>
+<h5 id="自定义移除器"><a href="#自定义移除器" class="headerlink" title="自定义移除器"></a>自定义移除器</h5><p>自定义移除器需要实现移除器API的下述方法：</p>
+<ul>
+<li><code>evictBefore(Iterable&lt;TimestampedValue&lt;Object&gt;&gt; elements, int size, W window, EvictorContext ctx)</code>：窗口函数作用于窗口内容前调用。</li>
+<li><code>evictAfter(Iterable&lt;TimestampedValue&lt;Object&gt;&gt; elements, int size, W window, EvictorContext ctx)</code>：窗口函数作用于窗口内容后调用。<ul>
+<li>入参<code>(Iterable&lt;TimestampedValue&lt;Object&gt;&gt; elements</code>：窗口中的元素集合。移除操作主要对这个集合处理。满足条件时<code>iterator.remove();</code></li>
+<li>入参<code>int size</code>：当前的元素个数。</li>
+<li>入参<code>W window</code>：本次处理的窗口。</li>
+</ul>
+</li>
+</ul>
+<h2 id="处理迟到数据"><a href="#处理迟到数据" class="headerlink" title="处理迟到数据"></a>处理迟到数据</h2><p>即便设置了水位线，也不可避免的会产生迟到数据。</p>
+<blockquote>
+<p>迟到数据一般是针对window而言，因为window需要聚合一段时间内的数据触发计算。</p>
+<p>不需要window的情况下，在处理过程中其实对迟到数据不需要特殊处理。</p>
+</blockquote>
+<p>Flink提供了三种处理方案：</p>
+<ul>
+<li>直接丢弃。默认方案</li>
+<li>基于迟到事件更新结果。</li>
+<li>旁路输出。</li>
+</ul>
+<h3 id="基于迟到事件更新结果"><a href="#基于迟到事件更新结果" class="headerlink" title="基于迟到事件更新结果"></a>基于迟到事件更新结果</h3><p>Flink的<code>WindowedStream</code>提供了<code>allowedLateness(Time lateness)</code>方法。入参为允许延迟的时间（默认为0）。这个方法的作用和实现方式：</p>
+<ul>
+<li>当设置lateness不为0时，窗口被删除的时间会在原本的基础上推迟lateness。</li>
+<li>当水位线触发计算后，每当有满足要求的迟到数据达到时，都会再次触发计算。</li>
+</ul>
+<h3 id="旁路输出"><a href="#旁路输出" class="headerlink" title="旁路输出"></a>旁路输出</h3>
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://blog.ibuer.fun" rel="external nofollow noreferrer">Ssiu</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://blog.ibuer.fun/2021/01/17/flink-de-shi-jian-yu-yi-ji-jian-dan-shi-yong/">http://blog.ibuer.fun/2021/01/17/flink-de-shi-jian-yu-yi-ji-jian-dan-shi-yong/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Flink/">
+                                    <span class="chip bg-color">Flink</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2021/01/30/flink-de-liu-shi-join/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="Flink的流式Join">
+                        
+                        <span class="card-title">Flink的流式Join</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+本文Flink API版本：java-1.12
+
+#Flink的流式Join
+流式Join一般来说分为两类：基于间隔的Join和基于窗口的的Join
+基于间隔的Join概念： 对两条流中，拥有相同键值，且彼此时间戳不超过某一指定间隔的事件
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-01-30
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Ssiu
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/06/24/spark-3-datasourcev2-01/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="spark-3 DataSourceV2-01">
+                        
+                        <span class="card-title">spark-3 DataSourceV2-01</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Java InterfacesSpark3中，DataSourceV2采用Java进行编写，而非Scala。这样做的主要目的是为了更好的和Java交互。
+大部分接口可以在下面的包中找到：
+org.apache.spark.sql.conne
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-24
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Spark3/" class="post-category">
+                                    Spark3
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Spark3/">
+                        <span class="chip bg-color">Spark3</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2017-2020</span>
+            <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv" style="display:none">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv" style="display:none">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+
+
+    <a href="mailto:smokeriu@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=604522169" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 604522169" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+	var months = days * 30;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2017, 02, 12, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " +diffYears+" 年 "+diffDays + " 天 ";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    siteTime();
+</script>
+
+
+<script>
+    $(document).ready(function () {
+
+        var int = setInterval(fixCount, 50);  // 50ms周期检测函数
+        var pvcountOffset = 5423;  // 初始化首次数据
+        var uvcountOffset = 3322;
+
+        function fixCount() {
+            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
+                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
+                clearInterval(int);
+            }
+            if ($("#busuanzi_container_site_pv").css("display") != "none") {
+                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
+                clearInterval(int); // 停止检测
+            }
+        }
+    });
+</script>
+
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
