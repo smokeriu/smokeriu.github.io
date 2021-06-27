@@ -247,6 +247,154 @@
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
+                    <a href="/2021/03/08/shi-yong-scala-fan-she-ji-zhi-dong-tai-sheng-cheng-udf/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="使用Scala反射机制动态生成UDF">
+                            
+                            <span class="card-title">使用Scala反射机制动态生成UDF</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                
+由于项目需要，需要通过String类型的代码，动态生成UDF函数。
+由于需要同时适配Java代码和Scala代码目前考虑到两种实现：
+Scala代码通过Scala的反射机制动态编译代码并作为UDF注册到Spark。
+Java代码使用Spa
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-03-08
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/Spark/" class="post-category">
+                                    Spark
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/Scala/">
+                            <span class="chip bg-color">Scala</span>
+                        </a>
+                        
+                        <a href="/tags/Spark/">
+                            <span class="chip bg-color">Spark</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2021/03/07/java-de-serviceloader-shi-yong/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="Java的ServiceLoader使用">
+                            
+                            <span class="card-title">Java的ServiceLoader使用</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-03-07
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-user fa-fw"></i>
+                                Ssiu
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/Java/">
+                            <span class="chip bg-color">Java</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2021/02/03/flink-de-zhuang-tai-guan-li/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="Flink的状态管理">
+                            
+                            <span class="card-title">Flink的状态管理</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                状态管理的逻辑状态在Flink中的工作逻辑可以简单的理解为：业务需要访问的本地或实例变量。一般来说工作逻辑如下图所示：
+
+
+任务接受输入数据。并进行处理。
+处理过程中对状态进行读取或更新。
+处理完的结果进行输出。
+
+状态的分类在Flink中
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-02-03
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-user fa-fw"></i>
+                                Ssiu
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/Flink/">
+                            <span class="chip bg-color">Flink</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
                     <a href="/2021/01/30/flink-de-liu-shi-join/">
                         <div class="card-image">
                             
@@ -355,150 +503,6 @@ org.apache.spark.sql.conne
                         <div class="publish-info">
                             <span class="publish-date">
                                 <i class="far fa-clock fa-fw icon-date"></i>2020-06-24
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Spark3/" class="post-category">
-                                    Spark3
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Spark3/">
-                            <span class="chip bg-color">Spark3</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/06/22/spark-3-0-hadoop2-6-cdh-bian-yi-de-wen-ti/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="spark-3.0 Hadoop2.6-CDH编译的问题">
-                            
-                            <span class="card-title">spark-3.0 Hadoop2.6-CDH编译的问题</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                使用cdh5版本编译Spark3时，会出现如下问题：
-&gt; [ERROR] [Error]
-&gt; /Users/xxx/Documents/codes/xxx/spark-3.0/resource-managers/yarn/src
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-22
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Spark3/" class="post-category">
-                                    Spark3
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Spark3/">
-                            <span class="chip bg-color">Spark3</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/06/22/spark-3-0-zi-gua-ying-cha-xun/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="spark-3.0 自适应查询">
-                            
-                            <span class="card-title">spark-3.0 自适应查询</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                Adaptive Query Execution: Speeding Up Spark SQL at Runtime翻译原文链接：Adaptive Query Execution: Speeding Up Spark SQL at Runt
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-22
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Spark3/" class="post-category">
-                                    Spark3
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Spark3/">
-                            <span class="chip bg-color">Spark3</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/06/22/spark-3-0-dong-tai-fen-qu-cai-jian/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="spark-3.0 动态分区裁剪">
-                            
-                            <span class="card-title">spark-3.0 动态分区裁剪</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                Spark中的静态分区裁剪用过Spark的都知道，其实简单来说就是谓词下推。在Spark执行下述查询时，能够尽可能将谓词下推至扫描文件的阶段。从而减少读取的数据量，实现处理速度的提升：
-SELECT * FROM Sales WHERE d
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-22
                             </span>
                             <span class="publish-author">
                                 

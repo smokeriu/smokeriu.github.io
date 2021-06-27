@@ -255,8 +255,204 @@
             
             
             <div class="cd-timeline-img month" data-aos="zoom-in-up">
+                <a href="/archives/2019/05">05</a>
+            </div>
+            
+
+            
+            <div class="cd-timeline-img day" data-aos="zoom-in-up">
+                <span>18</span>
+            </div>
+            <article class="cd-timeline-content" data-aos="fade-up">
+                <div class="article col s12 m6">
+                    <div class="card">
+                        <a href="/2019/05/18/hbase-de-du-xie-liu-cheng/">
+                            <div class="card-image">
+                                
+                                
+                                <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="HBase的读写流程">
+                                
+                                <span class="card-title">HBase的读写流程</span>
+                            </div>
+                        </a>
+                        <div class="card-content article-content">
+                            <div class="summary block-with-text">
+                                
+                                    前言HBase虽然也是分布式架构，但相比于HDFS，读写流程有点特殊，简单来说读写操作不需要走Master。Master只负责涉及表结构的变更。
+
+写流程
+zookeeper：
+去ZK拿到/hbase/meta-region-server。
+                                
+                            </div>
+                            <div class="publish-info">
+                                <span class="publish-date">
+                                    <i class="far fa-clock fa-fw icon-date"></i>2019-05-18
+                                </span>
+                                <span class="publish-author">
+                                    
+                                    <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                    
+                                    <a href="/categories/HBase/" class="post-category">
+                                    HBase
+                                    </a>
+                                    
+                                    
+                                </span>
+                            </div>
+                        </div>
+
+                        
+                        <div class="card-action article-tags">
+                            
+                            <a href="/tags/HBase/"><span class="chip bg-color">HBase</span></a>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </article>
+        </div>
+        
+        <div class="cd-timeline-block">
+
+            
+            
+
+            
+            
+
+            
+            <div class="cd-timeline-img day" data-aos="zoom-in-up">
+                <span>01</span>
+            </div>
+            <article class="cd-timeline-content" data-aos="fade-up">
+                <div class="article col s12 m6">
+                    <div class="card">
+                        <a href="/2019/05/01/hbase-gai-nian-ji-jia-gou/">
+                            <div class="card-image">
+                                
+                                
+                                <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="HBase概念及架构">
+                                
+                                <span class="card-title">HBase概念及架构</span>
+                            </div>
+                        </a>
+                        <div class="card-content article-content">
+                            <div class="summary block-with-text">
+                                
+                                    基础概念
+HBase版本：1.2.x
+
+组成HBase也是主从结构，本身主要由两部分组成：
+
+HMaster：主节点，表相关的工作都会经过Hmaster，包括表的管理、Region的管理。
+HRegionServer：从节点，主要关注数据的
+                                
+                            </div>
+                            <div class="publish-info">
+                                <span class="publish-date">
+                                    <i class="far fa-clock fa-fw icon-date"></i>2019-05-01
+                                </span>
+                                <span class="publish-author">
+                                    
+                                    <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                    
+                                    <a href="/categories/HBase/" class="post-category">
+                                    HBase
+                                    </a>
+                                    
+                                    
+                                </span>
+                            </div>
+                        </div>
+
+                        
+                        <div class="card-action article-tags">
+                            
+                            <a href="/tags/HBase/"><span class="chip bg-color">HBase</span></a>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </article>
+        </div>
+        
+        <div class="cd-timeline-block">
+
+            
+            
+
+            
+            
+            
+            <div class="cd-timeline-img month" data-aos="zoom-in-up">
                 <a href="/archives/2019/02">02</a>
             </div>
+            
+
+            
+            <div class="cd-timeline-img day" data-aos="zoom-in-up">
+                <span>18</span>
+            </div>
+            <article class="cd-timeline-content" data-aos="fade-up">
+                <div class="article col s12 m6">
+                    <div class="card">
+                        <a href="/2019/02/18/jvm-zhong-de-la-ji-hui-shou/">
+                            <div class="card-image">
+                                
+                                
+                                <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="JVM中的垃圾回收">
+                                
+                                <span class="card-title">JVM中的垃圾回收</span>
+                            </div>
+                        </a>
+                        <div class="card-content article-content">
+                            <div class="summary block-with-text">
+                                
+                                    垃圾回收算法JVM的垃圾回收针对哪些内容Java堆、方法栈。
+如何定位垃圾
+引用计数法（已经基本不用）
+每个对象都有一个引用计数器。被引用是计数器+1。引用失效时，计数器-1。回收计数器为0的对象。
+存在问题：两个对象相互引用时，无法回收。
+                                
+                            </div>
+                            <div class="publish-info">
+                                <span class="publish-date">
+                                    <i class="far fa-clock fa-fw icon-date"></i>2019-02-18
+                                </span>
+                                <span class="publish-author">
+                                    
+                                    <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                    
+                                    <a href="/categories/JVM/" class="post-category">
+                                    JVM
+                                    </a>
+                                    
+                                    
+                                </span>
+                            </div>
+                        </div>
+
+                        
+                        <div class="card-action article-tags">
+                            
+                            <a href="/tags/JVM/"><span class="chip bg-color">JVM</span></a>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </article>
+        </div>
+        
+        <div class="cd-timeline-block">
+
+            
+            
+
+            
             
 
             
@@ -719,226 +915,6 @@ Scala版本：2.
             </article>
         </div>
         
-        <div class="cd-timeline-block">
-
-            
-            
-
-            
-            
-            
-            <div class="cd-timeline-img month" data-aos="zoom-in-up">
-                <a href="/archives/2018/05">05</a>
-            </div>
-            
-
-            
-            <div class="cd-timeline-img day" data-aos="zoom-in-up">
-                <span>17</span>
-            </div>
-            <article class="cd-timeline-content" data-aos="fade-up">
-                <div class="article col s12 m6">
-                    <div class="card">
-                        <a href="/2018/05/17/hadoop-shi-yong-lzo-ya-suo/">
-                            <div class="card-image">
-                                
-                                
-                                <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Hadoop使用LZO压缩">
-                                
-                                <span class="card-title">Hadoop使用LZO压缩</span>
-                            </div>
-                        </a>
-                        <div class="card-content article-content">
-                            <div class="summary block-with-text">
-                                
-                                    为什么要使用LZO压缩。Hadoop目前支持的压缩中，用得多的主要有：Snappy，Bzip2，LZO。
-其中：
-
-
-
-压缩格式
-特点
-
-
-
-Bzip2
-压缩率高，可切分。
-
-
-LZO
-压缩率中，速度快，可建索引来完成分片。
-
-
-Snapp
-                                
-                            </div>
-                            <div class="publish-info">
-                                <span class="publish-date">
-                                    <i class="far fa-clock fa-fw icon-date"></i>2018-05-17
-                                </span>
-                                <span class="publish-author">
-                                    
-                                    <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                    
-                                    <a href="/categories/Hadoop/" class="post-category">
-                                    Hadoop
-                                    </a>
-                                    
-                                    
-                                </span>
-                            </div>
-                        </div>
-
-                        
-                        <div class="card-action article-tags">
-                            
-                            <a href="/tags/Hadoop/"><span class="chip bg-color">Hadoop</span></a>
-                            
-                        </div>
-                        
-                    </div>
-                </div>
-            </article>
-        </div>
-        
-        <div class="cd-timeline-block">
-
-            
-            
-
-            
-            
-            
-            <div class="cd-timeline-img month" data-aos="zoom-in-up">
-                <a href="/archives/2018/04">04</a>
-            </div>
-            
-
-            
-            <div class="cd-timeline-img day" data-aos="zoom-in-up">
-                <span>15</span>
-            </div>
-            <article class="cd-timeline-content" data-aos="fade-up">
-                <div class="article col s12 m6">
-                    <div class="card">
-                        <a href="/2018/04/15/spark-nei-cun-guan-li/">
-                            <div class="card-image">
-                                
-                                
-                                <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="Spark内存管理">
-                                
-                                <span class="card-title">Spark内存管理</span>
-                            </div>
-                        </a>
-                        <div class="card-content article-content">
-                            <div class="summary block-with-text">
-                                
-                                    Spark的内存管理Spark的内存管理一共分为了：UnifiedMemoryManager和StaticMemoryManager。1.6以后Spark默认会使用前者。本文主要讨论在yarn上运行的情况。大体上是一样的。
-
-Version
-                                
-                            </div>
-                            <div class="publish-info">
-                                <span class="publish-date">
-                                    <i class="far fa-clock fa-fw icon-date"></i>2018-04-15
-                                </span>
-                                <span class="publish-author">
-                                    
-                                    <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                    
-                                    <a href="/categories/Spark/" class="post-category">
-                                    Spark
-                                    </a>
-                                    
-                                    
-                                </span>
-                            </div>
-                        </div>
-
-                        
-                        <div class="card-action article-tags">
-                            
-                            <a href="/tags/Spark/"><span class="chip bg-color">Spark</span></a>
-                            
-                        </div>
-                        
-                    </div>
-                </div>
-            </article>
-        </div>
-        
-        <div class="cd-timeline-block">
-
-            
-            
-
-            
-            
-            
-            <div class="cd-timeline-img month" data-aos="zoom-in-up">
-                <a href="/archives/2018/03">03</a>
-            </div>
-            
-
-            
-            <div class="cd-timeline-img day" data-aos="zoom-in-up">
-                <span>31</span>
-            </div>
-            <article class="cd-timeline-content" data-aos="fade-up">
-                <div class="article col s12 m6">
-                    <div class="card">
-                        <a href="/2018/03/31/ben-di-spark-idea-fang-wen-yun-zhu-ji-shang-de-hive/">
-                            <div class="card-image">
-                                
-                                
-                                <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="本地spark+idea访问云主机上的hive">
-                                
-                                <span class="card-title">本地spark+idea访问云主机上的hive</span>
-                            </div>
-                        </a>
-                        <div class="card-content article-content">
-                            <div class="summary block-with-text">
-                                
-                                    前言记录下本人使用本地spark+idea访问云主机遇到过的一些小问题。仅供参考。欢迎讨论。
-
-spark版本：2.1.1 
-
-使用sparkSQL+idea访问云主机HIVE准备hive-site.xml官网是这么描述的：
-
-Config
-                                
-                            </div>
-                            <div class="publish-info">
-                                <span class="publish-date">
-                                    <i class="far fa-clock fa-fw icon-date"></i>2018-03-31
-                                </span>
-                                <span class="publish-author">
-                                    
-                                    <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                    
-                                    <a href="/categories/Spark/" class="post-category">
-                                    Spark
-                                    </a>
-                                    
-                                    
-                                </span>
-                            </div>
-                        </div>
-
-                        
-                        <div class="card-action article-tags">
-                            
-                            <a href="/tags/Hadoop/"><span class="chip bg-color">Hadoop</span></a>
-                            
-                            <a href="/tags/Spark/"><span class="chip bg-color">Spark</span></a>
-                            
-                        </div>
-                        
-                    </div>
-                </div>
-            </article>
-        </div>
-        
     </div>
 
 </main>
@@ -955,7 +931,7 @@ Config
             
         </div>
         <div class="page-info col m4 l4 hide-on-small-only">
-            <div class="center-align b-text-gray">4 / 5</div>
+            <div class="center-align b-text-gray">4 / 6</div>
         </div>
         <div class="col s6 m4 l4">
             
