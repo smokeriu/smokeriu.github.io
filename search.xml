@@ -381,6 +381,112 @@
       </tags>
   </entry>
   <entry>
+    <title>Flink的水位线在单线程和并行处理时候的问题记录</title>
+    <url>/2020/01/27/flink-de-shui-wei-xian-zai-dan-xian-cheng-he-bing-xing-chu-li-shi-hou-de-wen-ti-ji-lu/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Flink对于eventTime的处理是很妙的一个地方，借助水位线机制，能够帮助Flink处理延迟数据。不过在测试途中却遇到了一些有些奇怪的现象，特此记录。</p>
+<blockquote>
+<p>Flink版本：1.9.x</p>
+</blockquote>
+<h2 id="单线程下的水位线："><a href="#单线程下的水位线：" class="headerlink" title="单线程下的水位线："></a>单线程下的水位线：</h2><p>这篇博客写的很好，基本把水位线的原理讲清楚了。<br>博客地址：<a href="https://blog.csdn.net/lmalds/article/details/52704170">Flink流计算编程–watermark（水位线）简介</a><br>总结一下：</p>
+<blockquote>
+<p>1、在Flink中，水位线 = 最新的事件时间 - 设定的时间间隔。<br>2、当Window结束时间 &lt;= 水位线时间，且该窗口内有数据，则触发计算.<br>3、水位线到底描述了什么：事件时间&lt;水位线的数据都已经到达。未到达的数据利用Window的allowedLateness算子来特殊处理。</p>
+</blockquote>
+<p>不过美中不足的是其并没有提及他的测试环境是在单线程下进行的。在并行处理的情况下，水位线的表现可能和想的会不太一样。</p>
+<h2 id="并行数据中的水位线："><a href="#并行数据中的水位线：" class="headerlink" title="并行数据中的水位线："></a>并行数据中的水位线：</h2><p>直接说结论：<br>Flink会生成多个水位线，取决于并行度。每个水位线会根据发往该分区的数据来独立维护。Window算子的计算触发只关心Long值最小的那个水位线。</p>
+<ul>
+<li>每个并行实例都会有单独的各自的水位线。<ul>
+<li>对于单Source，多分区的数据流，则是每个分区都有独立的水位线。</li>
+<li>对于多Source，则是每个Source的每个分区都有一个独立的水位线。</li>
+</ul>
+</li>
+<li>当某个算子操作作用于两个流时，取决于最小的水位线。</li>
+</ul>
+<blockquote>
+<p>简单来说，并行度3的情况下，水位线A=1581507300000，水位线B=1581507301000，水位线C=1581507302000。此时Window结束时间1581507301000&gt;水位线A，故不会触发计算，只有当水位线A&gt;Window结束时间1581507301000，此时所有线程水位线都&gt;Window的结束时间，该Window才会触发计算。</p>
+</blockquote>
+<blockquote>
+<p>从下图的黄色标记也可以看出，并行（Parallel）情况下，取决于小的那个水位线。</p>
+</blockquote>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217223730.png" alt="Kafka in WaterMark"></p>
+]]></content>
+      <categories>
+        <category>Flink</category>
+      </categories>
+      <tags>
+        <tag>Flink</tag>
+        <tag>Time</tag>
+        <tag>Window</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Flink的流式Join</title>
+    <url>/2021/01/30/flink-de-liu-shi-join/</url>
+    <content><![CDATA[<blockquote>
+<p>本文Flink API版本：java-1.12</p>
+</blockquote>
+<p>#Flink的流式Join</p>
+<p>流式Join一般来说分为两类：基于间隔的Join和基于窗口的的Join</p>
+<h2 id="基于间隔的Join"><a href="#基于间隔的Join" class="headerlink" title="基于间隔的Join"></a>基于间隔的Join</h2><p>概念： 对两条流中，拥有相同键值，且彼此时间戳不超过某一指定间隔的事件进行Join。</p>
+<blockquote>
+<p>间隔是基于左侧流事件决定的（即B事件的事件在 A时间+设定的时间范围内时触发）</p>
+<p>这类Join只支持Inner Join</p>
+</blockquote>
+<p>以官网的图为例：</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210130154332.svg" alt="interval-join"></p>
+<p>对于上述两条流，当<code>green.timestamp ∈ [orange.timestamp + lowerBound; orange.timestamp + upperBound]</code>时，就能够符合关联所需的时间范围。</p>
+<p>使用方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">orangeStream</span><br><span class="line">    .keyBy(&lt;KeySelector&gt;)</span><br><span class="line">  	<span class="comment">// 指定使用间隔Join</span></span><br><span class="line">    .intervalJoin(greenStream.keyBy(&lt;KeySelector&gt;))</span><br><span class="line">  	<span class="comment">// 设置间隔范围</span></span><br><span class="line">    .between(Time.milliseconds(-<span class="number">2</span>), Time.milliseconds(<span class="number">1</span>))</span><br><span class="line">    .process (<span class="keyword">new</span> ProcessJoinFunction&lt;Integer, Integer, String()&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">processElement</span><span class="params">(Integer left, Integer right, Context ctx, Collector&lt;String&gt; out)</span> </span>&#123;</span><br><span class="line">            out.collect(first + <span class="string">&quot;,&quot;</span> + second);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>关键就在于使用<code>intervalJoin</code>指定为间隔Join，同时使用<code>between</code>设置间隔范围。Join成功的事件会发送给process，一般来说需要实现<code>ProcessJoinFunction</code>：</p>
+<ul>
+<li>left对应的途中的橙色数据流，其数据类型就对应<code>orangeStream</code>的数据类型。同理right对应于绿色数据流。</li>
+<li>第三个参数对应于输出事件的数据类型。</li>
+</ul>
+<p>对于间隔Join，由于这个算子的水位线总是由 <em>较慢</em> 的那条流决定。所以需要注意防止两条流相差过大。</p>
+<p>对于第一个输入而言：</p>
+<ul>
+<li>所有时间戳大于 <em>水位线 - 间隔上界</em> 的数据都会被缓存起来。<ul>
+<li>水位线触发计算时，为了保证<strong>第二条</strong>流在水位线上的数据被正确参与计算，这条数据最早能够匹配到的数据是 【水位线 - 上限】的【第一条】数据中的数据。</li>
+</ul>
+</li>
+</ul>
+<p>对于第二个输入而言：</p>
+<ul>
+<li>所有时间戳大雨 <em>水位线 - 间隔下界</em> 的数据都会被缓存起来。<ul>
+<li>水位线触发计算时，为了保证<strong>第一条</strong>流在水位线上的数据被正确参与计算，这条数据最早能够匹配到的数据是【水位线 - 下限】的【第二条】数据中的数据。</li>
+</ul>
+</li>
+</ul>
+<h2 id="基于窗口的Join"><a href="#基于窗口的Join" class="headerlink" title="基于窗口的Join"></a>基于窗口的Join</h2><p>基于窗口的Join又可以根据窗口的定义，分为三类：基于滚动窗口、基于滑动窗口、基于事件窗口。无论具体是哪种窗口，使用方式都差不多：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">orangeStream.join(greenStream)</span><br><span class="line">    <span class="comment">// 为orangeStream指定键值属性。</span></span><br><span class="line">    .where(&lt;KeySelector&gt;)</span><br><span class="line">  	<span class="comment">// 为greenStream指定键值属性。</span></span><br><span class="line">    .equalTo(&lt;KeySelector&gt;)</span><br><span class="line">  	<span class="comment">// 选择一类Window</span></span><br><span class="line">    .window(...choose one window...)</span><br><span class="line">    .apply (<span class="keyword">new</span> JoinFunction&lt;Integer, Integer, String&gt; ()&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">join</span><span class="params">(Integer first, Integer second)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> first + <span class="string">&quot;,&quot;</span> + second;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>其中，</p>
+<ul>
+<li><code>join</code>紧跟的<code>where</code>用于为左侧流指定键值属性，<code>equalTo</code>为右侧流指定键值属性。<ul>
+<li>即选择那个key（可以指定一个元组，注意位置即可）作为join匹配。</li>
+</ul>
+</li>
+</ul>
+<p>基于窗口的Join工作原理如图：</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210130165328.png" alt="窗口Join原理"></p>
+<p>触发Join需要满足下述三个条件：</p>
+<ul>
+<li><p>想要Join的元素位于一个窗口中。</p>
+</li>
+<li><p><code>where</code>中指定的左侧key与<code>equalTo</code>中指定的右侧key相等。</p>
+</li>
+<li><p>触发窗口计算（即水位线来到窗口的结束时间）。</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Flink</category>
+      </categories>
+      <tags>
+        <tag>Flink</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Flink的Window详解</title>
     <url>/2021/07/31/flink-de-window-xiang-jie/</url>
     <content><![CDATA[<p>Window是Flink中一类算子。一般会搭配时间来处理一个范围的数据</p>
@@ -597,112 +703,6 @@
       <tags>
         <tag>Flink</tag>
         <tag>Window</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Flink的水位线在单线程和并行处理时候的问题记录</title>
-    <url>/2020/01/27/flink-de-shui-wei-xian-zai-dan-xian-cheng-he-bing-xing-chu-li-shi-hou-de-wen-ti-ji-lu/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Flink对于eventTime的处理是很妙的一个地方，借助水位线机制，能够帮助Flink处理延迟数据。不过在测试途中却遇到了一些有些奇怪的现象，特此记录。</p>
-<blockquote>
-<p>Flink版本：1.9.x</p>
-</blockquote>
-<h2 id="单线程下的水位线："><a href="#单线程下的水位线：" class="headerlink" title="单线程下的水位线："></a>单线程下的水位线：</h2><p>这篇博客写的很好，基本把水位线的原理讲清楚了。<br>博客地址：<a href="https://blog.csdn.net/lmalds/article/details/52704170">Flink流计算编程–watermark（水位线）简介</a><br>总结一下：</p>
-<blockquote>
-<p>1、在Flink中，水位线 = 最新的事件时间 - 设定的时间间隔。<br>2、当Window结束时间 &lt;= 水位线时间，且该窗口内有数据，则触发计算.<br>3、水位线到底描述了什么：事件时间&lt;水位线的数据都已经到达。未到达的数据利用Window的allowedLateness算子来特殊处理。</p>
-</blockquote>
-<p>不过美中不足的是其并没有提及他的测试环境是在单线程下进行的。在并行处理的情况下，水位线的表现可能和想的会不太一样。</p>
-<h2 id="并行数据中的水位线："><a href="#并行数据中的水位线：" class="headerlink" title="并行数据中的水位线："></a>并行数据中的水位线：</h2><p>直接说结论：<br>Flink会生成多个水位线，取决于并行度。每个水位线会根据发往该分区的数据来独立维护。Window算子的计算触发只关心Long值最小的那个水位线。</p>
-<ul>
-<li>每个并行实例都会有单独的各自的水位线。<ul>
-<li>对于单Source，多分区的数据流，则是每个分区都有独立的水位线。</li>
-<li>对于多Source，则是每个Source的每个分区都有一个独立的水位线。</li>
-</ul>
-</li>
-<li>当某个算子操作作用于两个流时，取决于最小的水位线。</li>
-</ul>
-<blockquote>
-<p>简单来说，并行度3的情况下，水位线A=1581507300000，水位线B=1581507301000，水位线C=1581507302000。此时Window结束时间1581507301000&gt;水位线A，故不会触发计算，只有当水位线A&gt;Window结束时间1581507301000，此时所有线程水位线都&gt;Window的结束时间，该Window才会触发计算。</p>
-</blockquote>
-<blockquote>
-<p>从下图的黄色标记也可以看出，并行（Parallel）情况下，取决于小的那个水位线。</p>
-</blockquote>
-<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217223730.png" alt="Kafka in WaterMark"></p>
-]]></content>
-      <categories>
-        <category>Flink</category>
-      </categories>
-      <tags>
-        <tag>Flink</tag>
-        <tag>Time</tag>
-        <tag>Window</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Flink的流式Join</title>
-    <url>/2021/01/30/flink-de-liu-shi-join/</url>
-    <content><![CDATA[<blockquote>
-<p>本文Flink API版本：java-1.12</p>
-</blockquote>
-<p>#Flink的流式Join</p>
-<p>流式Join一般来说分为两类：基于间隔的Join和基于窗口的的Join</p>
-<h2 id="基于间隔的Join"><a href="#基于间隔的Join" class="headerlink" title="基于间隔的Join"></a>基于间隔的Join</h2><p>概念： 对两条流中，拥有相同键值，且彼此时间戳不超过某一指定间隔的事件进行Join。</p>
-<blockquote>
-<p>间隔是基于左侧流事件决定的（即B事件的事件在 A时间+设定的时间范围内时触发）</p>
-<p>这类Join只支持Inner Join</p>
-</blockquote>
-<p>以官网的图为例：</p>
-<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210130154332.svg" alt="interval-join"></p>
-<p>对于上述两条流，当<code>green.timestamp ∈ [orange.timestamp + lowerBound; orange.timestamp + upperBound]</code>时，就能够符合关联所需的时间范围。</p>
-<p>使用方法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">orangeStream</span><br><span class="line">    .keyBy(&lt;KeySelector&gt;)</span><br><span class="line">  	<span class="comment">// 指定使用间隔Join</span></span><br><span class="line">    .intervalJoin(greenStream.keyBy(&lt;KeySelector&gt;))</span><br><span class="line">  	<span class="comment">// 设置间隔范围</span></span><br><span class="line">    .between(Time.milliseconds(-<span class="number">2</span>), Time.milliseconds(<span class="number">1</span>))</span><br><span class="line">    .process (<span class="keyword">new</span> ProcessJoinFunction&lt;Integer, Integer, String()&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">processElement</span><span class="params">(Integer left, Integer right, Context ctx, Collector&lt;String&gt; out)</span> </span>&#123;</span><br><span class="line">            out.collect(first + <span class="string">&quot;,&quot;</span> + second);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
-
-<p>关键就在于使用<code>intervalJoin</code>指定为间隔Join，同时使用<code>between</code>设置间隔范围。Join成功的事件会发送给process，一般来说需要实现<code>ProcessJoinFunction</code>：</p>
-<ul>
-<li>left对应的途中的橙色数据流，其数据类型就对应<code>orangeStream</code>的数据类型。同理right对应于绿色数据流。</li>
-<li>第三个参数对应于输出事件的数据类型。</li>
-</ul>
-<p>对于间隔Join，由于这个算子的水位线总是由 <em>较慢</em> 的那条流决定。所以需要注意防止两条流相差过大。</p>
-<p>对于第一个输入而言：</p>
-<ul>
-<li>所有时间戳大于 <em>水位线 - 间隔上界</em> 的数据都会被缓存起来。<ul>
-<li>水位线触发计算时，为了保证<strong>第二条</strong>流在水位线上的数据被正确参与计算，这条数据最早能够匹配到的数据是 【水位线 - 上限】的【第一条】数据中的数据。</li>
-</ul>
-</li>
-</ul>
-<p>对于第二个输入而言：</p>
-<ul>
-<li>所有时间戳大雨 <em>水位线 - 间隔下界</em> 的数据都会被缓存起来。<ul>
-<li>水位线触发计算时，为了保证<strong>第一条</strong>流在水位线上的数据被正确参与计算，这条数据最早能够匹配到的数据是【水位线 - 下限】的【第二条】数据中的数据。</li>
-</ul>
-</li>
-</ul>
-<h2 id="基于窗口的Join"><a href="#基于窗口的Join" class="headerlink" title="基于窗口的Join"></a>基于窗口的Join</h2><p>基于窗口的Join又可以根据窗口的定义，分为三类：基于滚动窗口、基于滑动窗口、基于事件窗口。无论具体是哪种窗口，使用方式都差不多：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">orangeStream.join(greenStream)</span><br><span class="line">    <span class="comment">// 为orangeStream指定键值属性。</span></span><br><span class="line">    .where(&lt;KeySelector&gt;)</span><br><span class="line">  	<span class="comment">// 为greenStream指定键值属性。</span></span><br><span class="line">    .equalTo(&lt;KeySelector&gt;)</span><br><span class="line">  	<span class="comment">// 选择一类Window</span></span><br><span class="line">    .window(...choose one window...)</span><br><span class="line">    .apply (<span class="keyword">new</span> JoinFunction&lt;Integer, Integer, String&gt; ()&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">join</span><span class="params">(Integer first, Integer second)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> first + <span class="string">&quot;,&quot;</span> + second;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
-
-<p>其中，</p>
-<ul>
-<li><code>join</code>紧跟的<code>where</code>用于为左侧流指定键值属性，<code>equalTo</code>为右侧流指定键值属性。<ul>
-<li>即选择那个key（可以指定一个元组，注意位置即可）作为join匹配。</li>
-</ul>
-</li>
-</ul>
-<p>基于窗口的Join工作原理如图：</p>
-<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210130165328.png" alt="窗口Join原理"></p>
-<p>触发Join需要满足下述三个条件：</p>
-<ul>
-<li><p>想要Join的元素位于一个窗口中。</p>
-</li>
-<li><p><code>where</code>中指定的左侧key与<code>equalTo</code>中指定的右侧key相等。</p>
-</li>
-<li><p>触发窗口计算（即水位线来到窗口的结束时间）。</p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Flink</category>
-      </categories>
-      <tags>
-        <tag>Flink</tag>
       </tags>
   </entry>
   <entry>
@@ -1123,6 +1123,54 @@
       </tags>
   </entry>
   <entry>
+    <title>HBase的读写流程</title>
+    <url>/2019/05/18/hbase-de-du-xie-liu-cheng/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>HBase虽然也是分布式架构，但相比于HDFS，读写流程有点特殊，简单来说读写操作不需要走Master。Master只负责涉及表结构的变更。</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217203305.png" alt="读写流程"></p>
+<h2 id="写流程"><a href="#写流程" class="headerlink" title="写流程"></a>写流程</h2><ol>
+<li><p>zookeeper：</p>
+<p>去ZK拿到/hbase/meta-region-server。（<strong>这张表误删后，重启hbase能够自动生成。</strong>）这里面存储着hbase:meta这张表维护在那台RS节点上。（一个集群中，只有一台RS上会有这张表，这张表也是HDFS上的文件）</p>
+<p>注：早期Hbase时-root-这张表。并且会维护多张子表（3层结构）</p>
+</li>
+<li><p>RegionServerA：</p>
+<p>向RS节点获取hbase:meta表的内容，写数据根据RowKey，去meta表找到对应的RS节点和Region。（<strong>hbase:meta表误删后，能够通过命令进行恢复</strong>。）</p>
+<p>这部分元数据会缓存到本地，供之后的读写请求使用。</p>
+<p>meta表存储了table，region，startKey，EndKey，RS节点的映射关系。ROW的格式：table,[start key],xxxxxx.xxxxxx(Region创建时间.RegionID)</p>
+</li>
+<li><p>对应的RegionServerB：</p>
+<p>将写数据请求发送给对应的RS节点。</p>
+<p>1）先写Hlog(WAL)</p>
+<p>2）再写对应的Region列族的MemStore。</p>
+</li>
+<li><p>Flush：</p>
+<p>MemStore容量超过阈值，会异步Flush，将内存数据写入文件，为StoreFile（HFile）</p>
+</li>
+</ol>
+<h2 id="读流程"><a href="#读流程" class="headerlink" title="读流程"></a>读流程</h2><ol>
+<li><p>zookeeper：</p>
+<p>拿到/hbase/meta-region-server（与写流程一样，找到hbase:meta在哪）</p>
+</li>
+<li><p>RegionServerA：</p>
+<p>向RS节点获取hbase:meta的内容。根据RowKey，去meta表找到对应的RS节点和Region。</p>
+</li>
+<li><p>RegionServerB：</p>
+<p>将读请求进行封装。与RS建立通信。构建Scanner。查找步骤：</p>
+<ol>
+<li>先去MemStore找。</li>
+<li>再去BlockCache上找。</li>
+<li>再去HFile找。</li>
+</ol>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>HBase</category>
+      </categories>
+      <tags>
+        <tag>HBase</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hadoop+Yarn的HA架构解析</title>
     <url>/2018/01/12/hadoop-yarn-de-ha-jia-gou-jie-xi/</url>
     <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>NameNode 保存了整个 HDFS 的元数据信息，一旦 NameNode 挂掉，整个 HDFS 就无法访问。依赖其的组件也无法正确运转。重启NameNode是耗时的。导致其之前只适用于离线处理场景。</p>
@@ -1294,143 +1342,6 @@
       </tags>
   </entry>
   <entry>
-    <title>HBase的读写流程</title>
-    <url>/2019/05/18/hbase-de-du-xie-liu-cheng/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>HBase虽然也是分布式架构，但相比于HDFS，读写流程有点特殊，简单来说读写操作不需要走Master。Master只负责涉及表结构的变更。</p>
-<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217203305.png" alt="读写流程"></p>
-<h2 id="写流程"><a href="#写流程" class="headerlink" title="写流程"></a>写流程</h2><ol>
-<li><p>zookeeper：</p>
-<p>去ZK拿到/hbase/meta-region-server。（<strong>这张表误删后，重启hbase能够自动生成。</strong>）这里面存储着hbase:meta这张表维护在那台RS节点上。（一个集群中，只有一台RS上会有这张表，这张表也是HDFS上的文件）</p>
-<p>注：早期Hbase时-root-这张表。并且会维护多张子表（3层结构）</p>
-</li>
-<li><p>RegionServerA：</p>
-<p>向RS节点获取hbase:meta表的内容，写数据根据RowKey，去meta表找到对应的RS节点和Region。（<strong>hbase:meta表误删后，能够通过命令进行恢复</strong>。）</p>
-<p>这部分元数据会缓存到本地，供之后的读写请求使用。</p>
-<p>meta表存储了table，region，startKey，EndKey，RS节点的映射关系。ROW的格式：table,[start key],xxxxxx.xxxxxx(Region创建时间.RegionID)</p>
-</li>
-<li><p>对应的RegionServerB：</p>
-<p>将写数据请求发送给对应的RS节点。</p>
-<p>1）先写Hlog(WAL)</p>
-<p>2）再写对应的Region列族的MemStore。</p>
-</li>
-<li><p>Flush：</p>
-<p>MemStore容量超过阈值，会异步Flush，将内存数据写入文件，为StoreFile（HFile）</p>
-</li>
-</ol>
-<h2 id="读流程"><a href="#读流程" class="headerlink" title="读流程"></a>读流程</h2><ol>
-<li><p>zookeeper：</p>
-<p>拿到/hbase/meta-region-server（与写流程一样，找到hbase:meta在哪）</p>
-</li>
-<li><p>RegionServerA：</p>
-<p>向RS节点获取hbase:meta的内容。根据RowKey，去meta表找到对应的RS节点和Region。</p>
-</li>
-<li><p>RegionServerB：</p>
-<p>将读请求进行封装。与RS建立通信。构建Scanner。查找步骤：</p>
-<ol>
-<li>先去MemStore找。</li>
-<li>再去BlockCache上找。</li>
-<li>再去HFile找。</li>
-</ol>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>HBase</category>
-      </categories>
-      <tags>
-        <tag>HBase</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JVM的运行时数据区</title>
-    <url>/2019/02/02/jvm-de-yun-xing-shi-shu-ju-qu/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>JDK8中，JVM的运行时数据区逻辑上由5个部分组成：</p>
-<ul>
-<li>程序计数器（PC Register）</li>
-<li>JVM栈</li>
-<li>本地方法栈</li>
-<li>堆</li>
-<li>方法区</li>
-</ul>
-<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200218111628.png" alt="逻辑分布"></p>
-<hr>
-<h3 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h3><p>主要功能：指向当前线程字节码文件执行到哪了。直白来说，就是指向当前线程执行到哪行代码了。</p>
-<p>独有or共享：每个线程独有</p>
-<p>相关异常：一般无异常</p>
-<h3 id="JVM栈"><a href="#JVM栈" class="headerlink" title="JVM栈"></a>JVM栈</h3><p>主要功能：每个方法在执行时会创建一个<strong>栈帧</strong>。方法的调用和完成，相当于栈帧的入栈和出栈。</p>
-<p>​    栈帧主要存放：<strong>局部变量表</strong>。操作栈，动态链接、方法出口。</p>
-<p>​    局部变量表：</p>
-<pre><code>    - 编译期可知的各种**基本数据类型**（原生类型）（boolean、byte、char、short等等）
-    - **对象引用**（引用类型）（User A = new User的这个A。）
-    - returnaddress类型。
-</code></pre>
-<p>独有or共享：每个线程独有</p>
-<p>相关异常：</p>
-<ul>
-<li>StackOverFlow（栈溢出）：出现于<strong>单线程阶段</strong>，一般是<strong>死循环、递归</strong>导致的方法过多。也可能是单个栈帧过大导致的。<pre><code>- 解决：检查代码，或者调大栈内存（与多线程需要平衡）
-</code></pre>
-</li>
-<li>OutOfMemoryError（OOM/内存溢出）：出现于<strong>多线程阶段</strong>，栈动态扩展时（新开线程），无法申请到足够的内存。一般可能是单个栈的内存占用过多，<strong>考虑减少堆或栈的内存来换取更多的线程。</strong><pre><code>- 提示：unable to create new native thread
-</code></pre>
-<ul>
-<li>参数：<pre><code>- -Xmx 和 -Xms。控制堆占空间的上下限
-- -Xss。**线程栈**的大小。不过过小的栈内存可能导致栈溢出。
-</code></pre>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h3><p>主要功能：基本与JVM栈一样（独享、异常也一样），不过是服务的方法不一样：为虚拟机使用的Native方法服务。（一般会调用非java代码）</p>
-<hr>
-<h3 id="堆区"><a href="#堆区" class="headerlink" title="堆区"></a>堆区</h3><p>主要功能：存放对象实例。几乎所有的对象实例都在这里分配内存。是垃圾收集器的主要管理区域。</p>
-<p>独有or共享：共享。</p>
-<p>相关异常：OutOfMemoryError（OOM/内存溢出）</p>
-<pre><code>- 一般是**大量的对象**占用了对空间，且未能及时回收。或者创建的一个对象超过了堆允许的最大值。
-- 提示：Java heap space
-- 参数：-Xmx 和 -Xms。控制堆占空间的上下限。
-- 注：出现这种溢出，首先应该考虑代码问题。在Spark中，如果某个算子将过大对象返回给Driver，就可能遇到这种情况。
-</code></pre>
-<p>​    </p>
-<h3 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h3><blockquote>
-<p>（1.7以前通过永久代实现，1.8+通过元数据区实现）</p>
-</blockquote>
-<p>主要功能：编译后的Class文件会加载到方法区。主要存放：类的信息（代码）、运行时常量信息（即运行时常量池）。</p>
-<p>独有or共享：共享。</p>
-<p>相关异常：OutOfMemoryError（OOM/内存溢出）</p>
-<pre><code>- 一般出现于系统不断生成**新的类**，而不回收。（注意是类，而非对象。）
-- 提示：MetaSpace（1.8+）
-- 参数：-XX:MaxMetaspaceSize（不设置则仅受系统内存限制）
-</code></pre>
-<h3 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h3><blockquote>
-<p>（1.8+后，物理上，不同的JVM实现不同，有的放在了堆上）（逻辑上仍然是方法区的一部分）</p>
-</blockquote>
-<p>本质上属于方法区的一块。（线程共享，异常与方法区处理类似（增大方法区空间）），存放<strong>编译期</strong>生成的各种字面量和符号引用。</p>
-<h3 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h3><p>并非运行时数据区的一部分。相当于直接使用系统内存，而非JVM内存。主要是NIO类会直接使用系统内存（一种基于Channel的IO方式）</p>
-<p>相关异常：一般是过度的使用堆外内存造成的。</p>
-<p>参数：-XX:MaxDirectMemorySize。实际使用时，应该限制堆外内存的使用。如果未设置，该数值=堆的最大值</p>
-<hr>
-<h3 id="关于方法区"><a href="#关于方法区" class="headerlink" title="关于方法区"></a>关于方法区</h3><p><strong>方法区</strong>在不同的JDK版本中有不同的实现：</p>
-<ul>
-<li>JDK7以前：永久代，存放在堆上。</li>
-<li>JDK8：原空间，存储在堆外内存上。</li>
-<li>方法区中的<strong>运行时常量池</strong>物理上的存放位置并没有跟着方法区走，在JDK8中，其存放在Java堆上。</li>
-</ul>
-<hr>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
-<li>运行时数据区主要是<strong>逻辑上的分区</strong>。具体实现上会有一些区别（其实主要体现在方法区上。）</li>
-<li><strong>栈管运行，堆管存储</strong>。两者都使用JVM内部虚拟内存。。只有方法区的实现源空间（MetaSpace）会使用JVM外部的物理内存。</li>
-<li>一般涉及多线程的情况会导致OOM（如线程共享的区OOM，线程独立的区在多线程情况下回OOM）。单线程一般会栈溢出。PC计数器是唯一没有异常的区域。</li>
-</ol>
-<p>参考图：</p>
-<img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200218113235.png" alt="运行时数据区"  />]]></content>
-      <categories>
-        <category>JVM</category>
-      </categories>
-      <tags>
-        <tag>JVM</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JVM中的垃圾回收</title>
     <url>/2019/02/18/jvm-zhong-de-la-ji-hui-shou/</url>
     <content><![CDATA[<h2 id="垃圾回收算法"><a href="#垃圾回收算法" class="headerlink" title="垃圾回收算法"></a>垃圾回收算法</h2><h3 id="JVM的垃圾回收针对哪些内容"><a href="#JVM的垃圾回收针对哪些内容" class="headerlink" title="JVM的垃圾回收针对哪些内容"></a>JVM的垃圾回收针对哪些内容</h3><p>Java堆、方法栈。</p>
@@ -1578,99 +1489,100 @@
       </tags>
   </entry>
   <entry>
+    <title>JVM的运行时数据区</title>
+    <url>/2019/02/02/jvm-de-yun-xing-shi-shu-ju-qu/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>JDK8中，JVM的运行时数据区逻辑上由5个部分组成：</p>
+<ul>
+<li>程序计数器（PC Register）</li>
+<li>JVM栈</li>
+<li>本地方法栈</li>
+<li>堆</li>
+<li>方法区</li>
+</ul>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200218111628.png" alt="逻辑分布"></p>
+<hr>
+<h3 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h3><p>主要功能：指向当前线程字节码文件执行到哪了。直白来说，就是指向当前线程执行到哪行代码了。</p>
+<p>独有or共享：每个线程独有</p>
+<p>相关异常：一般无异常</p>
+<h3 id="JVM栈"><a href="#JVM栈" class="headerlink" title="JVM栈"></a>JVM栈</h3><p>主要功能：每个方法在执行时会创建一个<strong>栈帧</strong>。方法的调用和完成，相当于栈帧的入栈和出栈。</p>
+<p>​    栈帧主要存放：<strong>局部变量表</strong>。操作栈，动态链接、方法出口。</p>
+<p>​    局部变量表：</p>
+<pre><code>    - 编译期可知的各种**基本数据类型**（原生类型）（boolean、byte、char、short等等）
+    - **对象引用**（引用类型）（User A = new User的这个A。）
+    - returnaddress类型。
+</code></pre>
+<p>独有or共享：每个线程独有</p>
+<p>相关异常：</p>
+<ul>
+<li>StackOverFlow（栈溢出）：出现于<strong>单线程阶段</strong>，一般是<strong>死循环、递归</strong>导致的方法过多。也可能是单个栈帧过大导致的。<pre><code>- 解决：检查代码，或者调大栈内存（与多线程需要平衡）
+</code></pre>
+</li>
+<li>OutOfMemoryError（OOM/内存溢出）：出现于<strong>多线程阶段</strong>，栈动态扩展时（新开线程），无法申请到足够的内存。一般可能是单个栈的内存占用过多，<strong>考虑减少堆或栈的内存来换取更多的线程。</strong><pre><code>- 提示：unable to create new native thread
+</code></pre>
+<ul>
+<li>参数：<pre><code>- -Xmx 和 -Xms。控制堆占空间的上下限
+- -Xss。**线程栈**的大小。不过过小的栈内存可能导致栈溢出。
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h3><p>主要功能：基本与JVM栈一样（独享、异常也一样），不过是服务的方法不一样：为虚拟机使用的Native方法服务。（一般会调用非java代码）</p>
+<hr>
+<h3 id="堆区"><a href="#堆区" class="headerlink" title="堆区"></a>堆区</h3><p>主要功能：存放对象实例。几乎所有的对象实例都在这里分配内存。是垃圾收集器的主要管理区域。</p>
+<p>独有or共享：共享。</p>
+<p>相关异常：OutOfMemoryError（OOM/内存溢出）</p>
+<pre><code>- 一般是**大量的对象**占用了对空间，且未能及时回收。或者创建的一个对象超过了堆允许的最大值。
+- 提示：Java heap space
+- 参数：-Xmx 和 -Xms。控制堆占空间的上下限。
+- 注：出现这种溢出，首先应该考虑代码问题。在Spark中，如果某个算子将过大对象返回给Driver，就可能遇到这种情况。
+</code></pre>
+<p>​    </p>
+<h3 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h3><blockquote>
+<p>（1.7以前通过永久代实现，1.8+通过元数据区实现）</p>
+</blockquote>
+<p>主要功能：编译后的Class文件会加载到方法区。主要存放：类的信息（代码）、运行时常量信息（即运行时常量池）。</p>
+<p>独有or共享：共享。</p>
+<p>相关异常：OutOfMemoryError（OOM/内存溢出）</p>
+<pre><code>- 一般出现于系统不断生成**新的类**，而不回收。（注意是类，而非对象。）
+- 提示：MetaSpace（1.8+）
+- 参数：-XX:MaxMetaspaceSize（不设置则仅受系统内存限制）
+</code></pre>
+<h3 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h3><blockquote>
+<p>（1.8+后，物理上，不同的JVM实现不同，有的放在了堆上）（逻辑上仍然是方法区的一部分）</p>
+</blockquote>
+<p>本质上属于方法区的一块。（线程共享，异常与方法区处理类似（增大方法区空间）），存放<strong>编译期</strong>生成的各种字面量和符号引用。</p>
+<h3 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h3><p>并非运行时数据区的一部分。相当于直接使用系统内存，而非JVM内存。主要是NIO类会直接使用系统内存（一种基于Channel的IO方式）</p>
+<p>相关异常：一般是过度的使用堆外内存造成的。</p>
+<p>参数：-XX:MaxDirectMemorySize。实际使用时，应该限制堆外内存的使用。如果未设置，该数值=堆的最大值</p>
+<hr>
+<h3 id="关于方法区"><a href="#关于方法区" class="headerlink" title="关于方法区"></a>关于方法区</h3><p><strong>方法区</strong>在不同的JDK版本中有不同的实现：</p>
+<ul>
+<li>JDK7以前：永久代，存放在堆上。</li>
+<li>JDK8：原空间，存储在堆外内存上。</li>
+<li>方法区中的<strong>运行时常量池</strong>物理上的存放位置并没有跟着方法区走，在JDK8中，其存放在Java堆上。</li>
+</ul>
+<hr>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li>运行时数据区主要是<strong>逻辑上的分区</strong>。具体实现上会有一些区别（其实主要体现在方法区上。）</li>
+<li><strong>栈管运行，堆管存储</strong>。两者都使用JVM内部虚拟内存。。只有方法区的实现源空间（MetaSpace）会使用JVM外部的物理内存。</li>
+<li>一般涉及多线程的情况会导致OOM（如线程共享的区OOM，线程独立的区在多线程情况下回OOM）。单线程一般会栈溢出。PC计数器是唯一没有异常的区域。</li>
+</ol>
+<p>参考图：</p>
+<img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200218113235.png" alt="运行时数据区"  />]]></content>
+      <categories>
+        <category>JVM</category>
+      </categories>
+      <tags>
+        <tag>JVM</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java的ServiceLoader使用</title>
     <url>/2021/03/07/java-de-serviceloader-shi-yong/</url>
     <content><![CDATA[]]></content>
       <tags>
         <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>K8s中的POD</title>
-    <url>/2021/05/31/k8s-zhong-de-pod/</url>
-    <content><![CDATA[<h2 id="何为POD"><a href="#何为POD" class="headerlink" title="何为POD"></a>何为POD</h2><blockquote>
-<p>pod是一组并置的容器，是k8s中的基本构建模块。</p>
-</blockquote>
-<p>一个pod可以包含多个容器。不过一般建议一个pod只有一个容器。原因会在后续详细说明。同时一个pod绝对不会跨越多个工作节点。</p>
-<h3 id="了解POD"><a href="#了解POD" class="headerlink" title="了解POD"></a>了解POD</h3><h4 id="多容器好与单容器多进程"><a href="#多容器好与单容器多进程" class="headerlink" title="多容器好与单容器多进程"></a>多容器好与单容器多进程</h4><ul>
-<li>当在一个容器中运行多个我们的应用时，获取日志，管理重启都需要通过内部解决。</li>
-<li>无法通过k8s直接管理某一个应用的生命周期，同时也会影响缩扩容。</li>
-</ul>
-<h4 id="同一POD中容器之间的隔离与共享"><a href="#同一POD中容器之间的隔离与共享" class="headerlink" title="同一POD中容器之间的隔离与共享"></a>同一POD中容器之间的隔离与共享</h4><p>POD的目标就是让不同容器中的进程<em>好像</em>运行在单个容器中，却又同时保持着一定的隔离。每个容器组（POD）内的容器能共享一些资源。</p>
-<ul>
-<li>一个POD内容器共享相同的Linux命名空间。（都在相同的network、IPC和UTS命名空间下运行）<ul>
-<li>共享相同的主机名和网络接口。</li>
-<li>能够通过IPC进行通信。</li>
-<li>容器可以通过localhost与同一pod的其他容器通信。</li>
-</ul>
-</li>
-<li>每个容器的文件系统与其他容器完全隔离。如果要共享需要使用Volume</li>
-</ul>
-<h3 id="POD间的平坦网络"><a href="#POD间的平坦网络" class="headerlink" title="POD间的平坦网络"></a>POD间的平坦网络</h3><ul>
-<li>POD之间没有NAT网关。就算是不同的工作节点也是这样。</li>
-<li>每个POD都可以通过其他POD的ip地址来相互访问。</li>
-</ul>
-<p>POD是<strong>逻辑主机</strong>，其行为与非容器世界中的物理主机或虚拟机非常相似。</p>
-<h2 id="合理管理容器"><a href="#合理管理容器" class="headerlink" title="合理管理容器"></a>合理管理容器</h2><blockquote>
-<p>我们应该将应用程序组织到多个POD中，每个POD只包含紧密相关的组件或进程。</p>
-</blockquote>
-<ul>
-<li>将多层应用分散到多个POD<ul>
-<li>前端和数据库并不需要运行在一个POD中，特别是一个POD只能运行在一台物理工作节点上，如果将前端与数据库分开，能够充分利用资源。</li>
-</ul>
-</li>
-<li>基于缩扩容考虑<ul>
-<li>POD是K8s中缩扩容的基本单位。</li>
-<li>前后端会有完全不同的扩缩容需求。</li>
-</ul>
-</li>
-</ul>
-<h3 id="何时在一个POD中使用多个容器"><a href="#何时在一个POD中使用多个容器" class="headerlink" title="何时在一个POD中使用多个容器"></a>何时在一个POD中使用多个容器</h3><ul>
-<li>这些容器必须在一台主机上运行。</li>
-<li>缩扩容是否是同步的。</li>
-</ul>
-<blockquote>
-<p>容器不应该包含多个进程，POD也不应该包含多个并不需要运行在同一主机上的容器</p>
-<p>即最理想：一个POD=一个容器=一个进程。</p>
-</blockquote>
-<h2 id="使用yaml创建POD"><a href="#使用yaml创建POD" class="headerlink" title="使用yaml创建POD"></a>使用yaml创建POD</h2><p>POD的定义由下属几个部分组成：</p>
-<ul>
-<li>kind: Pod</li>
-<li><em>metadata</em>: 包含POD的名称、命名空间、标签等元数据信息。 </li>
-<li><em>spec</em>: 包括POD内容的实际说明，例如容器、卷和其他信息。</li>
-<li><em>status</em>:POD的当前状态，构建时不需要。</li>
-</ul>
-<h2 id="用标签组织POD"><a href="#用标签组织POD" class="headerlink" title="用标签组织POD"></a>用标签组织POD</h2><p>通过metadata里的labels项，可以在创建pod时指定标签。一个pod可以有多个标签。且key可自由指定。</p>
-<p>也可以为标签分类工作节点。</p>
-<h3 id="标签的用途"><a href="#标签的用途" class="headerlink" title="标签的用途"></a>标签的用途</h3><ul>
-<li>使用标签筛选POD。</li>
-<li><strong>使用标签和选择器约束POD调度</strong><ul>
-<li>通过给工作节点赋予标签。觉得某个工作节点适合做什么</li>
-<li>在创建POD时，在<code>spec.nodeSelector</code>中就可以指定这个pod要创建在哪一类工作节点上。</li>
-<li>这样做的好处是让工作节点处理适合的事情，同时避免由于某个节点挂掉导致pod无法更换节点重启。</li>
-</ul>
-</li>
-</ul>
-<h2 id="命名空间"><a href="#命名空间" class="headerlink" title="命名空间"></a>命名空间</h2><blockquote>
-<p>用于对资源进行分组</p>
-</blockquote>
-<h3 id="为何需要命名空间"><a href="#为何需要命名空间" class="headerlink" title="为何需要命名空间"></a>为何需要命名空间</h3><blockquote>
-<p>类似于数据库中的库概念</p>
-</blockquote>
-<p>可以通过命名空间，我们能够将不属于一组的资源分到不重叠的组中。这样多用户使用同一个k8s集群时，就能各自管理自己的资源集合，防止无意删除或修改其他用户的资源。</p>
-<h3 id="创建和使用命名空间"><a href="#创建和使用命名空间" class="headerlink" title="创建和使用命名空间"></a>创建和使用命名空间</h3><ul>
-<li>使用<code>kubectl create namespace</code>命令创建命名空间</li>
-<li>使用<code>metadata.namespace: custom-ns</code>或<code>kubectl create xxx -n custom-ns</code>来指定将对象创建在哪个命名空间。</li>
-</ul>
-<h3 id="命名空间提供的隔离"><a href="#命名空间提供的隔离" class="headerlink" title="命名空间提供的隔离"></a>命名空间提供的隔离</h3><ul>
-<li>命名空间之间并不提供对正在运行的对象的任何隔离。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>容器</category>
-      </categories>
-      <tags>
-        <tag>k8s</tag>
       </tags>
   </entry>
   <entry>
@@ -1783,6 +1695,94 @@
       </categories>
       <tags>
         <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>K8s中的POD</title>
+    <url>/2021/05/31/k8s-zhong-de-pod/</url>
+    <content><![CDATA[<h2 id="何为POD"><a href="#何为POD" class="headerlink" title="何为POD"></a>何为POD</h2><blockquote>
+<p>pod是一组并置的容器，是k8s中的基本构建模块。</p>
+</blockquote>
+<p>一个pod可以包含多个容器。不过一般建议一个pod只有一个容器。原因会在后续详细说明。同时一个pod绝对不会跨越多个工作节点。</p>
+<h3 id="了解POD"><a href="#了解POD" class="headerlink" title="了解POD"></a>了解POD</h3><h4 id="多容器好与单容器多进程"><a href="#多容器好与单容器多进程" class="headerlink" title="多容器好与单容器多进程"></a>多容器好与单容器多进程</h4><ul>
+<li>当在一个容器中运行多个我们的应用时，获取日志，管理重启都需要通过内部解决。</li>
+<li>无法通过k8s直接管理某一个应用的生命周期，同时也会影响缩扩容。</li>
+</ul>
+<h4 id="同一POD中容器之间的隔离与共享"><a href="#同一POD中容器之间的隔离与共享" class="headerlink" title="同一POD中容器之间的隔离与共享"></a>同一POD中容器之间的隔离与共享</h4><p>POD的目标就是让不同容器中的进程<em>好像</em>运行在单个容器中，却又同时保持着一定的隔离。每个容器组（POD）内的容器能共享一些资源。</p>
+<ul>
+<li>一个POD内容器共享相同的Linux命名空间。（都在相同的network、IPC和UTS命名空间下运行）<ul>
+<li>共享相同的主机名和网络接口。</li>
+<li>能够通过IPC进行通信。</li>
+<li>容器可以通过localhost与同一pod的其他容器通信。</li>
+</ul>
+</li>
+<li>每个容器的文件系统与其他容器完全隔离。如果要共享需要使用Volume</li>
+</ul>
+<h3 id="POD间的平坦网络"><a href="#POD间的平坦网络" class="headerlink" title="POD间的平坦网络"></a>POD间的平坦网络</h3><ul>
+<li>POD之间没有NAT网关。就算是不同的工作节点也是这样。</li>
+<li>每个POD都可以通过其他POD的ip地址来相互访问。</li>
+</ul>
+<p>POD是<strong>逻辑主机</strong>，其行为与非容器世界中的物理主机或虚拟机非常相似。</p>
+<h2 id="合理管理容器"><a href="#合理管理容器" class="headerlink" title="合理管理容器"></a>合理管理容器</h2><blockquote>
+<p>我们应该将应用程序组织到多个POD中，每个POD只包含紧密相关的组件或进程。</p>
+</blockquote>
+<ul>
+<li>将多层应用分散到多个POD<ul>
+<li>前端和数据库并不需要运行在一个POD中，特别是一个POD只能运行在一台物理工作节点上，如果将前端与数据库分开，能够充分利用资源。</li>
+</ul>
+</li>
+<li>基于缩扩容考虑<ul>
+<li>POD是K8s中缩扩容的基本单位。</li>
+<li>前后端会有完全不同的扩缩容需求。</li>
+</ul>
+</li>
+</ul>
+<h3 id="何时在一个POD中使用多个容器"><a href="#何时在一个POD中使用多个容器" class="headerlink" title="何时在一个POD中使用多个容器"></a>何时在一个POD中使用多个容器</h3><ul>
+<li>这些容器必须在一台主机上运行。</li>
+<li>缩扩容是否是同步的。</li>
+</ul>
+<blockquote>
+<p>容器不应该包含多个进程，POD也不应该包含多个并不需要运行在同一主机上的容器</p>
+<p>即最理想：一个POD=一个容器=一个进程。</p>
+</blockquote>
+<h2 id="使用yaml创建POD"><a href="#使用yaml创建POD" class="headerlink" title="使用yaml创建POD"></a>使用yaml创建POD</h2><p>POD的定义由下属几个部分组成：</p>
+<ul>
+<li>kind: Pod</li>
+<li><em>metadata</em>: 包含POD的名称、命名空间、标签等元数据信息。 </li>
+<li><em>spec</em>: 包括POD内容的实际说明，例如容器、卷和其他信息。</li>
+<li><em>status</em>:POD的当前状态，构建时不需要。</li>
+</ul>
+<h2 id="用标签组织POD"><a href="#用标签组织POD" class="headerlink" title="用标签组织POD"></a>用标签组织POD</h2><p>通过metadata里的labels项，可以在创建pod时指定标签。一个pod可以有多个标签。且key可自由指定。</p>
+<p>也可以为标签分类工作节点。</p>
+<h3 id="标签的用途"><a href="#标签的用途" class="headerlink" title="标签的用途"></a>标签的用途</h3><ul>
+<li>使用标签筛选POD。</li>
+<li><strong>使用标签和选择器约束POD调度</strong><ul>
+<li>通过给工作节点赋予标签。觉得某个工作节点适合做什么</li>
+<li>在创建POD时，在<code>spec.nodeSelector</code>中就可以指定这个pod要创建在哪一类工作节点上。</li>
+<li>这样做的好处是让工作节点处理适合的事情，同时避免由于某个节点挂掉导致pod无法更换节点重启。</li>
+</ul>
+</li>
+</ul>
+<h2 id="命名空间"><a href="#命名空间" class="headerlink" title="命名空间"></a>命名空间</h2><blockquote>
+<p>用于对资源进行分组</p>
+</blockquote>
+<h3 id="为何需要命名空间"><a href="#为何需要命名空间" class="headerlink" title="为何需要命名空间"></a>为何需要命名空间</h3><blockquote>
+<p>类似于数据库中的库概念</p>
+</blockquote>
+<p>可以通过命名空间，我们能够将不属于一组的资源分到不重叠的组中。这样多用户使用同一个k8s集群时，就能各自管理自己的资源集合，防止无意删除或修改其他用户的资源。</p>
+<h3 id="创建和使用命名空间"><a href="#创建和使用命名空间" class="headerlink" title="创建和使用命名空间"></a>创建和使用命名空间</h3><ul>
+<li>使用<code>kubectl create namespace</code>命令创建命名空间</li>
+<li>使用<code>metadata.namespace: custom-ns</code>或<code>kubectl create xxx -n custom-ns</code>来指定将对象创建在哪个命名空间。</li>
+</ul>
+<h3 id="命名空间提供的隔离"><a href="#命名空间提供的隔离" class="headerlink" title="命名空间提供的隔离"></a>命名空间提供的隔离</h3><ul>
+<li>命名空间之间并不提供对正在运行的对象的任何隔离。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>容器</category>
+      </categories>
+      <tags>
+        <tag>k8s</tag>
       </tags>
   </entry>
   <entry>
@@ -2635,9 +2635,12 @@ rm -f $(OBJS)
       </tags>
   </entry>
   <entry>
-    <title>go中的测试与性能调优</title>
+    <title>go中的测试与性能调优简介</title>
     <url>/2021/07/04/go-zhong-de-ce-shi-yu-xing-neng-diao-you/</url>
-    <content><![CDATA[<h2 id="表格驱动测试"><a href="#表格驱动测试" class="headerlink" title="表格驱动测试"></a>表格驱动测试</h2><ul>
+    <content><![CDATA[<p>Go自身提供了一套较为完善的测试方法。即表格驱动测试</p>
+<span id="more"></span>
+
+<h2 id="表格驱动测试"><a href="#表格驱动测试" class="headerlink" title="表格驱动测试"></a>表格驱动测试</h2><ul>
 <li>分离测试数据与测试逻辑</li>
 <li>明确出错信息</li>
 <li>go语言语法允许更好的使用表格驱动测试。</li>
@@ -2679,18 +2682,6 @@ rm -f $(OBJS)
     <title>go中的自带的常见库的使用</title>
     <url>/2021/07/09/go-zhong-de-zi-dai-de-chang-jian-ku-de-shi-yong/</url>
     <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>go的函数式编程</title>
-    <url>/2021/06/30/go-de-han-shu-shi-bian-cheng/</url>
-    <content><![CDATA[<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><p>当函数作为返回值时，会讲该函数所携带的状态一起返回。</p>
-]]></content>
-      <categories>
-        <category>Go</category>
-      </categories>
-      <tags>
-        <tag>Go</tag>
-      </tags>
   </entry>
   <entry>
     <title>go入门</title>
@@ -2930,33 +2921,12 @@ rm -f $(OBJS)
       </tags>
   </entry>
   <entry>
-    <title>go的依赖管理</title>
-    <url>/2021/06/27/go-de-yi-lai-guan-li/</url>
-    <content><![CDATA[<h2 id="Go依赖管理的发展"><a href="#Go依赖管理的发展" class="headerlink" title="Go依赖管理的发展"></a>Go依赖管理的发展</h2><h3 id="GOPATH"><a href="#GOPATH" class="headerlink" title="GOPATH"></a>GOPATH</h3><p>编译寻找依赖，会在<code>$GOPATH/src/</code>下去寻找。</p>
-<p>存在的问题：</p>
-<ul>
-<li>由于依赖都是放在linux目录下，所以无法直接进行版本管理。依赖只有一个版本。</li>
-</ul>
-<h3 id="GOVENDOOR"><a href="#GOVENDOOR" class="headerlink" title="GOVENDOOR"></a>GOVENDOOR</h3><p>为了解决依赖版本的问题，可以：</p>
-<ul>
-<li>通过在工程内建立<code>vendor</code>文件夹。将依赖放在<code>vendor</code>文件夹下。</li>
-</ul>
-<h3 id="GOMO"><a href="#GOMO" class="headerlink" title="GOMO"></a>GOMO</h3><p>新的依赖管理工具。会将依赖放在固定目录。</p>
-<ul>
-<li>go get进行依赖下载。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Go</category>
-      </categories>
-      <tags>
-        <tag>Go</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>go并发编程入门</title>
     <url>/2021/07/04/go-bing-fa-bian-cheng-ru-men/</url>
-    <content><![CDATA[<h2 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h2><p>go中的多线程一般是指协程，其具有几个特点</p>
+    <content><![CDATA[<p>go中的多线程一般是指协程。</p>
+<span id="more"></span>
+
+<h2 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h2><p>go中的多线程一般是指协程，其具有几个特点</p>
 <ul>
 <li>轻量级的“线程”</li>
 <li><strong>非抢占式</strong>多任务处理，由协程主动交出控制权。</li>
@@ -3034,9 +3004,54 @@ rm -f $(OBJS)
       </tags>
   </entry>
   <entry>
-    <title>go的接口</title>
+    <title>go的依赖管理简介</title>
+    <url>/2021/06/27/go-de-yi-lai-guan-li/</url>
+    <content><![CDATA[<p>截至目前版本，Go提供了3中管理依赖的方式</p>
+<span id="more"></span>
+
+<h3 id="GOPATH"><a href="#GOPATH" class="headerlink" title="GOPATH"></a>GOPATH</h3><p>编译寻找依赖，会在<code>$GOPATH/src/</code>下去寻找。</p>
+<p>存在的问题：</p>
+<ul>
+<li>由于依赖都是放在linux目录下，所以无法直接进行版本管理。依赖只有一个版本。</li>
+</ul>
+<h3 id="GOVENDOOR"><a href="#GOVENDOOR" class="headerlink" title="GOVENDOOR"></a>GOVENDOOR</h3><p>为了解决依赖版本的问题，可以：</p>
+<ul>
+<li>通过在工程内建立<code>vendor</code>文件夹。将依赖放在<code>vendor</code>文件夹下。</li>
+</ul>
+<h3 id="GOMO"><a href="#GOMO" class="headerlink" title="GOMO"></a>GOMO</h3><p>新的依赖管理工具。会将依赖放在固定目录。</p>
+<ul>
+<li>go get进行依赖下载。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Go</category>
+      </categories>
+      <tags>
+        <tag>Go</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>go的函数式编程</title>
+    <url>/2021/06/30/go-de-han-shu-shi-bian-cheng/</url>
+    <content><![CDATA[<p>未完待续</p>
+<span id="more"></span>
+
+<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><p>当函数作为返回值时，会讲该函数所携带的状态一起返回。</p>
+]]></content>
+      <categories>
+        <category>Go</category>
+      </categories>
+      <tags>
+        <tag>Go</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>go的接口简介</title>
     <url>/2021/06/29/go-de-jie-kou/</url>
-    <content><![CDATA[<h2 id="duck-typing"><a href="#duck-typing" class="headerlink" title="duck typing"></a>duck typing</h2><blockquote>
+    <content><![CDATA[<p>Go中的接口类似于RestFul的概念，只要你实现了我接口定义的方法，我就能把你拿来用。这使得Go在面向接口编程时异常强大。</p>
+<span id="more"></span>
+
+<h2 id="duck-typing"><a href="#duck-typing" class="headerlink" title="duck typing"></a>duck typing</h2><blockquote>
 <p>描述事物的外部行为而非内部结构</p>
 </blockquote>
 <h3 id="Pyhon中的duckTyping"><a href="#Pyhon中的duckTyping" class="headerlink" title="Pyhon中的duckTyping"></a>Pyhon中的duckTyping</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">download</span>(<span class="params">retriever</span>):</span></span><br><span class="line">  <span class="keyword">return</span> retrierver.get(<span class="string">&quot;ssss&quot;</span>)</span><br></pre></td></tr></table></figure>
@@ -3167,6 +3182,31 @@ rm -f $(OBJS)
       </tags>
   </entry>
   <entry>
+    <title>hadoop fs -ls 相关使用问题的记录</title>
+    <url>/2017/02/14/hadoop-fs-ls-xiang-guan-shi-yong-wen-ti-de-ji-lu/</url>
+    <content><![CDATA[<h1 id="hadoop-fs-ls-相关使用问题记录"><a href="#hadoop-fs-ls-相关使用问题记录" class="headerlink" title="hadoop fs -ls 相关使用问题记录"></a>hadoop fs -ls 相关使用问题记录</h1><p>新人新学，如有错误，烦请提出指正。</p>
+<h2 id="1）直接使用：hadoop-fs-ls"><a href="#1）直接使用：hadoop-fs-ls" class="headerlink" title="1）直接使用：hadoop fs -ls"></a>1）直接使用：hadoop fs -ls</h2><p>正确的使用方式是：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hadoop fs [-ls [-d] [-h] [-R] [&lt;path&gt; ...]]</span><br></pre></td></tr></table></figure>
+<p>如果将path省去，系统会将：/user/hostname/ 添加。<br>所以实际这条指令等价于：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hadoop fs -ls /user/hostname/</span><br></pre></td></tr></table></figure>
+<p>实验截图参考：<br><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog1.png"></p>
+<h2 id="2）使用：hadoop-fs-ls"><a href="#2）使用：hadoop-fs-ls" class="headerlink" title="2）使用：hadoop fs -ls /"></a>2）使用：hadoop fs -ls /</h2><p>实际会默认访问hdfs路径。即实际上，这条指令等价于：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hadoop fs -ls hdfs:///</span><br></pre></td></tr></table></figure>
+
+<h2 id="3）使用：hadoop-fs-ls-hdfs-hostname-port"><a href="#3）使用：hadoop-fs-ls-hdfs-hostname-port" class="headerlink" title="3）使用：hadoop fs -ls hdfs://hostname:port/"></a>3）使用：hadoop fs -ls hdfs://hostname:port/</h2><p>访问hdfs的完整路径。即：访问hdfs文件系统上的hostname(ip亦可):port/<br>实际上，可以使用这条指令访问本地的文件系统：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hdfs dfs -ls file:///home/hadoop/</span><br></pre></td></tr></table></figure>
+
+<p>参考：<br>[1] <a href="https://stackoverflow.com/questions/28241251/hadoop-fs-ls-results-in-no-such-file-or-directory">hadoop fs -ls results in “no such file or directory”
+</a></p>
+]]></content>
+      <categories>
+        <category>Hadoop</category>
+      </categories>
+      <tags>
+        <tag>Hadoop</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>go的面向对象</title>
     <url>/2021/06/26/go-de-mian-xiang-dui-xiang/</url>
     <content><![CDATA[<ul>
@@ -3268,31 +3308,6 @@ rm -f $(OBJS)
       </categories>
       <tags>
         <tag>Go</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hadoop fs -ls 相关使用问题的记录</title>
-    <url>/2017/02/14/hadoop-fs-ls-xiang-guan-shi-yong-wen-ti-de-ji-lu/</url>
-    <content><![CDATA[<h1 id="hadoop-fs-ls-相关使用问题记录"><a href="#hadoop-fs-ls-相关使用问题记录" class="headerlink" title="hadoop fs -ls 相关使用问题记录"></a>hadoop fs -ls 相关使用问题记录</h1><p>新人新学，如有错误，烦请提出指正。</p>
-<h2 id="1）直接使用：hadoop-fs-ls"><a href="#1）直接使用：hadoop-fs-ls" class="headerlink" title="1）直接使用：hadoop fs -ls"></a>1）直接使用：hadoop fs -ls</h2><p>正确的使用方式是：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hadoop fs [-ls [-d] [-h] [-R] [&lt;path&gt; ...]]</span><br></pre></td></tr></table></figure>
-<p>如果将path省去，系统会将：/user/hostname/ 添加。<br>所以实际这条指令等价于：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hadoop fs -ls /user/hostname/</span><br></pre></td></tr></table></figure>
-<p>实验截图参考：<br><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog1.png"></p>
-<h2 id="2）使用：hadoop-fs-ls"><a href="#2）使用：hadoop-fs-ls" class="headerlink" title="2）使用：hadoop fs -ls /"></a>2）使用：hadoop fs -ls /</h2><p>实际会默认访问hdfs路径。即实际上，这条指令等价于：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hadoop fs -ls hdfs:///</span><br></pre></td></tr></table></figure>
-
-<h2 id="3）使用：hadoop-fs-ls-hdfs-hostname-port"><a href="#3）使用：hadoop-fs-ls-hdfs-hostname-port" class="headerlink" title="3）使用：hadoop fs -ls hdfs://hostname:port/"></a>3）使用：hadoop fs -ls hdfs://hostname:port/</h2><p>访问hdfs的完整路径。即：访问hdfs文件系统上的hostname(ip亦可):port/<br>实际上，可以使用这条指令访问本地的文件系统：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hdfs dfs -ls file:///home/hadoop/</span><br></pre></td></tr></table></figure>
-
-<p>参考：<br>[1] <a href="https://stackoverflow.com/questions/28241251/hadoop-fs-ls-results-in-no-such-file-or-directory">hadoop fs -ls results in “no such file or directory”
-</a></p>
-]]></content>
-      <categories>
-        <category>Hadoop</category>
-      </categories>
-      <tags>
-        <tag>Hadoop</tag>
       </tags>
   </entry>
   <entry>
@@ -4110,169 +4125,6 @@ nt Nested
       </tags>
   </entry>
   <entry>
-    <title>初识MaxWell</title>
-    <url>/2019/06/20/chu-shi-maxwell/</url>
-    <content><![CDATA[<h2 id="Maxwell"><a href="#Maxwell" class="headerlink" title="Maxwell"></a>Maxwell</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>最近需要实时采集MySQL的数据到HBase，找了下目前主要有MaxWell和Canal。介于Maxwell部署简单，且支持断点还原，最后选择了MaxWell。</p>
-<h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>MaxWell通过采集MySQL的binlog日志，将详细格式化成Json发往Kafka。SparkStreaming只需要对Json数据进行解析，就能够拼接SQL语句，然后同步到HBase。</p>
-<h3 id="初次使用"><a href="#初次使用" class="headerlink" title="初次使用"></a>初次使用</h3><p>参考：<a href="http://maxwells-daemon.io/quickstart/">Maxwell’s Daemon</a></p>
-<h4 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h4><p>下载、解压MaxWell</p>
-<ol>
-<li><p>配置MySQL：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">server_id=1</span><br><span class="line">log-bin=master</span><br><span class="line">binlog_format=row</span><br></pre></td></tr></table></figure></li>
-<li><p>创建Maxwell相关表、用户：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; CREATE USER &#x27;maxwell&#x27;@&#x27;%&#x27; IDENTIFIED BY &#x27;XXXXXX&#x27;;</span><br><span class="line">mysql&gt; GRANT ALL ON maxwell.* TO &#x27;maxwell&#x27;@&#x27;%&#x27;;</span><br><span class="line">mysql&gt; GRANT SELECT, REPLICATION CLIENT, REPLICATION SLAVE ON *.* TO &#x27;maxwell&#x27;@&#x27;%&#x27;;</span><br></pre></td></tr></table></figure></li>
-<li><p>测试：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bin/maxwell --user=&#x27;maxwell&#x27; --password=&#x27;XXXXXX&#x27; --host=&#x27;127.0.0.1&#x27; --producer=stdout</span><br></pre></td></tr></table></figure></li>
-<li><p>在Mysql中创建测试表：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table emp (</span><br><span class="line">    id numeric(4) primary key,</span><br><span class="line">    name varchar(10)</span><br><span class="line">);</span><br></pre></td></tr></table></figure></li>
-<li><p>insert测试数据：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">insert into emp (id,name) values (1,&#x27;ZhangSan&#x27;);</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h4 id="on-Kafka"><a href="#on-Kafka" class="headerlink" title="on Kafka"></a>on Kafka</h4><p>on Kafka其实也很简单，主要是注意下版本兼容问题。</p>
-<ol>
-<li><p>创建一个测试Topic：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[hadoop@hadoop001 kafka]$ bin/kafka-topics.sh --create --zookeeper 192.168.136.1:2181/kafka --replication-factor 1 --partitions 3 --topic maxwell</span><br><span class="line">Created topic &quot;maxwell&quot;.</span><br><span class="line">[hadoop@hadoop001 kafka]$ bin/kafka-topics.sh --list --zookeeper 192.168.136.1:2181/kafka</span><br><span class="line">__consumer_offsets</span><br><span class="line">maxwell</span><br></pre></td></tr></table></figure></li>
-<li><p>启动一个Consumer接受信息：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bin/kafka-console-consumer.sh --zookeeper 192.168.136.1:2181/kafka --topic maxwell --from-beginning</span><br></pre></td></tr></table></figure></li>
-<li><p>启动Maxwell</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bin/maxwell --user=&#x27;maxwell&#x27; --password=&#x27;XXXXXX&#x27; --host=&#x27;127.0.0.1&#x27; \</span><br><span class="line">   --producer=kafka --kafka.bootstrap.servers=192.168.136.1:9092 --kafka_topic=maxwell</span><br></pre></td></tr></table></figure></li>
-<li><p>剩下同上。</p>
-</li>
-</ol>
-<h3 id="Maxwell的过滤："><a href="#Maxwell的过滤：" class="headerlink" title="Maxwell的过滤："></a>Maxwell的过滤：</h3><p>参考：<a href="http://maxwells-daemon.io/filtering/">Basic Filters</a></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bin/maxwell --user=&#x27;maxwell&#x27; --password=&#x27;maxwell&#x27; \</span><br><span class="line">--host=&#x27;127.0.0.1&#x27; --filter = &#x27;exclude: foodb.*, include: foodb.tbl, include: foodb./table_\d+/ \</span><br><span class="line">--producer=kafka --kafka_version=0.10.0.1 --kafka.bootstrap.servers=192.168.136.1:9092 --kafka_topic=maxwell</span><br></pre></td></tr></table></figure>
-
-<p>这个filter是白名单，这样就可以只检测部分表了。</p>
-<h3 id="Maxwell的Bootstrap："><a href="#Maxwell的Bootstrap：" class="headerlink" title="Maxwell的Bootstrap："></a>Maxwell的Bootstrap：</h3><p>参考：<a href="http://maxwells-daemon.io/bootstrapping/">Using the maxwell-bootstrap utility</a></p>
-<p>HBase平台刚刚搭建起来时，涉及部分数据的全量刷，这也是选择Maxwell的理由：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bin/maxwell-bootstrap --database fooDB --table barTable --where &quot;my_date &gt;= &#x27;2017-01-07 00:00:00&#x27;&quot;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>数仓</category>
-      </categories>
-      <tags>
-        <tag>Kafka</tag>
-        <tag>MaxWell</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>搭建Harbor</title>
-    <url>/2017/09/16/da-jian-harbor/</url>
-    <content><![CDATA[<h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><p>请先安装Docker。本文主要针对离线部署。</p>
-<h3 id="1）Https："><a href="#1）Https：" class="headerlink" title="1）Https："></a>1）Https：</h3><p>本步骤可参考：<a href="https://github.com/goharbor/harbor/blob/master/docs/configure_https.md">configure_https</a></p>
-<ol>
-<li><p>安装证书：（Getting Certificate Authority）</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl genrsa -out ca.key 4096</span><br><span class="line">主要修改后三项：</span><br><span class="line">openssl req -x509 -new -nodes -sha512 -days 3650 \</span><br><span class="line">-subj &quot;/C=CN/ST=Beijing/L=Beijing/O=example/OU=Personal/CN=yourdomain.com&quot; \</span><br><span class="line">-key ca.key \</span><br><span class="line">-out ca.crt</span><br></pre></td></tr></table></figure></li>
-<li><p>获取服务器证书：（Getting Server Certificate）</p>
-<ol>
-<li><p>生成私钥：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl genrsa -out yourdomain.com.key  4096</span><br></pre></td></tr></table></figure></li>
-<li><p>生成签名请求：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl req -sha512 -new \</span><br><span class="line">-subj &quot;/C=CN/ST=Beijing/L=Beijing/O=example/OU=Personal/CN=yourdomain.com&quot; \</span><br><span class="line">-key yourdomain.com.key \</span><br><span class="line">-out yourdomain.com.csr</span><br></pre></td></tr></table></figure></li>
-<li><p>生成注册表主机证书：（v3.ext）（DNS按需写）</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cat &gt; v3.ext &lt;&lt;-EOF</span><br><span class="line">authorityKeyIdentifier=keyid,issuer</span><br><span class="line">basicConstraints=CA:FALSE</span><br><span class="line">keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment</span><br><span class="line">extendedKeyUsage = serverAuth</span><br><span class="line">subjectAltName = @alt_names</span><br><span class="line">[alt_names]</span><br><span class="line">DNS.1=yourdomain.com</span><br><span class="line">DNS.2=yourdomain</span><br><span class="line">DNS.3=hostname</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl x509 -req -sha512 -days 3650 \</span><br><span class="line">-extfile v3.ext \</span><br><span class="line">-CA ca.crt -CAkey ca.key -CAcreateserial \</span><br><span class="line">-in yourdomain.com.csr \</span><br><span class="line">-out yourdomain.com.crt</span><br></pre></td></tr></table></figure></li>
-</ol>
-</li>
-<li><p>配置安装证书：（Configuration and Installation）</p>
-<ol>
-<li><p>为Harbor配置证书（文件夹不存在则创建）</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cp yourdomain.com.crt /data/cert/</span><br><span class="line">cp yourdomain.com.key /data/cert/</span><br></pre></td></tr></table></figure></li>
-<li><p>为Docker配置：（文件夹不存在则创建）</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl x509 -inform PEM -in yourdomain.com.crt -out yourdomain.com.cert</span><br><span class="line">---</span><br><span class="line">cp yourdomain.com.cert /etc/docker/certs.d/yourdomain.com/</span><br><span class="line">cp yourdomain.com.key /etc/docker/certs.d/yourdomain.com/</span><br><span class="line">cp ca.crt /etc/docker/certs.d/yourdomain.com/</span><br></pre></td></tr></table></figure></li>
-<li><p>配置damon.jason：（使用ip登陆必须）</p>
-<ol>
-<li>位置：/etc/docker/daemon.json</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">&quot;registry-mirrors&quot;:[&quot;https://hadoop001&quot;],</span><br><span class="line">&quot;insercure-registries&quot;:[&quot;ip&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<p>​    </p>
-</li>
-</ol>
-<h3 id="2）配置harbor-yml"><a href="#2）配置harbor-yml" class="headerlink" title="2）配置harbor.yml"></a>2）配置harbor.yml</h3><p>主要配置：</p>
-<ul>
-<li>hostname：hostname或ip</li>
-<li>certificate：/data/cert/<strong>yourdomain.com</strong>.crt</li>
-<li>private_key：/data/cert/<strong>yourdomain.com</strong>.key</li>
-</ul>
-<h3 id="3）-安装Docker-compose"><a href="#3）-安装Docker-compose" class="headerlink" title="3） 安装Docker compose"></a>3） 安装Docker compose</h3><p>参考：<a href="https://docs.docker.com/compose/install/">安装Docker compose</a></p>
-<h3 id="4）-安装Harbor"><a href="#4）-安装Harbor" class="headerlink" title="4） 安装Harbor"></a>4） 安装Harbor</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo ./install.sh</span><br></pre></td></tr></table></figure>
-
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>对Harbor修改配置时，需要重启Docker及Harbor，建议如下操作：</p>
-<ul>
-<li><p><strong>docker-compose需要与harbor.yml同一目录下执行</strong>：</p>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>sudo docker-compose down -v</td>
-<td>停止所有容器，并删除容器。并删除挂载卷和volunme的链接（-v）</td>
-</tr>
-<tr>
-<td>vim harbor.yml</td>
-<td>编辑配置</td>
-</tr>
-<tr>
-<td>sudo ./prepare</td>
-<td>执行一个准备脚本。</td>
-</tr>
-<tr>
-<td>sudo docker-compose up -d</td>
-<td>在后台（-d）构建，（重新）创建，启动，链接一个服务相关的容器。</td>
-</tr>
-</tbody></table>
-</li>
-</ul>
-<h3 id="生命周期管理"><a href="#生命周期管理" class="headerlink" title="生命周期管理"></a>生命周期管理</h3><ol>
-<li><p>停止Harbor（会保留数据）：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo docker-compose down -v</span><br></pre></td></tr></table></figure></li>
-<li><p>删除数据：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">rm -r /data/database</span><br><span class="line">rm -r /data/registry</span><br></pre></td></tr></table></figure></li>
-<li><p>后台启动Harbor：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo docker-compose up -d</span><br></pre></td></tr></table></figure></li>
-</ol>
-]]></content>
-      <categories>
-        <category>Docker</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>本地spark+idea访问云主机上的hive</title>
-    <url>/2018/03/31/ben-di-spark-idea-fang-wen-yun-zhu-ji-shang-de-hive/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>记录下本人使用本地spark+idea访问云主机遇到过的一些小问题。<br>仅供参考。欢迎讨论。</p>
-<blockquote>
-<p>spark版本：2.1.1 </p>
-</blockquote>
-<h2 id="使用sparkSQL-idea访问云主机HIVE"><a href="#使用sparkSQL-idea访问云主机HIVE" class="headerlink" title="使用sparkSQL+idea访问云主机HIVE"></a>使用sparkSQL+idea访问云主机HIVE</h2><h3 id="准备hive-site-xml"><a href="#准备hive-site-xml" class="headerlink" title="准备hive-site.xml"></a>准备hive-site.xml</h3><p>官网是这么描述的：</p>
-<blockquote>
-<p>Configuration of Hive is done by placing your hive-site.xml, core-site.xml (for security configuration), and hdfs-site.xml (for HDFS configuration) file in conf/.</p>
-</blockquote>
-<p>实际上，一般只需要准备hive-site.xml这个文件即可，因为spark访问Hive主要是通过访问hive的原数据库来完成的：<br><img src="https://img-blog.csdnimg.cn/20191014173213417.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3Ntb2tlcml1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>所以最重要的就是让spark程序能够访问到原数据库。本例是使用mysql。<br>贴一下hive-site.xml供参考。</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;configuration.xsl&quot;?&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--hadoop换成云主机ip就好了，不过mysql需要注意开启远程访问权限 --&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionURL<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>jdbc:mysql://hadoop:3306/hive?createDatabaseIfNotExist=true<span class="symbol">&amp;amp;</span>useSSL=false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionDriverName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>com.mysql.jdbc.Driver<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionUserName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionPassword<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--客户端显示当前查询表的头信息 --&gt;</span> </span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.cli.print.header<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--客户端显示当前数据库名称信息 --&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.cli.print.current.db<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h3><p>主要是三个依赖：sparksql、mysql、spark-hive。<br>请根据需要进行更改。</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.spark<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spark-sql_2.11<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;spark.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.1.47<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.spark<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spark-hive_2.11<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="获取sparkSession"><a href="#获取sparkSession" class="headerlink" title="获取sparkSession"></a>获取sparkSession</h3><p>新版的spark，通过sparkSession来连接hive，不过有几个参数需要注意，先贴代码：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">val spark = SparkSession.builder().master(<span class="string">&quot;local[*]&quot;</span>).appName(<span class="string">&quot;hiveApp&quot;</span>)</span><br><span class="line">      .enableHiveSupport()</span><br><span class="line">      .config(<span class="string">&quot;dfs.client.use.datanode.hostname&quot;</span>, <span class="string">&quot;true&quot;</span>)</span><br><span class="line">      .getOrCreate()</span><br></pre></td></tr></table></figure>
-<p>需要<code>enableHiveSupport</code>来对hive进行支持。<br>访问云主机，需要<code>.config(&quot;dfs.client.use.datanode.hostname&quot;, &quot;true&quot;)</code>，因为hadoop返回对ip是内网地址，通过这个设置让hadoop返回主机名，这样我们配置下hosts就能够访问了。</p>
-<h3 id="读取hive表"><a href="#读取hive表" class="headerlink" title="读取hive表"></a>读取hive表</h3><p>拿到正确的sparksession，就能对hive进行各种操作了。<br>这里贴一下完整代码方便查阅。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">object hiveApp &#123;</span><br><span class="line">  <span class="function">def <span class="title">main</span><span class="params">(args: Array[String])</span>: Unit </span>= &#123;</span><br><span class="line"></span><br><span class="line">    val spark = SparkSession.builder().master(<span class="string">&quot;local[*]&quot;</span>).appName(<span class="string">&quot;hiveApp&quot;</span>)</span><br><span class="line">      .enableHiveSupport()</span><br><span class="line">      .config(<span class="string">&quot;dfs.client.use.datanode.hostname&quot;</span>, <span class="string">&quot;true&quot;</span>)</span><br><span class="line">      .getOrCreate()</span><br><span class="line"></span><br><span class="line">    spark.sparkContext.setLogLevel(<span class="string">&quot;WARN&quot;</span>)</span><br><span class="line"></span><br><span class="line">    val df = spark.table(<span class="string">&quot;spark.person&quot;</span>)</span><br><span class="line">    df.show()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Spark</category>
-      </categories>
-      <tags>
-        <tag>Hadoop</tag>
-        <tag>Spark</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>初识Kubernetes</title>
     <url>/2021/05/29/chu-shi-kubernetes/</url>
     <content><![CDATA[<h2 id="何为容器"><a href="#何为容器" class="headerlink" title="何为容器"></a>何为容器</h2><ul>
@@ -4409,6 +4261,143 @@ nt Nested
       </tags>
   </entry>
   <entry>
+    <title>初识MaxWell</title>
+    <url>/2019/06/20/chu-shi-maxwell/</url>
+    <content><![CDATA[<p>Maxwell 是一款能够实时采集Mysql的BinLog到Kafka的工具</p>
+<span id="more"></span>
+
+<h2 id="Maxwell"><a href="#Maxwell" class="headerlink" title="Maxwell"></a>Maxwell</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>最近需要实时采集MySQL的数据到HBase，找了下目前主要有MaxWell和Canal。介于Maxwell部署简单，且支持断点还原，最后选择了MaxWell。</p>
+<h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>MaxWell通过采集MySQL的binlog日志，将详细格式化成Json发往Kafka。SparkStreaming只需要对Json数据进行解析，就能够拼接SQL语句，然后同步到HBase。</p>
+<h3 id="初次使用"><a href="#初次使用" class="headerlink" title="初次使用"></a>初次使用</h3><p>参考：<a href="http://maxwells-daemon.io/quickstart/">Maxwell’s Daemon</a></p>
+<h4 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h4><p>下载、解压MaxWell</p>
+<ol>
+<li><p>配置MySQL：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">server_id=1</span><br><span class="line">log-bin=master</span><br><span class="line">binlog_format=row</span><br></pre></td></tr></table></figure></li>
+<li><p>创建Maxwell相关表、用户：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; CREATE USER &#x27;maxwell&#x27;@&#x27;%&#x27; IDENTIFIED BY &#x27;XXXXXX&#x27;;</span><br><span class="line">mysql&gt; GRANT ALL ON maxwell.* TO &#x27;maxwell&#x27;@&#x27;%&#x27;;</span><br><span class="line">mysql&gt; GRANT SELECT, REPLICATION CLIENT, REPLICATION SLAVE ON *.* TO &#x27;maxwell&#x27;@&#x27;%&#x27;;</span><br></pre></td></tr></table></figure></li>
+<li><p>测试：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bin/maxwell --user=&#x27;maxwell&#x27; --password=&#x27;XXXXXX&#x27; --host=&#x27;127.0.0.1&#x27; --producer=stdout</span><br></pre></td></tr></table></figure></li>
+<li><p>在Mysql中创建测试表：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table emp (</span><br><span class="line">    id numeric(4) primary key,</span><br><span class="line">    name varchar(10)</span><br><span class="line">);</span><br></pre></td></tr></table></figure></li>
+<li><p>insert测试数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">insert into emp (id,name) values (1,&#x27;ZhangSan&#x27;);</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="on-Kafka"><a href="#on-Kafka" class="headerlink" title="on Kafka"></a>on Kafka</h4><p>on Kafka其实也很简单，主要是注意下版本兼容问题。</p>
+<ol>
+<li><p>创建一个测试Topic：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[hadoop@hadoop001 kafka]$ bin/kafka-topics.sh --create --zookeeper 192.168.136.1:2181/kafka --replication-factor 1 --partitions 3 --topic maxwell</span><br><span class="line">Created topic &quot;maxwell&quot;.</span><br><span class="line">[hadoop@hadoop001 kafka]$ bin/kafka-topics.sh --list --zookeeper 192.168.136.1:2181/kafka</span><br><span class="line">__consumer_offsets</span><br><span class="line">maxwell</span><br></pre></td></tr></table></figure></li>
+<li><p>启动一个Consumer接受信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bin/kafka-console-consumer.sh --zookeeper 192.168.136.1:2181/kafka --topic maxwell --from-beginning</span><br></pre></td></tr></table></figure></li>
+<li><p>启动Maxwell</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bin/maxwell --user=&#x27;maxwell&#x27; --password=&#x27;XXXXXX&#x27; --host=&#x27;127.0.0.1&#x27; \</span><br><span class="line">   --producer=kafka --kafka.bootstrap.servers=192.168.136.1:9092 --kafka_topic=maxwell</span><br></pre></td></tr></table></figure></li>
+<li><p>剩下同上。</p>
+</li>
+</ol>
+<h3 id="Maxwell的过滤："><a href="#Maxwell的过滤：" class="headerlink" title="Maxwell的过滤："></a>Maxwell的过滤：</h3><p>参考：<a href="http://maxwells-daemon.io/filtering/">Basic Filters</a></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bin/maxwell --user=&#x27;maxwell&#x27; --password=&#x27;maxwell&#x27; \</span><br><span class="line">--host=&#x27;127.0.0.1&#x27; --filter = &#x27;exclude: foodb.*, include: foodb.tbl, include: foodb./table_\d+/ \</span><br><span class="line">--producer=kafka --kafka_version=0.10.0.1 --kafka.bootstrap.servers=192.168.136.1:9092 --kafka_topic=maxwell</span><br></pre></td></tr></table></figure>
+
+<p>这个filter是白名单，这样就可以只检测部分表了。</p>
+<h3 id="Maxwell的Bootstrap："><a href="#Maxwell的Bootstrap：" class="headerlink" title="Maxwell的Bootstrap："></a>Maxwell的Bootstrap：</h3><p>参考：<a href="http://maxwells-daemon.io/bootstrapping/">Using the maxwell-bootstrap utility</a></p>
+<p>HBase平台刚刚搭建起来时，涉及部分数据的全量刷，这也是选择Maxwell的理由：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bin/maxwell-bootstrap --database fooDB --table barTable --where &quot;my_date &gt;= &#x27;2017-01-07 00:00:00&#x27;&quot;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>数仓</category>
+      </categories>
+      <tags>
+        <tag>Kafka</tag>
+        <tag>MaxWell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>搭建Harbor</title>
+    <url>/2017/09/16/da-jian-harbor/</url>
+    <content><![CDATA[<h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><p>请先安装Docker。本文主要针对离线部署。</p>
+<h3 id="1）Https："><a href="#1）Https：" class="headerlink" title="1）Https："></a>1）Https：</h3><p>本步骤可参考：<a href="https://github.com/goharbor/harbor/blob/master/docs/configure_https.md">configure_https</a></p>
+<ol>
+<li><p>安装证书：（Getting Certificate Authority）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl genrsa -out ca.key 4096</span><br><span class="line">主要修改后三项：</span><br><span class="line">openssl req -x509 -new -nodes -sha512 -days 3650 \</span><br><span class="line">-subj &quot;/C=CN/ST=Beijing/L=Beijing/O=example/OU=Personal/CN=yourdomain.com&quot; \</span><br><span class="line">-key ca.key \</span><br><span class="line">-out ca.crt</span><br></pre></td></tr></table></figure></li>
+<li><p>获取服务器证书：（Getting Server Certificate）</p>
+<ol>
+<li><p>生成私钥：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl genrsa -out yourdomain.com.key  4096</span><br></pre></td></tr></table></figure></li>
+<li><p>生成签名请求：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl req -sha512 -new \</span><br><span class="line">-subj &quot;/C=CN/ST=Beijing/L=Beijing/O=example/OU=Personal/CN=yourdomain.com&quot; \</span><br><span class="line">-key yourdomain.com.key \</span><br><span class="line">-out yourdomain.com.csr</span><br></pre></td></tr></table></figure></li>
+<li><p>生成注册表主机证书：（v3.ext）（DNS按需写）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cat &gt; v3.ext &lt;&lt;-EOF</span><br><span class="line">authorityKeyIdentifier=keyid,issuer</span><br><span class="line">basicConstraints=CA:FALSE</span><br><span class="line">keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment</span><br><span class="line">extendedKeyUsage = serverAuth</span><br><span class="line">subjectAltName = @alt_names</span><br><span class="line">[alt_names]</span><br><span class="line">DNS.1=yourdomain.com</span><br><span class="line">DNS.2=yourdomain</span><br><span class="line">DNS.3=hostname</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl x509 -req -sha512 -days 3650 \</span><br><span class="line">-extfile v3.ext \</span><br><span class="line">-CA ca.crt -CAkey ca.key -CAcreateserial \</span><br><span class="line">-in yourdomain.com.csr \</span><br><span class="line">-out yourdomain.com.crt</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>配置安装证书：（Configuration and Installation）</p>
+<ol>
+<li><p>为Harbor配置证书（文件夹不存在则创建）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cp yourdomain.com.crt /data/cert/</span><br><span class="line">cp yourdomain.com.key /data/cert/</span><br></pre></td></tr></table></figure></li>
+<li><p>为Docker配置：（文件夹不存在则创建）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">openssl x509 -inform PEM -in yourdomain.com.crt -out yourdomain.com.cert</span><br><span class="line">---</span><br><span class="line">cp yourdomain.com.cert /etc/docker/certs.d/yourdomain.com/</span><br><span class="line">cp yourdomain.com.key /etc/docker/certs.d/yourdomain.com/</span><br><span class="line">cp ca.crt /etc/docker/certs.d/yourdomain.com/</span><br></pre></td></tr></table></figure></li>
+<li><p>配置damon.jason：（使用ip登陆必须）</p>
+<ol>
+<li>位置：/etc/docker/daemon.json</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">&quot;registry-mirrors&quot;:[&quot;https://hadoop001&quot;],</span><br><span class="line">&quot;insercure-registries&quot;:[&quot;ip&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>​    </p>
+</li>
+</ol>
+<h3 id="2）配置harbor-yml"><a href="#2）配置harbor-yml" class="headerlink" title="2）配置harbor.yml"></a>2）配置harbor.yml</h3><p>主要配置：</p>
+<ul>
+<li>hostname：hostname或ip</li>
+<li>certificate：/data/cert/<strong>yourdomain.com</strong>.crt</li>
+<li>private_key：/data/cert/<strong>yourdomain.com</strong>.key</li>
+</ul>
+<h3 id="3）-安装Docker-compose"><a href="#3）-安装Docker-compose" class="headerlink" title="3） 安装Docker compose"></a>3） 安装Docker compose</h3><p>参考：<a href="https://docs.docker.com/compose/install/">安装Docker compose</a></p>
+<h3 id="4）-安装Harbor"><a href="#4）-安装Harbor" class="headerlink" title="4） 安装Harbor"></a>4） 安装Harbor</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo ./install.sh</span><br></pre></td></tr></table></figure>
+
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>对Harbor修改配置时，需要重启Docker及Harbor，建议如下操作：</p>
+<ul>
+<li><p><strong>docker-compose需要与harbor.yml同一目录下执行</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sudo docker-compose down -v</td>
+<td>停止所有容器，并删除容器。并删除挂载卷和volunme的链接（-v）</td>
+</tr>
+<tr>
+<td>vim harbor.yml</td>
+<td>编辑配置</td>
+</tr>
+<tr>
+<td>sudo ./prepare</td>
+<td>执行一个准备脚本。</td>
+</tr>
+<tr>
+<td>sudo docker-compose up -d</td>
+<td>在后台（-d）构建，（重新）创建，启动，链接一个服务相关的容器。</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h3 id="生命周期管理"><a href="#生命周期管理" class="headerlink" title="生命周期管理"></a>生命周期管理</h3><ol>
+<li><p>停止Harbor（会保留数据）：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo docker-compose down -v</span><br></pre></td></tr></table></figure></li>
+<li><p>删除数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">rm -r /data/database</span><br><span class="line">rm -r /data/registry</span><br></pre></td></tr></table></figure></li>
+<li><p>后台启动Harbor：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo docker-compose up -d</span><br></pre></td></tr></table></figure></li>
+</ol>
+]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>聊聊spark-submit的常用参数</title>
     <url>/2020/02/24/liao-liao-submit-de-chang-yong-can-shu/</url>
     <content><![CDATA[<p>在使用spark-submit在yarn跑应用程序时，我们除了设置参数，一般还会附加jar包，file文件等。这些东西实际去哪了？<br>答案就是我们配置的<code>yarn.nodemanager.local-dirs</code>tmp目录。</p>
@@ -4421,6 +4410,35 @@ nt Nested
         <category>Spark</category>
       </categories>
       <tags>
+        <tag>Spark</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>本地spark+idea访问云主机上的hive</title>
+    <url>/2018/03/31/ben-di-spark-idea-fang-wen-yun-zhu-ji-shang-de-hive/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>记录下本人使用本地spark+idea访问云主机遇到过的一些小问题。<br>仅供参考。欢迎讨论。</p>
+<blockquote>
+<p>spark版本：2.1.1 </p>
+</blockquote>
+<h2 id="使用sparkSQL-idea访问云主机HIVE"><a href="#使用sparkSQL-idea访问云主机HIVE" class="headerlink" title="使用sparkSQL+idea访问云主机HIVE"></a>使用sparkSQL+idea访问云主机HIVE</h2><h3 id="准备hive-site-xml"><a href="#准备hive-site-xml" class="headerlink" title="准备hive-site.xml"></a>准备hive-site.xml</h3><p>官网是这么描述的：</p>
+<blockquote>
+<p>Configuration of Hive is done by placing your hive-site.xml, core-site.xml (for security configuration), and hdfs-site.xml (for HDFS configuration) file in conf/.</p>
+</blockquote>
+<p>实际上，一般只需要准备hive-site.xml这个文件即可，因为spark访问Hive主要是通过访问hive的原数据库来完成的：<br><img src="https://img-blog.csdnimg.cn/20191014173213417.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3Ntb2tlcml1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>所以最重要的就是让spark程序能够访问到原数据库。本例是使用mysql。<br>贴一下hive-site.xml供参考。</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;configuration.xsl&quot;?&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--hadoop换成云主机ip就好了，不过mysql需要注意开启远程访问权限 --&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionURL<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>jdbc:mysql://hadoop:3306/hive?createDatabaseIfNotExist=true<span class="symbol">&amp;amp;</span>useSSL=false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionDriverName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>com.mysql.jdbc.Driver<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionUserName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionPassword<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--客户端显示当前查询表的头信息 --&gt;</span> </span><br><span class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.cli.print.header<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--客户端显示当前数据库名称信息 --&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.cli.print.current.db<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h3><p>主要是三个依赖：sparksql、mysql、spark-hive。<br>请根据需要进行更改。</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.spark<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spark-sql_2.11<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;spark.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.1.47<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.spark<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spark-hive_2.11<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="获取sparkSession"><a href="#获取sparkSession" class="headerlink" title="获取sparkSession"></a>获取sparkSession</h3><p>新版的spark，通过sparkSession来连接hive，不过有几个参数需要注意，先贴代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">val spark = SparkSession.builder().master(<span class="string">&quot;local[*]&quot;</span>).appName(<span class="string">&quot;hiveApp&quot;</span>)</span><br><span class="line">      .enableHiveSupport()</span><br><span class="line">      .config(<span class="string">&quot;dfs.client.use.datanode.hostname&quot;</span>, <span class="string">&quot;true&quot;</span>)</span><br><span class="line">      .getOrCreate()</span><br></pre></td></tr></table></figure>
+<p>需要<code>enableHiveSupport</code>来对hive进行支持。<br>访问云主机，需要<code>.config(&quot;dfs.client.use.datanode.hostname&quot;, &quot;true&quot;)</code>，因为hadoop返回对ip是内网地址，通过这个设置让hadoop返回主机名，这样我们配置下hosts就能够访问了。</p>
+<h3 id="读取hive表"><a href="#读取hive表" class="headerlink" title="读取hive表"></a>读取hive表</h3><p>拿到正确的sparksession，就能对hive进行各种操作了。<br>这里贴一下完整代码方便查阅。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">object hiveApp &#123;</span><br><span class="line">  <span class="function">def <span class="title">main</span><span class="params">(args: Array[String])</span>: Unit </span>= &#123;</span><br><span class="line"></span><br><span class="line">    val spark = SparkSession.builder().master(<span class="string">&quot;local[*]&quot;</span>).appName(<span class="string">&quot;hiveApp&quot;</span>)</span><br><span class="line">      .enableHiveSupport()</span><br><span class="line">      .config(<span class="string">&quot;dfs.client.use.datanode.hostname&quot;</span>, <span class="string">&quot;true&quot;</span>)</span><br><span class="line">      .getOrCreate()</span><br><span class="line"></span><br><span class="line">    spark.sparkContext.setLogLevel(<span class="string">&quot;WARN&quot;</span>)</span><br><span class="line"></span><br><span class="line">    val df = spark.table(<span class="string">&quot;spark.person&quot;</span>)</span><br><span class="line">    df.show()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Spark</category>
+      </categories>
+      <tags>
+        <tag>Hadoop</tag>
         <tag>Spark</tag>
       </tags>
   </entry>

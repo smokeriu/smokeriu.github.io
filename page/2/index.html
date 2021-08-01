@@ -317,7 +317,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-27 19:48:15" itemprop="dateModified" datetime="2021-07-27T19:48:15+08:00">2021-07-27</time>
+                <time title="修改时间：2021-08-01 15:16:37" itemprop="dateModified" datetime="2021-08-01T15:16:37+08:00">2021-08-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -340,76 +340,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h2><p>go中的多线程一般是指协程，其具有几个特点</p>
-<ul>
-<li>轻量级的“线程”</li>
-<li><strong>非抢占式</strong>多任务处理，由协程主动交出控制权。</li>
-<li>编译器/虚拟机层面的多任务。</li>
-<li>多个协程可能在一个或多个线程上运行。</li>
-</ul>
-<blockquote>
-<p>子程序是协程的一个特例</p>
-</blockquote>
-<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/%E5%8D%8F%E7%A8%8B.png" alt="image-20210706205133076"></p>
-<h2 id="Go语言中的协程"><a href="#Go语言中的协程" class="headerlink" title="Go语言中的协程"></a>Go语言中的协程</h2><p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/go%E4%B8%AD%E7%9A%84%E5%8D%8F%E7%A8%8B.png" alt="image-20210706205305582"></p>
-<p>go中的协程具有下述几个特点：</p>
-<ul>
-<li>任何函数只需要加上go就能送给调度器运行。</li>
-<li>不需要在定义方法时区分是否为异步函数。</li>
-<li>调度器在合适的点进行切换。</li>
-<li>使用<code>-race</code>检测数据访问冲突。</li>
-</ul>
-<h3 id="goroutine可能的切换点"><a href="#goroutine可能的切换点" class="headerlink" title="goroutine可能的切换点"></a>goroutine可能的切换点</h3><blockquote>
-<p>仅供参考。不保证必定切换。不保证其他地方不会切换</p>
-</blockquote>
-<ul>
-<li>I/O，select</li>
-<li>channel</li>
-<li>等待锁</li>
-<li>函数调用（有时）</li>
-<li>runtime.Gosched()</li>
-</ul>
-<h2 id="Channel"><a href="#Channel" class="headerlink" title="Channel"></a>Channel</h2><blockquote>
-<p>是goroutine之间的通道</p>
-</blockquote>
-<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/channel.png" alt="image-20210706205905450"></p>
-<h3 id="初步使用"><a href="#初步使用" class="headerlink" title="初步使用"></a>初步使用</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 构建channel</span></span><br><span class="line">c := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>)</span><br><span class="line"><span class="comment">// 向channel发送数据</span></span><br><span class="line"><span class="comment">// 如果channel没有缓存，则发送的数据必须要有人接收。否则可能会陷入死锁</span></span><br><span class="line">c &lt;- <span class="number">1</span></span><br><span class="line"><span class="comment">// 从channel得到数据</span></span><br><span class="line">n := &lt;- c</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可以获取一个只能接收/发送数据的channel</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">maker</span><span class="params">(id <span class="keyword">int</span>)</span> <span class="title">chan</span>&lt;- <span class="title">int</span></span> &#123;</span><br><span class="line">	channel := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>)</span><br><span class="line">	<span class="keyword">return</span> channel</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 带缓存的channel。示例为缓存为3</span></span><br><span class="line">c := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>, <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 关闭channel</span></span><br><span class="line"><span class="built_in">close</span>(c)</span><br><span class="line"><span class="comment">// 接收方判断channel是否已关闭</span></span><br><span class="line">elem , ok := &lt;- c</span><br><span class="line"><span class="keyword">if</span> ok &#123;</span><br><span class="line">	fmt.Println(elem)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	fmt.Print(<span class="string">&quot;close&quot;</span>)</span><br><span class="line">	<span class="keyword">break</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 使用range来接收channel的数据</span></span><br><span class="line"><span class="keyword">for</span> elem := <span class="keyword">range</span> c &#123;</span><br><span class="line">	fmt.Println(elem)</span><br><span class="line">&#125;</span><br><span class="line">fmt.Println(<span class="string">&quot;close&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="等待任务结束"><a href="#等待任务结束" class="headerlink" title="等待任务结束"></a>等待任务结束</h3><p>使用<code>sync.WaitGroup&#123;&#125;</code>来控制任务的结束。需要在线程中判断是否需要结束，如果结束调用<code>wait.done</code>。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">waitGroupChannel</span><span class="params">()</span></span> &#123;</span><br><span class="line">	waitGroup := sync.WaitGroup&#123;&#125;</span><br><span class="line">	chanGroup := <span class="built_in">make</span>([]<span class="keyword">chan</span> <span class="keyword">int</span>, <span class="number">20</span>, <span class="number">20</span>)</span><br><span class="line">	<span class="comment">// create channel</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">1</span>; i &lt; <span class="number">20</span>; i++ &#123;</span><br><span class="line">		chanGroup[i] = <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// send data to channel</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">1</span>; i &lt; <span class="number">20</span>; i++ &#123;</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(c <span class="keyword">chan</span> <span class="keyword">int</span>, i <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">      <span class="comment">// 需要在一个线程中控制发送与关闭。否则可能出现向已关闭的channel中发送数据的情况。</span></span><br><span class="line">			c &lt;- i</span><br><span class="line">			<span class="built_in">close</span>(c)</span><br><span class="line">		&#125;(chanGroup[i], i)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">1</span>; i &lt; <span class="number">20</span>; i++ &#123;</span><br><span class="line">		<span class="comment">// 为每个线程开启一个等待</span></span><br><span class="line">		waitGroup.Add(<span class="number">1</span>)</span><br><span class="line">		<span class="keyword">go</span> useWait(&amp;waitGroup, chanGroup[i])</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 等待所有Done</span></span><br><span class="line">	waitGroup.Wait()</span><br><span class="line">	fmt.Println(<span class="string">&quot;done!&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">useWait</span><span class="params">(wg *sync.WaitGroup, c <span class="keyword">chan</span> <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		i, ok := &lt;-c</span><br><span class="line">		fmt.Println(<span class="string">&quot;useWait: &quot;</span>, i)</span><br><span class="line">		<span class="keyword">if</span> !ok &#123;</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 与Add相反. 可能导致其中变成-1</span></span><br><span class="line">	wg.Done()</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>几个注意点</p>
-<ul>
-<li>需要在一个线程中控制发送与关闭。否则可能出现向已关闭的channel中发送数据的情况。</li>
-<li>传递waitGroup需要使用指针传递。而channel不用。</li>
-<li>add与done注意处理次数，防止done多于add。</li>
-</ul>
-<h3 id="使用Select处理channel"><a href="#使用Select处理channel" class="headerlink" title="使用Select处理channel"></a>使用Select处理channel</h3><p>可以根据channel发过来的数据。选择收到的的分支进行后续处理</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">UseSelect</span><span class="params">()</span></span> &#123;</span><br><span class="line">	c1 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>)</span><br><span class="line">	c2 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">go</span> sendMsg(c1)</span><br><span class="line">	<span class="keyword">go</span> sendMsg(c2)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">select</span> &#123;</span><br><span class="line">	<span class="keyword">case</span> &lt;-c1:</span><br><span class="line">		fmt.Println(<span class="string">&quot;c1&quot;</span>)</span><br><span class="line">	<span class="keyword">case</span> &lt;-c2:</span><br><span class="line">		fmt.Println(<span class="string">&quot;c2&quot;</span>)</span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">		fmt.Println(<span class="string">&quot;default&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="传统同步机制"><a href="#传统同步机制" class="headerlink" title="传统同步机制"></a>传统同步机制</h2><p>// TODO</p>
-<h2 id="并发编程模式"><a href="#并发编程模式" class="headerlink" title="并发编程模式"></a>并发编程模式</h2><h3 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">MsgGen</span><span class="params">()</span> &lt;-<span class="title">chan</span> <span class="title">string</span></span> &#123;</span><br><span class="line">	chString := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">string</span>)</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		i := <span class="number">1</span></span><br><span class="line">		<span class="keyword">for</span> <span class="literal">true</span> &#123;</span><br><span class="line">			time.Sleep(time.Second)</span><br><span class="line">			i++</span><br><span class="line">			chString &lt;- fmt.Sprintf(<span class="string">&quot;%d&quot;</span>, i)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line">	<span class="keyword">return</span> chString</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="合并生成器"><a href="#合并生成器" class="headerlink" title="合并生成器"></a>合并生成器</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">MergeChannel</span><span class="params">(c1,c2 <span class="keyword">chan</span> <span class="keyword">string</span>)</span> &lt;-<span class="title">chan</span> <span class="title">string</span></span> &#123;</span><br><span class="line">	total := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">string</span>)</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">for</span> <span class="literal">true</span> &#123;</span><br><span class="line">			total&lt;- &lt;-c1</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">for</span> <span class="literal">true</span> &#123;</span><br><span class="line">			total&lt;- &lt;-c2</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line">	<span class="keyword">return</span> total</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在不知道要合并多少个channel时可以选择这个：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">MergeChannel</span><span class="params">(chs ...<span class="keyword">chan</span> <span class="keyword">string</span>)</span> &lt;-<span class="title">chan</span> <span class="title">string</span></span> &#123;</span><br><span class="line">	total := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">string</span>)</span><br><span class="line">	<span class="keyword">for</span> _, ch := <span class="keyword">range</span> chs &#123;</span><br><span class="line">    <span class="comment">// 需要作为参数传入。系统会进行值传递。导致ch被copy了一份。防止for循环的坑</span></span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(chCopy <span class="keyword">chan</span> <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">			<span class="keyword">for</span> <span class="literal">true</span> &#123;</span><br><span class="line">				total &lt;- &lt;-chCopy</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;(ch)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> total</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>明确有多少个channel要合并时最好使用select，这样可以控制开启的goroutine为一个：</p>
-<h4 id="通过Select合并"><a href="#通过Select合并" class="headerlink" title="通过Select合并"></a>通过Select合并</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">MergeBySelect</span><span class="params">(c1, c2 <span class="keyword">chan</span> <span class="keyword">string</span>)</span> &lt;-<span class="title">chan</span> <span class="title">string</span></span> &#123;</span><br><span class="line">	total := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">string</span>)</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">for</span> <span class="literal">true</span> &#123;</span><br><span class="line">			<span class="keyword">select</span> &#123;</span><br><span class="line">			<span class="keyword">case</span> n := &lt;-c1:</span><br><span class="line">				total &lt;- n</span><br><span class="line">			<span class="keyword">case</span> n := &lt;-c2:</span><br><span class="line">				total &lt;- n</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line">	<span class="keyword">return</span> total</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="并发任务的控制"><a href="#并发任务的控制" class="headerlink" title="并发任务的控制"></a>并发任务的控制</h2><h3 id="非阻塞等待"><a href="#非阻塞等待" class="headerlink" title="非阻塞等待"></a>非阻塞等待</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">nonBlockingWait</span><span class="params">(c <span class="keyword">chan</span> <span class="keyword">string</span>)</span> <span class="params">(<span class="keyword">string</span>, <span class="keyword">bool</span>)</span></span> &#123;</span><br><span class="line">  <span class="comment">// 防止一直等待数据到来</span></span><br><span class="line">	<span class="keyword">select</span> &#123;</span><br><span class="line">	<span class="keyword">case</span> n := &lt;-c:</span><br><span class="line">		<span class="keyword">return</span> n, <span class="literal">true</span></span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;&quot;</span>, <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="超时机制"><a href="#超时机制" class="headerlink" title="超时机制"></a>超时机制</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">timeoutWait</span><span class="params">(c <span class="keyword">chan</span> <span class="keyword">string</span>, timeout time.Duration)</span> <span class="params">(<span class="keyword">string</span>, <span class="keyword">bool</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">select</span> &#123;</span><br><span class="line">	<span class="keyword">case</span> n := &lt;-c:</span><br><span class="line">		<span class="keyword">return</span> n, <span class="literal">true</span></span><br><span class="line">	<span class="keyword">case</span> &lt;-time.After(timeout):</span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;&quot;</span>, <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="任务中断-退出"><a href="#任务中断-退出" class="headerlink" title="任务中断/退出"></a>任务中断/退出</h3><p>通过一个额外的channel来控制线程的运行：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">StopTask</span><span class="params">(c &lt;-<span class="keyword">chan</span> <span class="keyword">string</span>, done <span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> <span class="literal">true</span> &#123;</span><br><span class="line">		<span class="keyword">select</span> &#123;</span><br><span class="line">		<span class="keyword">case</span> n := &lt;-c:</span><br><span class="line">			fmt.Println(n)</span><br><span class="line">		<span class="keyword">case</span> &lt;-done:</span><br><span class="line">			fmt.Println(<span class="string">&quot;cleaning&quot;</span>)</span><br><span class="line">			time.Sleep(time.Second * <span class="number">2</span>)</span><br><span class="line">			fmt.Println(<span class="string">&quot;clean&quot;</span>)</span><br><span class="line">			done &lt;- <span class="keyword">struct</span>&#123;&#125;&#123;&#125;</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
+          <p>go中的多线程一般是指协程。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/07/04/go-bing-fa-bian-cheng-ru-men/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -442,7 +381,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/07/04/go-zhong-de-ce-shi-yu-xing-neng-diao-you/" class="post-title-link" itemprop="url">go中的测试与性能调优</a>
+            <a href="/2021/07/04/go-zhong-de-ce-shi-yu-xing-neng-diao-you/" class="post-title-link" itemprop="url">go中的测试与性能调优简介</a>
         </h2>
 
         <div class="post-meta">
@@ -459,7 +398,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-27 19:47:58" itemprop="dateModified" datetime="2021-07-27T19:47:58+08:00">2021-07-27</time>
+                <time title="修改时间：2021-08-01 15:20:04" itemprop="dateModified" datetime="2021-08-01T15:20:04+08:00">2021-08-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -482,37 +421,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="表格驱动测试"><a href="#表格驱动测试" class="headerlink" title="表格驱动测试"></a>表格驱动测试</h2><ul>
-<li>分离测试数据与测试逻辑</li>
-<li>明确出错信息</li>
-<li>go语言语法允许更好的使用表格驱动测试。</li>
-</ul>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 测试类</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;testing&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TestAdd</span><span class="params">(t *testing.T)</span></span> &#123;</span><br><span class="line">  <span class="comment">// 构建测试逻辑</span></span><br><span class="line">	testDic := []<span class="keyword">struct</span>&#123; a, b, c <span class="keyword">int</span> &#125;&#123;</span><br><span class="line">		&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;,</span><br><span class="line">		&#123;<span class="number">4</span>, <span class="number">5</span>, <span class="number">9</span>&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">  <span class="comment">// 通过for构建测试</span></span><br><span class="line">	<span class="keyword">for</span> _, ele := <span class="keyword">range</span> testDic &#123;</span><br><span class="line">		<span class="keyword">if</span> act := ele.a + ele.b; act != ele.c &#123;</span><br><span class="line">      <span class="comment">// 不通过报错会提示，并将测试视为失败，但不会中断测试</span></span><br><span class="line">			t.Errorf(<span class="string">&quot;error, act is %d, expected %d&quot;</span>, act, ele.c)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>方法必须使用<code>TestAbc</code>命名。</p>
-</blockquote>
-<h2 id="在命令行使用测试"><a href="#在命令行使用测试" class="headerlink" title="在命令行使用测试"></a>在命令行使用测试</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd #测试代码所在目录</span><br><span class="line">go test . # 测试所有需要测试的代码</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>效果：</p>
-<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210704140213.png" alt="image-20210704140213338"></p>
-</blockquote>
-<h3 id="代码覆盖率测试"><a href="#代码覆盖率测试" class="headerlink" title="代码覆盖率测试"></a>代码覆盖率测试</h3><p>可以通过生成一个文件，来观察测试代码覆盖的代码。找到哪些代码没有被测试到.</p>
-<blockquote>
-<p>也可以直接使用idea提供的方法查看覆盖测试结果</p>
-</blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go test -coverprofile=test.out</span><br><span class="line">go tool cover -html test.out</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="代码性能测试"><a href="#代码性能测试" class="headerlink" title="代码性能测试"></a>代码性能测试</h3><p>使用<code>testing.B</code>可以进行性能测试</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">BenchmarkAdd</span><span class="params">(b *testing.B)</span></span> &#123;</span><br><span class="line">	a, c := <span class="number">1</span>, <span class="number">2</span></span><br><span class="line">	ans := <span class="number">3</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">1</span>; i &lt; b.N; i++ &#123;</span><br><span class="line">		<span class="keyword">if</span> act := Add(a, c); act != ans &#123;</span><br><span class="line">			b.Errorf(<span class="string">&quot;error, act is %d, expected %d&quot;</span>, act, ans)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>方法必须使用<code>BenchmarkABC</code>命名</p>
-</blockquote>
-
+          <p>Go自身提供了一套较为完善的测试方法。即表格驱动测试</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/07/04/go-zhong-de-ce-shi-yu-xing-neng-diao-you/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -674,7 +591,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-27 19:48:12" itemprop="dateModified" datetime="2021-07-27T19:48:12+08:00">2021-07-27</time>
+                <time title="修改时间：2021-08-01 15:16:58" itemprop="dateModified" datetime="2021-08-01T15:16:58+08:00">2021-08-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -697,8 +614,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><p>当函数作为返回值时，会讲该函数所携带的状态一起返回。</p>
-
+          <p>未完待续</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/06/30/go-de-han-shu-shi-bian-cheng/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
