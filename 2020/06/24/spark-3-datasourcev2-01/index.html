@@ -1,1030 +1,500 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="zh-CN">
-
-
 <head>
-    <meta charset="utf-8">
-    <meta name="keywords" content="spark-3 DataSourceV2-01, Ssiu Blog">
-    <meta name="description" content="Java InterfacesSpark3中，DataSourceV2采用Java进行编写，而非Scala。这样做的主要目的是为了更好的和Java交互。
-大部分接口可以在下面的包中找到：
-org.apache.spark.sql.conne">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="renderer" content="webkit|ie-stand|ie-comp">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>spark-3 DataSourceV2-01 | Ssiu Blog</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
-    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/matery.css">
-    <link rel="stylesheet" type="text/css" href="/css/my.css">
-
-    <script src="/libs/jquery/jquery.min.js"></script>
-    
-<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<link rel="stylesheet" href="/css/main.css">
 
 
-<body>
-    <header class="navbar-fixed">
-    <nav id="headNav" class="bg-color nav-transparent">
-        <div id="navContainer" class="nav-wrapper container">
-            <div class="brand-logo">
-                <a href="/" class="waves-effect waves-light">
-                    
-                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
-                    
-                    <span class="logo-span">Ssiu Blog</span>
-                </a>
-            </div>
-            
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-material.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
 
-<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
-<ul class="right nav-menu">
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.ibuer.fun","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Java InterfacesSpark3中，DataSourceV2采用Java进行编写，而非Scala。这样做的主要目的是为了更好的和Java交互。 大部分接口可以在下面的包中找到： 1org.apache.spark.sql.connector.catalog  后文是DataSrouceV2的关键接口。 TableProvider这是一个提供读写的数据源，他提供结构化数据。需要实现如下方法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spark-3 DataSourceV2-01">
+<meta property="og:url" content="http://blog.ibuer.fun/2020/06/24/spark-3-datasourcev2-01/index.html">
+<meta property="og:site_name" content="Ssiu Blog">
+<meta property="og:description" content="Java InterfacesSpark3中，DataSourceV2采用Java进行编写，而非Scala。这样做的主要目的是为了更好的和Java交互。 大部分接口可以在下面的包中找到： 1org.apache.spark.sql.connector.catalog  后文是DataSrouceV2的关键接口。 TableProvider这是一个提供读写的数据源，他提供结构化数据。需要实现如下方法">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-24T08:19:08.000Z">
+<meta property="article:modified_time" content="2020-06-24T09:58:54.199Z">
+<meta property="article:author" content="Ssiu">
+<meta property="article:tag" content="Spark3">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.ibuer.fun/2020/06/24/spark-3-datasourcev2-01/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>spark-3 DataSourceV2-01 | Ssiu Blog</title>
   
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/" class="waves-effect waves-light">
-      
-      <i class="fas fa-home" style="zoom: 0.6;"></i>
-      
-      <span>首页</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/tags" class="waves-effect waves-light">
-      
-      <i class="fas fa-tags" style="zoom: 0.6;"></i>
-      
-      <span>标签</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/categories" class="waves-effect waves-light">
-      
-      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
-      
-      <span>分类</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/archives" class="waves-effect waves-light">
-      
-      <i class="fas fa-archive" style="zoom: 0.6;"></i>
-      
-      <span>归档</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/about" class="waves-effect waves-light">
-      
-      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
-      
-      <span>关于</span>
-    </a>
-    
-  </li>
-  
-  <li>
-    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
-      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
-    </a>
-  </li>
-</ul>
 
-<div id="mobile-nav" class="side-nav sidenav">
 
-    <div class="mobile-head bg-color">
-        
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
-        
-        <div class="logo-name">Ssiu Blog</div>
-        <div class="logo-desc">
-            
-            Never really desperate, only the lost of the soul.
-            
-        </div>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
+  </div>
 
-    
+  <div class="site-meta">
 
-    <ul class="menu-list mobile-menu-list">
-        
-        <li class="m-nav-item">
-	  
-		<a href="/" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-home"></i>
-			
-			首页
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/tags" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-tags"></i>
-			
-			标签
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/categories" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bookmark"></i>
-			
-			分类
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/archives" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-archive"></i>
-			
-			归档
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/about" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-user-circle"></i>
-			
-			关于
-		</a>
-          
-        </li>
-        
-        
-    </ul>
-</div>
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ssiu Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-        </div>
-
-        
-    </nav>
-
-</header>
-
-    
-
-
-
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
-    <div class="container" style="right: 0px;left: 0px;">
-        <div class="row">
-            <div class="col s12 m12 l12">
-                <div class="brand">
-                    <h1 class="description center-align post-title">spark-3 DataSourceV2-01</h1>
-                </div>
-            </div>
-        </div>
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
     </div>
+  </div>
 </div>
 
 
 
 
-<main class="post-container content">
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
 
     
-    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
-<style>
-    #articleContent h1::before,
-    #articleContent h2::before,
-    #articleContent h3::before,
-    #articleContent h4::before,
-    #articleContent h5::before,
-    #articleContent h6::before {
-        display: block;
-        content: " ";
-        height: 100px;
-        margin-top: -100px;
-        visibility: hidden;
-    }
 
-    #articleContent :focus {
-        outline: none;
-    }
 
-    .toc-fixed {
-        position: fixed;
-        top: 64px;
-    }
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
 
-    .toc-widget {
-        width: 345px;
-        padding-left: 20px;
-    }
+          <div class="content post posts-expand">
+            
 
-    .toc-widget .toc-title {
-        margin: 35px 0 15px 0;
-        padding-left: 17px;
-        font-size: 1.5rem;
-        font-weight: bold;
-        line-height: 1.5rem;
-    }
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2020/06/24/spark-3-datasourcev2-01/">
 
-    .toc-widget ol {
-        padding: 0;
-        list-style: none;
-    }
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
 
-    #toc-content {
-        height: calc(100vh - 250px);
-        overflow: auto;
-    }
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          spark-3 DataSourceV2-01
+        </h1>
 
-    #toc-content ol {
-        padding-left: 10px;
-    }
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
 
-    #toc-content ol li {
-        padding-left: 10px;
-    }
+              <time title="创建时间：2020-06-24 16:19:08 / 修改时间：17:58:54" itemprop="dateCreated datePublished" datetime="2020-06-24T16:19:08+08:00">2020-06-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spark3/" itemprop="url" rel="index"><span itemprop="name">Spark3</span></a>
+                </span>
+            </span>
 
-    #toc-content .toc-link:hover {
-        color: #42b983;
-        font-weight: 700;
-        text-decoration: underline;
-    }
-
-    #toc-content .toc-link::before {
-        background-color: transparent;
-        max-height: 25px;
-    }
-
-    #toc-content .is-active-link {
-        color: #42b983;
-    }
-
-    #toc-content .is-active-link::before {
-        background-color: #42b983;
-    }
-
-    #floating-toc-btn {
-        position: fixed;
-        right: 15px;
-        bottom: 76px;
-        padding-top: 15px;
-        margin-bottom: 0;
-        z-index: 998;
-    }
-
-    #floating-toc-btn .btn-floating {
-        width: 48px;
-        height: 48px;
-    }
-
-    #floating-toc-btn .btn-floating i {
-        line-height: 48px;
-        font-size: 1.4rem;
-    }
-</style>
-<div class="row">
-    <div id="main-content" class="col s12 m12 l9">
-        <!-- 文章内容详情 -->
-<div id="artDetail">
-    <div class="card">
-        <div class="card-content article-info">
-            <div class="row tag-cate">
-                <div class="col s7">
-                    
-                    <div class="article-tag">
-                        
-                            <a href="/tags/Spark3/">
-                                <span class="chip bg-color">Spark3</span>
-                            </a>
-                        
-                    </div>
-                    
-                </div>
-                <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/Spark3/" class="post-category">
-                                Spark3
-                            </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-
-            <div class="post-info">
-                
-                <div class="post-date info-break-policy">
-                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-06-24
-                </div>
-                
-
-                
-
-                
-
-                
-
-                
-            </div>
+          
 
         </div>
-        <hr class="clearfix">
-        <div class="card-content article-card-content">
-            <div id="articleContent">
-                <h2 id="Java-Interfaces"><a href="#Java-Interfaces" class="headerlink" title="Java Interfaces"></a>Java Interfaces</h2><p>Spark3中，DataSourceV2采用Java进行编写，而非Scala。这样做的主要目的是为了更好的和Java交互。</p>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Java-Interfaces"><a href="#Java-Interfaces" class="headerlink" title="Java Interfaces"></a>Java Interfaces</h2><p>Spark3中，DataSourceV2采用Java进行编写，而非Scala。这样做的主要目的是为了更好的和Java交互。</p>
 <p>大部分接口可以在下面的包中找到：</p>
-<pre class=" language-java"><code class="language-java">org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>spark<span class="token punctuation">.</span>sql<span class="token punctuation">.</span>connector<span class="token punctuation">.</span>catalog</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">org.apache.spark.sql.connector.catalog</span><br></pre></td></tr></table></figure>
+
 <p>后文是DataSrouceV2的关键接口。</p>
 <h2 id="TableProvider"><a href="#TableProvider" class="headerlink" title="TableProvider"></a>TableProvider</h2><p>这是一个提供读写的数据源，他提供结构化数据。需要实现如下方法：</p>
-<pre class=" language-java"><code class="language-java">StructType <span class="token function">inferSchema</span><span class="token punctuation">(</span>CaseInsensitiveStringMap options<span class="token punctuation">)</span><span class="token punctuation">;</span>
-Table <span class="token function">getTable</span><span class="token punctuation">(</span>StructType schema<span class="token punctuation">,</span> Transform<span class="token punctuation">[</span><span class="token punctuation">]</span> partitioning<span class="token punctuation">,</span> Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> String<span class="token operator">></span> properties<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">StructType <span class="title">inferSchema</span><span class="params">(CaseInsensitiveStringMap options)</span></span>;</span><br><span class="line"><span class="function">Table <span class="title">getTable</span><span class="params">(StructType schema, Transform[] partitioning, Map&lt;String, String&gt; properties)</span></span>;</span><br></pre></td></tr></table></figure>
+
 <ol>
 <li>inferSchema：</li>
 </ol>
 <blockquote>
-<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
- * Infer the schema of the table identified by the given options.
- *
- * @param options an immutable case-insensitive string-to-string map that can identify a table,
- *                e.g. file path, Kafka topic name, etc.
- */</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Infer the schema of the table identified by the given options.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> options an immutable case-insensitive string-to-string map that can identify a table,</span></span><br><span class="line"><span class="comment"> *                e.g. file path, Kafka topic name, etc.</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
 </blockquote>
 <p>通过给定的options，推断表结构。从而实现结构化数据。</p>
 <ol start="2">
 <li>getTable</li>
 </ol>
 <blockquote>
-<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
- * Return a {@link Table} instance with the specified table schema, partitioning and properties
- * to do read/write. The returned table should report the same schema and partitioning with the
- * specified ones, or Spark may fail the operation.
- *
- * @param schema The specified table schema.
- * @param partitioning The specified table partitioning.
- * @param properties The specified table properties. It's case preserving (contains exactly what
- *                   users specified) and implementations are free to use it case sensitively or
- *                   insensitively. It should be able to identify a table, e.g. file path, Kafka
- *                   topic name, etc.
- */</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Return a &#123;<span class="doctag">@link</span> Table&#125; instance with the specified table schema, partitioning and properties</span></span><br><span class="line"><span class="comment"> * to do read/write. The returned table should report the same schema and partitioning with the</span></span><br><span class="line"><span class="comment"> * specified ones, or Spark may fail the operation.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> schema The specified table schema.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> partitioning The specified table partitioning.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> properties The specified table properties. It&#x27;s case preserving (contains exactly what</span></span><br><span class="line"><span class="comment"> *                   users specified) and implementations are free to use it case sensitively or</span></span><br><span class="line"><span class="comment"> *                   insensitively. It should be able to identify a table, e.g. file path, Kafka</span></span><br><span class="line"><span class="comment"> *                   topic name, etc.</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
 </blockquote>
 <p>通过用户给定的信息去load数据。</p>
 <h2 id="Table"><a href="#Table" class="headerlink" title="Table"></a>Table</h2><p>Table是逻辑结构化数据集的接口，需要实现下述3种方法：</p>
-<pre class=" language-java"><code class="language-java">String <span class="token function">name</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-StructType <span class="token function">schema</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-Set<span class="token operator">&lt;</span>TableCapability<span class="token operator">></span> <span class="token function">capabilities</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">String <span class="title">name</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function">StructType <span class="title">schema</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function">Set&lt;TableCapability&gt; <span class="title">capabilities</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
 <ol>
 <li>name</li>
 </ol>
 <blockquote>
-<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
- * A name to identify this table. Implementations should provide a meaningful name, like the
- * database and table name from catalog, or the location of files for this table.
- */</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * A name to identify this table. Implementations should provide a meaningful name, like the</span></span><br><span class="line"><span class="comment"> * database and table name from catalog, or the location of files for this table.</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
 </blockquote>
 <p>用于标示表的名称。</p>
 <ol start="2">
 <li>schema</li>
 </ol>
 <blockquote>
-<pre><code>/**
- * Returns the schema of this table. If the table is not readable and doesn&#39;t have a schema, an
- * empty schema can be returned here.
- */</code></pre></blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Returns the schema of this table. If the table is not readable and doesn&#x27;t have a schema, an</span><br><span class="line"> * empty schema can be returned here.</span><br><span class="line"> */</span><br></pre></td></tr></table></figure>
+</blockquote>
 <p>返回表的schema，如果表不可读，或者没有schema时，将返回空的schema</p>
 <ol start="3">
 <li>capabilities</li>
 </ol>
 <blockquote>
-<pre><code>/**
- * Returns the set of capabilities for this table.
- */</code></pre></blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Returns the set of capabilities for this table.</span><br><span class="line"> */</span><br></pre></td></tr></table></figure>
+</blockquote>
 <p>返回表的性能。这是Spark3新的功能，允许指定支持哪种类型的操作表。如BATCH_READ、BATCH_WRITE。这有助于Spark在尝试运行操作之前验证这些信息。</p>
 <h2 id="SupportsRead"><a href="#SupportsRead" class="headerlink" title="SupportsRead"></a>SupportsRead</h2><p>该接口表示数据源是支持读的，需要实现下述方法：</p>
-<pre class=" language-java"><code class="language-java">ScanBuilder <span class="token function">newScanBuilder</span><span class="token punctuation">(</span>CaseInsensitiveStringMap options<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ScanBuilder <span class="title">newScanBuilder</span><span class="params">(CaseInsensitiveStringMap options)</span></span>;</span><br></pre></td></tr></table></figure>
+
 <blockquote>
-<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
- * Returns a {@link ScanBuilder} which can be used to build a {@link Scan}. Spark will call this
- * method to configure each data source scan.
- *
- * @param options The options for reading, which is an immutable case-insensitive
- *                string-to-string map.
- */</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Returns a &#123;<span class="doctag">@link</span> ScanBuilder&#125; which can be used to build a &#123;<span class="doctag">@link</span> Scan&#125;. Spark will call this</span></span><br><span class="line"><span class="comment"> * method to configure each data source scan.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> options The options for reading, which is an immutable case-insensitive</span></span><br><span class="line"><span class="comment"> *                string-to-string map.</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
 </blockquote>
 <p>返回一个ScanBuilder用来创建一个Scan（Scan会用来读取表，后文会介绍）。Spark会在配置Souce Scan时调用这个方法。</p>
 <h2 id="ScanBuilder"><a href="#ScanBuilder" class="headerlink" title="ScanBuilder"></a>ScanBuilder</h2><p>该接口会用来创建Scan，这个接口可以配合谓词下推（SupportsPushDownXYZ），帮助Scan读取所需数据。需要实现下述方法：</p>
-<pre><code>Scan build();</code></pre><h2 id="Scan"><a href="#Scan" class="headerlink" title="Scan"></a>Scan</h2><p>数据源扫描的逻辑表现形式。此接口用于提供逻辑信息，如实际的读取模式。这是所有不同扫描模式的通用接口（批、微批等）</p>
-<pre class=" language-java"><code class="language-java">StructType <span class="token function">readSchema</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">default</span> Batch <span class="token function">toBatch</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Scan build();</span><br></pre></td></tr></table></figure>
+
+<h2 id="Scan"><a href="#Scan" class="headerlink" title="Scan"></a>Scan</h2><p>数据源扫描的逻辑表现形式。此接口用于提供逻辑信息，如实际的读取模式。这是所有不同扫描模式的通用接口（批、微批等）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">StructType <span class="title">readSchema</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">default</span> Batch <span class="title">toBatch</span><span class="params">()</span></span>&#123;&#125;;</span><br></pre></td></tr></table></figure>
+
 <p>readSchema</p>
 <blockquote>
-<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
- * Returns the actual schema of this data source scan, which may be different from the physical
- * schema of the underlying storage, as column pruning or other optimizations may happen.
- */</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Returns the actual schema of this data source scan, which may be different from the physical</span></span><br><span class="line"><span class="comment"> * schema of the underlying storage, as column pruning or other optimizations may happen.</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
 </blockquote>
 <p>数据源的实际结构，这个看起来似乎和Table接口有重复。这是因为，在发生列裁剪或其他优化后，结构可能发生改变。这个方法返回的是最初的schema。</p>
 <ol start="2">
 <li>toBatch</li>
 </ol>
 <blockquote>
-<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
- * Returns the physical representation of this scan for batch query. By default this method throws
- * exception, data sources must overwrite this method to provide an implementation, if the
- * {@link Table} that creates this scan returns {@link TableCapability#BATCH_READ} support in its
- * {@link Table#capabilities()}.
- *
- * @throws UnsupportedOperationException
- */</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Returns the physical representation of this scan for batch query. By default this method throws</span></span><br><span class="line"><span class="comment"> * exception, data sources must overwrite this method to provide an implementation, if the</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> Table&#125; that creates this scan returns &#123;<span class="doctag">@link</span> TableCapability#BATCH_READ&#125; support in its</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> Table#capabilities()&#125;.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> UnsupportedOperationException</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
 </blockquote>
 <p>在批处理时，这个方法需要被override。</p>
 <h2 id="Batch"><a href="#Batch" class="headerlink" title="Batch"></a>Batch</h2><p>进行批处理时的数据源的物理表现，这个接口用于提供一些物理信息，如：扫描的数据有多少分区，如何去读取分区数据。</p>
 <p>需要实现如下方法：</p>
-<pre class=" language-java"><code class="language-java">InputPartition<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">planInputPartitions</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-PartitionReaderFactory <span class="token function">createReaderFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">InputPartition[] planInputPartitions();</span><br><span class="line"><span class="function">PartitionReaderFactory <span class="title">createReaderFactory</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
 <ol>
 <li>planInputPartitions</li>
 </ol>
 <blockquote>
-<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
- * Returns a list of {@link InputPartition input partitions}. Each {@link InputPartition}
- * represents a data split that can be processed by one Spark task. The number of input
- * partitions returned here is the same as the number of RDD partitions this scan outputs.
- * 
- * If the {@link Scan} supports filter pushdown, this Batch is likely configured with a filter
- * and is responsible for creating splits for that filter, which is not a full scan.
- * 
- * This method will be called only once during a data source scan, to launch one Spark job.
- * 
- */</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Returns a list of &#123;<span class="doctag">@link</span> InputPartition input partitions&#125;. Each &#123;<span class="doctag">@link</span> InputPartition&#125;</span></span><br><span class="line"><span class="comment"> * represents a data split that can be processed by one Spark task. The number of input</span></span><br><span class="line"><span class="comment"> * partitions returned here is the same as the number of RDD partitions this scan outputs.</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * If the &#123;<span class="doctag">@link</span> Scan&#125; supports filter pushdown, this Batch is likely configured with a filter</span></span><br><span class="line"><span class="comment"> * and is responsible for creating splits for that filter, which is not a full scan.</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * This method will be called only once during a data source scan, to launch one Spark job.</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
 </blockquote>
 <p>返回输入分区列表，这个方法决定了数据的分区数。</p>
 <ol start="2">
 <li>createReaderFactory</li>
 </ol>
 <blockquote>
-<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
- * Returns a factory to create a {@link PartitionReader} for each {@link InputPartition}.
- */</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Returns a factory to create a &#123;<span class="doctag">@link</span> PartitionReader&#125; for each &#123;<span class="doctag">@link</span> InputPartition&#125;.</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
 </blockquote>
 <p>返回一个用于创建PartitionReader的工厂，PartitionReader和InputPartition是一一对应的。</p>
 <h2 id="PartitionReaderFactory"><a href="#PartitionReaderFactory" class="headerlink" title="PartitionReaderFactory"></a>PartitionReaderFactory</h2>
-            </div>
-            <hr/>
-
-            
-
-    <div class="reprint" id="reprint-statement">
-        
-            <div class="reprint__author">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-user">
-                        文章作者:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    <a href="http://blog.ibuer.fun" rel="external nofollow noreferrer">Ssiu</a>
-                </span>
-            </div>
-            <div class="reprint__type">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-link">
-                        文章链接:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    <a href="http://blog.ibuer.fun/2020/06/24/spark-3-datasourcev2-01/">http://blog.ibuer.fun/2020/06/24/spark-3-datasourcev2-01/</a>
-                </span>
-            </div>
-            <div class="reprint__notice">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-copyright">
-                        版权声明:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    本博客所有文章除特別声明外，均采用
-                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
-                    许可协议。转载请注明来源
-                    <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
-                    !
-                </span>
-            </div>
-        
     </div>
 
-    <script async defer>
-      document.addEventListener("copy", function (e) {
-        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
-        M.toast({html: toastHTML})
-      });
+    
+    
+    
 
-      function navToReprintStatement() {
-        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Spark3/" rel="tag"># Spark3</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/22/spark-3-0-hadoop2-6-cdh-bian-yi-de-wen-ti/" rel="prev" title="spark-3.0 Hadoop2.6-CDH编译的问题">
+      <i class="fa fa-chevron-left"></i> spark-3.0 Hadoop2.6-CDH编译的问题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/01/17/flink-de-shi-jian-yu-yi-ji-jian-dan-shi-yong/" rel="next" title="Flink的时间语义及简单使用">
+      Flink的时间语义及简单使用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
       }
-    </script>
-
-
-
-            <div class="tag_share" style="display: block;">
-                <div class="post-meta__tag-list" style="display: inline-block;">
-                    
-                        <div class="article-tag">
-                            
-                                <a href="/tags/Spark3/">
-                                    <span class="chip bg-color">Spark3</span>
-                                </a>
-                            
-                        </div>
-                    
-                </div>
-                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
-                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
-
-<div id="article-share">
-    
-    
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
-    <script src="/libs/share/js/social-share.min.js"></script>
-    
-
-    
-
-</div>
-
-                </div>
-            </div>
-            
-        </div>
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-<article id="prenext-posts" class="prev-next articles">
-    <div class="row article-row">
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
-            <div class="card">
-                <a href="/2021/01/17/flink-de-shi-jian-yu-yi-ji-jian-dan-shi-yong/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Flink的时间语义及简单使用">
-                        
-                        <span class="card-title">Flink的时间语义及简单使用</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-本文Flink API版本：java-1.12
-
-
-注1 ： Flink在1.11后，通过WatermarkStrategy来指定水位线及事件时间。将AssignerWithPeriodicWatermarks和AssignerWithP
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-01-17
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-user fa-fw"></i>
-                            Ssiu
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Flink/">
-                        <span class="chip bg-color">Flink</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2020/06/22/spark-3-0-hadoop2-6-cdh-bian-yi-de-wen-ti/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="spark-3.0 Hadoop2.6-CDH编译的问题">
-                        
-                        <span class="card-title">spark-3.0 Hadoop2.6-CDH编译的问题</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            使用cdh5版本编译Spark3时，会出现如下问题：
-&gt; [ERROR] [Error]
-&gt; /Users/xxx/Documents/codes/xxx/spark-3.0/resource-managers/yarn/src
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-22
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/Spark3/" class="post-category">
-                                    Spark3
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Spark3/">
-                        <span class="chip bg-color">Spark3</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-    </div>
-</article>
-
-</div>
-
-
-
-<!-- 代码块功能依赖 -->
-<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
-
-<!-- 代码语言 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
-
-
-<!-- 代码块复制 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
-
-
-<!-- 代码块收缩 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
-
-
-<!-- 代码块折行 -->
-
-<style type="text/css">
-code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
-</style>
-
-
-    </div>
-    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
-        <div class="toc-widget">
-            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
-            <div id="toc-content"></div>
-        </div>
-    </div>
-</div>
-
-<!-- TOC 悬浮按钮. -->
-
-<div id="floating-toc-btn" class="hide-on-med-and-down">
-    <a class="btn-floating btn-large bg-color">
-        <i class="fas fa-list-ul"></i>
-    </a>
-</div>
-
-
-<script src="/libs/tocbot/tocbot.min.js"></script>
-<script>
-    $(function () {
-        tocbot.init({
-            tocSelector: '#toc-content',
-            contentSelector: '#articleContent',
-            headingsOffset: -($(window).height() * 0.4 - 45),
-            collapseDepth: Number('0'),
-            headingSelector: 'h2, h3, h4'
-        });
-
-        // modify the toc link href to support Chinese.
-        let i = 0;
-        let tocHeading = 'toc-heading-';
-        $('#toc-content a').each(function () {
-            $(this).attr('href', '#' + tocHeading + (++i));
-        });
-
-        // modify the heading title id to support Chinese.
-        i = 0;
-        $('#articleContent').children('h2, h3, h4').each(function () {
-            $(this).attr('id', tocHeading + (++i));
-        });
-
-        // Set scroll toc fixed.
-        let tocHeight = parseInt($(window).height() * 0.4 - 64);
-        let $tocWidget = $('.toc-widget');
-        $(window).scroll(function () {
-            let scroll = $(window).scrollTop();
-            /* add post toc fixed. */
-            if (scroll > tocHeight) {
-                $tocWidget.addClass('toc-fixed');
-            } else {
-                $tocWidget.removeClass('toc-fixed');
-            }
-        });
-
-        
-        /* 修复文章卡片 div 的宽度. */
-        let fixPostCardWidth = function (srcId, targetId) {
-            let srcDiv = $('#' + srcId);
-            if (srcDiv.length === 0) {
-                return;
-            }
-
-            let w = srcDiv.width();
-            if (w >= 450) {
-                w = w + 21;
-            } else if (w >= 350 && w < 450) {
-                w = w + 18;
-            } else if (w >= 300 && w < 350) {
-                w = w + 16;
-            } else {
-                w = w + 14;
-            }
-            $('#' + targetId).width(w);
-        };
-
-        // 切换TOC目录展开收缩的相关操作.
-        const expandedClass = 'expanded';
-        let $tocAside = $('#toc-aside');
-        let $mainContent = $('#main-content');
-        $('#floating-toc-btn .btn-floating').click(function () {
-            if ($tocAside.hasClass(expandedClass)) {
-                $tocAside.removeClass(expandedClass).hide();
-                $mainContent.removeClass('l9');
-            } else {
-                $tocAside.addClass(expandedClass).show();
-                $mainContent.addClass('l9');
-            }
-            fixPostCardWidth('artDetail', 'prenext-posts');
-        });
-        
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
     });
+  }
 </script>
 
-    
-
-</main>
-
-
-
-    <footer class="page-footer bg-color">
-    <div class="container row center-align" style="margin-bottom: 0px !important;">
-        <div class="col s12 m8 l8 copy-right">
-            Copyright&nbsp;&copy;
-            <span id="year">2017-2020</span>
-            <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
-            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
-            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
-            <br>
-            
-            
-            
-            
-            
-            
-            <span id="busuanzi_container_site_pv" style="display:none">
-                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
-                    class="white-color"></span>&nbsp;次
-            </span>
-            
-            
-            <span id="busuanzi_container_site_uv" style="display:none">
-                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
-                    class="white-color"></span>&nbsp;人
-            </span>
-            
-            
         </div>
-        <div class="col s12 m4 l4 social-link social-statis">
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
 
+  <aside class="sidebar">
+    <div class="sidebar-inner">
 
-    <a href="mailto:smokeriu@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
-        <i class="fas fa-envelope-open"></i>
-    </a>
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
 
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-Interfaces"><span class="nav-number">1.</span> <span class="nav-text">Java Interfaces</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TableProvider"><span class="nav-number">2.</span> <span class="nav-text">TableProvider</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Table"><span class="nav-number">3.</span> <span class="nav-text">Table</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SupportsRead"><span class="nav-number">4.</span> <span class="nav-text">SupportsRead</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ScanBuilder"><span class="nav-number">5.</span> <span class="nav-text">ScanBuilder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scan"><span class="nav-number">6.</span> <span class="nav-text">Scan</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Batch"><span class="nav-number">7.</span> <span class="nav-text">Batch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PartitionReaderFactory"><span class="nav-number">8.</span> <span class="nav-text">PartitionReaderFactory</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
 
-
-
-
-
-
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=604522169" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 604522169" data-position="top" data-delay="50">
-        <i class="fab fa-qq"></i>
-    </a>
-
-
-
-
-
-
-
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ssiu</p>
+  <div class="site-description" itemprop="description"></div>
 </div>
-    </div>
-</footer>
-
-<div class="progress-bar"></div>
-
-<script language=javascript>
-    function siteTime() {
-        window.setTimeout("siteTime()", 1000);
-        var seconds = 1000;
-        var minutes = seconds * 60;
-        var hours = minutes * 60;
-        var days = hours * 24;
-	var months = days * 30;
-        var years = days * 365;
-        var today = new Date();
-        var todayYear = today.getFullYear();
-        var todayMonth = today.getMonth() + 1;
-        var todayDate = today.getDate();
-        var todayHour = today.getHours();
-        var todayMinute = today.getMinutes();
-        var todaySecond = today.getSeconds();
-        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
-        year - 作为date对象的年份，为4位年份值
-        month - 0-11之间的整数，做为date对象的月份
-        day - 1-31之间的整数，做为date对象的天数
-        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
-        minutes - 0-59之间的整数，做为date对象的分钟数
-        seconds - 0-59之间的整数，做为date对象的秒数
-        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
-        var t1 = Date.UTC(2017, 02, 12, 00, 00, 00); //北京时间2018-2-13 00:00:00
-        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
-        var diff = t2 - t1;
-        var diffYears = Math.floor(diff / years);
-        var diffDays = Math.floor((diff / days) - diffYears * 365);
-        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
-        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
-        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
-        document.getElementById("sitetime").innerHTML = "本站已运行 " +diffYears+" 年 "+diffDays + " 天 ";
-    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
-    siteTime();
-</script>
-
-
-<script>
-    $(document).ready(function () {
-
-        var int = setInterval(fixCount, 50);  // 50ms周期检测函数
-        var pvcountOffset = 5423;  // 初始化首次数据
-        var uvcountOffset = 3322;
-
-        function fixCount() {
-            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
-                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
-                clearInterval(int);
-            }
-            if ($("#busuanzi_container_site_pv").css("display") != "none") {
-                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
-                clearInterval(int); // 停止检测
-            }
-        }
-    });
-</script>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
 
 
 
-    <!-- 搜索遮罩框 -->
-<div id="searchModal" class="modal">
-    <div class="modal-content">
-        <div class="search-header">
-            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
-            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
-                   class="search-input">
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
         </div>
-        <div id="searchResult"></div>
+
     </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ssiu</span>
 </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
 
-<script src="/js/search.js"></script>
-<script type="text/javascript">
-$(function () {
-    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
-});
-</script>
-    <!-- 回到顶部按钮 -->
-<div id="backTop" class="top-scroll">
-    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
-        <i class="fas fa-arrow-up"></i>
-    </a>
-</div>
+        
 
 
-    <script src="/libs/materialize/materialize.min.js"></script>
-    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
-    <script src="/libs/aos/aos.js"></script>
-    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
-    <script src="/js/matery.js"></script>
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <!-- Baidu Analytics -->
 
-    <!-- Baidu Push -->
 
-<script>
-    (function () {
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        } else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-</script>
 
-    
-    
-    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
-    
 
-    
+      </div>
+    </footer>
+  </div>
 
-    
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
-    
+<script src="/js/utils.js"></script>
 
-    
+<script src="/js/motion.js"></script>
 
-    
-    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
-    
-    
-    
-    <script src="/libs/instantpage/instantpage.js" type="module"></script>
-    
 
-</body>
+<script src="/js/schemes/pisces.js"></script>
 
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
 </html>

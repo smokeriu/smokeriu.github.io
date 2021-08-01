@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-material.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.ibuer.fun","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="一般情况下，在KeyedProcessFunction#processElement()方法中会用到Timer，注册Timer然后重写其onTimer()方法。在Watermark超过Timer的时间点之后，触发onTimer()方法。包含事件时间和处理时间两种Timer。 Timer在在注册过程中会使用到定时器服务TimerService，该服务提供了定时器的管理行为。包括定时器的删除和注册。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flink中时间服务">
+<meta property="og:url" content="http://blog.ibuer.fun/2021/07/25/flink-zhong-shi-jian-fu-wu/index.html">
+<meta property="og:site_name" content="Ssiu Blog">
+<meta property="og:description" content="一般情况下，在KeyedProcessFunction#processElement()方法中会用到Timer，注册Timer然后重写其onTimer()方法。在Watermark超过Timer的时间点之后，触发onTimer()方法。包含事件时间和处理时间两种Timer。 Timer在在注册过程中会使用到定时器服务TimerService，该服务提供了定时器的管理行为。包括定时器的删除和注册。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-07-25T03:52:38.000Z">
+<meta property="article:modified_time" content="2021-08-01T05:34:48.666Z">
+<meta property="article:author" content="Ssiu">
+<meta property="article:tag" content="Flink">
+<meta property="article:tag" content="Time">
+<meta property="article:tag" content="Window">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.ibuer.fun/2021/07/25/flink-zhong-shi-jian-fu-wu/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Flink中时间服务 | Ssiu Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ssiu Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2021/07/25/flink-zhong-shi-jian-fu-wu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Flink中时间服务
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-07-25 11:52:38" itemprop="dateCreated datePublished" datetime="2021-07-25T11:52:38+08:00">2021-07-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 13:34:48" itemprop="dateModified" datetime="2021-08-01T13:34:48+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Flink/" itemprop="url" rel="index"><span itemprop="name">Flink</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>一般情况下，在<code>KeyedProcessFunction#processElement()</code>方法中会用到Timer，注册Timer然后重写其<code>onTimer()</code>方法。在Watermark超过Timer的时间点之后，触发<code>onTimer()</code>方法。包含事件时间和处理时间两种Timer。</p>
+<p>Timer在在注册过程中会使用到定时器服务<code>TimerService</code>，该服务提供了定时器的管理行为。包括定时器的删除和注册。</p>
+<p>简单来讲，在算子中使用<code>TimerService</code>来创建<code>Timer</code>，并且在<code>Timer</code>触发的时候进行回调，进行相应的业务处理。</p>
+<span id="more"></span>
+
+<p>Flink在开发层面，会在<code>KeyedProcessFunction</code>和<code>Window</code>中使用到时间概念。</p>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>一般情况下，在<code>KeyedProcessFunction#processElement()</code>方法中会用到Timer，注册Timer然后重写其<code>onTimer()</code>方法。在Watermark超过Timer的时间点之后，触发<code>onTimer()</code>方法。包含事件时间和处理时间两种Timer。</p>
+<p>Timer在在注册过程中会使用到定时器服务<code>TimerService</code>，该服务提供了定时器的管理行为。包括定时器的删除和注册。</p>
+<p>简单来讲，在算子中使用<code>TimerService</code>来创建<code>Timer</code>，并且在<code>Timer</code>触发的时候进行回调，进行相应的业务处理。</p>
+<h1 id="定时器服务"><a href="#定时器服务" class="headerlink" title="定时器服务"></a>定时器服务</h1><p>定时器服务在Flink中叫做<code>TimerService</code>，窗口算子<code>WindowOperator</code>中使用了<code>InternalTimerService</code>来管理定时器<code>Timer</code>，其初始化是在<code>WindowOperator#open()</code>中实现的。</p>
+<blockquote>
+<p><code>InternalTimerService</code>并不是<code>TimerService</code>继承/实现关系。仅仅是<code>org.apache.flink.streaming.api.TimerService</code>的内部版本。两者是独立的接口。</p>
+<p><code>TimerService</code>有一个实现类为<code>SimpleTimerService</code>，而**<code>SimpleTimerService</code>主要是委托给<code>InternalTimerService</code>来实现。**</p>
+<p><code>InternalTimerService</code>是<code>TimerService</code>的internal版本的接口，比起<code>TimerService</code>它定义了<code>namespace</code>，</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// WindowOperator.java</span></span><br><span class="line">internalTimerService = getInternalTimerService(<span class="string">&quot;window-timers&quot;</span>, windowSerializer, <span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// AbstractStreamOperator.java</span></span><br><span class="line"><span class="keyword">public</span> &lt;K, N&gt; <span class="function">InternalTimerService&lt;N&gt; <span class="title">getInternalTimerService</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">        String name, TypeSerializer&lt;N&gt; namespaceSerializer, Triggerable&lt;K, N&gt; triggerable)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (timeServiceManager == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;The timer service has not been initialized.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@SuppressWarnings(&quot;unchecked&quot;)</span></span><br><span class="line">    InternalTimeServiceManager&lt;K&gt; keyedTimeServiceHandler =</span><br><span class="line">            (InternalTimeServiceManager&lt;K&gt;) timeServiceManager;</span><br><span class="line">    KeyedStateBackend&lt;K&gt; keyedStateBackend = getKeyedStateBackend();</span><br><span class="line">    checkState(keyedStateBackend != <span class="keyword">null</span>, <span class="string">&quot;Timers can only be used on keyed operators.&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> keyedTimeServiceHandler.getInternalTimerService(</span><br><span class="line">            name, keyedStateBackend.getKeySerializer(), namespaceSerializer, triggerable);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于InternalTimerService而言，有几个元素比较重要：名称、命名空间类型N（及其序列化器）、键类型K（及其序列化器）和Triggerable对象（支持延时计算的算子，继承了<code>Triggerable</code>接口来实现回调）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Registers a timer to be fired when event time watermark passes the given time. The namespace</span></span><br><span class="line"><span class="comment"> * you pass here will be provided when the timer fires.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">registerEventTimeTimer</span><span class="params">(N namespace, <span class="keyword">long</span> time)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Deletes the timer for the given key and namespace. */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">deleteEventTimeTimer</span><span class="params">(N namespace, <span class="keyword">long</span> time)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="定时器"><a href="#定时器" class="headerlink" title="定时器"></a>定时器</h1><p>对于事件时间，会根据Watermark的时间，从事件时间的定时器队列中，找到比给定时间小的所有定时器，触发该Timer所在的算子，然后由算子去调用UDF中的onTime方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// InternalTimerServiceImpl.java</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">advanceWatermark</span><span class="params">(<span class="keyword">long</span> time)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    currentWatermark = time;</span><br><span class="line"></span><br><span class="line">    InternalTimer&lt;K, N&gt; timer;</span><br><span class="line">		</span><br><span class="line">  	<span class="comment">// 取出一个定时器，并判断其中的时间</span></span><br><span class="line">    <span class="keyword">while</span> ((timer = eventTimeTimersQueue.peek()) != <span class="keyword">null</span> &amp;&amp; timer.getTimestamp() &lt;= time) &#123;</span><br><span class="line">        eventTimeTimersQueue.poll();</span><br><span class="line">        keyContext.setCurrentKey(timer.getKey());</span><br><span class="line">        triggerTarget.onEventTime(timer);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Triggerable.java</span></span><br><span class="line"><span class="comment">/** Invoked when an event-time timer fires. */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">onEventTime</span><span class="params">(InternalTimer&lt;K, N&gt; timer)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 某一个实现:KeyedCoProcessOperator.java</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onEventTime</span><span class="params">(InternalTimer&lt;K, VoidNamespace&gt; timer)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    collector.setAbsoluteTimestamp(timer.getTimestamp());</span><br><span class="line">    onTimerContext.timeDomain = TimeDomain.EVENT_TIME;</span><br><span class="line">    onTimerContext.timer = timer;</span><br><span class="line">  	<span class="comment">// userFunction即是某一个Function</span></span><br><span class="line">    userFunction.onTimer(timer.getTimestamp(), onTimerContext, collector);</span><br><span class="line">    onTimerContext.timeDomain = <span class="keyword">null</span>;</span><br><span class="line">    onTimerContext.timer = <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="优先级队列"><a href="#优先级队列" class="headerlink" title="优先级队列"></a>优先级队列</h1><p>Flink自己实现了优先级队列来管理Timer，共有两种实现：</p>
+<ol>
+<li>基于堆内存的优先队列<code>HeapPriorityQueueSet</code>：基于Java堆内存的优先级队列。使用二叉树实现。</li>
+<li>基于RocksDB的优先级队列。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Flink/" rel="tag"># Flink</a>
+              <a href="/tags/Time/" rel="tag"># Time</a>
+              <a href="/tags/Window/" rel="tag"># Window</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/24/flink-zhong-shui-yin-de-shi-yong/" rel="prev" title="Flink中水印的使用">
+      <i class="fa fa-chevron-left"></i> Flink中水印的使用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/07/26/spark-zhong-diao-yong-c-de-dong-tai-ku/" rel="next" title="Spark中调用C的动态库">
+      Spark中调用C的动态库 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9A%E6%97%B6%E5%99%A8%E6%9C%8D%E5%8A%A1"><span class="nav-number">2.</span> <span class="nav-text">定时器服务</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9A%E6%97%B6%E5%99%A8"><span class="nav-number">3.</span> <span class="nav-text">定时器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%98%E5%85%88%E7%BA%A7%E9%98%9F%E5%88%97"><span class="nav-number">4.</span> <span class="nav-text">优先级队列</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ssiu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ssiu</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
+</html>

@@ -1,775 +1,1306 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="zh-CN">
-
-
 <head>
-    <meta charset="utf-8">
-    <meta name="keywords" content="Ssiu Blog">
-    <meta name="description" content="Ssiu Blog">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="renderer" content="webkit|ie-stand|ie-comp">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Ssiu Blog</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
-    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/matery.css">
-    <link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" href="/css/main.css">
 
-    <script src="/libs/jquery/jquery.min.js"></script>
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-material.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.ibuer.fun","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Ssiu Blog">
+<meta property="og:url" content="http://blog.ibuer.fun/page/8/index.html">
+<meta property="og:site_name" content="Ssiu Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Ssiu">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.ibuer.fun/page/8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Ssiu Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ssiu Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
     
-<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
-<body>
-    <header class="navbar-fixed">
-    <nav id="headNav" class="bg-color nav-transparent">
-        <div id="navContainer" class="nav-wrapper container">
-            <div class="brand-logo">
-                <a href="/" class="waves-effect waves-light">
-                    
-                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
-                    
-                    <span class="logo-span">Ssiu Blog</span>
-                </a>
-            </div>
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2019/07/26/updatestatebykey-vs-mapwithstate/">
 
-<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
-<ul class="right nav-menu">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/07/26/updatestatebykey-vs-mapwithstate/" class="post-title-link" itemprop="url">updateStateByKey vs mapWithState</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-07-26 22:18:35" itemprop="dateCreated datePublished" datetime="2019-07-26T22:18:35+08:00">2019-07-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-18 11:10:30" itemprop="dateModified" datetime="2020-02-18T11:10:30+08:00">2020-02-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spark/" itemprop="url" rel="index"><span itemprop="name">Spark</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="有状态转换"><a href="#有状态转换" class="headerlink" title="有状态转换"></a>有状态转换</h2><p>在SparkStreaming中，有时候我们需要进行聚合操作，且依赖于以前的数据，就需要使用到有状态算子。<br>不过由于SparkStreaming中，有状态算子依赖Checkpoint，而Checkpoint有个很大的弊端就是修改代码后失效，所以实际使用时需要用到他们的初始化值。但目前应该先理解有状态转换算子。</p>
+<h2 id="updateWithStateByKey"><a href="#updateWithStateByKey" class="headerlink" title="updateWithStateByKey"></a>updateWithStateByKey</h2><p>简单来说，这个算子的功能是按照Key，将上一批次得到的State与当前批次的Value进行func操作。</p>
+<h3 id="使用层面："><a href="#使用层面：" class="headerlink" title="使用层面："></a>使用层面：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">def updateStateByKey[S: ClassTag](</span><br><span class="line">    updateFunc: (Iterator[(K, Seq[V], Option[S])]) =&gt; Iterator[(K, S)],</span><br><span class="line">    partitioner: Partitioner,</span><br><span class="line">    rememberPartitioner: Boolean): DStream[(K, S)] = ssc.withScope &#123;</span><br><span class="line">  val cleanedFunc = ssc.sc.clean(updateFunc)</span><br><span class="line">  val newUpdateFunc = (_: Time, it: Iterator[(K, Seq[V], Option[S])]) =&gt; &#123;</span><br><span class="line">    cleanedFunc(it)</span><br><span class="line">  &#125;</span><br><span class="line">  new StateDStream(self, newUpdateFunc, partitioner, rememberPartitioner, None)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用时主要需要传入一个函数func：</p>
+<ol>
+<li>func传入两个参数：更新值（Seq[V]），累计值（Option[U]）。</li>
+<li>将更新值与累计值进行func操作，返回累计值Option[U]。</li>
+<li>这个返回值会作为下一阶段的累计值使用，如此循环。</li>
+</ol>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">val stateDstream = inputKeyDStream</span><br><span class="line">    .updateStateByKey((newValues: Seq[Int], oldValue: Option[Int]) =&gt; &#123;</span><br><span class="line">		// 更新状态</span><br><span class="line">        Some(newValues.foldLeft(oldValue.getOrElse(0))(_ + _))</span><br><span class="line">    &#125;)</span><br><span class="line">    .foreachRDD(rdd =&gt; &#123;</span><br><span class="line">        rdd.foreach(pair =&gt; println(s&quot;k=$&#123;pair._1&#125; v=$&#123;pair._2&#125;&quot;))</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="实现原理："><a href="#实现原理：" class="headerlink" title="实现原理："></a>实现原理：</h3><ol>
+<li>updateStateByKey方法内部最后会new一个StateDStream。</li>
+<li>StateDStream的compute方法会先获取上一个batch计算出的RDD（历史数据）。然后获取本次batch中StateDStream的父类计算出的RDD（本次数据）。然后调用computeUsingPreviousRDD方法。</li>
+<li>computeUsingPreviousRDD方法会对两个RDD进行cogroup操作（性能低），并应用func。</li>
+</ol>
+<p>逻辑图如下：</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1581835901663.png" alt="updateStateByKey方法内部最后会new"></p>
+<h2 id="mapWithState"><a href="#mapWithState" class="headerlink" title="mapWithState"></a>mapWithState</h2><p>updateWithStateByKey每次更新状态时，都需要对状态数据进行全量的聚合操作，这一步是相当耗费性能的。从Spark-1.6开始，Spark-Streaming引入一种新的状态管理机制mapWithState。<br>不过目前这个算子仍然被标记为：@Experimental。使用时需要注意。</p>
+<h3 id="使用层面"><a href="#使用层面" class="headerlink" title="使用层面"></a>使用层面</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">def mapWithState[StateType: ClassTag, MappedType: ClassTag](</span><br><span class="line">    spec: StateSpec[K, V, StateType, MappedType]</span><br><span class="line">  ): MapWithStateDStream[K, V, StateType, MappedType] = &#123;</span><br><span class="line">  new MapWithStateDStreamImpl[K, V, StateType, MappedType](</span><br><span class="line">    self,</span><br><span class="line">    spec.asInstanceOf[StateSpecImpl[K, V, StateType, MappedType]]</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>mapWithState接受参数：StateSpec[KeyType,valueType,StateType,MappedType]，其实就是写StateSpec.function</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>KeyType</td>
+<td>Key的类型。</td>
+</tr>
+<tr>
+<td>valueType</td>
+<td>value。可以理解为新数据的类型。</td>
+</tr>
+<tr>
+<td>stateType</td>
+<td>state。可以理解为历史累计数据的类型。</td>
+</tr>
+<tr>
+<td>mappedType</td>
+<td>映射数据。可以理解为Dstream/RDD中的数据类型。只有这个数据可以被其他算子使用到。</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>StateSpec：</p>
+<table>
+<thead>
+<tr>
+<th>算子</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>function(func)</td>
+<td>具体如何更新状态。func接受参数：[KeyType , Option[valueType] , State[StateType]] 经过转换返回 [MappedType]。需要在func中通过State.get，State.update等方法来维护State。</td>
+</tr>
+<tr>
+<td>initialState(RDD)</td>
+<td>（可选）初始的RDD[(KeyType,StateType)]</td>
+</tr>
+<tr>
+<td>timeout(Duration)</td>
+<td>（可选）key的过期时间。过期后会将key删除（因为state一旦调用remove，将不能update）</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>返回：MapWithStateDStream[KeyType,valueType,StateType,MappedType]</p>
+</li>
+<li><p>维护State：<br>mapWithState的历史信息是放在StateRDD中维护的，准确说是MapWithStateRDDRecord。<br>内部会将KV保存成对应的StateMap中</p>
+</li>
+</ol>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">stream</span><br><span class="line">   .map(message =&gt; (message._2, 1))</span><br><span class="line">   .mapWithState(StateSpec.function((key: String, value: Option[Int], state: State[Long]) =&gt; &#123;</span><br><span class="line">       val sum = value.getOrElse(0).toLong + state.getOption.getOrElse(0L)</span><br><span class="line">       val output = (key, sum)</span><br><span class="line">	// 更新状态</span><br><span class="line">       state.update(sum)</span><br><span class="line">       println(s&quot;MapWithState: key=$key value=$value state=$state&quot;)</span><br><span class="line">       output</span><br><span class="line">   &#125;))</span><br><span class="line">    .foreachRDD(rdd =&gt; &#123;</span><br><span class="line">       rdd.foreach(pair =&gt; println(s&quot;MapWithState: key=$&#123;pair._1&#125; value=$&#123;pair._2&#125;&quot;))</span><br><span class="line">   &#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="实现逻辑："><a href="#实现逻辑：" class="headerlink" title="实现逻辑："></a>实现逻辑：</h3><ol>
+<li><p>mapWithState接受更新函数mappingFunc，该函数会更新指定用户的状态，同时会返回更新后的状态。</p>
+<p> Spark-Streaming通过根据我们定义的更新函数，在每个计算时间间隔内更新内部维护的状态，同时返回经过mappingFunc后的结果数据流。<br> <img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1581838901682.png" alt="mapWithState"><br> <font color=blue>蓝色箭头</font>为实时过来的数据流<font color=blue>liveDStream</font>，通过liveDStream.mapWithState的调用，会得到一个<font color=green>MapWithStateDStream</font>（mapWithState算子返回值），为方框中上面<font color=green>浅绿色的箭头</font>。</p>
+</li>
+</ol>
+<ol start="2">
+<li><p>计算过程中，Spark-Streaming会遍历当前时间间隔内的数据rdd-x，在上一个时间间隔的状态state-(x-1)中查找指定的记录，并更新状态，更新操作就是我们前面定义的mappingFunc函数。</p>
+<p> 这里的状态更新不再需要全量扫描状态数据了，状态数据是存在hashmap中，可以根据过来的数据快速定位到。<br> <img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1581839214555.png" alt="mapWithState"><br> 首先通过partitionBy将新来的数据分区到对应的状态分区上，每个状态分区中的仅有一条记录，类型为MapWithStateRDDRecord，它打包了两份数据：stateMap保存当前分区内所有的状态、mappedData保存经过mappingFunc处理后的结果。</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">case class MapWithStateRDDRecord[K, S, E](var stateMap: StateMap[K, S], var mappedData: Seq[E])</span><br></pre></td></tr></table></figure>
+<p> 默认输出的是mappedData这份（如果一个key在一个batch中存在多次，会一次输出多分mappedData）<br>如果需要输出全量状态，则可以在mapWithState后调用snapshot函数获取。</p>
+</li>
+</ol>
+<h2 id="updateWithStateByKey-vs-mapWithState"><a href="#updateWithStateByKey-vs-mapWithState" class="headerlink" title="updateWithStateByKey vs mapWithState"></a>updateWithStateByKey vs mapWithState</h2><p>相同点：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>都是pairDStream的算子。</td>
+</tr>
+<tr>
+<td>都需要checkPoints</td>
+</tr>
+</tbody></table>
+<p>不同点：最主要的差异就是这两个算子作用的key不一样，update需要作用于所有key，mapWith只需要作用于更新的Key</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>updateWithStateByKey</th>
+<th>mapWithState</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>保存State</td>
+<td>靠内部专门的MapWithStateRDDRecord来维护</td>
+<td>依靠本身的RDD来维护。</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>只更新需要更新的key，官方称相较于updateStateByKey会有10倍提升</td>
+<td>内部逻辑主要是先对两个Rdd进行cogroup，可能会涉及shuffle。</td>
+</tr>
+<tr>
+<td>返回数据</td>
+<td>key的state是独立保存的，每次调用函数只会作用于当前key，所以只会返回更新的数据部分。</td>
+<td>返回全量数据。</td>
+</tr>
+<tr>
+<td>操作数据</td>
+<td>mapWithState是对单独的一条数据进行操作。当前值是一个Option</td>
+<td>会对一个批次内的K进行操作，当前值是一个Seq。</td>
+</tr>
+</tbody></table>
+<h2 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h2><p>实际使用时，我们发现mapWithState与updateWithState存在两个问题：</p>
+<ol>
+<li>依赖于Checkpoint，而Checkpoint目前在修改代码后会失效。</li>
+<li>也是由于状态维护在内存中，太耗内存了。<br>这也可能是mapWithState直到现在依旧是@Experimental的原因吧。</li>
+</ol>
+<h3 id="解决思路："><a href="#解决思路：" class="headerlink" title="解决思路："></a>解决思路：</h3><p>其实状态缓存，无非是要有一个介质去存状态，自然眼睛就来到了Redis。实际使用时，为了减少访问Redis的次数，最好在访问前对Redis进行聚合操作，并使用pipeline的方式批量访问。</p>
+<p>实现参考：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">val updateFunc = (</span><br><span class="line">      records: Seq[(Long, Set(Int))],</span><br><span class="line">      states: Seq[Response[String]],</span><br><span class="line">      pipeline: Pipeline) =&gt; &#123;</span><br><span class="line">  pipeline.sync()</span><br><span class="line">  var i = 0</span><br><span class="line">  while (i &lt; records.size) &#123;</span><br><span class="line">    val (userId, values) = records(i)</span><br><span class="line">    val oldValues: Set[Int] = parseFrom(states(i).get())</span><br><span class="line">    val newValues = values ++ oldValues</span><br><span class="line">    pipeline.setex(userId.toString, 3600, toString(newValues))</span><br><span class="line">    i += 1</span><br><span class="line">  &#125;</span><br><span class="line">  pipeline.sync() </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">val Func = (iter: Iterator[(Long, Iterable[Int])]) =&gt; &#123;</span><br><span class="line">  val jedis = ConnectionPool.getConnection()</span><br><span class="line">  val pipeline = jedis.pipelined()</span><br><span class="line">  val records = ArrayBuffer.empty[(Long, Set(Int))]</span><br><span class="line">  val states = ArrayBuffer.empty[Response[String]]</span><br><span class="line">  while (iter.hasNext) &#123;</span><br><span class="line">    val (userId, values) = iter.next()</span><br><span class="line">    records += (userId, values.toSet)</span><br><span class="line">    states += pipeline.get(userId.toString)</span><br><span class="line">    if (records.size == batchSize) &#123;</span><br><span class="line">      updateFunc(records, states, pipeline)</span><br><span class="line">      records.clear()</span><br><span class="line">      states.clear()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  updateFunc(records, states, pipeline)</span><br><span class="line">  Iterator[Int]()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">inputDStream.groupByKey()</span><br><span class="line">  .mapPartitions(Func)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>参考文章：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="http://sharkdtu.com/posts/spark-streaming-state.html">DStream updateStateByKey vs mapWithState</a></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
   
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/" class="waves-effect waves-light">
-      
-      <i class="fas fa-home" style="zoom: 0.6;"></i>
-      
-      <span>首页</span>
-    </a>
-    
-  </li>
   
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/tags" class="waves-effect waves-light">
-      
-      <i class="fas fa-tags" style="zoom: 0.6;"></i>
-      
-      <span>标签</span>
-    </a>
-    
-  </li>
   
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/categories" class="waves-effect waves-light">
+
       
-      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
-      
-      <span>分类</span>
-    </a>
-    
-  </li>
   
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/archives" class="waves-effect waves-light">
-      
-      <i class="fas fa-archive" style="zoom: 0.6;"></i>
-      
-      <span>归档</span>
-    </a>
-    
-  </li>
   
-  <li class="hide-on-med-and-down nav-item">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2019/06/20/chu-shi-maxwell/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/06/20/chu-shi-maxwell/" class="post-title-link" itemprop="url">初识MaxWell</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-06-20 20:53:27" itemprop="dateCreated datePublished" datetime="2019-06-20T20:53:27+08:00">2019-06-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-31 15:29:33" itemprop="dateModified" datetime="2021-07-31T15:29:33+08:00">2021-07-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E4%BB%93/" itemprop="url" rel="index"><span itemprop="name">数仓</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
     
-    <a href="/about" class="waves-effect waves-light">
-      
-      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
-      
-      <span>关于</span>
-    </a>
     
-  </li>
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Maxwell"><a href="#Maxwell" class="headerlink" title="Maxwell"></a>Maxwell</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>最近需要实时采集MySQL的数据到HBase，找了下目前主要有MaxWell和Canal。介于Maxwell部署简单，且支持断点还原，最后选择了MaxWell。</p>
+<h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>MaxWell通过采集MySQL的binlog日志，将详细格式化成Json发往Kafka。SparkStreaming只需要对Json数据进行解析，就能够拼接SQL语句，然后同步到HBase。</p>
+<h3 id="初次使用"><a href="#初次使用" class="headerlink" title="初次使用"></a>初次使用</h3><p>参考：<a target="_blank" rel="noopener" href="http://maxwells-daemon.io/quickstart/">Maxwell’s Daemon</a></p>
+<h4 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h4><p>下载、解压MaxWell</p>
+<ol>
+<li><p>配置MySQL：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">server_id=1</span><br><span class="line">log-bin=master</span><br><span class="line">binlog_format=row</span><br></pre></td></tr></table></figure></li>
+<li><p>创建Maxwell相关表、用户：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE USER &#x27;maxwell&#x27;@&#x27;%&#x27; IDENTIFIED BY &#x27;XXXXXX&#x27;;</span><br><span class="line">mysql&gt; GRANT ALL ON maxwell.* TO &#x27;maxwell&#x27;@&#x27;%&#x27;;</span><br><span class="line">mysql&gt; GRANT SELECT, REPLICATION CLIENT, REPLICATION SLAVE ON *.* TO &#x27;maxwell&#x27;@&#x27;%&#x27;;</span><br></pre></td></tr></table></figure></li>
+<li><p>测试：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/maxwell --user=&#x27;maxwell&#x27; --password=&#x27;XXXXXX&#x27; --host=&#x27;127.0.0.1&#x27; --producer=stdout</span><br></pre></td></tr></table></figure></li>
+<li><p>在Mysql中创建测试表：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">create table emp (</span><br><span class="line">    id numeric(4) primary key,</span><br><span class="line">    name varchar(10)</span><br><span class="line">);</span><br></pre></td></tr></table></figure></li>
+<li><p>insert测试数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into emp (id,name) values (1,&#x27;ZhangSan&#x27;);</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="on-Kafka"><a href="#on-Kafka" class="headerlink" title="on Kafka"></a>on Kafka</h4><p>on Kafka其实也很简单，主要是注意下版本兼容问题。</p>
+<ol>
+<li><p>创建一个测试Topic：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@hadoop001 kafka]$ bin/kafka-topics.sh --create --zookeeper 192.168.136.1:2181/kafka --replication-factor 1 --partitions 3 --topic maxwell</span><br><span class="line">Created topic &quot;maxwell&quot;.</span><br><span class="line">[hadoop@hadoop001 kafka]$ bin/kafka-topics.sh --list --zookeeper 192.168.136.1:2181/kafka</span><br><span class="line">__consumer_offsets</span><br><span class="line">maxwell</span><br></pre></td></tr></table></figure></li>
+<li><p>启动一个Consumer接受信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-console-consumer.sh --zookeeper 192.168.136.1:2181/kafka --topic maxwell --from-beginning</span><br></pre></td></tr></table></figure></li>
+<li><p>启动Maxwell</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bin/maxwell --user=&#x27;maxwell&#x27; --password=&#x27;XXXXXX&#x27; --host=&#x27;127.0.0.1&#x27; \</span><br><span class="line">   --producer=kafka --kafka.bootstrap.servers=192.168.136.1:9092 --kafka_topic=maxwell</span><br></pre></td></tr></table></figure></li>
+<li><p>剩下同上。</p>
+</li>
+</ol>
+<h3 id="Maxwell的过滤："><a href="#Maxwell的过滤：" class="headerlink" title="Maxwell的过滤："></a>Maxwell的过滤：</h3><p>参考：<a target="_blank" rel="noopener" href="http://maxwells-daemon.io/filtering/">Basic Filters</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bin/maxwell --user=&#x27;maxwell&#x27; --password=&#x27;maxwell&#x27; \</span><br><span class="line">--host=&#x27;127.0.0.1&#x27; --filter = &#x27;exclude: foodb.*, include: foodb.tbl, include: foodb./table_\d+/ \</span><br><span class="line">--producer=kafka --kafka_version=0.10.0.1 --kafka.bootstrap.servers=192.168.136.1:9092 --kafka_topic=maxwell</span><br></pre></td></tr></table></figure>
+
+<p>这个filter是白名单，这样就可以只检测部分表了。</p>
+<h3 id="Maxwell的Bootstrap："><a href="#Maxwell的Bootstrap：" class="headerlink" title="Maxwell的Bootstrap："></a>Maxwell的Bootstrap：</h3><p>参考：<a target="_blank" rel="noopener" href="http://maxwells-daemon.io/bootstrapping/">Using the maxwell-bootstrap utility</a></p>
+<p>HBase平台刚刚搭建起来时，涉及部分数据的全量刷，这也是选择Maxwell的理由：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/maxwell-bootstrap --database fooDB --table barTable --where &quot;my_date &gt;= &#x27;2017-01-07 00:00:00&#x27;&quot;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
   
-  <li>
-    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
-      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
-    </a>
-  </li>
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2019/05/18/hbase-de-du-xie-liu-cheng/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/05/18/hbase-de-du-xie-liu-cheng/" class="post-title-link" itemprop="url">HBase的读写流程</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-05-18 20:13:00" itemprop="dateCreated datePublished" datetime="2019-05-18T20:13:00+08:00">2019-05-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-17 23:21:27" itemprop="dateModified" datetime="2020-02-17T23:21:27+08:00">2020-02-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HBase/" itemprop="url" rel="index"><span itemprop="name">HBase</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>HBase虽然也是分布式架构，但相比于HDFS，读写流程有点特殊，简单来说读写操作不需要走Master。Master只负责涉及表结构的变更。</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217203305.png" alt="读写流程"></p>
+<h2 id="写流程"><a href="#写流程" class="headerlink" title="写流程"></a>写流程</h2><ol>
+<li><p>zookeeper：</p>
+<p>去ZK拿到/hbase/meta-region-server。（<strong>这张表误删后，重启hbase能够自动生成。</strong>）这里面存储着hbase:meta这张表维护在那台RS节点上。（一个集群中，只有一台RS上会有这张表，这张表也是HDFS上的文件）</p>
+<p>注：早期Hbase时-root-这张表。并且会维护多张子表（3层结构）</p>
+</li>
+<li><p>RegionServerA：</p>
+<p>向RS节点获取hbase:meta表的内容，写数据根据RowKey，去meta表找到对应的RS节点和Region。（<strong>hbase:meta表误删后，能够通过命令进行恢复</strong>。）</p>
+<p>这部分元数据会缓存到本地，供之后的读写请求使用。</p>
+<p>meta表存储了table，region，startKey，EndKey，RS节点的映射关系。ROW的格式：table,[start key],xxxxxx.xxxxxx(Region创建时间.RegionID)</p>
+</li>
+<li><p>对应的RegionServerB：</p>
+<p>将写数据请求发送给对应的RS节点。</p>
+<p>1）先写Hlog(WAL)</p>
+<p>2）再写对应的Region列族的MemStore。</p>
+</li>
+<li><p>Flush：</p>
+<p>MemStore容量超过阈值，会异步Flush，将内存数据写入文件，为StoreFile（HFile）</p>
+</li>
+</ol>
+<h2 id="读流程"><a href="#读流程" class="headerlink" title="读流程"></a>读流程</h2><ol>
+<li><p>zookeeper：</p>
+<p>拿到/hbase/meta-region-server（与写流程一样，找到hbase:meta在哪）</p>
+</li>
+<li><p>RegionServerA：</p>
+<p>向RS节点获取hbase:meta的内容。根据RowKey，去meta表找到对应的RS节点和Region。</p>
+</li>
+<li><p>RegionServerB：</p>
+<p>将读请求进行封装。与RS建立通信。构建Scanner。查找步骤：</p>
+<ol>
+<li>先去MemStore找。</li>
+<li>再去BlockCache上找。</li>
+<li>再去HFile找。</li>
+</ol>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2019/05/01/hbase-gai-nian-ji-jia-gou/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/05/01/hbase-gai-nian-ji-jia-gou/" class="post-title-link" itemprop="url">HBase概念及架构</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-05-01 19:35:26" itemprop="dateCreated datePublished" datetime="2019-05-01T19:35:26+08:00">2019-05-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-17 23:21:27" itemprop="dateModified" datetime="2020-02-17T23:21:27+08:00">2020-02-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HBase/" itemprop="url" rel="index"><span itemprop="name">HBase</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><blockquote>
+<p>HBase版本：1.2.x</p>
+</blockquote>
+<h3 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h3><p>HBase也是主从结构，本身主要由两部分组成：</p>
+<ul>
+<li>HMaster：主节点，表相关的工作都会经过Hmaster，包括表的管理、Region的管理。</li>
+<li>HRegionServer：从节点，主要关注数据的读写操作</li>
+</ul>
+<h3 id="表概念"><a href="#表概念" class="headerlink" title="表概念"></a>表概念</h3><blockquote>
+<p>HBase中表会进行分布式存储，决定因素主要是：RowKey、Column Family</p>
+</blockquote>
+<p>HBase中的表中一条数据主要由5部分组成：RowKey、Column Family、Column、Version Number、Value</p>
+<ul>
+<li>RowKey：主键。将表按照行进行切分。</li>
+<li>Column Family：列族。将表进行切割 简称CF。一般会将一类信息存放在一个列族里。（如订单id，订单名称放在订单列族里）</li>
+<li>Column：字段名。列。</li>
+<li>Version Number：类型为Long，默认值为系统时间戳。表示这条数据的版本。</li>
+<li>Value：这条数据的value</li>
+</ul>
+<h3 id="Region"><a href="#Region" class="headerlink" title="Region"></a>Region</h3><p>Hbase中的最小单元，是一段数据的集合，类似于HDFS上的Block。Region存放在RegionServer节点上。</p>
+<blockquote>
+<p>一般RegionSrver要和DataNode在一个节点上。</p>
+</blockquote>
+<h4 id="物理层面的Region"><a href="#物理层面的Region" class="headerlink" title="物理层面的Region"></a>物理层面的Region</h4><p>一个RegionServer管理1<del>n个Region。一个Region管理者1</del>n个FC。</p>
+<h4 id="逻辑层面的Region"><a href="#逻辑层面的Region" class="headerlink" title="逻辑层面的Region"></a>逻辑层面的Region</h4><p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217194401.png" alt="逻辑层面的Region"></p>
+<p>对于一张表：</p>
+<ul>
+<li>按照rowKey范围（Range），将一张表划分成多个Region。(Region一般会保存在不同的机器上)</li>
+<li>Region再按照列族，分成多个Store。MemStore是Flush入文件的一个缓存区域。</li>
+</ul>
+<h3 id="数据模型"><a href="#数据模型" class="headerlink" title="数据模型"></a>数据模型</h3><h4 id="逻辑视图"><a href="#逻辑视图" class="headerlink" title="逻辑视图"></a>逻辑视图</h4><p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217194541.png" alt="逻辑视图"></p>
+<p>整个数据可以看作一张表，数据按照RowKey，字典排序。HBase不存储null值，整个表是以稀疏表的方式存储。</p>
+<h4 id="物理视图"><a href="#物理视图" class="headerlink" title="物理视图"></a>物理视图</h4><p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217194602.png" alt="物理视图"></p>
+<p>每个数据其实本质都是按照k-v进行存储的，不同的CF存储在不同的文件中。（图中左右是两个文件，但其实是一张表里。）</p>
+<h5 id="多版本"><a href="#多版本" class="headerlink" title="多版本"></a>多版本</h5><p>上图中，row2存在多版本数据。小王是新的数据。</p>
+<p>Hbase中一般只有insert。</p>
+<ul>
+<li><p>put：insert+update</p>
+<ul>
+<li><p>rowKey不存在：插入一条新数据</p>
+</li>
+<li><p>rowKey存在：插入新数据，但保留原来的数据，两者主要是TimeStamp和Value不同。TimeStamp一定程度反映了数据的版本。</p>
+<p>hbase会默认返回新版本的数据，当然，老版本的数据也能查得到</p>
+</li>
+</ul>
+</li>
+<li><p>delete：插入一条打上的delete标签的数据。并将之前版本的数据都置为不可见。合并时才真正删除数据。</p>
+</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>Hbase适合写多读少的业务，适合update少的业务（因为update其实是插入等量的数据）</li>
+<li>Hbase中，同一张表的数据往往会存放在不同的节点上。</li>
+</ul>
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217200948.png" alt="HBase架构"></p>
+<p>HBase的架构中，有一个至关重要的角色：Zookeeper。</p>
+<h3 id="Zookeeper"><a href="#Zookeeper" class="headerlink" title="Zookeeper"></a>Zookeeper</h3><p><strong>Client的所有操作第一步都是Zookeeper</strong></p>
+<p>功能：</p>
+<ul>
+<li>存储Meta表所在的RS节点。存储Hmaster地址。</li>
+<li>RS会主动向ZK注册，使得HMaster可以随时感知RS的健康状态。</li>
+<li>构建HMaster的HA，避免单点故障。</li>
+</ul>
+<h3 id="HMaster"><a href="#HMaster" class="headerlink" title="HMaster"></a>HMaster</h3><p>表相关的工作都会经过Hmaster，包括：</p>
+<ul>
+<li>Table的管理：包括建表、修改列族配置等。</li>
+<li>Region的管理：分配Region到具体的RegionServer、Region的分割和合并、rs挂的时候，Region的迁移等。</li>
+</ul>
+<h3 id="HRegionServer"><a href="#HRegionServer" class="headerlink" title="HRegionServer"></a>HRegionServer</h3><p>主要负责：数据的路由（数据具体写在哪个Region）、数据的读写、数据的持久化–&gt;数据以HFile存储在HDFS上。</p>
+<p>HRegionServer是内容比较多的一个部分。包含：</p>
+<ul>
+<li>HLog（WAL）：预写日志。</li>
+<li>BlockCache：读缓存。</li>
+<li>HRegion：一个HRegion只属于一张表。<ul>
+<li>Store：由MemStore和StoreFile/Hfile组成。</li>
+</ul>
+</li>
+</ul>
+<h4 id="HLog"><a href="#HLog" class="headerlink" title="HLog"></a>HLog</h4><ul>
+<li>一个HRegionServer上，同一时间只能写一份HLog（但可以存多个HLog）（其实就是HDFS上的一个文件）<ul>
+<li>HLog存放在HDFS上，并分成两个文件夹存放：WALs 和 oldWALs。</li>
+</ul>
+</li>
+<li>写数据前，总时先写WAL，再写MemStore。</li>
+<li>充当灾难恢复的作用。</li>
+<li>HLog中的所有日志记录都已经落盘到HFile，则失效，移入oldWALs文件夹中。</li>
+<li>满足确认删除条件，则删除oldWALs下的Hlog<ul>
+<li>HLog是否还在参与主从复制。</li>
+<li>文件存在于oldWALs时间是否已超过10分钟。</li>
+</ul>
+</li>
+</ul>
+<h4 id="BlockCache"><a href="#BlockCache" class="headerlink" title="BlockCache"></a>BlockCache</h4><p>Client的读请求，会将从本RegionServer在Hfile上读的数据写入BlockCache。一个Rs只有一个BlockCache。启动时完成初始化。</p>
+<p>读请求时，BlockCache已经缓存的数据，就不用再去Hfile找了。很久没用的数据会被新数据替换掉。</p>
+<h4 id="HRegion"><a href="#HRegion" class="headerlink" title="HRegion"></a>HRegion</h4><p>Region由许多许多的Store组成，<strong>不同的列簇会拆成不同的Store</strong>。</p>
+<p>Store中，又由MemStore和StoreFile/HFile组成。</p>
+<ul>
+<li>MemStore：写入缓存。写入数据时，先有序写入该缓存，满了后Flush成为一个HFile文件。<ul>
+<li>读的时候也会用！</li>
+</ul>
+</li>
+<li>HFile：其实就是对应于HDFS上的文件。<ul>
+<li>HFile本身只有一份，不过HDFS自己会弄成3副本保存。</li>
+<li>HFile数量增加到阈值时，会触发Compaction合并。</li>
+</ul>
+</li>
 </ul>
 
-<div id="mobile-nav" class="side-nav sidenav">
-
-    <div class="mobile-head bg-color">
-        
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
-        
-        <div class="logo-name">Ssiu Blog</div>
-        <div class="logo-desc">
-            
-            Never really desperate, only the lost of the soul.
-            
-        </div>
+      
     </div>
 
     
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
-    <ul class="menu-list mobile-menu-list">
-        
-        <li class="m-nav-item">
-	  
-		<a href="/" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-home"></i>
-			
-			首页
-		</a>
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2019/02/18/jvm-zhong-de-la-ji-hui-shou/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
           
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/tags" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-tags"></i>
-			
-			标签
-		</a>
+            <a href="/2019/02/18/jvm-zhong-de-la-ji-hui-shou/" class="post-title-link" itemprop="url">JVM中的垃圾回收</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-02-18 11:33:58" itemprop="dateCreated datePublished" datetime="2019-02-18T11:33:58+08:00">2019-02-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-18 14:55:59" itemprop="dateModified" datetime="2020-02-18T14:55:59+08:00">2020-02-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+                </span>
+            </span>
+
           
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/categories" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bookmark"></i>
-			
-			分类
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/archives" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-archive"></i>
-			
-			归档
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/about" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-user-circle"></i>
-			
-			关于
-		</a>
-          
-        </li>
-        
-        
-    </ul>
-</div>
 
         </div>
-
-        
-    </nav>
-
-</header>
+      </header>
 
     
-    <div class="bg-cover pd-header about-cover">
-    <div class="container">
-    <div class="row">
-    <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
-        <div class="brand">
-            <div class="title center-align">
-                
-                Spark Hadoop Hbase
-                
-            </div>
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
-            <div class="description center-align">
-                
-                <span id="subtitle"></span>
-                <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
-                <script>
-                    var typed = new Typed("#subtitle", {
-                        strings: ['无名小站','无名小站'],
-                        startDelay: 300,
-                        typeSpeed: 100,
-                        loop: true,
-                        backSpeed: 50,
-                        showCursor: true
-                    });
-                </script>
-                
-            </div>
-        </div>
+      
+          <h2 id="垃圾回收算法"><a href="#垃圾回收算法" class="headerlink" title="垃圾回收算法"></a>垃圾回收算法</h2><h3 id="JVM的垃圾回收针对哪些内容"><a href="#JVM的垃圾回收针对哪些内容" class="headerlink" title="JVM的垃圾回收针对哪些内容"></a>JVM的垃圾回收针对哪些内容</h3><p>Java堆、方法栈。</p>
+<h3 id="如何定位垃圾"><a href="#如何定位垃圾" class="headerlink" title="如何定位垃圾"></a>如何定位垃圾</h3><ol>
+<li><p>引用计数法（已经基本不用）</p>
+<p>每个对象都有一个引用计数器。被引用是计数器+1。引用失效时，计数器-1。回收计数器为0的对象。</p>
+<p>存在问题：两个对象相互引用时，无法回收。</p>
+</li>
+<li><p>跟搜索法</p>
+<p>以一系列，名为GC Root的对象作为起始点。GCRoot无法到达的对象（无引用关系的对象），即为可被回收的。</p>
+<p>GCRoot是一种对象，可能是：</p>
+<ul>
+<li>JVM栈中的引用的对象。</li>
+<li>方法区中静态属性（Static）引用的对象。</li>
+<li>等等….</li>
+</ul>
+</li>
+</ol>
+<h3 id="方法区回收了什么"><a href="#方法区回收了什么" class="headerlink" title="方法区回收了什么"></a>方法区回收了什么</h3><ol>
+<li>废弃的常量。如没有任何String对象引用的String常量。</li>
+<li>无用的类：同时满足：<ol>
+<li>Java堆中不存在该类的任何实例对象；</li>
+<li>加载该类的类加载器（ClassLoader）已经被回收；</li>
+<li>该类对应的java.lang.Class对象不在任何地方被引用，且无法在任何地方通过反射访问该类的方法。</li>
+</ol>
+</li>
+</ol>
+<h3 id="垃圾清除算法"><a href="#垃圾清除算法" class="headerlink" title="垃圾清除算法"></a>垃圾清除算法</h3><p>主要由三种算法，在垃圾回收中会结合起来使用。</p>
+<h4 id="标记清除"><a href="#标记清除" class="headerlink" title="标记清除"></a>标记清除</h4><p>标记出需要回收的对象。统一回收标记了的对象。</p>
+<p>缺点：清除后，存活对象所占的内存位置不变，会产生<strong>内存碎片</strong>。new大对象可能会触发full GC</p>
+<h4 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h4><p>将整个内存空间均分为两块，同时只使用一块。GC时，存活对象复制到另一块区中，清空正在使用块中的所有对象。这样就解决了内存碎片问题，回收只需要移动堆顶指针，效率高。</p>
+<p>缺点：只能使用一半的内存空间。</p>
+<h4 id="标记整理"><a href="#标记整理" class="headerlink" title="标记整理"></a>标记整理</h4><p>在标记-清除的基础上。将存活对象全部移动到一侧。</p>
+<p>缺点：效率低。</p>
+<hr>
+<h2 id="垃圾回收器"><a href="#垃圾回收器" class="headerlink" title="垃圾回收器"></a>垃圾回收器</h2><p>垃圾回收器中整体分为老年代和新生代。新生代存放比较新的对象，这部分对象的特点就是经常被回收。老年代的对象一般是很久都没被回收的对象。</p>
+<p>默认情况下，内存比率：老年代:新生代=2:1。新生代内存比率：eden:s0:s1 = 8:1:1。</p>
+<p>新对象会new在eden区。每次新生代回收后，存活的对象年龄+1，进入s0/s1区。年龄到15后，进入老年代。</p>
+<p>一般来说，老年代和新生代会采用不同的垃圾回收器。JDK7以后引入了G1回收，会在最后单独讨论。</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200218114634.png" alt="垃圾回收对应关系"></p>
+<h3 id="新生代的垃圾回收器"><a href="#新生代的垃圾回收器" class="headerlink" title="新生代的垃圾回收器"></a>新生代的垃圾回收器</h3><h4 id="Serial（单线程）"><a href="#Serial（单线程）" class="headerlink" title="Serial（单线程）"></a>Serial（单线程）</h4><p>基于复制算法。GC靠单线程完成工作。触发时，会<strong>stw</strong>，导致其他工作线程暂停。</p>
+<p>开启：-XX:UseSerialGC（同时老年代会采用Serial Old（单线程的老年代版本））</p>
+<h4 id="ParNew（多线程版Serial）"><a href="#ParNew（多线程版Serial）" class="headerlink" title="ParNew（多线程版Serial）"></a>ParNew（多线程版Serial）</h4><p>基于复制算法。GC靠多线程完成工作。触发时，会<strong>stw</strong>，导致其他工作线程暂停。</p>
+<p>开启：-XX:+UseParNewGC（同时老年代会采用Serial Old（注意，单线程））</p>
+<p>注：但可以和CMS配合使用（需要通过老年代开启CMS收集器，这边开启不行）</p>
+<h4 id="Parallel-Scavenge收集器"><a href="#Parallel-Scavenge收集器" class="headerlink" title="Parallel Scavenge收集器"></a>Parallel Scavenge收集器</h4><p>基于复制算法。可看作ParNew的加强版。<strong>重视吞吐量</strong>的垃圾收集器。吞吐量 = 运行代码时间/ (运行代码时间+GC时间)，适合后台运算而无需太多交互的任务。<strong>是JDK8的默认新生代收集器</strong>。触发时，会“stw”，导致其他工作线程暂停。</p>
+<p>开启：+XX:UseParallelGC（老年代会使用Parallel Old（Parallel Scavenge的老年代版本））</p>
+<h3 id="老年代的垃圾回收器"><a href="#老年代的垃圾回收器" class="headerlink" title="老年代的垃圾回收器"></a>老年代的垃圾回收器</h3><h4 id="Serial-old"><a href="#Serial-old" class="headerlink" title="Serial old"></a>Serial old</h4><p>使用标记整理算法。单线程的。主要是作为CMS的后备方案使用。</p>
+<p>开启参数JDK8已移除。</p>
+<h4 id="Parallel-Old收集器"><a href="#Parallel-Old收集器" class="headerlink" title="Parallel Old收集器"></a>Parallel Old收集器</h4><p>基于标记整理算法。其他基本同：Parallel Scavenge收集器</p>
+<p>开启：-XX:+UseParallelOldGC（会同时让新生代开启Parallel Scavenge收集器）</p>
+<h4 id="CMS收集器"><a href="#CMS收集器" class="headerlink" title="CMS收集器"></a>CMS收集器</h4><p>基于标记清除算法。分为4大阶段：（1,3阶段速度快，会触发stw）</p>
+<pre><code>- 初始标记：仅标记GC ROOT能直接关联的对象。速度很快，会触发stw。
+- 并发标记：进行GC Root Tracing过程（即跟搜索过程）。速度慢，不会触发stw。
+- 重新标记：修改并发标记期间，由于程序运行额外产生的变化。速度快，会触发stw。
+- 并发清除：清除工作。速度慢，不会触发stw。
+</code></pre>
+<p>重视短暂停的垃圾处理器。可以近似看做是并发的垃圾处理器（用户进程和GC进程能够同时运行）</p>
+<p>开启：-XX:+UseConcMarkSweepGC（会同时让新生代采用ParNewGC）（同时让老年代采用Serial Old作为备选GC）</p>
+<p>缺点：</p>
+<ul>
+<li>GC时耗费CPU性能。</li>
+<li>无法处理浮动垃圾（即GC处理过程中产生的垃圾）</li>
+<li>会产生大量空间碎片。可通过参数缓解：<ul>
+<li>-XX:Usecmscompactfullcollection：Full GC后会进行碎片整理</li>
+<li>-XX:CMSFULLGCSBeforeCompaction：多少次FullGC进行碎片整理。</li>
+</ul>
+</li>
+</ul>
+<h3 id="G1垃圾回收器"><a href="#G1垃圾回收器" class="headerlink" title="G1垃圾回收器"></a>G1垃圾回收器</h3><h4 id="区域划分"><a href="#区域划分" class="headerlink" title="区域划分"></a>区域划分</h4><p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200218120617.png" alt="G1垃圾回收器"></p>
+<p>G1将整个内存区域划成等大小的块。一般约为2000个。有些块是年轻代的Eden、survivor，有些则是老年代。（当前块所属的代并不是确定的，可能现在是Eden，明天就是老年代，后天就是survivor）</p>
+<p>块之间是不相连的，意味这一个对象不能跨块保存。垃圾回收是按照区域来回收的，即回收区域A的同时，不会回收区域B。（不过在一整个GC中，可能回收多个区域）</p>
+<h4 id="回收阶段划分"><a href="#回收阶段划分" class="headerlink" title="回收阶段划分"></a>回收阶段划分</h4><ol>
+<li><p>年轻代的回收</p>
+<p>所有的eden区满后，触发young GC。young GC会回收eden区，上次存放存活对象的survivor区。young GC后，两个区中存活的对象会被copy到一个新的survivor区，eden区则会被清空。达到年龄阈值的对象则会被送往老年区。<strong>年轻代的回收会stw</strong></p>
+</li>
+<li><p>并发标记周期</p>
+<p>当对象占用空间的总和，达到整个堆的大小的45%时触发该阶段。（45%可调整）</p>
+<p>标记周期分为6个步骤：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th>重要特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>初始标记</td>
+<td>标记从GC Root<strong>直接可达</strong>的对象。触发这个步骤时，会<strong>伴随一个youngGC</strong>。</td>
+<td>需要stw</td>
+</tr>
+<tr>
+<td>根区域扫描</td>
+<td>扫描由survivor区域直接可达的老年代区域。并标记这些直接可达的对象。<br />该步骤必须在下一次youngGC前完成（即下一次youngGC会等待该步骤完成再进行。）</td>
+<td>不需要stw<br />必须在下一次youngGC前完成</td>
+</tr>
+<tr>
+<td>并发标记</td>
+<td>扫描<strong>整个堆中</strong>的存活对象，并标记。<br />该步骤可以被young GC打断。</td>
+<td>不需要stw<br />可被youngGC打断</td>
+</tr>
+<tr>
+<td>重新标记</td>
+<td>重新标记并发标记期间产生的变化。<br />采用SATB算法（初始快照-G1标记之初为存货对象创建了一个快照。）</td>
+<td>需要stw</td>
+</tr>
+<tr>
+<td>独占清理</td>
+<td>1）计算每个区域中，存活对象与GC回收对象的比例，并排序，识别出可供混合回收的区域。<br />2）标记需要混合回收的区域。<br />3）更新记忆集(RSet)</td>
+<td>需要stw<br />混合回收阶段依靠与这步的标记</td>
+</tr>
+<tr>
+<td>并发清理</td>
+<td>识别清理完全空闲的区域。</td>
+<td>不需要stw</td>
+</tr>
+</tbody></table>
+<p>并发标记的结果和目的：</p>
+<pre><code>- 并发标记的结果时增加了一些标记为G的区域。这些区域的内部垃圾占比高。会在之后的混合回收中清除。
+- 这些G区域，被G1记录在Collection Sets（回收集）中。
+- 并发标记阶段，G1并不会回收老年代的垃圾，只是为之后的混合回收做好标记。
+</code></pre>
+</li>
+<li><p>混合回收</p>
+<p>混合回收会执行多次，每次也会伴随youngGC，也会有OldGC。可以理解为这个阶段，mixedGC（youngGC+oldGC）替代了youngGC。</p>
+<p>mixedGC后：eden区必被清空，存活对象会前往survivor（youngGC），标记为G的分区会被选取一些来清空。存活对象会移到其他没被标记为G的老年代分区。</p>
+</li>
+<li><p>Full GC：</p>
+<p>当混合GC时空间不足，或youngGC时survivor区和老年代无法容纳幸存对象时，会触发FullGC。FullGC是单线程的stw阶段</p>
+</li>
+</ol>
+<h4 id="常用参数"><a href="#常用参数" class="headerlink" title="常用参数"></a>常用参数</h4><ul>
+<li>-XX:+UseG1GC：开启G1回收器。</li>
+<li>-XX:MaxGCPauseMillis：目标最大停顿时间。过小可能增加fullGC的可能性。</li>
+<li>-XX:ParallelGCThreads：并行回收时，GC的工作现场数量。</li>
+<li>-XX:InitiatingHeapOccupancyPercent：触发并发标记的使用率。默认为45（即堆的使用率达到45%时触发。）</li>
+</ul>
+
+      
     </div>
-</div>
 
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2019/02/02/jvm-de-yun-xing-shi-shu-ju-qu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/02/02/jvm-de-yun-xing-shi-shu-ju-qu/" class="post-title-link" itemprop="url">JVM的运行时数据区</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-02-02 12:13:40" itemprop="dateCreated datePublished" datetime="2019-02-02T12:13:40+08:00">2019-02-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-18 14:55:59" itemprop="dateModified" datetime="2020-02-18T14:55:59+08:00">2020-02-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>JDK8中，JVM的运行时数据区逻辑上由5个部分组成：</p>
+<ul>
+<li>程序计数器（PC Register）</li>
+<li>JVM栈</li>
+<li>本地方法栈</li>
+<li>堆</li>
+<li>方法区</li>
+</ul>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200218111628.png" alt="逻辑分布"></p>
+<hr>
+<h3 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h3><p>主要功能：指向当前线程字节码文件执行到哪了。直白来说，就是指向当前线程执行到哪行代码了。</p>
+<p>独有or共享：每个线程独有</p>
+<p>相关异常：一般无异常</p>
+<h3 id="JVM栈"><a href="#JVM栈" class="headerlink" title="JVM栈"></a>JVM栈</h3><p>主要功能：每个方法在执行时会创建一个<strong>栈帧</strong>。方法的调用和完成，相当于栈帧的入栈和出栈。</p>
+<p>​    栈帧主要存放：<strong>局部变量表</strong>。操作栈，动态链接、方法出口。</p>
+<p>​    局部变量表：</p>
+<pre><code>    - 编译期可知的各种**基本数据类型**（原生类型）（boolean、byte、char、short等等）
+    - **对象引用**（引用类型）（User A = new User的这个A。）
+    - returnaddress类型。
+</code></pre>
+<p>独有or共享：每个线程独有</p>
+<p>相关异常：</p>
+<ul>
+<li>StackOverFlow（栈溢出）：出现于<strong>单线程阶段</strong>，一般是<strong>死循环、递归</strong>导致的方法过多。也可能是单个栈帧过大导致的。<pre><code>- 解决：检查代码，或者调大栈内存（与多线程需要平衡）
+</code></pre>
+</li>
+<li>OutOfMemoryError（OOM/内存溢出）：出现于<strong>多线程阶段</strong>，栈动态扩展时（新开线程），无法申请到足够的内存。一般可能是单个栈的内存占用过多，<strong>考虑减少堆或栈的内存来换取更多的线程。</strong><pre><code>- 提示：unable to create new native thread
+</code></pre>
+<ul>
+<li>参数：<pre><code>- -Xmx 和 -Xms。控制堆占空间的上下限
+- -Xss。**线程栈**的大小。不过过小的栈内存可能导致栈溢出。
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h3><p>主要功能：基本与JVM栈一样（独享、异常也一样），不过是服务的方法不一样：为虚拟机使用的Native方法服务。（一般会调用非java代码）</p>
+<hr>
+<h3 id="堆区"><a href="#堆区" class="headerlink" title="堆区"></a>堆区</h3><p>主要功能：存放对象实例。几乎所有的对象实例都在这里分配内存。是垃圾收集器的主要管理区域。</p>
+<p>独有or共享：共享。</p>
+<p>相关异常：OutOfMemoryError（OOM/内存溢出）</p>
+<pre><code>- 一般是**大量的对象**占用了对空间，且未能及时回收。或者创建的一个对象超过了堆允许的最大值。
+- 提示：Java heap space
+- 参数：-Xmx 和 -Xms。控制堆占空间的上下限。
+- 注：出现这种溢出，首先应该考虑代码问题。在Spark中，如果某个算子将过大对象返回给Driver，就可能遇到这种情况。
+</code></pre>
+<p>​    </p>
+<h3 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h3><blockquote>
+<p>（1.7以前通过永久代实现，1.8+通过元数据区实现）</p>
+</blockquote>
+<p>主要功能：编译后的Class文件会加载到方法区。主要存放：类的信息（代码）、运行时常量信息（即运行时常量池）。</p>
+<p>独有or共享：共享。</p>
+<p>相关异常：OutOfMemoryError（OOM/内存溢出）</p>
+<pre><code>- 一般出现于系统不断生成**新的类**，而不回收。（注意是类，而非对象。）
+- 提示：MetaSpace（1.8+）
+- 参数：-XX:MaxMetaspaceSize（不设置则仅受系统内存限制）
+</code></pre>
+<h3 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h3><blockquote>
+<p>（1.8+后，物理上，不同的JVM实现不同，有的放在了堆上）（逻辑上仍然是方法区的一部分）</p>
+</blockquote>
+<p>本质上属于方法区的一块。（线程共享，异常与方法区处理类似（增大方法区空间）），存放<strong>编译期</strong>生成的各种字面量和符号引用。</p>
+<h3 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h3><p>并非运行时数据区的一部分。相当于直接使用系统内存，而非JVM内存。主要是NIO类会直接使用系统内存（一种基于Channel的IO方式）</p>
+<p>相关异常：一般是过度的使用堆外内存造成的。</p>
+<p>参数：-XX:MaxDirectMemorySize。实际使用时，应该限制堆外内存的使用。如果未设置，该数值=堆的最大值</p>
+<hr>
+<h3 id="关于方法区"><a href="#关于方法区" class="headerlink" title="关于方法区"></a>关于方法区</h3><p><strong>方法区</strong>在不同的JDK版本中有不同的实现：</p>
+<ul>
+<li>JDK7以前：永久代，存放在堆上。</li>
+<li>JDK8：原空间，存储在堆外内存上。</li>
+<li>方法区中的<strong>运行时常量池</strong>物理上的存放位置并没有跟着方法区走，在JDK8中，其存放在Java堆上。</li>
+</ul>
+<hr>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li>运行时数据区主要是<strong>逻辑上的分区</strong>。具体实现上会有一些区别（其实主要体现在方法区上。）</li>
+<li><strong>栈管运行，堆管存储</strong>。两者都使用JVM内部虚拟内存。。只有方法区的实现源空间（MetaSpace）会使用JVM外部的物理内存。</li>
+<li>一般涉及多线程的情况会导致OOM（如线程共享的区OOM，线程独立的区在多线程情况下回OOM）。单线程一般会栈溢出。PC计数器是唯一没有异常的区域。</li>
+</ol>
+<p>参考图：</p>
+<img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200218113235.png" alt="运行时数据区"  />
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
 
 <script>
-    // 每天切换 banner 图.  Switch banner image every day.
-    $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay() + '.jpg)');
-</script>
-
-
-    </div>
-</div>
-
-
-<main class="content">
-
-    
-
-    
-
-    <!-- 所有文章卡片 -->
-    <article id="articles" class="container articles">
-        <div class="row article-row">
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/03/31/ben-di-spark-idea-fang-wen-yun-zhu-ji-shang-de-hive/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="本地spark+idea访问云主机上的hive">
-                            
-                            <span class="card-title">本地spark+idea访问云主机上的hive</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                前言记录下本人使用本地spark+idea访问云主机遇到过的一些小问题。仅供参考。欢迎讨论。
-
-spark版本：2.1.1 
-
-使用sparkSQL+idea访问云主机HIVE准备hive-site.xml官网是这么描述的：
-
-Config
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-03-31
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Spark/" class="post-category">
-                                    Spark
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Hadoop/">
-                            <span class="chip bg-color">Hadoop</span>
-                        </a>
-                        
-                        <a href="/tags/Spark/">
-                            <span class="chip bg-color">Spark</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/02/17/linux-zhong-awk-yu-sed-zhi-ling-de-shi-yong-bi-ji/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Linux中awk与sed指令的使用笔记">
-                            
-                            <span class="card-title">Linux中awk与sed指令的使用笔记</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                最近工作要使用到这对命令进行脚本编写，使用感觉特别容易忘，故记录整理下。
-awk简单来说，awk是把文本逐行读入，默认以空格为列分隔符进行切片。对切好对数据再进行处理。本文会再学习实验的同时，简单介绍一些常用的awk命令。
-使用方法：awk
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-02-17
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Linux/" class="post-category">
-                                    Linux
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Linux/">
-                            <span class="chip bg-color">Linux</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/01/12/hadoop-yarn-de-ha-jia-gou-jie-xi/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="Hadoop+Yarn的HA架构解析">
-                            
-                            <span class="card-title">Hadoop+Yarn的HA架构解析</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                背景NameNode 保存了整个 HDFS 的元数据信息，一旦 NameNode 挂掉，整个 HDFS 就无法访问。依赖其的组件也无法正确运转。重启NameNode是耗时的。导致其之前只适用于离线处理场景。
-HDFS的HAhadoop在2.
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-01-12
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Hadoop/" class="post-category">
-                                    Hadoop
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Hadoop/">
-                            <span class="chip bg-color">Hadoop</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2017/12/01/yarn-zi-yuan-diao-you/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="Yarn资源调优">
-                            
-                            <span class="card-title">Yarn资源调优</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                准备知识Yarn的资源设置主要是6个参数，目的其实就是资源最大化。同时限制下面任务如某个Spark任务过度调用资源。
-CPU资源调度目前的CPU被划分为虚拟CPU（CPU virtual Core）考虑到不同节点的CPU性能可能不同，每个C
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2017-12-01
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Hadoop/" class="post-category">
-                                    Hadoop
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Hadoop/">
-                            <span class="chip bg-color">Hadoop</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2017/11/26/typesafe-de-configfactory-de-jian-dan-shi-yong/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="Typesafe的ConfigFactory的简单使用">
-                            
-                            <span class="card-title">Typesafe的ConfigFactory的简单使用</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                ConfigFactoryConfigFactory能够帮助我们快速的读取配置文件，帮助我们修改一些配置信息，而不用修改代码。例如我们可以将sql的连接信息放入配置文件中，而不是写死在代码里。类似于Java的properties，不过Con
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2017-11-26
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Utils/" class="post-category">
-                                    Utils
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Utils/">
-                            <span class="chip bg-color">Utils</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2017/09/16/da-jian-harbor/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="搭建Harbor">
-                            
-                            <span class="card-title">搭建Harbor</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                环境准备请先安装Docker。本文主要针对离线部署。
-1）Https：本步骤可参考：configure_https
-
-安装证书：（Getting Certificate Authority）
-openssl genrsa -out ca.k
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2017-09-16
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Docker/" class="post-category">
-                                    Docker
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Docker/">
-                            <span class="chip bg-color">Docker</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-        </div>
-    </article>
-
-</main>
-
-
-<div class="container paging">
-    <div class="row">
-        <div class="col s6 m4 l4">
-            
-            <a href="/page/7/"
-               class="left btn-floating btn-large waves-effect waves-light bg-color">
-                <i class="fas fa-angle-left"></i>
-            </a>
-            
-        </div>
-        <div class="page-info col m4 l4 hide-on-small-only">
-            <div class="center-align b-text-gray">8 / 9</div>
-        </div>
-        <div class="col s6 m4 l4">
-            
-            <a href="/page/9/"
-               class="right btn-floating btn-large waves-effect waves-light bg-color">
-                <i class="fas fa-angle-right"></i>
-            </a>
-            
-        </div>
-    </div>
-</div>
-
-
-
-
-    <footer class="page-footer bg-color">
-    <div class="container row center-align" style="margin-bottom: 0px !important;">
-        <div class="col s12 m8 l8 copy-right">
-            Copyright&nbsp;&copy;
-            <span id="year">2017-2020</span>
-            <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
-            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
-            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
-            <br>
-            
-            
-            
-            
-            
-            
-            <span id="busuanzi_container_site_pv" style="display:none">
-                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
-                    class="white-color"></span>&nbsp;次
-            </span>
-            
-            
-            <span id="busuanzi_container_site_uv" style="display:none">
-                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
-                    class="white-color"></span>&nbsp;人
-            </span>
-            
-            
-        </div>
-        <div class="col s12 m4 l4 social-link social-statis">
-
-
-    <a href="mailto:smokeriu@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
-        <i class="fas fa-envelope-open"></i>
-    </a>
-
-
-
-
-
-
-
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=604522169" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 604522169" data-position="top" data-delay="50">
-        <i class="fab fa-qq"></i>
-    </a>
-
-
-
-
-
-
-
-</div>
-    </div>
-</footer>
-
-<div class="progress-bar"></div>
-
-<script language=javascript>
-    function siteTime() {
-        window.setTimeout("siteTime()", 1000);
-        var seconds = 1000;
-        var minutes = seconds * 60;
-        var hours = minutes * 60;
-        var days = hours * 24;
-	var months = days * 30;
-        var years = days * 365;
-        var today = new Date();
-        var todayYear = today.getFullYear();
-        var todayMonth = today.getMonth() + 1;
-        var todayDate = today.getDate();
-        var todayHour = today.getHours();
-        var todayMinute = today.getMinutes();
-        var todaySecond = today.getSeconds();
-        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
-        year - 作为date对象的年份，为4位年份值
-        month - 0-11之间的整数，做为date对象的月份
-        day - 1-31之间的整数，做为date对象的天数
-        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
-        minutes - 0-59之间的整数，做为date对象的分钟数
-        seconds - 0-59之间的整数，做为date对象的秒数
-        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
-        var t1 = Date.UTC(2017, 02, 12, 00, 00, 00); //北京时间2018-2-13 00:00:00
-        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
-        var diff = t2 - t1;
-        var diffYears = Math.floor(diff / years);
-        var diffDays = Math.floor((diff / days) - diffYears * 365);
-        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
-        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
-        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
-        document.getElementById("sitetime").innerHTML = "本站已运行 " +diffYears+" 年 "+diffDays + " 天 ";
-    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
-    siteTime();
-</script>
-
-
-<script>
-    $(document).ready(function () {
-
-        var int = setInterval(fixCount, 50);  // 50ms周期检测函数
-        var pvcountOffset = 5423;  // 初始化首次数据
-        var uvcountOffset = 3322;
-
-        function fixCount() {
-            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
-                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
-                clearInterval(int);
-            }
-            if ($("#busuanzi_container_site_pv").css("display") != "none") {
-                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
-                clearInterval(int); // 停止检测
-            }
-        }
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
     });
+  }
 </script>
 
-
-
-    <!-- 搜索遮罩框 -->
-<div id="searchModal" class="modal">
-    <div class="modal-content">
-        <div class="search-header">
-            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
-            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
-                   class="search-input">
         </div>
-        <div id="searchResult"></div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ssiu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
     </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ssiu</span>
 </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
 
-<script src="/js/search.js"></script>
-<script type="text/javascript">
-$(function () {
-    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
-});
-</script>
-    <!-- 回到顶部按钮 -->
-<div id="backTop" class="top-scroll">
-    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
-        <i class="fas fa-arrow-up"></i>
-    </a>
-</div>
+        
 
 
-    <script src="/libs/materialize/materialize.min.js"></script>
-    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
-    <script src="/libs/aos/aos.js"></script>
-    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
-    <script src="/js/matery.js"></script>
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <!-- Baidu Analytics -->
 
-    <!-- Baidu Push -->
 
-<script>
-    (function () {
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        } else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-</script>
 
-    
-    
-    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
-    
 
-    
+      </div>
+    </footer>
+  </div>
 
-    
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
-    
+<script src="/js/utils.js"></script>
 
-    
+<script src="/js/motion.js"></script>
 
-    
-    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
-    
-    
-    
-    <script src="/libs/instantpage/instantpage.js" type="module"></script>
-    
 
-</body>
+<script src="/js/schemes/pisces.js"></script>
 
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
 </html>

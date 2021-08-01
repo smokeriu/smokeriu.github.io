@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-material.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.ibuer.fun","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Flink 可以运行在多种不同的环境中，它可以通过单进程多线程的方式直接运行，从而提供调试的能力。它也可以运行在 Yarn 或者 K8S 这种资源管理系统上面，也可以在各种云环境中执行。对于不同的执行环境，Flink 提供了一套统一的分布式作业执行引擎，也就是 Flink Runtime 这层。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flink的Runtime核心机制">
+<meta property="og:url" content="http://blog.ibuer.fun/2021/07/28/flink-de-runtime-he-xin-ji-zhi/index.html">
+<meta property="og:site_name" content="Ssiu Blog">
+<meta property="og:description" content="Flink 可以运行在多种不同的环境中，它可以通过单进程多线程的方式直接运行，从而提供调试的能力。它也可以运行在 Yarn 或者 K8S 这种资源管理系统上面，也可以在各种云环境中执行。对于不同的执行环境，Flink 提供了一套统一的分布式作业执行引擎，也就是 Flink Runtime 这层。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210728172903.png">
+<meta property="og:image" content="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210728173245.png">
+<meta property="og:image" content="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210729135920.png">
+<meta property="article:published_time" content="2021-07-28T09:27:42.000Z">
+<meta property="article:modified_time" content="2021-08-01T05:31:30.002Z">
+<meta property="article:author" content="Ssiu">
+<meta property="article:tag" content="Flink">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210728172903.png">
+
+<link rel="canonical" href="http://blog.ibuer.fun/2021/07/28/flink-de-runtime-he-xin-ji-zhi/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Flink的Runtime核心机制 | Ssiu Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ssiu Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2021/07/28/flink-de-runtime-he-xin-ji-zhi/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Flink的Runtime核心机制
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-07-28 17:27:42" itemprop="dateCreated datePublished" datetime="2021-07-28T17:27:42+08:00">2021-07-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 13:31:30" itemprop="dateModified" datetime="2021-08-01T13:31:30+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Flink/" itemprop="url" rel="index"><span itemprop="name">Flink</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Flink 可以运行在多种不同的环境中，它可以通过单进程多线程的方式直接运行，从而提供调试的能力。它也可以运行在 Yarn 或者 K8S 这种资源管理系统上面，也可以在各种云环境中执行。对于不同的执行环境，Flink 提供了一套统一的分布式作业执行引擎，也就是 Flink Runtime 这层。</p>
+<span id="more"></span>
+
+<h1 id="Flink的整体架构"><a href="#Flink的整体架构" class="headerlink" title="Flink的整体架构"></a>Flink的整体架构</h1><p>Flink 可以运行在多种不同的环境中，它可以通过单进程多线程的方式直接运行，从而提供调试的能力。它也可以运行在 Yarn 或者 K8S 这种资源管理系统上面，也可以在各种云环境中执行。对于不同的执行环境，Flink 提供了一套统一的分布式作业执行引擎，也就是 Flink Runtime 这层。</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210728172903.png" alt="图片-1"></p>
+<p>Flink Runtime 层的整个架构主要是在 <a target="_blank" rel="noopener" href="https://cwiki.apache.org/confluence/pages/viewpage.action?pageId=65147077">FLIP-6</a> 中实现的。是一个标准的Master-slave架构，master负责管理集群的资源与调度，slave负责具体作业的执行。</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210728173245.png" alt="图片-2"></p>
+<p>Master即图中的AppMaster进程，由3个组件组成：Dispatcher、ResourceManager 和 JobManager。</p>
+<ul>
+<li>Dispatcher<ul>
+<li>负责接收用户从Client submit上来的作业。</li>
+<li>负责为新提交的作业拉起一个新的 JobManager 组件。</li>
+</ul>
+</li>
+<li>ResourceManager<ul>
+<li>负责资源的管理</li>
+<li><strong>整个 Flink 集群中只有一个 ResourceManager</strong></li>
+</ul>
+</li>
+<li>JobManager<ul>
+<li>负责管理作业的执行。</li>
+<li>在一个 Flink 集群中可能有多个作业同时执行，每个作业都有自己的 JobManager 组件。</li>
+</ul>
+</li>
+</ul>
+<p>故当用户提交作业时，其逻辑流程可以简化为：</p>
+<ol>
+<li>提交脚本会首先启动一个 Client进程负责作业的编译与提交。它会将用户编写的代码编译为一个 JobGraph，在这个过程，它还会进行一些检查或优化等工作，例如判断哪些 Operator 可以 Chain 到同一个 Task 中。</li>
+<li> Client将JobGraph 提交到集群中执行。</li>
+<li>对于Yarn，由于AM 不会预先启动，此时 Client 将首先向资源管理系统申请资源来启动 AM，然后再向 AM 中的 Dispatcher 提交作业。</li>
+<li>作业到 Dispatcher 后，Dispatcher 会首先启动一个 JobManager 组件。然后 JobManager 会向 ResourceManager 申请资源来启动作业中具体的任务。<ol>
+<li>对于Yarn，ResourceManager 需要首先向外部资源管理系统申请资源来启动 TaskExecutor。然后等待 TaskExecutor 注册相应资源后再继续选择空闲资源进程分配。</li>
+<li>目前 Flink 中 TaskExecutor 的资源是通过 Slot 来描述的，一个 Slot 一般可以执行一个具体的 Task，但在一些情况下也可以执行多个相关联的 Task。</li>
+</ol>
+</li>
+<li>ResourceManager 选择到空闲的 Slot 之后，就会通知相应的 TM “将该 Slot 分配分 JobManager XX ”，然后 TaskExecutor 进行相应的记录后，会向 JobManager 进行注册。</li>
+<li>JobManager 收到 TaskExecutor 注册上来的 Slot 后，就可以实际提交 Task 了。</li>
+<li>TaskExecutor 收到 JobManager 提交的 Task 之后，会启动一个新的线程来执行该 Task。Task 启动后就会开始进行预先指定的计算，并通过数据 Shuffle 模块互相交换数据。</li>
+</ol>
+<h2 id="关于第一步"><a href="#关于第一步" class="headerlink" title="关于第一步"></a>关于第一步</h2><blockquote>
+<p>参考的代码版本：1.09 、1.10、 1.13</p>
+</blockquote>
+<p>我们这里主要讨论提交到Yarn的Per-Job的逻辑，通过观察flink的提交脚本<code>flink</code>，可以看到最后实际是调用了<code>org.apache.flink.client.cli.CliFrontend</code>这个类。</p>
+<blockquote>
+<p>在1.9中，会通过run这个分支去调用：<code>main-&gt;parseParameters-&gt;run-&gt;runProgram</code></p>
+<p>在1.10中，会通过run这个分支去调用：<code>main-&gt;parseParameters-&gt;run-&gt;executeProgram</code></p>
+<p>在最新1.13中，如果使用run-application这种模式，则提交会一路按照<code>main-&gt;parseAndRun-&gt;runApplication-&gt;deployer.run</code>进行方法调用。最终Job的提交会来到<code>YarnClusterDescriptor#deployApplicationCluster</code>。</p>
+<p>所以这部分提交其实发生了数次变化。</p>
+</blockquote>
+<h3 id="1-9"><a href="#1-9" class="headerlink" title="1.9"></a>1.9</h3><p>其中最关键的是在run方法中，通过<code>validateAndGetActiveCommandLine</code>方法，得到一个<code>activeCommandLine</code>，这个其实是在main函数中就完成了初始化的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> CustomCommandLine&lt;?&gt; customCommandLine = getActiveCustomCommandLine(commandLine);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 其实是在这里初始化</span></span><br><span class="line"><span class="comment">// CliFrontend#loadCustomCommandLines</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;CustomCommandLine&gt; <span class="title">loadCustomCommandLines</span><span class="params">(Configuration configuration, String configurationDirectory)</span> </span>&#123;</span><br><span class="line">		...</span><br><span class="line">		<span class="keyword">final</span> String flinkYarnSessionCLI = <span class="string">&quot;org.apache.flink.yarn.cli.FlinkYarnSessionCli&quot;</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			customCommandLines.add(</span><br><span class="line">				loadCustomCommandLine(flinkYarnSessionCLI,</span><br><span class="line">					configuration,</span><br><span class="line">					configurationDirectory,</span><br><span class="line">					<span class="string">&quot;y&quot;</span>,</span><br><span class="line">					<span class="string">&quot;yarn&quot;</span>));</span><br><span class="line">		&#125;</span><br><span class="line">  	...</span><br><span class="line">		<span class="keyword">return</span> customCommandLines;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以其本质是<code>flinkYarnSessionCLI</code>，在<code>runProgram</code>方法中，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 这里Flink会针对不同的提交模式有不同的分支，主要是判断是否为detached mode</span></span><br><span class="line"><span class="comment">// 如果是，则得到jobGraph，提交任务</span></span><br><span class="line"><span class="keyword">final</span> JobGraph jobGraph = PackagedProgramUtils.createJobGraph(program, configuration, parallelism);</span><br><span class="line">client = clusterDescriptor.deployJobCluster(</span><br><span class="line">					clusterSpecification,</span><br><span class="line">					jobGraph,</span><br><span class="line">					runOptions.getDetachedMode());</span><br><span class="line"><span class="comment">// 如果不是，则executeProgram</span></span><br><span class="line">executeProgram(program, client, userParallelism);</span><br><span class="line"><span class="comment">//// 如果prog.isUsingProgramEntryPoint()，则</span></span><br><span class="line"><span class="keyword">return</span> run(jobWithJars, parallelism, prog.getSavepointSettings());</span><br><span class="line"><span class="comment">////// 最终会调用到：</span></span><br><span class="line">JobGraph job = getJobGraph(flinkConfig, compiledPlan, libraries, classpaths, savepointSettings);</span><br><span class="line"><span class="keyword">return</span> submitJob(job, classLoader);</span><br><span class="line"><span class="comment">//// 否则，则直接调用main函数</span></span><br><span class="line">prog.invokeInteractiveModeForExecution();</span><br><span class="line"><span class="comment">////// PackageProgram#callMainMethod</span></span><br><span class="line">mainMethod = entryClass.getMethod(<span class="string">&quot;main&quot;</span>, String[].class);</span><br><span class="line">mainMethod.invoke(<span class="keyword">null</span>, (Object) args);</span><br></pre></td></tr></table></figure>
+
+<p>执行用户的main方法后，就是flink的标准流程了。创建env、构建StreamDAG、生成Pipeline、提交到集群、阻塞运行。当main程序执行完毕，整个run脚本程序也就退出了。</p>
+<h3 id="1-10"><a href="#1-10" class="headerlink" title="1.10"></a>1.10</h3><p>前半部分基本都一样，不过run方法中的最终调用由<code>runProgram</code>修改为<code>executeProgram</code>，相关修改对应的是<a target="_blank" rel="noopener" href="https://issues.apache.org/jira/browse/FLINK-14851">FLINK-14851</a>和<a target="_blank" rel="noopener" href="https://issues.apache.org/jira/browse/FLINK-14130">FLINK-14130</a>。即删除了之前runProgram及run相关的代码。简单来讲社区认为不应该将这部分工作放在<code>run</code>中。</p>
+<blockquote>
+<p>The <code>run()</code> methods are concerned with unpacking programs or job-with-jars and at the end use <code>submitJob()</code> in some way, they should reside in some other component.</p>
+</blockquote>
+<p>最终会直接通过下属代码直接进行任务的调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// PackageProgram.java</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">invokeInteractiveModeForExecution</span><span class="params">()</span> <span class="keyword">throws</span> ProgramInvocationException </span>&#123;</span><br><span class="line">		callMainMethod(mainClass, args);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// PackageProgram#callMainMethod</span></span><br><span class="line">mainMethod = entryClass.getMethod(<span class="string">&quot;main&quot;</span>, String[].class);</span><br><span class="line">mainMethod.invoke(<span class="keyword">null</span>, (Object) args);</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="1-13"><a href="#1-13" class="headerlink" title="1.13"></a>1.13</h3><p>新版本相比于1.10，如要是提供了<code>runApplication</code>方法，与run进行了区分。这涉及了在1.11引入的新的yarn部署模式。相比于之前，<strong>原本需要客户端做的三件事被转移到了JobManager里</strong>，也就是说main()方法在集群中执行，Deployer只需要负责发起部署请求了。另外，如果一个main()方法中有多个env.execute()/executeAsync()调用，在Application模式下，这些作业会被视为属于同一个应用，在同一个集群中执行（如果在Per-Job模式下，就会启动多个集群）。可见，Application模式本质上是Session和Per-Job模式的折衷。</p>
+<p>// TODO</p>
+<h1 id="资源管理与作业调度"><a href="#资源管理与作业调度" class="headerlink" title="资源管理与作业调度"></a>资源管理与作业调度</h1><p>作业调度可以看做是对资源和任务进行匹配的过程。如上节所述，在 Flink 中，资源是通过 Slot 来表示的，每个 Slot 可以用来执行不同的 Task。而在另一端，任务即 Job 中实际的 Task，它包含了待执行的用户逻辑。调度的主要目的就是为了给 Task 找到匹配的 Slot。</p>
+<p>在 1.9 之前，Flink 是不支持细粒度的资源描述的，而是统一的认为每个 Slot 提供的资源和 Task 需要的资源都是相同的。</p>
+<p>从 1.9 开始，Flink 开始增加对细粒度的资源匹配的支持的实现，每个 Slot 都有一个向量来描述它所能提供的各种资源的量，每个 Task 也需要相应的说明它所需要的各种资源的量。</p>
+<blockquote>
+<p>在 ResourceManager 中，有一个子组件叫做 SlotManager，它维护了当前集群中所有 TaskExecutor 上的 Slot 的信息与状态：如该 Slot 在哪个 TaskExecutor 中，该 Slot 当前是否空闲等。当 JobManger 来为特定 Task 申请资源的时候，ResourceManager 可能会去申请资源来启动新的 TaskExecutor。当 TaskExecutor 启动之后，它会通过服务发现找到当前活跃的 ResourceManager 并进行注册。在注册信息中，会包含该 TaskExecutor中所有 Slot 的信息。 ResourceManager 收到注册信息后，其中的 SlotManager 就会记录下相应的 Slot 信息。当 JobManager 为某个 Task 来申请资源时， SlotManager 就会从当前空闲的 Slot 中按一定规则选择一个空闲的 Slot 进行分配。当分配完成后，RM 会首先向 TaskManager 发送 RPC 要求将选定的 Slot 分配给特定的 JobManager。TaskManager 如果还没有执行过该 JobManager 的 Task 的话，它需要首先向相应的 JobManager 建立连接，然后发送提供 Slot 的 RPC 请求。在 JobManager 中，所有 Task 的请求会缓存到 SlotPool 中。当有 Slot 被提供之后，SlotPool 会从缓存的请求中选择相应的请求并结束相应的请求过程。</p>
+<p>当 Task 结束之后，无论是正常结束还是异常结束，都会通知 JobManager 相应的结束状态，然后在 TaskManager 端将 Slot 标记为已占用但未执行任务的状态。JobManager 会首先将相应的 Slot 缓存到 SlotPool 中，但不会立即释放。这种方式避免了如果将 Slot 直接还给 ResourceManager，在任务异常结束之后需要重启时，需要立刻重新申请 Slot 的问题。通过延时释放，Failover 的 Task 可以尽快调度回原来的 TaskManager，从而加快 Failover 的速度。当 SlotPool 中缓存的 Slot 超过指定的时间仍未使用时，SlotPool 就会发起释放该 Slot 的过程。与申请 Slot 的过程对应，SlotPool 会首先通知 TaskManager 来释放该 Slot，然后 TaskExecutor 通知 ResourceManager 该 Slot 已经被释放，从而最终完成释放的逻辑。</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210729135920.png" alt="图片-4"></p>
+</blockquote>
+<p>本质上来说，</p>
+<ul>
+<li>JobManager用于管理作业的执行进度。执行Task会找RM申请资源。相当于资源的申请者。</li>
+<li>ResourceManager负责管理资源，主要通过SlotManager，维护者TaskManager上Slot与Slot的状态，在有资源申请时负责管理和分配slot资源。</li>
+<li>TaskManager是资源的实际所有者。Slot都是TM提供。</li>
+</ul>
+<blockquote>
+<p>注意这里的RM都是Flink内部的概念，在Yarn模式下，整个AM是运行在一个Container下的。</p>
+</blockquote>
+<p>1、当JM需要自信Task时。</p>
+<p>2、对于per-job模式，如果没有启动过TM，RM则会通过2/3/4步骤启动一个TM。</p>
+<p>5、TM启动会向RM进行注册，提供一些元信息。RM会通知TM分配了哪个Slot给JM。</p>
+<p>6、TM就会通知JM分配给其某个Slot，JM会将该Slot缓存到Slotpool并与之前的Task申请进行匹配。匹配后就会将该Task调度到对应的slot之上。</p>
+<p>7、Task执行成功或者失败后，会触发Slot的释放逻辑。</p>
+<blockquote>
+<p>关于Flink中Job和Task的概念。</p>
+<p>一个大的任务是一个Job，即execute就会触发一个Job</p>
+<p>一个Operator就是一个Task，不过Flink会在由StreamGraph生成JobGraph的过程中进行OperatorChain，将部分Operator合并为一个Task（类似于Spark的stage划分）</p>
+<p>实际运行时，Task会按照并行度分成多个Subtask，Subtask是执行/调度的基本单元。subtask运行在slot中。</p>
+</blockquote>
+<p>// 进行batch模式时，类似于spark，会根据shuffle进行任务分割，shuffle产生的数据会存放在tm所在机器上。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Flink/" rel="tag"># Flink</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/26/spark-zhong-diao-yong-c-de-dong-tai-ku/" rel="prev" title="Spark中调用C的动态库">
+      <i class="fa fa-chevron-left"></i> Spark中调用C的动态库
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/07/30/chu-shi-clickhouse/" rel="next" title="初试ClickHouse">
+      初试ClickHouse <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Flink%E7%9A%84%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">Flink的整体架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E7%AC%AC%E4%B8%80%E6%AD%A5"><span class="nav-number">1.1.</span> <span class="nav-text">关于第一步</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-9"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.9</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-10"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-13"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.13</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E4%B8%8E%E4%BD%9C%E4%B8%9A%E8%B0%83%E5%BA%A6"><span class="nav-number">2.</span> <span class="nav-text">资源管理与作业调度</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ssiu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ssiu</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
+</html>

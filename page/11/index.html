@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-material.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.ibuer.fun","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Ssiu Blog">
+<meta property="og:url" content="http://blog.ibuer.fun/page/11/index.html">
+<meta property="og:site_name" content="Ssiu Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Ssiu">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.ibuer.fun/page/11/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Ssiu Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ssiu Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2017/11/26/typesafe-de-configfactory-de-jian-dan-shi-yong/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/11/26/typesafe-de-configfactory-de-jian-dan-shi-yong/" class="post-title-link" itemprop="url">Typesafe的ConfigFactory的简单使用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-11-26 11:58:47" itemprop="dateCreated datePublished" datetime="2017-11-26T11:58:47+08:00">2017-11-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-18 11:10:30" itemprop="dateModified" datetime="2020-02-18T11:10:30+08:00">2020-02-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Utils/" itemprop="url" rel="index"><span itemprop="name">Utils</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="ConfigFactory"><a href="#ConfigFactory" class="headerlink" title="ConfigFactory"></a>ConfigFactory</h2><p>ConfigFactory能够帮助我们快速的读取配置文件，帮助我们修改一些配置信息，而不用修改代码。<br>例如我们可以将sql的连接信息放入配置文件中，而不是写死在代码里。<br>类似于Java的properties，不过ConfigFactory支持多种文件格式，包括：</p>
+<blockquote>
+<p>The convenience method ConfigFactory.load() loads the following (first-listed are higher priority):<br>a) system properties<br>b) system properties application.conf (all resources on classpath with this name)<br>c) application.json (all resources on classpath with this name)<br>d) application.properties (all resources on classpath with this name)<br>e) reference.conf (all resources on classpath with this name)</p>
+</blockquote>
+<p>其他的优点，用途，用法大家可以参见<a target="_blank" rel="noopener" href="https://github.com/lightbend/config">github项目</a>。<br>里面的<code>README.md</code>进行了详细的说明。</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="引入依赖："><a href="#引入依赖：" class="headerlink" title="引入依赖："></a>引入依赖：</h3><p>需要注意：1.2.1及以前的版本是基于Java6开发的，而1.3及之后的版本都需要基于1.8。</p>
+<blockquote>
+<p>Version 1.2.1 and earlier were built for Java 6, while newer versions(1.3.0 and above) will be built for Java 8.</p>
+</blockquote>
+<p>以maven为例：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.typesafe<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>config<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.3.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="获取配置文件"><a href="#获取配置文件" class="headerlink" title="获取配置文件"></a>获取配置文件</h3><p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217220011.png" alt="获取配置文件"><br>使用<code>load</code>方法可以加载到实现准备好的配置文件，默认加载<code>classpath</code>下的<code>application.conf</code>，<code>application.json</code>和<code>application.properties</code>文件。当然也可以调用<code>ConfigFactory.load(confName)</code>加载指定的配置文件。<br>获取到之后通过getxxx方法，就能够提取里面的值了。本文主要介绍下简单使用，更复杂的使用请参考:<a target="_blank" rel="noopener" href="https://github.com/lightbend/config">github项目</a>。</p>
+<h3 id="常见配置文件的书写规则："><a href="#常见配置文件的书写规则：" class="headerlink" title="常见配置文件的书写规则："></a>常见配置文件的书写规则：</h3><p>上面提到过，ConfigFactory支持多种配置文件格式，常见的有<code>application.conf</code>，<code>application.json</code>和<code>application.properties</code>文件。</p>
+<h4 id="application-conf"><a href="#application-conf" class="headerlink" title="application.conf"></a>application.conf</h4><p>一般使用k=v的形式即可：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">db.<span class="keyword">default</span>.url=<span class="string">&quot;jdbc:mysql://localhost:3306&quot;</span></span><br><span class="line">db.<span class="keyword">default</span>.name=<span class="string">&quot;dbname&quot;</span></span><br><span class="line">db.<span class="keyword">default</span>.passwd=<span class="number">123456</span></span><br><span class="line"><span class="comment">//使用</span></span><br><span class="line">conf=ConfigFactory.load(confName)</span><br><span class="line">conf.getString(<span class="string">&quot;db.default.url&quot;</span>))</span><br><span class="line">conf.getInt(<span class="string">&quot;db.default.passwd&quot;</span>))</span><br></pre></td></tr></table></figure>
+<p>也可以使用这种配置形式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql-app &#123;</span><br><span class="line">    url=<span class="string">&quot;jdbc:mysql://localhost:3306&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//使用</span></span><br><span class="line">conf=ConfigFactory.load(confName)</span><br><span class="line">conf.getString(<span class="string">&quot;mysql-app.url&quot;</span>))</span><br></pre></td></tr></table></figure>
+
+<h4 id="application-json"><a href="#application-json" class="headerlink" title="application.json"></a>application.json</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">&quot;db&quot;</span>:&#123;</span><br><span class="line">	<span class="attr">&quot;url&quot;</span>:<span class="string">&quot;jdbc:mysql://localhost:3306&quot;</span></span><br><span class="line">	<span class="string">&quot;dbname&quot;</span>:<span class="string">&quot;dbname&quot;</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//使用</span></span><br><span class="line">conf.getString(<span class="string">&quot;db.url&quot;</span>))</span><br><span class="line">conf.getString(<span class="string">&quot;db.dbname&quot;</span>))</span><br></pre></td></tr></table></figure>
+
+<h4 id="application-properties"><a href="#application-properties" class="headerlink" title="application.properties"></a>application.properties</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">db.url=jdbc:mysql:<span class="comment">//localhost:3306</span></span><br><span class="line"><span class="comment">//使用同上。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="简单使用："><a href="#简单使用：" class="headerlink" title="简单使用："></a>简单使用：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">object mysqlApp &#123;</span><br><span class="line">  <span class="function">def <span class="title">main</span><span class="params">(args: Array[String])</span>: Unit </span>= &#123;</span><br><span class="line">    val spark = SparkSession.builder()<span class="comment">//.appName(this.getClass.getSimpleName).master(&quot;local[*]&quot;)</span></span><br><span class="line">      .getOrCreate()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(args.size != <span class="number">2</span>)&#123;</span><br><span class="line">      println(<span class="string">&quot;args error////inputPath///confPath&quot;</span>)</span><br><span class="line">      System.exit(<span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">val <span class="title">Array</span><span class="params">(intput,conf)</span> </span>= args</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 文件内容：</span></span><br><span class="line"><span class="comment"> * a,1,A</span></span><br><span class="line"><span class="comment"> * b,1,B</span></span><br><span class="line"><span class="comment"> * c,1,C</span></span><br><span class="line"><span class="comment"> */</span>	</span><br><span class="line">    val readDF = spark.read.format(<span class="string">&quot;text&quot;</span>).load(intput)</span><br><span class="line">    <span class="keyword">import</span> spark.implicits._</span><br><span class="line">    val df = readDF.rdd.map(x =&gt; &#123;</span><br><span class="line">      val splits = x.getString(<span class="number">0</span>).split(<span class="string">&quot;,&quot;</span>)</span><br><span class="line">      (splits(<span class="number">0</span>), splits(<span class="number">1</span>), splits(<span class="number">2</span>))</span><br><span class="line">    &#125;).toDF(<span class="string">&quot;col1&quot;</span>, <span class="string">&quot;col2&quot;</span>, <span class="string">&quot;col3&quot;</span>)</span><br><span class="line"></span><br><span class="line">    df.printSchema()</span><br><span class="line">    df.write.options(getDBConf(conf))</span><br><span class="line">      .mode(<span class="string">&quot;overwrite&quot;</span>)</span><br><span class="line">      .format(<span class="string">&quot;jdbc&quot;</span>).save()</span><br><span class="line"></span><br><span class="line">    <span class="function">def <span class="title">getDBConf</span><span class="params">(confPlace:String=<span class="string">&quot;application.conf&quot;</span>)</span></span>=&#123;</span><br><span class="line">      val config = ConfigFactory.load(confPlace)</span><br><span class="line">      val url = config.getString(<span class="string">&quot;db.default.url&quot;</span>)</span><br><span class="line">      val configMap = HashMap[String, String](</span><br><span class="line">        (<span class="string">&quot;url&quot;</span>, config.getString(<span class="string">&quot;db.default.url&quot;</span>)),</span><br><span class="line">        (<span class="string">&quot;db&quot;</span>, config.getString(<span class="string">&quot;db.default.name&quot;</span>)),</span><br><span class="line">        (<span class="string">&quot;dbtable&quot;</span>, config.getString(<span class="string">&quot;db.default.table&quot;</span>)),</span><br><span class="line">        (<span class="string">&quot;user&quot;</span>, config.getString(<span class="string">&quot;db.default.user&quot;</span>)),</span><br><span class="line">        (<span class="string">&quot;password&quot;</span>, config.getString(<span class="string">&quot;db.default.password&quot;</span>)),</span><br><span class="line">        (<span class="string">&quot;driver&quot;</span>,config.getString(<span class="string">&quot;db.default.driver&quot;</span>))</span><br><span class="line">      )</span><br><span class="line">      configMap</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2017/09/16/da-jian-harbor/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/09/16/da-jian-harbor/" class="post-title-link" itemprop="url">搭建Harbor</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-09-16 21:25:29" itemprop="dateCreated datePublished" datetime="2017-09-16T21:25:29+08:00">2017-09-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-17 23:21:27" itemprop="dateModified" datetime="2020-02-17T23:21:27+08:00">2020-02-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><p>请先安装Docker。本文主要针对离线部署。</p>
+<h3 id="1）Https："><a href="#1）Https：" class="headerlink" title="1）Https："></a>1）Https：</h3><p>本步骤可参考：<a target="_blank" rel="noopener" href="https://github.com/goharbor/harbor/blob/master/docs/configure_https.md">configure_https</a></p>
+<ol>
+<li><p>安装证书：（Getting Certificate Authority）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">openssl genrsa -out ca.key 4096</span><br><span class="line">主要修改后三项：</span><br><span class="line">openssl req -x509 -new -nodes -sha512 -days 3650 \</span><br><span class="line">-subj &quot;/C=CN/ST=Beijing/L=Beijing/O=example/OU=Personal/CN=yourdomain.com&quot; \</span><br><span class="line">-key ca.key \</span><br><span class="line">-out ca.crt</span><br></pre></td></tr></table></figure></li>
+<li><p>获取服务器证书：（Getting Server Certificate）</p>
+<ol>
+<li><p>生成私钥：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl genrsa -out yourdomain.com.key  4096</span><br></pre></td></tr></table></figure></li>
+<li><p>生成签名请求：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">openssl req -sha512 -new \</span><br><span class="line">-subj &quot;/C=CN/ST=Beijing/L=Beijing/O=example/OU=Personal/CN=yourdomain.com&quot; \</span><br><span class="line">-key yourdomain.com.key \</span><br><span class="line">-out yourdomain.com.csr</span><br></pre></td></tr></table></figure></li>
+<li><p>生成注册表主机证书：（v3.ext）（DNS按需写）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">cat &gt; v3.ext &lt;&lt;-EOF</span><br><span class="line">authorityKeyIdentifier=keyid,issuer</span><br><span class="line">basicConstraints=CA:FALSE</span><br><span class="line">keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment</span><br><span class="line">extendedKeyUsage = serverAuth</span><br><span class="line">subjectAltName = @alt_names</span><br><span class="line">[alt_names]</span><br><span class="line">DNS.1=yourdomain.com</span><br><span class="line">DNS.2=yourdomain</span><br><span class="line">DNS.3=hostname</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -req -sha512 -days 3650 \</span><br><span class="line">-extfile v3.ext \</span><br><span class="line">-CA ca.crt -CAkey ca.key -CAcreateserial \</span><br><span class="line">-in yourdomain.com.csr \</span><br><span class="line">-out yourdomain.com.crt</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>配置安装证书：（Configuration and Installation）</p>
+<ol>
+<li><p>为Harbor配置证书（文件夹不存在则创建）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp yourdomain.com.crt /data/cert/</span><br><span class="line">cp yourdomain.com.key /data/cert/</span><br></pre></td></tr></table></figure></li>
+<li><p>为Docker配置：（文件夹不存在则创建）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -inform PEM -in yourdomain.com.crt -out yourdomain.com.cert</span><br><span class="line">---</span><br><span class="line">cp yourdomain.com.cert /etc/docker/certs.d/yourdomain.com/</span><br><span class="line">cp yourdomain.com.key /etc/docker/certs.d/yourdomain.com/</span><br><span class="line">cp ca.crt /etc/docker/certs.d/yourdomain.com/</span><br></pre></td></tr></table></figure></li>
+<li><p>配置damon.jason：（使用ip登陆必须）</p>
+<ol>
+<li>位置：/etc/docker/daemon.json</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">&quot;registry-mirrors&quot;:[&quot;https://hadoop001&quot;],</span><br><span class="line">&quot;insercure-registries&quot;:[&quot;ip&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>​    </p>
+</li>
+</ol>
+<h3 id="2）配置harbor-yml"><a href="#2）配置harbor-yml" class="headerlink" title="2）配置harbor.yml"></a>2）配置harbor.yml</h3><p>主要配置：</p>
+<ul>
+<li>hostname：hostname或ip</li>
+<li>certificate：/data/cert/<strong>yourdomain.com</strong>.crt</li>
+<li>private_key：/data/cert/<strong>yourdomain.com</strong>.key</li>
+</ul>
+<h3 id="3）-安装Docker-compose"><a href="#3）-安装Docker-compose" class="headerlink" title="3） 安装Docker compose"></a>3） 安装Docker compose</h3><p>参考：<a target="_blank" rel="noopener" href="https://docs.docker.com/compose/install/">安装Docker compose</a></p>
+<h3 id="4）-安装Harbor"><a href="#4）-安装Harbor" class="headerlink" title="4） 安装Harbor"></a>4） 安装Harbor</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ./install.sh</span><br></pre></td></tr></table></figure>
+
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>对Harbor修改配置时，需要重启Docker及Harbor，建议如下操作：</p>
+<ul>
+<li><p><strong>docker-compose需要与harbor.yml同一目录下执行</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sudo docker-compose down -v</td>
+<td>停止所有容器，并删除容器。并删除挂载卷和volunme的链接（-v）</td>
+</tr>
+<tr>
+<td>vim harbor.yml</td>
+<td>编辑配置</td>
+</tr>
+<tr>
+<td>sudo ./prepare</td>
+<td>执行一个准备脚本。</td>
+</tr>
+<tr>
+<td>sudo docker-compose up -d</td>
+<td>在后台（-d）构建，（重新）创建，启动，链接一个服务相关的容器。</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h3 id="生命周期管理"><a href="#生命周期管理" class="headerlink" title="生命周期管理"></a>生命周期管理</h3><ol>
+<li><p>停止Harbor（会保留数据）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker-compose down -v</span><br></pre></td></tr></table></figure></li>
+<li><p>删除数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rm -r /data/database</span><br><span class="line">rm -r /data/registry</span><br></pre></td></tr></table></figure></li>
+<li><p>后台启动Harbor：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker-compose up -d</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2017/07/07/kafka-server-stop-xian-shi-no-kafka-server-to-stop-de-jie-jue-ban-fa/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/07/kafka-server-stop-xian-shi-no-kafka-server-to-stop-de-jie-jue-ban-fa/" class="post-title-link" itemprop="url">kafka-server-stop显示No kafka server to stop的解决办法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-07-07 20:15:15" itemprop="dateCreated datePublished" datetime="2017-07-07T20:15:15+08:00">2017-07-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-17 23:21:27" itemprop="dateModified" datetime="2020-02-17T23:21:27+08:00">2020-02-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Kafka/" itemprop="url" rel="index"><span itemprop="name">Kafka</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>我们想通过<code>kafka-server-stop.sh</code>友好的关闭kafka时，一般会出现：<code>No kafka server to stop</code>。<br>如图：</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217231613.png" alt="示例"></p>
+<p>其实原因很简单，脚本没有找到kafka的PID。<br>解决方案：<br>修改<code>kafka-server-stop.sh</code><br>原来sh脚本应该是这样：（注意第二行 <code>&#39;kafka\.Kafka&#39;</code>）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">SIGNAL=$&#123;SIGNAL:-TERM&#125;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">注意这行！</span></span><br><span class="line">PIDS=$(ps ax | grep -i &#x27;kafka\.Kafka&#x27; | grep java | grep -v grep | awk &#x27;&#123;print $1&#125;&#x27;)</span><br><span class="line"></span><br><span class="line">if [ -z &quot;$PIDS&quot; ]; then</span><br><span class="line">  echo &quot;No kafka server to stop&quot;</span><br><span class="line">  exit 1</span><br><span class="line">else</span><br><span class="line">  kill -s $SIGNAL $PIDS</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<p>第二行改为：（根据自己kafka版本修改）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">SIGNAL=$&#123;SIGNAL:-TERM&#125;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">修改这行</span></span><br><span class="line">PIDS=$(ps ax | grep -i &#x27;kafka_2.11-2.2.1&#x27; | grep java | grep -v grep | awk &#x27;&#123;print $1&#125;&#x27;)</span><br><span class="line"></span><br><span class="line">if [ -z &quot;$PIDS&quot; ]; then</span><br><span class="line">  echo &quot;No kafka server to stop&quot;</span><br><span class="line">  exit 1</span><br><span class="line">else</span><br><span class="line">  kill -s $SIGNAL $PIDS</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<p>不确定可以把这段命令拷贝到控制台试一下，它会返回kafka进程的pid号。<br><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217231628.png" alt="示例2"><br>简单解释下：<br>2.11是编译kafka的scala版本。<br>2.2.1是kafka版本（是apache的版本，如果是CDK，请查看它底层用的apache的什么版本。）</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2017/06/14/shi-yong-yin-shi-zhuan-huan-wei-spark-rdd-tian-jia-jian-dan-de-suan-zi/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/06/14/shi-yong-yin-shi-zhuan-huan-wei-spark-rdd-tian-jia-jian-dan-de-suan-zi/" class="post-title-link" itemprop="url">使用隐式转换为Spark-RDD添加简单的算子</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-06-14 22:47:10" itemprop="dateCreated datePublished" datetime="2017-06-14T22:47:10+08:00">2017-06-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-14 22:53:24" itemprop="dateModified" datetime="2020-02-14T22:53:24+08:00">2020-02-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spark/" itemprop="url" rel="index"><span itemprop="name">Spark</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="干啥用的"><a href="#干啥用的" class="headerlink" title="干啥用的"></a>干啥用的</h2><p>RDD已经提供了非常多的算子供使用，不过人有时候就是想偷懒，或者有些新想法。<br>比如说我想快速的输出rdd的前x个元素（就像DataFrame中的show一样）<br>利用scala的隐式转换，我们可以对RDD进行一些简单的扩展，将一些常用的操作进行封装，或者增加一些新的算子。<br>初学者文章，有错误望批评指正</p>
+<h2 id="说下隐式转换"><a href="#说下隐式转换" class="headerlink" title="说下隐式转换"></a>说下隐式转换</h2><p>实现的基础是利用Scala的隐式转换。如果不了解可以访问官网简单了解下：<a target="_blank" rel="noopener" href="https://docs.scala-lang.org/zh-cn/tour/implicit-conversions.html">隐式转换Doc</a>，网上也有大量的文章帮助了解。<br>本次主要使用隐式类，隐式类的一些注意事项（限制）在此一起记录下：</p>
+<ol>
+<li>构造参数有且只能有一个（参数实际上就是你要把 什么类 转换成该（隐式）类）</li>
+<li>不能是顶层类（必须被定义在类，伴生对象和包对象里）</li>
+<li>不能是case class（case class在定义会自动生成伴生对象与2矛盾）</li>
+<li>作用域内不能有与之相同名称的标示符（就是不能同名）</li>
+</ol>
+<h2 id="实践才是检验真理"><a href="#实践才是检验真理" class="headerlink" title="实践才是检验真理"></a>实践才是检验真理</h2><p>需求：需求很简单，我想打印一个RDD的元素，并且可以自定义展示元素的个数。不用考虑太多其他的优化问题。<br>分析：利用隐式转换，我们需要将：Rdd[Int]转换成自定义的：SimpleRdd[Int]。使Rdd[Int]能够调用SimpleRdd的方法。<br>代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">object RddImplicitAspect &#123;</span><br><span class="line">  implicit class SimpleRdd[T](rdd:RDD[T])&#123;</span><br><span class="line">    def printTopN(printLine:Int = 20) = &#123;</span><br><span class="line">      rdd.take(printLine).foreach(println)</span><br><span class="line">      println(s&quot;$&#123;rdd.getClass.getSimpleName&#125; Output Over&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>首先建立一个工具类，取名<code>RddImplicitAspect</code>。</li>
+<li>弄一个<code>implicit class</code>，类名取为<code>SimpleRdd</code>（<strong>不要重名</strong>），接受的对象是**RDD[T]**。这样T类型的Rdd都能够使用这个方法吧。</li>
+<li>实际上我们应该限制Rdd的类型，比如说<code>[T&lt;:AnyVal]</code>把作用范围缩小。</li>
+<li>之后我们就可以对rdd进行操作了。</li>
+</ol>
+<p>使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">object TestApp &#123;</span><br><span class="line">  def main(args: Array[String]): Unit = &#123;</span><br><span class="line">    val sc = ContextUtils.getSparkContext(this.getClass.getSimpleName)</span><br><span class="line"></span><br><span class="line">    val rdd= sc.parallelize(1 to 30)</span><br><span class="line">    import com.test.spark.utils.RddImplicitAspect._</span><br><span class="line">    rdd.printTopN()</span><br><span class="line"></span><br><span class="line">    sc.stop()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><strong>不要忘记导入隐式转换。</strong></li>
+<li>直接调用即可。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2017/02/14/hadoop-fs-ls-xiang-guan-shi-yong-wen-ti-de-ji-lu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/02/14/hadoop-fs-ls-xiang-guan-shi-yong-wen-ti-de-ji-lu/" class="post-title-link" itemprop="url">hadoop fs -ls 相关使用问题的记录</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-02-14 22:47:10" itemprop="dateCreated datePublished" datetime="2017-02-14T22:47:10+08:00">2017-02-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-14 22:53:26" itemprop="dateModified" datetime="2020-02-14T22:53:26+08:00">2020-02-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hadoop/" itemprop="url" rel="index"><span itemprop="name">Hadoop</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="hadoop-fs-ls-相关使用问题记录"><a href="#hadoop-fs-ls-相关使用问题记录" class="headerlink" title="hadoop fs -ls 相关使用问题记录"></a>hadoop fs -ls 相关使用问题记录</h1><p>新人新学，如有错误，烦请提出指正。</p>
+<h2 id="1）直接使用：hadoop-fs-ls"><a href="#1）直接使用：hadoop-fs-ls" class="headerlink" title="1）直接使用：hadoop fs -ls"></a>1）直接使用：hadoop fs -ls</h2><p>正确的使用方式是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs [-ls [-d] [-h] [-R] [&lt;path&gt; ...]]</span><br></pre></td></tr></table></figure>
+<p>如果将path省去，系统会将：/user/hostname/ 添加。<br>所以实际这条指令等价于：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -ls /user/hostname/</span><br></pre></td></tr></table></figure>
+<p>实验截图参考：<br><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog1.png"></p>
+<h2 id="2）使用：hadoop-fs-ls"><a href="#2）使用：hadoop-fs-ls" class="headerlink" title="2）使用：hadoop fs -ls /"></a>2）使用：hadoop fs -ls /</h2><p>实际会默认访问hdfs路径。即实际上，这条指令等价于：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop fs -ls hdfs:///</span><br></pre></td></tr></table></figure>
+
+<h2 id="3）使用：hadoop-fs-ls-hdfs-hostname-port"><a href="#3）使用：hadoop-fs-ls-hdfs-hostname-port" class="headerlink" title="3）使用：hadoop fs -ls hdfs://hostname:port/"></a>3）使用：hadoop fs -ls hdfs://hostname:port/</h2><p>访问hdfs的完整路径。即：访问hdfs文件系统上的hostname(ip亦可):port/<br>实际上，可以使用这条指令访问本地的文件系统：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hdfs dfs -ls file:///home/hadoop/</span><br></pre></td></tr></table></figure>
+
+<p>参考：<br>[1] <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/28241251/hadoop-fs-ls-results-in-no-such-file-or-directory">hadoop fs -ls results in “no such file or directory”
+</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2017/02/10/yarn-gong-zuo-liu-cheng/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/02/10/yarn-gong-zuo-liu-cheng/" class="post-title-link" itemprop="url">Yarn工作流程(Spark cluster)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-02-10 14:06:49" itemprop="dateCreated datePublished" datetime="2017-02-10T14:06:49+08:00">2017-02-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-17 19:34:31" itemprop="dateModified" datetime="2020-02-17T19:34:31+08:00">2020-02-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hadoop/" itemprop="url" rel="index"><span itemprop="name">Hadoop</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217141526.png" alt="Spark on Yarn-cluster"></p>
+<ol>
+<li>客户端向yarn提交作业，yarn会启动ApplicationsManager。</li>
+<li>RM为作业分配NM，启动ApplicationMaster（AM）</li>
+<li>AM向ApplicationManager注册，并向ResourceScheduler申请资源。</li>
+<li>ResourceScheduler将打包好的资源信息返回给AM，AM通知对应的NodeManager启动Container。</li>
+<li>Container启动成功后，会保持与AM的通信，直到任务完成。</li>
+<li>所有任务完成后，AM向ApplicationManager申请注销资源。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ssiu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ssiu</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
+</html>

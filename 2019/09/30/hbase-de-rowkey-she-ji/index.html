@@ -1,403 +1,251 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="zh-CN">
-
-
 <head>
-    <meta charset="utf-8">
-    <meta name="keywords" content="HBase的RowKey设计, Ssiu Blog">
-    <meta name="description" content="前言对于hbase，会将一张Table中的数据，按照定义的RowKey，将数据切分到不同的Region中。一般不同的Region会被Master分配到不同的机器上。所以如果RowKey设计良好，能够让集群负载均衡，提高吞吐量。防止出现热点问">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="renderer" content="webkit|ie-stand|ie-comp">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>HBase的RowKey设计 | Ssiu Blog</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
-    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/matery.css">
-    <link rel="stylesheet" type="text/css" href="/css/my.css">
-
-    <script src="/libs/jquery/jquery.min.js"></script>
-    
-<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<link rel="stylesheet" href="/css/main.css">
 
 
-<body>
-    <header class="navbar-fixed">
-    <nav id="headNav" class="bg-color nav-transparent">
-        <div id="navContainer" class="nav-wrapper container">
-            <div class="brand-logo">
-                <a href="/" class="waves-effect waves-light">
-                    
-                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
-                    
-                    <span class="logo-span">Ssiu Blog</span>
-                </a>
-            </div>
-            
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-material.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
 
-<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
-<ul class="right nav-menu">
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.ibuer.fun","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言对于hbase，会将一张Table中的数据，按照定义的RowKey，将数据切分到不同的Region中。一般不同的Region会被Master分配到不同的机器上。所以如果RowKey设计良好，能够让集群负载均衡，提高吞吐量。防止出现热点问题。  Hbase版本：1.2.0  设计原则 RowKey长度不应该超过16字节，否则对于HFile和MemStore来说会极大的占用存储空间 RowKey设">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HBase的RowKey设计">
+<meta property="og:url" content="http://blog.ibuer.fun/2019/09/30/hbase-de-rowkey-she-ji/index.html">
+<meta property="og:site_name" content="Ssiu Blog">
+<meta property="og:description" content="前言对于hbase，会将一张Table中的数据，按照定义的RowKey，将数据切分到不同的Region中。一般不同的Region会被Master分配到不同的机器上。所以如果RowKey设计良好，能够让集群负载均衡，提高吞吐量。防止出现热点问题。  Hbase版本：1.2.0  设计原则 RowKey长度不应该超过16字节，否则对于HFile和MemStore来说会极大的占用存储空间 RowKey设">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20191110230534325.png">
+<meta property="og:image" content="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20191110230733649.png">
+<meta property="article:published_time" content="2019-09-30T15:58:24.000Z">
+<meta property="article:modified_time" content="2020-02-17T15:21:27.855Z">
+<meta property="article:author" content="Ssiu">
+<meta property="article:tag" content="HBase">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20191110230534325.png">
+
+<link rel="canonical" href="http://blog.ibuer.fun/2019/09/30/hbase-de-rowkey-she-ji/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>HBase的RowKey设计 | Ssiu Blog</title>
   
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/" class="waves-effect waves-light">
-      
-      <i class="fas fa-home" style="zoom: 0.6;"></i>
-      
-      <span>首页</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/tags" class="waves-effect waves-light">
-      
-      <i class="fas fa-tags" style="zoom: 0.6;"></i>
-      
-      <span>标签</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/categories" class="waves-effect waves-light">
-      
-      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
-      
-      <span>分类</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/archives" class="waves-effect waves-light">
-      
-      <i class="fas fa-archive" style="zoom: 0.6;"></i>
-      
-      <span>归档</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/about" class="waves-effect waves-light">
-      
-      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
-      
-      <span>关于</span>
-    </a>
-    
-  </li>
-  
-  <li>
-    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
-      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
-    </a>
-  </li>
-</ul>
 
-<div id="mobile-nav" class="side-nav sidenav">
 
-    <div class="mobile-head bg-color">
-        
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
-        
-        <div class="logo-name">Ssiu Blog</div>
-        <div class="logo-desc">
-            
-            Never really desperate, only the lost of the soul.
-            
-        </div>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
+  </div>
 
-    
+  <div class="site-meta">
 
-    <ul class="menu-list mobile-menu-list">
-        
-        <li class="m-nav-item">
-	  
-		<a href="/" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-home"></i>
-			
-			首页
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/tags" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-tags"></i>
-			
-			标签
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/categories" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bookmark"></i>
-			
-			分类
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/archives" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-archive"></i>
-			
-			归档
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/about" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-user-circle"></i>
-			
-			关于
-		</a>
-          
-        </li>
-        
-        
-    </ul>
-</div>
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ssiu Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-        </div>
-
-        
-    </nav>
-
-</header>
-
-    
-
-
-
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
-    <div class="container" style="right: 0px;left: 0px;">
-        <div class="row">
-            <div class="col s12 m12 l12">
-                <div class="brand">
-                    <h1 class="description center-align post-title">HBase的RowKey设计</h1>
-                </div>
-            </div>
-        </div>
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
     </div>
+  </div>
 </div>
 
 
 
 
-<main class="post-container content">
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
 
     
-    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
-<style>
-    #articleContent h1::before,
-    #articleContent h2::before,
-    #articleContent h3::before,
-    #articleContent h4::before,
-    #articleContent h5::before,
-    #articleContent h6::before {
-        display: block;
-        content: " ";
-        height: 100px;
-        margin-top: -100px;
-        visibility: hidden;
-    }
 
-    #articleContent :focus {
-        outline: none;
-    }
 
-    .toc-fixed {
-        position: fixed;
-        top: 64px;
-    }
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
 
-    .toc-widget {
-        width: 345px;
-        padding-left: 20px;
-    }
+          <div class="content post posts-expand">
+            
 
-    .toc-widget .toc-title {
-        margin: 35px 0 15px 0;
-        padding-left: 17px;
-        font-size: 1.5rem;
-        font-weight: bold;
-        line-height: 1.5rem;
-    }
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2019/09/30/hbase-de-rowkey-she-ji/">
 
-    .toc-widget ol {
-        padding: 0;
-        list-style: none;
-    }
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
 
-    #toc-content {
-        height: calc(100vh - 250px);
-        overflow: auto;
-    }
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HBase的RowKey设计
+        </h1>
 
-    #toc-content ol {
-        padding-left: 10px;
-    }
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
 
-    #toc-content ol li {
-        padding-left: 10px;
-    }
+              <time title="创建时间：2019-09-30 23:58:24" itemprop="dateCreated datePublished" datetime="2019-09-30T23:58:24+08:00">2019-09-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-17 23:21:27" itemprop="dateModified" datetime="2020-02-17T23:21:27+08:00">2020-02-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HBase/" itemprop="url" rel="index"><span itemprop="name">HBase</span></a>
+                </span>
+            </span>
 
-    #toc-content .toc-link:hover {
-        color: #42b983;
-        font-weight: 700;
-        text-decoration: underline;
-    }
-
-    #toc-content .toc-link::before {
-        background-color: transparent;
-        max-height: 25px;
-    }
-
-    #toc-content .is-active-link {
-        color: #42b983;
-    }
-
-    #toc-content .is-active-link::before {
-        background-color: #42b983;
-    }
-
-    #floating-toc-btn {
-        position: fixed;
-        right: 15px;
-        bottom: 76px;
-        padding-top: 15px;
-        margin-bottom: 0;
-        z-index: 998;
-    }
-
-    #floating-toc-btn .btn-floating {
-        width: 48px;
-        height: 48px;
-    }
-
-    #floating-toc-btn .btn-floating i {
-        line-height: 48px;
-        font-size: 1.4rem;
-    }
-</style>
-<div class="row">
-    <div id="main-content" class="col s12 m12 l9">
-        <!-- 文章内容详情 -->
-<div id="artDetail">
-    <div class="card">
-        <div class="card-content article-info">
-            <div class="row tag-cate">
-                <div class="col s7">
-                    
-                    <div class="article-tag">
-                        
-                            <a href="/tags/HBase/">
-                                <span class="chip bg-color">HBase</span>
-                            </a>
-                        
-                    </div>
-                    
-                </div>
-                <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/HBase/" class="post-category">
-                                HBase
-                            </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-
-            <div class="post-info">
-                
-                <div class="post-date info-break-policy">
-                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-09-30
-                </div>
-                
-
-                
-
-                
-
-                
-
-                
-            </div>
+          
 
         </div>
-        <hr class="clearfix">
-        <div class="card-content article-card-content">
-            <div id="articleContent">
-                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对于hbase，会将一张Table中的数据，按照定义的RowKey，将数据切分到不同的Region中。一般不同的Region会被Master分配到不同的机器上。<br>所以如果RowKey设计良好，能够让集群<code>负载均衡，提高吞吐量。防止出现热点问题</code>。</p>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对于hbase，会将一张Table中的数据，按照定义的RowKey，将数据切分到不同的Region中。一般不同的Region会被Master分配到不同的机器上。<br>所以如果RowKey设计良好，能够让集群<code>负载均衡，提高吞吐量。防止出现热点问题</code>。</p>
 <blockquote>
 <p>Hbase版本：1.2.0</p>
 </blockquote>
 <h2 id="设计原则"><a href="#设计原则" class="headerlink" title="设计原则"></a>设计原则</h2><ol>
 <li>RowKey<strong>长度不应该超过16字节</strong>，否则对于HFile和MemStore来说会极大的占用存储空间</li>
 <li>RowKey设计时需要保证<strong>唯一性</strong>。当两个rowKey经过变换可能生产同一个结果时，这种设计就是有问题的。</li>
-<li>Rowkey是按照<a href="https://zh.wikipedia.org/wiki/字典序" target="_blank" rel="noopener">字典序</a><strong>排序</strong>。设计后请确认rowKey的排序能否符合预期。</li>
+<li>Rowkey是按照<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%AD%97%E5%85%B8%E5%BA%8F">字典序</a><strong>排序</strong>。设计后请确认rowKey的排序能否符合预期。</li>
 <li>RowKey设计的最终目的是<strong>避免热点问题</strong>。设计时需要确认自己的方案对于上游来的数据能够做到均匀分布。<h2 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h2>整体来看，有两种情况：</li>
 <li>第一种，在RowKey前增加一个<strong>完全随机</strong>的随机前缀。这样简单，也会带来一些坏处，但其实也有解决方案。</li>
 <li>第二种，我们可以自己设计RowKey。我们可利用数据中的某1个或者某几个字段，<strong>通过一定的处理，组装成我们的RowKey</strong>。这样尽管设计复杂，但能够带来一些好处，但其也会有一些受限情况。</li>
 </ol>
 <p>实际上，上述两种情况虽有些许不同，不过本质都是需要随机。随机意味着数据打散，意味着查找变困难。但Hbase本身就是一个重写轻读的系统。</p>
-<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><h3 id="加盐前缀"><a href="#加盐前缀" class="headerlink" title="加盐前缀"></a>加盐前缀</h3><p>盐就是<a href="https://zh.wikipedia.org/wiki/%E7%9B%90_(%E5%AF%86%E7%A0%81%E5%AD%A6)" target="_blank" rel="noopener">Salt</a>。<br>我们在创建Hbase表示，就能够人工指定上rowKey的分隔符（而不是等某个Region已经很大了，再让系统自动去划分）：</p>
-<pre class=" language-powershell"><code class="language-powershell">hbase> create <span class="token string">'ns1:t1'</span><span class="token punctuation">,</span> <span class="token string">'f1'</span><span class="token punctuation">,</span> SPLITS => <span class="token punctuation">[</span><span class="token string">'a'</span><span class="token punctuation">,</span> <span class="token string">'b'</span><span class="token punctuation">,</span> <span class="token string">'c'</span><span class="token punctuation">,</span> <span class="token string">'d'</span><span class="token punctuation">]</span></code></pre>
+<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><h3 id="加盐前缀"><a href="#加盐前缀" class="headerlink" title="加盐前缀"></a>加盐前缀</h3><p>盐就是<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%9B%90_(%E5%AF%86%E7%A0%81%E5%AD%A6)">Salt</a>。<br>我们在创建Hbase表示，就能够人工指定上rowKey的分隔符（而不是等某个Region已经很大了，再让系统自动去划分）：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hbase&gt; create <span class="string">&#x27;ns1:t1&#x27;</span>, <span class="string">&#x27;f1&#x27;</span>, SPLITS =&gt; [<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>]</span><br></pre></td></tr></table></figure>
 <p>这样就能够创建出5个Region：（都是左闭右开的区间）<br>【null—a】、【a—b】、【b—c】、【c—d】、【d—null】<br>假如说我们rowKey本来都是：001，002，003。这样就都会分到第一个Region。这显然有问题。<br>通过给我们RowKey加上a-d的前缀，比如说：a-001，b-002。就能够均匀分到设计的<strong>4</strong>个Region了，而不是说基准到某一个Region。<br>ps：<br>实际上，我们如果使用Phoenix来管理hbase，这里会更加的方便。</p>
-<pre class=" language-sql"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> <span class="token keyword">table</span> <span class="token punctuation">(</span>
-a_key <span class="token keyword">VARCHAR</span> <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span><span class="token punctuation">,</span> 
-a_col <span class="token keyword">VARCHAR</span>
-<span class="token punctuation">)</span> SALT_BUCKETS <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span></code></pre>
-<p>不过phoenix不在本文章讨论范围，以后有机会再弄phoenix相关的。更多的请参考官网链接：<a href="http://phoenix.apache.org/salted.html" target="_blank" rel="noopener">Salted Tables</a><br>但加盐前缀解决了数据分布的问题，却也有很多缺点：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">table</span> (</span><br><span class="line">a_key <span class="type">VARCHAR</span> <span class="keyword">PRIMARY</span> KEY, </span><br><span class="line">a_col <span class="type">VARCHAR</span></span><br><span class="line">) SALT_BUCKETS <span class="operator">=</span> <span class="number">20</span>;</span><br></pre></td></tr></table></figure>
+<p>不过phoenix不在本文章讨论范围，以后有机会再弄phoenix相关的。更多的请参考官网链接：<a target="_blank" rel="noopener" href="http://phoenix.apache.org/salted.html">Salted Tables</a><br>但加盐前缀解决了数据分布的问题，却也有很多缺点：</p>
 <h4 id="加盐前缀的缺点："><a href="#加盐前缀的缺点：" class="headerlink" title="加盐前缀的缺点："></a>加盐前缀的缺点：</h4><ol>
 <li>第一个分区永远没有数据。因为我们的加盐是从a开始加的。</li>
-<li>因为是完全随机，我们查询时并不知道之前加入的随机数是什么。这个问题不仅仅是查询，还会影响到put和delete指令。<h4 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h4>我们可以在Table的基础上，建立二级索引。即通过在外部维护一张小表，将我们查询查用的字段放到这张表中。这个方案可以使用Phoenix实现，也可以使用ES来实现。<br>Phoenix的实现：<pre class=" language-sql"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">INDEX</span> my_index <span class="token keyword">ON</span> my_table <span class="token punctuation">(</span>v1<span class="token punctuation">,</span>v2<span class="token punctuation">)</span> INCLUDE<span class="token punctuation">(</span>v3<span class="token punctuation">)</span></code></pre>
-由于Phoenix不在本文章讨论范围，可以参考：<a href="http://phoenix.apache.org/secondary_indexing.html" target="_blank" rel="noopener">Secondary Indexing</a><h4 id="关于Phoenix多说一句"><a href="#关于Phoenix多说一句" class="headerlink" title="关于Phoenix多说一句"></a>关于Phoenix多说一句</h4>尽管本文章不会过多的介绍Phoenix，不过使用phoenix管理盐前缀，还有个十分强大的功能。不感兴趣可以直接跳过。<br>前面的加前缀的方法中提到过，我们需要在代码中手工的拼接成新的rowKey。而如果使用phoenix管理，我们可以省略拼接这部工作，phoenix会帮助我们完成：<br>这里我们新建一张表mySalt，并设计成4个分区：</li>
+<li>因为是完全随机，我们查询时并不知道之前加入的随机数是什么。这个问题不仅仅是查询，还会影响到put和delete指令。<h4 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h4>我们可以在Table的基础上，建立二级索引。即通过在外部维护一张小表，将我们查询查用的字段放到这张表中。这个方案可以使用Phoenix实现，也可以使用ES来实现。<br>Phoenix的实现：<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> INDEX my_index <span class="keyword">ON</span> my_table (v1,v2) INCLUDE(v3)</span><br></pre></td></tr></table></figure>
+由于Phoenix不在本文章讨论范围，可以参考：<a target="_blank" rel="noopener" href="http://phoenix.apache.org/secondary_indexing.html">Secondary Indexing</a><h4 id="关于Phoenix多说一句"><a href="#关于Phoenix多说一句" class="headerlink" title="关于Phoenix多说一句"></a>关于Phoenix多说一句</h4>尽管本文章不会过多的介绍Phoenix，不过使用phoenix管理盐前缀，还有个十分强大的功能。不感兴趣可以直接跳过。<br>前面的加前缀的方法中提到过，我们需要在代码中手工的拼接成新的rowKey。而如果使用phoenix管理，我们可以省略拼接这部工作，phoenix会帮助我们完成：<br>这里我们新建一张表mySalt，并设计成4个分区：</li>
 </ol>
-<pre class=" language-sql"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> mysalt <span class="token punctuation">(</span>a_key <span class="token keyword">VARCHAR</span> <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span><span class="token punctuation">,</span> a_col <span class="token keyword">VARCHAR</span><span class="token punctuation">)</span> SALT_BUCKETS <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span></code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> mysalt (a_key <span class="type">VARCHAR</span> <span class="keyword">PRIMARY</span> KEY, a_col <span class="type">VARCHAR</span>) SALT_BUCKETS <span class="operator">=</span> <span class="number">4</span>;</span><br></pre></td></tr></table></figure>
 <p>这是upsert前：所有区域都没有数据</p>
 <p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20191110230534325.png" alt="insert前"></p>
 <p>我们向其中upsert 5条数据，实际上他们的rowKey是十分相似的。但通过查看web界面，我们可以知道他们被发往了不同的Region。</p>
-<pre class=" language-sql"><code class="language-sql">upsert <span class="token keyword">into</span> mysalt <span class="token keyword">values</span> <span class="token punctuation">(</span><span class="token string">'111'</span><span class="token punctuation">,</span><span class="token string">'jone'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-upsert <span class="token keyword">into</span> mysalt <span class="token keyword">values</span> <span class="token punctuation">(</span><span class="token string">'112'</span><span class="token punctuation">,</span><span class="token string">'jone'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-upsert <span class="token keyword">into</span> mysalt <span class="token keyword">values</span> <span class="token punctuation">(</span><span class="token string">'113'</span><span class="token punctuation">,</span><span class="token string">'jone'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-upsert <span class="token keyword">into</span> mysalt <span class="token keyword">values</span> <span class="token punctuation">(</span><span class="token string">'114'</span><span class="token punctuation">,</span><span class="token string">'jone'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-upsert <span class="token keyword">into</span> mysalt <span class="token keyword">values</span> <span class="token punctuation">(</span><span class="token string">'115'</span><span class="token punctuation">,</span><span class="token string">'jone'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upsert <span class="keyword">into</span> mysalt <span class="keyword">values</span> (<span class="string">&#x27;111&#x27;</span>,<span class="string">&#x27;jone&#x27;</span>);</span><br><span class="line">upsert <span class="keyword">into</span> mysalt <span class="keyword">values</span> (<span class="string">&#x27;112&#x27;</span>,<span class="string">&#x27;jone&#x27;</span>);</span><br><span class="line">upsert <span class="keyword">into</span> mysalt <span class="keyword">values</span> (<span class="string">&#x27;113&#x27;</span>,<span class="string">&#x27;jone&#x27;</span>);</span><br><span class="line">upsert <span class="keyword">into</span> mysalt <span class="keyword">values</span> (<span class="string">&#x27;114&#x27;</span>,<span class="string">&#x27;jone&#x27;</span>);</span><br><span class="line">upsert <span class="keyword">into</span> mysalt <span class="keyword">values</span> (<span class="string">&#x27;115&#x27;</span>,<span class="string">&#x27;jone&#x27;</span>);</span><br></pre></td></tr></table></figure>
 <p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20191110230733649.png" alt="insert 后"><br>这里不过多的展开。</p>
 <h3 id="加Hash值"><a href="#加Hash值" class="headerlink" title="加Hash值"></a>加Hash值</h3><p>本方案的核心思路是对本来的RowKey去其Hash值，然后构建成新的RowKey。比如：Hash+RowKey。其实Hash我们取前几位就可以了，不然RowKey会太长了。<br>使用本方法时，建表可以使用官方自带的Hash分区规则：</p>
-<pre class=" language-shell"><code class="language-shell">hbase> create 't1', 'f1', {NUMREGIONS => 15, SPLITALGO => 'HexStringSplit'}</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">hbase&gt;</span><span class="bash"> create <span class="string">&#x27;t1&#x27;</span>, <span class="string">&#x27;f1&#x27;</span>, &#123;NUMREGIONS =&gt; 15, SPLITALGO =&gt; <span class="string">&#x27;HexStringSplit&#x27;</span>&#125;</span></span><br></pre></td></tr></table></figure>
 <p>我们在代码中处理时，人为的获取rowKey的hash值，再进行拼接。这样带来了几个好处：</p>
 <ol>
 <li>根据rowKey，我们能够拿到随即后的值，这样我们就能够快速定位到Region了。</li>
@@ -443,534 +291,205 @@ upsert <span class="token keyword">into</span> mysalt <span class="token keyword
 </ol>
 <p>我们需要结合我们拿到的数据是什么样的，再去进行设计。<br>归根结底，Hbase是一个重写轻读的系统，设计RowKey的本来目的就是让Hbase能够更好的取写数据。通过将数据打散，肯定会影响读场景的效率。<br>但数据存下来终归是要拿来用的，设计RowKey时也要考虑读场景，尽量优化。</p>
 
-            </div>
-            <hr/>
-
-            
-
-    <div class="reprint" id="reprint-statement">
-        
-            <div class="reprint__author">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-user">
-                        文章作者:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    <a href="http://blog.ibuer.fun" rel="external nofollow noreferrer">Ssiu</a>
-                </span>
-            </div>
-            <div class="reprint__type">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-link">
-                        文章链接:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    <a href="http://blog.ibuer.fun/2019/09/30/hbase-de-rowkey-she-ji/">http://blog.ibuer.fun/2019/09/30/hbase-de-rowkey-she-ji/</a>
-                </span>
-            </div>
-            <div class="reprint__notice">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-copyright">
-                        版权声明:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    本博客所有文章除特別声明外，均采用
-                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
-                    许可协议。转载请注明来源
-                    <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
-                    !
-                </span>
-            </div>
-        
     </div>
 
-    <script async defer>
-      document.addEventListener("copy", function (e) {
-        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
-        M.toast({html: toastHTML})
-      });
+    
+    
+    
 
-      function navToReprintStatement() {
-        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/HBase/" rel="tag"># HBase</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/08/17/hbase-guan-jian-can-shu-diao-you/" rel="prev" title="HBase关键参数调优及建议">
+      <i class="fa fa-chevron-left"></i> HBase关键参数调优及建议
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/10/27/tong-guo-curator-api-cao-zuo-zookeeper-de-xue-xi-yu-jian-dan-shi-yong-jie-shao/" rel="next" title="通过Curator API操作zookeeper的学习与简单使用介绍">
+      通过Curator API操作zookeeper的学习与简单使用介绍 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
       }
-    </script>
-
-
-
-            <div class="tag_share" style="display: block;">
-                <div class="post-meta__tag-list" style="display: inline-block;">
-                    
-                        <div class="article-tag">
-                            
-                                <a href="/tags/HBase/">
-                                    <span class="chip bg-color">HBase</span>
-                                </a>
-                            
-                        </div>
-                    
-                </div>
-                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
-                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
-
-<div id="article-share">
-    
-    
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
-    <script src="/libs/share/js/social-share.min.js"></script>
-    
-
-    
-
-</div>
-
-                </div>
-            </div>
-            
-        </div>
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-<article id="prenext-posts" class="prev-next articles">
-    <div class="row article-row">
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
-            <div class="card">
-                <a href="/2019/10/27/tong-guo-curator-api-cao-zuo-zookeeper-de-xue-xi-yu-jian-dan-shi-yong-jie-shao/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="通过Curator API操作zookeeper的学习与简单使用介绍">
-                        
-                        <span class="card-title">通过Curator API操作zookeeper的学习与简单使用介绍</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            主要记录些使用Curator的学习记录，方便随时查阅。
-Curator
-Curator框架在zookeeper原生API接口上进行了包装，解决了很多ZooKeeper客户端非常底层的细节开发。提供ZooKeeper各种应用场景(recipe
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-10-27
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/Utils/" class="post-category">
-                                    Utils
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Utils/">
-                        <span class="chip bg-color">Utils</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2019/08/17/hbase-guan-jian-can-shu-diao-you/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="HBase关键参数调优及建议">
-                        
-                        <span class="card-title">HBase关键参数调优及建议</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            HBase在哪些地方调优HBase用下来主要有两类需要调优的地方，是最容易影响性能，最容易出问题的步骤：Flush和Compaction。
-查资料时也发现很多文章并没有给这两方面的建议，有些参数还已经过时了，所以才写了这篇文章。
-其他的比如
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-08-17
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/HBase/" class="post-category">
-                                    HBase
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/HBase/">
-                        <span class="chip bg-color">HBase</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-    </div>
-</article>
-
-</div>
-
-
-
-<!-- 代码块功能依赖 -->
-<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
-
-<!-- 代码语言 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
-
-
-<!-- 代码块复制 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
-
-
-<!-- 代码块收缩 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
-
-
-<!-- 代码块折行 -->
-
-<style type="text/css">
-code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
-</style>
-
-
-    </div>
-    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
-        <div class="toc-widget">
-            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
-            <div id="toc-content"></div>
-        </div>
-    </div>
-</div>
-
-<!-- TOC 悬浮按钮. -->
-
-<div id="floating-toc-btn" class="hide-on-med-and-down">
-    <a class="btn-floating btn-large bg-color">
-        <i class="fas fa-list-ul"></i>
-    </a>
-</div>
-
-
-<script src="/libs/tocbot/tocbot.min.js"></script>
-<script>
-    $(function () {
-        tocbot.init({
-            tocSelector: '#toc-content',
-            contentSelector: '#articleContent',
-            headingsOffset: -($(window).height() * 0.4 - 45),
-            collapseDepth: Number('0'),
-            headingSelector: 'h2, h3, h4'
-        });
-
-        // modify the toc link href to support Chinese.
-        let i = 0;
-        let tocHeading = 'toc-heading-';
-        $('#toc-content a').each(function () {
-            $(this).attr('href', '#' + tocHeading + (++i));
-        });
-
-        // modify the heading title id to support Chinese.
-        i = 0;
-        $('#articleContent').children('h2, h3, h4').each(function () {
-            $(this).attr('id', tocHeading + (++i));
-        });
-
-        // Set scroll toc fixed.
-        let tocHeight = parseInt($(window).height() * 0.4 - 64);
-        let $tocWidget = $('.toc-widget');
-        $(window).scroll(function () {
-            let scroll = $(window).scrollTop();
-            /* add post toc fixed. */
-            if (scroll > tocHeight) {
-                $tocWidget.addClass('toc-fixed');
-            } else {
-                $tocWidget.removeClass('toc-fixed');
-            }
-        });
-
-        
-        /* 修复文章卡片 div 的宽度. */
-        let fixPostCardWidth = function (srcId, targetId) {
-            let srcDiv = $('#' + srcId);
-            if (srcDiv.length === 0) {
-                return;
-            }
-
-            let w = srcDiv.width();
-            if (w >= 450) {
-                w = w + 21;
-            } else if (w >= 350 && w < 450) {
-                w = w + 18;
-            } else if (w >= 300 && w < 350) {
-                w = w + 16;
-            } else {
-                w = w + 14;
-            }
-            $('#' + targetId).width(w);
-        };
-
-        // 切换TOC目录展开收缩的相关操作.
-        const expandedClass = 'expanded';
-        let $tocAside = $('#toc-aside');
-        let $mainContent = $('#main-content');
-        $('#floating-toc-btn .btn-floating').click(function () {
-            if ($tocAside.hasClass(expandedClass)) {
-                $tocAside.removeClass(expandedClass).hide();
-                $mainContent.removeClass('l9');
-            } else {
-                $tocAside.addClass(expandedClass).show();
-                $mainContent.addClass('l9');
-            }
-            fixPostCardWidth('artDetail', 'prenext-posts');
-        });
-        
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
     });
+  }
 </script>
 
-    
-
-</main>
-
-
-
-    <footer class="page-footer bg-color">
-    <div class="container row center-align" style="margin-bottom: 0px !important;">
-        <div class="col s12 m8 l8 copy-right">
-            Copyright&nbsp;&copy;
-            <span id="year">2017-2020</span>
-            <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
-            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
-            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
-            <br>
-            
-            
-            
-            
-            
-            
-            <span id="busuanzi_container_site_pv" style="display:none">
-                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
-                    class="white-color"></span>&nbsp;次
-            </span>
-            
-            
-            <span id="busuanzi_container_site_uv" style="display:none">
-                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
-                    class="white-color"></span>&nbsp;人
-            </span>
-            
-            
         </div>
-        <div class="col s12 m4 l4 social-link social-statis">
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
 
+  <aside class="sidebar">
+    <div class="sidebar-inner">
 
-    <a href="mailto:smokeriu@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
-        <i class="fas fa-envelope-open"></i>
-    </a>
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
 
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="nav-number">2.</span> <span class="nav-text">设计原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF"><span class="nav-number">3.</span> <span class="nav-text">设计思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%A1%88"><span class="nav-number">4.</span> <span class="nav-text">方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E7%9B%90%E5%89%8D%E7%BC%80"><span class="nav-number">4.1.</span> <span class="nav-text">加盐前缀</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A0%E7%9B%90%E5%89%8D%E7%BC%80%E7%9A%84%E7%BC%BA%E7%82%B9%EF%BC%9A"><span class="nav-number">4.1.1.</span> <span class="nav-text">加盐前缀的缺点：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%9A"><span class="nav-number">4.1.2.</span> <span class="nav-text">解决方案：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E4%BA%8EPhoenix%E5%A4%9A%E8%AF%B4%E4%B8%80%E5%8F%A5"><span class="nav-number">4.1.3.</span> <span class="nav-text">关于Phoenix多说一句</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0Hash%E5%80%BC"><span class="nav-number">4.2.</span> <span class="nav-text">加Hash值</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A0hash%E5%80%BC%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="nav-number">4.2.1.</span> <span class="nav-text">加hash值的缺点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E5%8A%A0%E5%A4%8D%E6%9D%82%E7%9A%84RowKey%E8%AE%BE%E8%AE%A1"><span class="nav-number">4.3.</span> <span class="nav-text">更加复杂的RowKey设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">4.3.1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B"><span class="nav-number">4.3.2.</span> <span class="nav-text">案例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E5%8C%96"><span class="nav-number">4.3.3.</span> <span class="nav-text">优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">4.3.4.</span> <span class="nav-text">存在的问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%90%8E"><span class="nav-number">5.</span> <span class="nav-text">最后</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
 
-
-
-
-
-
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=604522169" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 604522169" data-position="top" data-delay="50">
-        <i class="fab fa-qq"></i>
-    </a>
-
-
-
-
-
-
-
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ssiu</p>
+  <div class="site-description" itemprop="description"></div>
 </div>
-    </div>
-</footer>
-
-<div class="progress-bar"></div>
-
-<script language=javascript>
-    function siteTime() {
-        window.setTimeout("siteTime()", 1000);
-        var seconds = 1000;
-        var minutes = seconds * 60;
-        var hours = minutes * 60;
-        var days = hours * 24;
-	var months = days * 30;
-        var years = days * 365;
-        var today = new Date();
-        var todayYear = today.getFullYear();
-        var todayMonth = today.getMonth() + 1;
-        var todayDate = today.getDate();
-        var todayHour = today.getHours();
-        var todayMinute = today.getMinutes();
-        var todaySecond = today.getSeconds();
-        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
-        year - 作为date对象的年份，为4位年份值
-        month - 0-11之间的整数，做为date对象的月份
-        day - 1-31之间的整数，做为date对象的天数
-        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
-        minutes - 0-59之间的整数，做为date对象的分钟数
-        seconds - 0-59之间的整数，做为date对象的秒数
-        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
-        var t1 = Date.UTC(2017, 02, 12, 00, 00, 00); //北京时间2018-2-13 00:00:00
-        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
-        var diff = t2 - t1;
-        var diffYears = Math.floor(diff / years);
-        var diffDays = Math.floor((diff / days) - diffYears * 365);
-        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
-        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
-        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
-        document.getElementById("sitetime").innerHTML = "本站已运行 " +diffYears+" 年 "+diffDays + " 天 ";
-    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
-    siteTime();
-</script>
-
-
-<script>
-    $(document).ready(function () {
-
-        var int = setInterval(fixCount, 50);  // 50ms周期检测函数
-        var pvcountOffset = 5423;  // 初始化首次数据
-        var uvcountOffset = 3322;
-
-        function fixCount() {
-            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
-                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
-                clearInterval(int);
-            }
-            if ($("#busuanzi_container_site_pv").css("display") != "none") {
-                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
-                clearInterval(int); // 停止检测
-            }
-        }
-    });
-</script>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
 
 
 
-    <!-- 搜索遮罩框 -->
-<div id="searchModal" class="modal">
-    <div class="modal-content">
-        <div class="search-header">
-            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
-            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
-                   class="search-input">
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
         </div>
-        <div id="searchResult"></div>
+
     </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ssiu</span>
 </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
 
-<script src="/js/search.js"></script>
-<script type="text/javascript">
-$(function () {
-    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
-});
-</script>
-    <!-- 回到顶部按钮 -->
-<div id="backTop" class="top-scroll">
-    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
-        <i class="fas fa-arrow-up"></i>
-    </a>
-</div>
+        
 
 
-    <script src="/libs/materialize/materialize.min.js"></script>
-    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
-    <script src="/libs/aos/aos.js"></script>
-    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
-    <script src="/js/matery.js"></script>
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <!-- Baidu Analytics -->
 
-    <!-- Baidu Push -->
 
-<script>
-    (function () {
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        } else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-</script>
 
-    
-    
-    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
-    
 
-    
+      </div>
+    </footer>
+  </div>
 
-    
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
-    
+<script src="/js/utils.js"></script>
 
-    
+<script src="/js/motion.js"></script>
 
-    
-    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
-    
-    
-    
-    <script src="/libs/instantpage/instantpage.js" type="module"></script>
-    
 
-</body>
+<script src="/js/schemes/pisces.js"></script>
 
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
 </html>

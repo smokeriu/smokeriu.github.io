@@ -1,993 +1,453 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="zh-CN">
-
-
 <head>
-    <meta charset="utf-8">
-    <meta name="keywords" content="通过BaseRelation自定义SparkSQL数据源, Ssiu Blog">
-    <meta name="description" content="前言使用org.apache.spark.sql.sources.interfaces中的接口可以实现自定义SparkSql数据源。不过对此在官网和相关书籍中没有找到相关信息，使用网上资料实际使用时其实遇到很多坑，特此记录下。本身是用Spa">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="renderer" content="webkit|ie-stand|ie-comp">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>通过BaseRelation自定义SparkSQL数据源 | Ssiu Blog</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
-    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/matery.css">
-    <link rel="stylesheet" type="text/css" href="/css/my.css">
-
-    <script src="/libs/jquery/jquery.min.js"></script>
-    
-<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<link rel="stylesheet" href="/css/main.css">
 
 
-<body>
-    <header class="navbar-fixed">
-    <nav id="headNav" class="bg-color nav-transparent">
-        <div id="navContainer" class="nav-wrapper container">
-            <div class="brand-logo">
-                <a href="/" class="waves-effect waves-light">
-                    
-                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
-                    
-                    <span class="logo-span">Ssiu Blog</span>
-                </a>
-            </div>
-            
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-material.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
 
-<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
-<ul class="right nav-menu">
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.ibuer.fun","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言使用org.apache.spark.sql.sources.interfaces中的接口可以实现自定义SparkSql数据源。不过对此在官网和相关书籍中没有找到相关信息，使用网上资料实际使用时其实遇到很多坑，特此记录下。本身是用Spark中的源码JdbcRelationProvider作为参考。这部分解析就不写了。本文章主要记录整体流程和使用过程中遇到的问题。  Spark版本：spark2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过BaseRelation自定义SparkSQL数据源">
+<meta property="og:url" content="http://blog.ibuer.fun/2018/08/05/tong-guo-baserelation-zi-ding-yi-sparksql-shu-ju-yuan/index.html">
+<meta property="og:site_name" content="Ssiu Blog">
+<meta property="og:description" content="前言使用org.apache.spark.sql.sources.interfaces中的接口可以实现自定义SparkSql数据源。不过对此在官网和相关书籍中没有找到相关信息，使用网上资料实际使用时其实遇到很多坑，特此记录下。本身是用Spark中的源码JdbcRelationProvider作为参考。这部分解析就不写了。本文章主要记录整体流程和使用过程中遇到的问题。  Spark版本：spark2">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217223839.png">
+<meta property="article:published_time" content="2018-08-05T14:38:12.000Z">
+<meta property="article:modified_time" content="2020-02-17T15:21:27.862Z">
+<meta property="article:author" content="Ssiu">
+<meta property="article:tag" content="Spark">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217223839.png">
+
+<link rel="canonical" href="http://blog.ibuer.fun/2018/08/05/tong-guo-baserelation-zi-ding-yi-sparksql-shu-ju-yuan/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>通过BaseRelation自定义SparkSQL数据源 | Ssiu Blog</title>
   
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/" class="waves-effect waves-light">
-      
-      <i class="fas fa-home" style="zoom: 0.6;"></i>
-      
-      <span>首页</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/tags" class="waves-effect waves-light">
-      
-      <i class="fas fa-tags" style="zoom: 0.6;"></i>
-      
-      <span>标签</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/categories" class="waves-effect waves-light">
-      
-      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
-      
-      <span>分类</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/archives" class="waves-effect waves-light">
-      
-      <i class="fas fa-archive" style="zoom: 0.6;"></i>
-      
-      <span>归档</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/about" class="waves-effect waves-light">
-      
-      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
-      
-      <span>关于</span>
-    </a>
-    
-  </li>
-  
-  <li>
-    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
-      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
-    </a>
-  </li>
-</ul>
 
-<div id="mobile-nav" class="side-nav sidenav">
 
-    <div class="mobile-head bg-color">
-        
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
-        
-        <div class="logo-name">Ssiu Blog</div>
-        <div class="logo-desc">
-            
-            Never really desperate, only the lost of the soul.
-            
-        </div>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
+  </div>
 
-    
+  <div class="site-meta">
 
-    <ul class="menu-list mobile-menu-list">
-        
-        <li class="m-nav-item">
-	  
-		<a href="/" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-home"></i>
-			
-			首页
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/tags" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-tags"></i>
-			
-			标签
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/categories" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bookmark"></i>
-			
-			分类
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/archives" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-archive"></i>
-			
-			归档
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/about" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-user-circle"></i>
-			
-			关于
-		</a>
-          
-        </li>
-        
-        
-    </ul>
-</div>
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ssiu Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-        </div>
-
-        
-    </nav>
-
-</header>
-
-    
-
-
-
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
-    <div class="container" style="right: 0px;left: 0px;">
-        <div class="row">
-            <div class="col s12 m12 l12">
-                <div class="brand">
-                    <h1 class="description center-align post-title">通过BaseRelation自定义SparkSQL数据源</h1>
-                </div>
-            </div>
-        </div>
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
     </div>
+  </div>
 </div>
 
 
 
 
-<main class="post-container content">
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
 
     
-    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
-<style>
-    #articleContent h1::before,
-    #articleContent h2::before,
-    #articleContent h3::before,
-    #articleContent h4::before,
-    #articleContent h5::before,
-    #articleContent h6::before {
-        display: block;
-        content: " ";
-        height: 100px;
-        margin-top: -100px;
-        visibility: hidden;
-    }
 
-    #articleContent :focus {
-        outline: none;
-    }
 
-    .toc-fixed {
-        position: fixed;
-        top: 64px;
-    }
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
 
-    .toc-widget {
-        width: 345px;
-        padding-left: 20px;
-    }
+          <div class="content post posts-expand">
+            
 
-    .toc-widget .toc-title {
-        margin: 35px 0 15px 0;
-        padding-left: 17px;
-        font-size: 1.5rem;
-        font-weight: bold;
-        line-height: 1.5rem;
-    }
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2018/08/05/tong-guo-baserelation-zi-ding-yi-sparksql-shu-ju-yuan/">
 
-    .toc-widget ol {
-        padding: 0;
-        list-style: none;
-    }
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
 
-    #toc-content {
-        height: calc(100vh - 250px);
-        overflow: auto;
-    }
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          通过BaseRelation自定义SparkSQL数据源
+        </h1>
 
-    #toc-content ol {
-        padding-left: 10px;
-    }
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
 
-    #toc-content ol li {
-        padding-left: 10px;
-    }
+              <time title="创建时间：2018-08-05 22:38:12" itemprop="dateCreated datePublished" datetime="2018-08-05T22:38:12+08:00">2018-08-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-17 23:21:27" itemprop="dateModified" datetime="2020-02-17T23:21:27+08:00">2020-02-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spark/" itemprop="url" rel="index"><span itemprop="name">Spark</span></a>
+                </span>
+            </span>
 
-    #toc-content .toc-link:hover {
-        color: #42b983;
-        font-weight: 700;
-        text-decoration: underline;
-    }
-
-    #toc-content .toc-link::before {
-        background-color: transparent;
-        max-height: 25px;
-    }
-
-    #toc-content .is-active-link {
-        color: #42b983;
-    }
-
-    #toc-content .is-active-link::before {
-        background-color: #42b983;
-    }
-
-    #floating-toc-btn {
-        position: fixed;
-        right: 15px;
-        bottom: 76px;
-        padding-top: 15px;
-        margin-bottom: 0;
-        z-index: 998;
-    }
-
-    #floating-toc-btn .btn-floating {
-        width: 48px;
-        height: 48px;
-    }
-
-    #floating-toc-btn .btn-floating i {
-        line-height: 48px;
-        font-size: 1.4rem;
-    }
-</style>
-<div class="row">
-    <div id="main-content" class="col s12 m12 l9">
-        <!-- 文章内容详情 -->
-<div id="artDetail">
-    <div class="card">
-        <div class="card-content article-info">
-            <div class="row tag-cate">
-                <div class="col s7">
-                    
-                    <div class="article-tag">
-                        
-                            <a href="/tags/Spark/">
-                                <span class="chip bg-color">Spark</span>
-                            </a>
-                        
-                    </div>
-                    
-                </div>
-                <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/Spark/" class="post-category">
-                                Spark
-                            </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-
-            <div class="post-info">
-                
-                <div class="post-date info-break-policy">
-                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2018-08-05
-                </div>
-                
-
-                
-
-                
-
-                
-
-                
-            </div>
+          
 
         </div>
-        <hr class="clearfix">
-        <div class="card-content article-card-content">
-            <div id="articleContent">
-                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>使用<code>org.apache.spark.sql.sources.interfaces</code>中的接口可以实现自定义SparkSql数据源。不过对此在官网和相关书籍中没有找到相关信息，使用网上资料实际使用时其实遇到很多坑，特此记录下。<br>本身是用Spark中的源码JdbcRelationProvider作为参考。这部分解析就不写了。<br>本文章主要记录整体流程和使用过程中遇到的问题。</p>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>使用<code>org.apache.spark.sql.sources.interfaces</code>中的接口可以实现自定义SparkSql数据源。不过对此在官网和相关书籍中没有找到相关信息，使用网上资料实际使用时其实遇到很多坑，特此记录下。<br>本身是用Spark中的源码JdbcRelationProvider作为参考。这部分解析就不写了。<br>本文章主要记录整体流程和使用过程中遇到的问题。</p>
 <blockquote>
 <p>Spark版本：spark2.1.1</p>
 </blockquote>
 <h1 id="DefaultSource类"><a href="#DefaultSource类" class="headerlink" title="DefaultSource类"></a>DefaultSource类</h1><p>实现自定义数据源，第一步是新建一个名为<code>DefaultSource</code>的类，并需要实现一些Trait，其中<code>RelationProvider</code>是必须实现的。</p>
-<h2 id="实现RelationProvider"><a href="#实现RelationProvider" class="headerlink" title="实现RelationProvider"></a>实现RelationProvider</h2><pre class=" language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">DefaultSource</span> <span class="token keyword">extends</span> <span class="token class-name">RelationProvider</span><span class="token punctuation">{</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span></code></pre>
+<h2 id="实现RelationProvider"><a href="#实现RelationProvider" class="headerlink" title="实现RelationProvider"></a>实现RelationProvider</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DefaultSource</span> <span class="keyword">extends</span> <span class="title">RelationProvider</span></span>&#123;...&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>1）DefaultSource必须一字不差。除非我们在META-INFO中注册。<br>2）必须实现RelationProvider接口。<br>3）其他常用接口：SchemaRelationProvider、DataSourceRegister。</p>
 </blockquote>
 <h2 id="实现SchemaRelationProvider（Optional）"><a href="#实现SchemaRelationProvider（Optional）" class="headerlink" title="实现SchemaRelationProvider（Optional）"></a>实现SchemaRelationProvider（Optional）</h2><p>实际使用的时候，为了方便，我们还会实现SchemaRelationProvider。<br>所以常见构造其实是这样：</p>
-<pre class=" language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">DefaultSource</span> <span class="token keyword">extends</span> <span class="token class-name">RelationProvider</span> with SchemaRelationProvider<span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// RelationProvider </span>
-    override def <span class="token function">createRelation</span><span class="token punctuation">(</span>sqlContext<span class="token operator">:</span>SQLContext<span class="token punctuation">,</span>parameters<span class="token operator">:</span>Map<span class="token punctuation">[</span>String<span class="token punctuation">,</span>String<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">:</span>BaseRelation<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span>
-    <span class="token comment" spellcheck="true">// SchemaRelationProvider</span>
-    override def <span class="token function">createRelation</span><span class="token punctuation">(</span>sqlContext<span class="token operator">:</span>SQLContext<span class="token punctuation">,</span>parameters<span class="token operator">:</span>Map<span class="token punctuation">[</span>String<span class="token punctuation">,</span>String<span class="token punctuation">]</span><span class="token punctuation">,</span>schema<span class="token operator">:</span>StructType<span class="token punctuation">)</span><span class="token operator">:</span>BaseRelation<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DefaultSource</span> <span class="keyword">extends</span> <span class="title">RelationProvider</span> <span class="title">with</span> <span class="title">SchemaRelationProvider</span></span>&#123;</span><br><span class="line">	<span class="comment">// RelationProvider </span></span><br><span class="line">	<span class="function">override def <span class="title">createRelation</span><span class="params">(sqlContext:SQLContext,parameters:Map[String,String])</span>:BaseRelation</span>=&#123;...&#125;</span><br><span class="line">	<span class="comment">// SchemaRelationProvider</span></span><br><span class="line">	<span class="function">override def <span class="title">createRelation</span><span class="params">(sqlContext:SQLContext,parameters:Map[String,String],schema:StructType)</span>:BaseRelation</span>=&#123;...&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>两个Provider会提供同名的方法，不过通过SchemaRelationProvider我们能够轻松的拿到用户想要传入的Schema信息。parameters则是用户在<code>.option</code>传入的一些映射数据。</p>
 <h2 id="实现DataSourceRegister（Optional）"><a href="#实现DataSourceRegister（Optional）" class="headerlink" title="实现DataSourceRegister（Optional）"></a>实现DataSourceRegister（Optional）</h2><p>如果没有实现DataSourceRegister，我们使用时就必须要写完整包名，并且<strong>类名只能为DefaultSource</strong>。该Trait只有一个方法：</p>
-<pre class=" language-java"><code class="language-java">override def <span class="token function">shortName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span>String <span class="token operator">=</span> <span class="token string">"yourName"</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">override def <span class="title">shortName</span><span class="params">()</span>:String </span>= <span class="string">&quot;yourName&quot;</span></span><br></pre></td></tr></table></figure>
 <p>系统自带的数据源，比如说jdbc，csv等，都是通过这个方法定义的。不过，实现这个方法还不能被系统识别，我们需要在META-INFO中进行注册，具体位置：<code>spark/sql/core/src/main/resources/META-INF/services/org.apache.spark.sql.sources.DataSourceRegister</code>：<br><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217223839.png" alt="包位置"></p>
 <h2 id="附：source的名字在哪检测？"><a href="#附：source的名字在哪检测？" class="headerlink" title="附：source的名字在哪检测？"></a>附：source的名字在哪检测？</h2><p>debug源码，可以很清楚的看到整个逻辑：</p>
-<pre class=" language-java"><code class="language-java">  <span class="token comment" spellcheck="true">/** Given a provider name, look up the data source class definition. */</span>
-  def <span class="token function">lookupDataSource</span><span class="token punctuation">(</span>provider<span class="token operator">:</span> String<span class="token punctuation">,</span> conf<span class="token operator">:</span> SQLConf<span class="token punctuation">)</span><span class="token operator">:</span> Class<span class="token punctuation">[</span>_<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
-    val provider1 <span class="token operator">=</span> backwardCompatibilityMap<span class="token punctuation">.</span><span class="token function">getOrElse</span><span class="token punctuation">(</span>provider<span class="token punctuation">,</span> provider<span class="token punctuation">)</span> match <span class="token punctuation">{</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span>
-    <span class="token comment" spellcheck="true">// DefaultSource的由来</span>
-    val provider2 <span class="token operator">=</span> s<span class="token string">"$provider1.DefaultSource"</span>
-    val loader <span class="token operator">=</span> Utils<span class="token punctuation">.</span>getContextOrSparkClassLoader
-    val serviceLoader <span class="token operator">=</span> ServiceLoader<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>classOf<span class="token punctuation">[</span>DataSourceRegister<span class="token punctuation">]</span><span class="token punctuation">,</span> loader<span class="token punctuation">)</span>
-
-    <span class="token comment" spellcheck="true">// 这边会进行查找，先回找别称，没找到就会去找xxx.DefaultSource</span>
-    <span class="token keyword">try</span> <span class="token punctuation">{</span>
-      serviceLoader<span class="token punctuation">.</span>asScala<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>_<span class="token punctuation">.</span><span class="token function">shortName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">equalsIgnoreCase</span><span class="token punctuation">(</span>provider1<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>toList match <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">// the provider format did not match any given registered aliases</span>
-        <span class="token keyword">case</span> Nil <span class="token operator">=</span><span class="token operator">></span>
-          <span class="token keyword">try</span> <span class="token punctuation">{</span>
-            <span class="token function">Try</span><span class="token punctuation">(</span>loader<span class="token punctuation">.</span><span class="token function">loadClass</span><span class="token punctuation">(</span>provider1<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">orElse</span><span class="token punctuation">(</span><span class="token function">Try</span><span class="token punctuation">(</span>loader<span class="token punctuation">.</span><span class="token function">loadClass</span><span class="token punctuation">(</span>provider2<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> match <span class="token punctuation">{</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">/** Given a provider name, look up the data source class definition. */</span></span><br><span class="line"> <span class="function">def <span class="title">lookupDataSource</span><span class="params">(provider: String, conf: SQLConf)</span>: Class[_] </span>= &#123;</span><br><span class="line">   val provider1 = backwardCompatibilityMap.getOrElse(provider, provider) match &#123;...&#125;</span><br><span class="line">   <span class="comment">// DefaultSource的由来</span></span><br><span class="line">   val provider2 = s<span class="string">&quot;$provider1.DefaultSource&quot;</span></span><br><span class="line">   val loader = Utils.getContextOrSparkClassLoader</span><br><span class="line">   val serviceLoader = ServiceLoader.load(classOf[DataSourceRegister], loader)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这边会进行查找，先回找别称，没找到就会去找xxx.DefaultSource</span></span><br><span class="line">   <span class="keyword">try</span> &#123;</span><br><span class="line">     serviceLoader.asScala.filter(_.shortName().equalsIgnoreCase(provider1)).toList match &#123;</span><br><span class="line">       <span class="comment">// the provider format did not match any given registered aliases</span></span><br><span class="line">       <span class="keyword">case</span> Nil =&gt;</span><br><span class="line">         <span class="keyword">try</span> &#123;</span><br><span class="line">           Try(loader.loadClass(provider1)).orElse(Try(loader.loadClass(provider2))) match &#123;</span><br></pre></td></tr></table></figure>
 <p>provider就是我们<code>.format(&quot;xxx&quot;)</code>传入的xxx<br>系统首先会先去找别称，没找到再去补充找全称。</p>
 <h1 id="Relation"><a href="#Relation" class="headerlink" title="Relation"></a>Relation</h1><p>观察DefaultSource，可以发现其需要返回BaseRelation，这是一个抽象类，所以我们第二步就是实现它。这个类倒是没有什么命名要求。</p>
-<h2 id="继承BaseRelation"><a href="#继承BaseRelation" class="headerlink" title="继承BaseRelation"></a>继承BaseRelation</h2><pre class=" language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">ETLRelation</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span> <span class="token keyword">extends</span> <span class="token class-name">BaseRelation</span><span class="token punctuation">{</span>
-    override def schema<span class="token operator">:</span>StructType<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span>
-    override def sqlContext<span class="token operator">:</span>SQLContext<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
+<h2 id="继承BaseRelation"><a href="#继承BaseRelation" class="headerlink" title="继承BaseRelation"></a>继承BaseRelation</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ETLRelation</span>(...) <span class="keyword">extends</span> <span class="title">BaseRelation</span></span>&#123;</span><br><span class="line">	override def schema:StructType=&#123;...&#125;</span><br><span class="line">	override def sqlContext:SQLContext=&#123;...&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>继承该类，需要实现两个方法，即拿到schema和sqlContext。这个时候观察DefaultSource，schema和sqlContext其实可以传进来。所以这部分其实常常为这个样子：</p>
-<pre class=" language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">ETLRelation</span><span class="token punctuation">(</span>userSchema<span class="token operator">:</span>StructType<span class="token punctuation">)</span><span class="token punctuation">(</span>override val sqlContext<span class="token operator">:</span>SQLContext<span class="token punctuation">)</span> <span class="token keyword">extends</span> <span class="token class-name">BaseRelation</span><span class="token punctuation">{</span>
-    override def schema<span class="token operator">:</span>StructType<span class="token operator">=</span><span class="token punctuation">{</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>userSchema<span class="token operator">==</span>null<span class="token punctuation">)</span><span class="token punctuation">{</span>
-            userSchema
-        <span class="token punctuation">}</span><span class="token keyword">else</span><span class="token punctuation">{</span>
-            <span class="token comment" spellcheck="true">//TODO.. StructType(StructField()::Nil)</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ETLRelation</span>(<span class="title">userSchema</span>:<span class="title">StructType</span>)(<span class="title">override</span> <span class="title">val</span> <span class="title">sqlContext</span>:<span class="title">SQLContext</span>) <span class="keyword">extends</span> <span class="title">BaseRelation</span></span>&#123;</span><br><span class="line">	override def schema:StructType=&#123;</span><br><span class="line">		<span class="keyword">if</span>(userSchema==<span class="keyword">null</span>)&#123;</span><br><span class="line">			userSchema</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="comment">//TODO.. StructType(StructField()::Nil)</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这边会给schema设置一个默认值，当然也可以不设，仿照sqlContext的写法就好了。为了方便使用，我一般会将override的参数与一般参数分开放。构造体中我们可以传入其他需要的参数。<br>Relation的框已经搭起来了，下一步就是实现读取功能了。</p>
 <h2 id="TableScan"><a href="#TableScan" class="headerlink" title="TableScan"></a>TableScan</h2><p>Spark提供了几种Trait供使用：<br>| trait              | 用途                                                         |<br>| :—————– | :———————————————————– |<br>| TableScan          | 将所有列进行读入                                             |<br>| PrunedScan         | 不需要的列不会从外部数据源加载。                             |<br>| PrunedFilteredScan | 在PrunedScan的基础上，并且加入Filter，在加载数据也的时候就进行过滤 |<br>| CatalystScan       | Catalyst的支持传入expressions来进行Scan。支持列裁剪和Filter。 |<br>三个Trait均有一个同名方法：buildScan</p>
-<pre class=" language-java"><code class="language-java">trait <span class="token class-name">TableScan</span> <span class="token punctuation">{</span>
-  def <span class="token function">buildScan</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> RDD<span class="token punctuation">[</span>Row<span class="token punctuation">]</span>
-<span class="token punctuation">}</span>
-trait <span class="token class-name">PrunedScan</span> <span class="token punctuation">{</span>
-  def <span class="token function">buildScan</span><span class="token punctuation">(</span>requiredColumns<span class="token operator">:</span> Array<span class="token punctuation">[</span>String<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">:</span> RDD<span class="token punctuation">[</span>Row<span class="token punctuation">]</span>
-<span class="token punctuation">}</span>
-trait <span class="token class-name">PrunedFilteredScan</span> <span class="token punctuation">{</span>
-  def <span class="token function">buildScan</span><span class="token punctuation">(</span>requiredColumns<span class="token operator">:</span> Array<span class="token punctuation">[</span>String<span class="token punctuation">]</span><span class="token punctuation">,</span> filters<span class="token operator">:</span> Array<span class="token punctuation">[</span>Filter<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">:</span> RDD<span class="token punctuation">[</span>Row<span class="token punctuation">]</span>
-<span class="token punctuation">}</span>
-trait <span class="token class-name">CatalystScan</span> <span class="token punctuation">{</span>
-  def <span class="token function">buildScan</span><span class="token punctuation">(</span>requiredColumns<span class="token operator">:</span> Seq<span class="token punctuation">[</span>Attribute<span class="token punctuation">]</span><span class="token punctuation">,</span> filters<span class="token operator">:</span> Seq<span class="token punctuation">[</span>Expression<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">:</span> RDD<span class="token punctuation">[</span>Row<span class="token punctuation">]</span>
-<span class="token punctuation">}</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">trait TableScan &#123;</span><br><span class="line">  <span class="function">def <span class="title">buildScan</span><span class="params">()</span>: RDD[Row]</span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function">trait PrunedScan </span>&#123;</span><br><span class="line">  <span class="function">def <span class="title">buildScan</span><span class="params">(requiredColumns: Array[String])</span>: RDD[Row]</span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function">trait PrunedFilteredScan </span>&#123;</span><br><span class="line">  <span class="function">def <span class="title">buildScan</span><span class="params">(requiredColumns: Array[String], filters: Array[Filter])</span>: RDD[Row]</span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function">trait CatalystScan </span>&#123;</span><br><span class="line">  <span class="function">def <span class="title">buildScan</span><span class="params">(requiredColumns: Seq[Attribute], filters: Seq[Expression])</span>: RDD[Row]</span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
 <p>requiredColumns与filters两个参数是在我们操作DataFrame时传入的，如使用filter算子时。以PrunedFilteredScan 为例，实现这个Trait的好处时Spark能够将我们的filter和select实现下压操作。这样我们就无需将所有数据都读进来供后面的运算了。</p>
 <blockquote>
 <p>不实现PrunedFilteredScan我们仍然能够使用filter、select等算子，只是不支持下压操作。</p>
 </blockquote>
 <p>本文就以实现TableScan 为例继续：（假设我们需要读取一个文件）</p>
-<pre class=" language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">myRelation</span><span class="token punctuation">(</span>schema<span class="token operator">:</span>StructType<span class="token punctuation">,</span>parameters<span class="token operator">:</span>Map<span class="token punctuation">[</span>String<span class="token punctuation">,</span>String<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">(</span>override val sqlContext<span class="token operator">:</span>SQLContext<span class="token punctuation">)</span>
-    <span class="token keyword">extends</span> <span class="token class-name">BaseRelation</span> with TableScan with Loggin<span class="token punctuation">{</span>
-    override def <span class="token function">builScan</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span>RDD<span class="token punctuation">[</span>Row<span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">{</span>
-        val triedGetPath <span class="token operator">=</span> <span class="token function">Try</span><span class="token punctuation">(</span>parameters<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"path"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-        val path <span class="token operator">=</span> triedGetPath match <span class="token punctuation">{</span>
-            <span class="token keyword">case</span> <span class="token function">Failure</span><span class="token punctuation">(</span>exception<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token function">logError</span><span class="token punctuation">(</span><span class="token string">"Path must set"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>sys<span class="token punctuation">.</span><span class="token function">exit</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//TODO..</span>
-            <span class="token keyword">case</span> <span class="token function">Success</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> value<span class="token punctuation">.</span>get
-        <span class="token punctuation">}</span>
-        <span class="token comment" spellcheck="true">// rdd是Tuple类型，(文件地址,文件内容)。</span>
-        val rdd <span class="token operator">=</span> sqlContext<span class="token punctuation">.</span>sparkContext<span class="token punctuation">.</span><span class="token function">wholeTextFiles</span><span class="token punctuation">(</span>path<span class="token punctuation">)</span>
-        <span class="token comment" spellcheck="true">// 我们只需要文件内容，先分行，再拆分出单词。</span>
-        val res <span class="token operator">=</span> rdd<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>_<span class="token punctuation">.</span>_2<span class="token punctuation">)</span>
-            <span class="token punctuation">.</span><span class="token function">flatMap</span><span class="token punctuation">(</span>_<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"\n"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-            <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>_<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"\t"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>toSeq<span class="token punctuation">)</span>
-        <span class="token comment" spellcheck="true">// 构成Row类型，并返回。注意要和Schema对应上。</span>
-        res<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>Row<span class="token punctuation">.</span><span class="token function">fromSeq</span><span class="token punctuation">(</span>_<span class="token punctuation">)</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">myRelation</span>(<span class="title">schema</span>:<span class="title">StructType</span>,<span class="title">parameters</span>:<span class="title">Map</span>[<span class="title">String</span>,<span class="title">String</span>])(<span class="title">override</span> <span class="title">val</span> <span class="title">sqlContext</span>:<span class="title">SQLContext</span>)</span></span><br><span class="line"><span class="class">	<span class="keyword">extends</span> <span class="title">BaseRelation</span> <span class="title">with</span> <span class="title">TableScan</span> <span class="title">with</span> <span class="title">Loggin</span></span>&#123;</span><br><span class="line">	<span class="function">override def <span class="title">builScan</span><span class="params">()</span>:RDD[Row]</span>=&#123;</span><br><span class="line">		val triedGetPath = Try(parameters.get(<span class="string">&quot;path&quot;</span>))</span><br><span class="line">		val path = triedGetPath match &#123;</span><br><span class="line">			<span class="function"><span class="keyword">case</span> <span class="title">Failure</span><span class="params">(exception)</span> </span>=&gt; logError(<span class="string">&quot;Path must set&quot;</span>);sys.exit(<span class="number">1</span>)<span class="comment">//TODO..</span></span><br><span class="line">			<span class="function"><span class="keyword">case</span> <span class="title">Success</span><span class="params">(value)</span> </span>=&gt; value.get</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// rdd是Tuple类型，(文件地址,文件内容)。</span></span><br><span class="line">		val rdd = sqlContext.sparkContext.wholeTextFiles(path)</span><br><span class="line">		<span class="comment">// 我们只需要文件内容，先分行，再拆分出单词。</span></span><br><span class="line">		val res = rdd.map(_._2)</span><br><span class="line">			.flatMap(_.split(<span class="string">&quot;\n&quot;</span>))</span><br><span class="line">			.map(_.split(<span class="string">&quot;\t&quot;</span>).toSeq)</span><br><span class="line">		<span class="comment">// 构成Row类型，并返回。注意要和Schema对应上。</span></span><br><span class="line">		res.map(Row.fromSeq(_))</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>为节省页面，上面代码只有builScan这个函数。<br>其实我们就是将rdd的处理进行了一层封装。返回SparkSql能够识别的数据。 所以其他Rdd的操作在这里都是允许的，我们需要按照需求选取即可</p>
-<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><pre class=" language-java"><code class="language-java">val session <span class="token operator">=</span> SparkSession<span class="token punctuation">.</span><span class="token function">builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-val df <span class="token operator">=</span> session<span class="token punctuation">.</span>read<span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"com.bigdata.csdn"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">option</span><span class="token punctuation">(</span><span class="token string">"path"</span><span class="token punctuation">,</span><span class="token string">"xxx"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>load
-df<span class="token punctuation">.</span>show
-session<span class="token punctuation">.</span><span class="token function">stop</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val session = SparkSession.builder().....</span><br><span class="line">val df = session.read.format(<span class="string">&quot;com.bigdata.csdn&quot;</span>).option(<span class="string">&quot;path&quot;</span>,<span class="string">&quot;xxx&quot;</span>).load</span><br><span class="line">df.show</span><br><span class="line">session.stop()</span><br></pre></td></tr></table></figure>
 <p>format里需要写DefaultSource所在的包名。系统会自动加上DefaultSource。</p>
 
-            </div>
-            <hr/>
-
-            
-
-    <div class="reprint" id="reprint-statement">
-        
-            <div class="reprint__author">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-user">
-                        文章作者:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    <a href="http://blog.ibuer.fun" rel="external nofollow noreferrer">Ssiu</a>
-                </span>
-            </div>
-            <div class="reprint__type">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-link">
-                        文章链接:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    <a href="http://blog.ibuer.fun/2018/08/05/tong-guo-baserelation-zi-ding-yi-sparksql-shu-ju-yuan/">http://blog.ibuer.fun/2018/08/05/tong-guo-baserelation-zi-ding-yi-sparksql-shu-ju-yuan/</a>
-                </span>
-            </div>
-            <div class="reprint__notice">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-copyright">
-                        版权声明:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    本博客所有文章除特別声明外，均采用
-                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
-                    许可协议。转载请注明来源
-                    <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
-                    !
-                </span>
-            </div>
-        
     </div>
 
-    <script async defer>
-      document.addEventListener("copy", function (e) {
-        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
-        M.toast({html: toastHTML})
-      });
+    
+    
+    
 
-      function navToReprintStatement() {
-        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Spark/" rel="tag"># Spark</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/07/01/scala-zhong-de-option-try-either-lei-xing-jian-jie/" rel="prev" title="Scala中的Option、Try、Either类型简介">
+      <i class="fa fa-chevron-left"></i> Scala中的Option、Try、Either类型简介
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/09/30/spark-ren-wu-ti-jiao-liu-cheng/" rel="next" title="Spark任务提交流程">
+      Spark任务提交流程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
       }
-    </script>
-
-
-
-            <div class="tag_share" style="display: block;">
-                <div class="post-meta__tag-list" style="display: inline-block;">
-                    
-                        <div class="article-tag">
-                            
-                                <a href="/tags/Spark/">
-                                    <span class="chip bg-color">Spark</span>
-                                </a>
-                            
-                        </div>
-                    
-                </div>
-                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
-                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
-
-<div id="article-share">
-    
-    
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
-    <script src="/libs/share/js/social-share.min.js"></script>
-    
-
-    
-
-</div>
-
-                </div>
-            </div>
-            
-        </div>
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-<article id="prenext-posts" class="prev-next articles">
-    <div class="row article-row">
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
-            <div class="card">
-                <a href="/2018/09/30/spark-ren-wu-ti-jiao-liu-cheng/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Spark任务提交流程">
-                        
-                        <span class="card-title">Spark任务提交流程</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            前言：通过源码，整理了下Spark-submit任务提交-&gt;执行流程。源码中其实有很多保证可靠性的判断代码，这边会将不那么核心的源码略去，所以贴的代码实际与源码会有些许区别。不过源码中的英文注释会保留重要的。任务执行流程会放在另一篇博
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2018-09-30
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/Spark/" class="post-category">
-                                    Spark
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Spark/">
-                        <span class="chip bg-color">Spark</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2018/07/01/scala-zhong-de-option-try-either-lei-xing-jian-jie/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="Scala中的Option、Try、Either类型简介">
-                        
-                        <span class="card-title">Scala中的Option、Try、Either类型简介</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            Scala中的异常处理Scala提供了许多选择来处理异常的数据。总的来说，三种类型解决三个方面的问题：
-
-Option：Null或空指针问题。
-
-Try：运行时函数抛出异常的问题。
-
-Either：返回值不确定的问题
-
-Scala版本：2.
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-07-01
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/Scala/" class="post-category">
-                                    Scala
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Scala/">
-                        <span class="chip bg-color">Scala</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-    </div>
-</article>
-
-</div>
-
-
-
-<!-- 代码块功能依赖 -->
-<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
-
-<!-- 代码语言 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
-
-
-<!-- 代码块复制 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
-
-
-<!-- 代码块收缩 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
-
-
-<!-- 代码块折行 -->
-
-<style type="text/css">
-code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
-</style>
-
-
-    </div>
-    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
-        <div class="toc-widget">
-            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
-            <div id="toc-content"></div>
-        </div>
-    </div>
-</div>
-
-<!-- TOC 悬浮按钮. -->
-
-<div id="floating-toc-btn" class="hide-on-med-and-down">
-    <a class="btn-floating btn-large bg-color">
-        <i class="fas fa-list-ul"></i>
-    </a>
-</div>
-
-
-<script src="/libs/tocbot/tocbot.min.js"></script>
-<script>
-    $(function () {
-        tocbot.init({
-            tocSelector: '#toc-content',
-            contentSelector: '#articleContent',
-            headingsOffset: -($(window).height() * 0.4 - 45),
-            collapseDepth: Number('0'),
-            headingSelector: 'h2, h3, h4'
-        });
-
-        // modify the toc link href to support Chinese.
-        let i = 0;
-        let tocHeading = 'toc-heading-';
-        $('#toc-content a').each(function () {
-            $(this).attr('href', '#' + tocHeading + (++i));
-        });
-
-        // modify the heading title id to support Chinese.
-        i = 0;
-        $('#articleContent').children('h2, h3, h4').each(function () {
-            $(this).attr('id', tocHeading + (++i));
-        });
-
-        // Set scroll toc fixed.
-        let tocHeight = parseInt($(window).height() * 0.4 - 64);
-        let $tocWidget = $('.toc-widget');
-        $(window).scroll(function () {
-            let scroll = $(window).scrollTop();
-            /* add post toc fixed. */
-            if (scroll > tocHeight) {
-                $tocWidget.addClass('toc-fixed');
-            } else {
-                $tocWidget.removeClass('toc-fixed');
-            }
-        });
-
-        
-        /* 修复文章卡片 div 的宽度. */
-        let fixPostCardWidth = function (srcId, targetId) {
-            let srcDiv = $('#' + srcId);
-            if (srcDiv.length === 0) {
-                return;
-            }
-
-            let w = srcDiv.width();
-            if (w >= 450) {
-                w = w + 21;
-            } else if (w >= 350 && w < 450) {
-                w = w + 18;
-            } else if (w >= 300 && w < 350) {
-                w = w + 16;
-            } else {
-                w = w + 14;
-            }
-            $('#' + targetId).width(w);
-        };
-
-        // 切换TOC目录展开收缩的相关操作.
-        const expandedClass = 'expanded';
-        let $tocAside = $('#toc-aside');
-        let $mainContent = $('#main-content');
-        $('#floating-toc-btn .btn-floating').click(function () {
-            if ($tocAside.hasClass(expandedClass)) {
-                $tocAside.removeClass(expandedClass).hide();
-                $mainContent.removeClass('l9');
-            } else {
-                $tocAside.addClass(expandedClass).show();
-                $mainContent.addClass('l9');
-            }
-            fixPostCardWidth('artDetail', 'prenext-posts');
-        });
-        
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
     });
+  }
 </script>
 
-    
-
-</main>
-
-
-
-    <footer class="page-footer bg-color">
-    <div class="container row center-align" style="margin-bottom: 0px !important;">
-        <div class="col s12 m8 l8 copy-right">
-            Copyright&nbsp;&copy;
-            <span id="year">2017-2020</span>
-            <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
-            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
-            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
-            <br>
-            
-            
-            
-            
-            
-            
-            <span id="busuanzi_container_site_pv" style="display:none">
-                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
-                    class="white-color"></span>&nbsp;次
-            </span>
-            
-            
-            <span id="busuanzi_container_site_uv" style="display:none">
-                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
-                    class="white-color"></span>&nbsp;人
-            </span>
-            
-            
         </div>
-        <div class="col s12 m4 l4 social-link social-statis">
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
 
+  <aside class="sidebar">
+    <div class="sidebar-inner">
 
-    <a href="mailto:smokeriu@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
-        <i class="fas fa-envelope-open"></i>
-    </a>
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
 
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DefaultSource%E7%B1%BB"><span class="nav-number">2.</span> <span class="nav-text">DefaultSource类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0RelationProvider"><span class="nav-number">2.1.</span> <span class="nav-text">实现RelationProvider</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0SchemaRelationProvider%EF%BC%88Optional%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">实现SchemaRelationProvider（Optional）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0DataSourceRegister%EF%BC%88Optional%EF%BC%89"><span class="nav-number">2.3.</span> <span class="nav-text">实现DataSourceRegister（Optional）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%EF%BC%9Asource%E7%9A%84%E5%90%8D%E5%AD%97%E5%9C%A8%E5%93%AA%E6%A3%80%E6%B5%8B%EF%BC%9F"><span class="nav-number">2.4.</span> <span class="nav-text">附：source的名字在哪检测？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Relation"><span class="nav-number">3.</span> <span class="nav-text">Relation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%A7%E6%89%BFBaseRelation"><span class="nav-number">3.1.</span> <span class="nav-text">继承BaseRelation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TableScan"><span class="nav-number">3.2.</span> <span class="nav-text">TableScan</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">4.</span> <span class="nav-text">测试</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
 
-
-
-
-
-
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=604522169" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 604522169" data-position="top" data-delay="50">
-        <i class="fab fa-qq"></i>
-    </a>
-
-
-
-
-
-
-
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ssiu</p>
+  <div class="site-description" itemprop="description"></div>
 </div>
-    </div>
-</footer>
-
-<div class="progress-bar"></div>
-
-<script language=javascript>
-    function siteTime() {
-        window.setTimeout("siteTime()", 1000);
-        var seconds = 1000;
-        var minutes = seconds * 60;
-        var hours = minutes * 60;
-        var days = hours * 24;
-	var months = days * 30;
-        var years = days * 365;
-        var today = new Date();
-        var todayYear = today.getFullYear();
-        var todayMonth = today.getMonth() + 1;
-        var todayDate = today.getDate();
-        var todayHour = today.getHours();
-        var todayMinute = today.getMinutes();
-        var todaySecond = today.getSeconds();
-        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
-        year - 作为date对象的年份，为4位年份值
-        month - 0-11之间的整数，做为date对象的月份
-        day - 1-31之间的整数，做为date对象的天数
-        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
-        minutes - 0-59之间的整数，做为date对象的分钟数
-        seconds - 0-59之间的整数，做为date对象的秒数
-        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
-        var t1 = Date.UTC(2017, 02, 12, 00, 00, 00); //北京时间2018-2-13 00:00:00
-        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
-        var diff = t2 - t1;
-        var diffYears = Math.floor(diff / years);
-        var diffDays = Math.floor((diff / days) - diffYears * 365);
-        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
-        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
-        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
-        document.getElementById("sitetime").innerHTML = "本站已运行 " +diffYears+" 年 "+diffDays + " 天 ";
-    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
-    siteTime();
-</script>
-
-
-<script>
-    $(document).ready(function () {
-
-        var int = setInterval(fixCount, 50);  // 50ms周期检测函数
-        var pvcountOffset = 5423;  // 初始化首次数据
-        var uvcountOffset = 3322;
-
-        function fixCount() {
-            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
-                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
-                clearInterval(int);
-            }
-            if ($("#busuanzi_container_site_pv").css("display") != "none") {
-                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
-                clearInterval(int); // 停止检测
-            }
-        }
-    });
-</script>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
 
 
 
-    <!-- 搜索遮罩框 -->
-<div id="searchModal" class="modal">
-    <div class="modal-content">
-        <div class="search-header">
-            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
-            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
-                   class="search-input">
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
         </div>
-        <div id="searchResult"></div>
+
     </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ssiu</span>
 </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
 
-<script src="/js/search.js"></script>
-<script type="text/javascript">
-$(function () {
-    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
-});
-</script>
-    <!-- 回到顶部按钮 -->
-<div id="backTop" class="top-scroll">
-    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
-        <i class="fas fa-arrow-up"></i>
-    </a>
-</div>
+        
 
 
-    <script src="/libs/materialize/materialize.min.js"></script>
-    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
-    <script src="/libs/aos/aos.js"></script>
-    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
-    <script src="/js/matery.js"></script>
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <!-- Baidu Analytics -->
 
-    <!-- Baidu Push -->
 
-<script>
-    (function () {
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        } else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-</script>
 
-    
-    
-    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
-    
 
-    
+      </div>
+    </footer>
+  </div>
 
-    
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
-    
+<script src="/js/utils.js"></script>
 
-    
+<script src="/js/motion.js"></script>
 
-    
-    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
-    
-    
-    
-    <script src="/libs/instantpage/instantpage.js" type="module"></script>
-    
 
-</body>
+<script src="/js/schemes/pisces.js"></script>
 
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
 </html>

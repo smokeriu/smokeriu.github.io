@@ -1,785 +1,1029 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="zh-CN">
-
-
 <head>
-    <meta charset="utf-8">
-    <meta name="keywords" content="Ssiu Blog">
-    <meta name="description" content="Ssiu Blog">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="renderer" content="webkit|ie-stand|ie-comp">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Ssiu Blog</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
-    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/matery.css">
-    <link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" href="/css/main.css">
 
-    <script src="/libs/jquery/jquery.min.js"></script>
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-material.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.ibuer.fun","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Ssiu Blog">
+<meta property="og:url" content="http://blog.ibuer.fun/page/7/index.html">
+<meta property="og:site_name" content="Ssiu Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Ssiu">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.ibuer.fun/page/7/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Ssiu Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ssiu Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
     
-<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
-<body>
-    <header class="navbar-fixed">
-    <nav id="headNav" class="bg-color nav-transparent">
-        <div id="navContainer" class="nav-wrapper container">
-            <div class="brand-logo">
-                <a href="/" class="waves-effect waves-light">
-                    
-                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
-                    
-                    <span class="logo-span">Ssiu Blog</span>
-                </a>
-            </div>
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2020/02/24/liao-liao-submit-de-chang-yong-can-shu/">
 
-<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
-<ul class="right nav-menu">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/02/24/liao-liao-submit-de-chang-yong-can-shu/" class="post-title-link" itemprop="url">聊聊spark-submit的常用参数</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-02-24 20:10:43 / 修改时间：21:26:31" itemprop="dateCreated datePublished" datetime="2020-02-24T20:10:43+08:00">2020-02-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spark/" itemprop="url" rel="index"><span itemprop="name">Spark</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在使用spark-submit在yarn跑应用程序时，我们除了设置参数，一般还会附加jar包，file文件等。这些东西实际去哪了？<br>答案就是我们配置的<code>yarn.nodemanager.local-dirs</code>tmp目录。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;yarn.nodemanager.local-dirs&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;/home/hadoop/data/tmp/nm-local-dir&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="这些文件会放到这里？"><a href="#这些文件会放到这里？" class="headerlink" title="这些文件会放到这里？"></a>这些文件会放到这里？</h3><p>其实这个问题只需要简单实验下，我们可以写一个sleep很长的程序，也可以直接使用spark提供的示例程序。<br>我们现在本地单节点尝试下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spark-submit --master yarn --class org.apache.spark.examples.SparkPi --files scopt-2.11-3.7.0.jar --jars ~/lib/okio-1.17.2.jar spark-examples_2.11-2.4.1.jar 10000</span><br></pre></td></tr></table></figure>
+<p>在<code>yarn.nodemanager.local-dirs</code>目录下，可以看到生成了一个以application开头的目录，一路进去进到container，可以看到我们的文件已经放在了里面。<br>// TODO 图。</p>
+<h3 id="集群情况？"><a href="#集群情况？" class="headerlink" title="集群情况？"></a>集群情况？</h3>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
   
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/" class="waves-effect waves-light">
-      
-      <i class="fas fa-home" style="zoom: 0.6;"></i>
-      
-      <span>首页</span>
-    </a>
-    
-  </li>
   
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/tags" class="waves-effect waves-light">
-      
-      <i class="fas fa-tags" style="zoom: 0.6;"></i>
-      
-      <span>标签</span>
-    </a>
-    
-  </li>
   
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/categories" class="waves-effect waves-light">
+
       
-      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
-      
-      <span>分类</span>
-    </a>
-    
-  </li>
   
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/archives" class="waves-effect waves-light">
-      
-      <i class="fas fa-archive" style="zoom: 0.6;"></i>
-      
-      <span>归档</span>
-    </a>
-    
-  </li>
   
-  <li class="hide-on-med-and-down nav-item">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2020/01/27/flink-de-shui-wei-xian-zai-dan-xian-cheng-he-bing-xing-chu-li-shi-hou-de-wen-ti-ji-lu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/27/flink-de-shui-wei-xian-zai-dan-xian-cheng-he-bing-xing-chu-li-shi-hou-de-wen-ti-ji-lu/" class="post-title-link" itemprop="url">Flink的水位线在单线程和并行处理时候的问题记录</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-27 13:35:40" itemprop="dateCreated datePublished" datetime="2020-01-27T13:35:40+08:00">2020-01-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-25 11:53:03" itemprop="dateModified" datetime="2021-07-25T11:53:03+08:00">2021-07-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Flink/" itemprop="url" rel="index"><span itemprop="name">Flink</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
     
-    <a href="/about" class="waves-effect waves-light">
-      
-      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
-      
-      <span>关于</span>
-    </a>
     
-  </li>
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Flink对于eventTime的处理是很妙的一个地方，借助水位线机制，能够帮助Flink处理延迟数据。不过在测试途中却遇到了一些有些奇怪的现象，特此记录。</p>
+<blockquote>
+<p>Flink版本：1.9.x</p>
+</blockquote>
+<h2 id="单线程下的水位线："><a href="#单线程下的水位线：" class="headerlink" title="单线程下的水位线："></a>单线程下的水位线：</h2><p>这篇博客写的很好，基本把水位线的原理讲清楚了。<br>博客地址：<a target="_blank" rel="noopener" href="https://blog.csdn.net/lmalds/article/details/52704170">Flink流计算编程–watermark（水位线）简介</a><br>总结一下：</p>
+<blockquote>
+<p>1、在Flink中，水位线 = 最新的事件时间 - 设定的时间间隔。<br>2、当Window结束时间 &lt;= 水位线时间，且该窗口内有数据，则触发计算.<br>3、水位线到底描述了什么：事件时间&lt;水位线的数据都已经到达。未到达的数据利用Window的allowedLateness算子来特殊处理。</p>
+</blockquote>
+<p>不过美中不足的是其并没有提及他的测试环境是在单线程下进行的。在并行处理的情况下，水位线的表现可能和想的会不太一样。</p>
+<h2 id="并行数据中的水位线："><a href="#并行数据中的水位线：" class="headerlink" title="并行数据中的水位线："></a>并行数据中的水位线：</h2><p>直接说结论：<br>Flink会生成多个水位线，取决于并行度。每个水位线会根据发往该分区的数据来独立维护。Window算子的计算触发只关心Long值最小的那个水位线。</p>
+<ul>
+<li>每个并行实例都会有单独的各自的水位线。<ul>
+<li>对于单Source，多分区的数据流，则是每个分区都有独立的水位线。</li>
+<li>对于多Source，则是每个Source的每个分区都有一个独立的水位线。</li>
+</ul>
+</li>
+<li>当某个算子操作作用于两个流时，取决于最小的水位线。</li>
+</ul>
+<blockquote>
+<p>简单来说，并行度3的情况下，水位线A=1581507300000，水位线B=1581507301000，水位线C=1581507302000。此时Window结束时间1581507301000&gt;水位线A，故不会触发计算，只有当水位线A&gt;Window结束时间1581507301000，此时所有线程水位线都&gt;Window的结束时间，该Window才会触发计算。</p>
+</blockquote>
+<blockquote>
+<p>从下图的黄色标记也可以看出，并行（Parallel）情况下，取决于小的那个水位线。</p>
+</blockquote>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217223730.png" alt="Kafka in WaterMark"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
   
-  <li>
-    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
-      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
-    </a>
-  </li>
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2019/11/17/spark-zhong-de-blockmanager/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/11/17/spark-zhong-de-blockmanager/" class="post-title-link" itemprop="url">Spark中的BlockManager</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-17 22:33:30" itemprop="dateCreated datePublished" datetime="2019-11-17T22:33:30+08:00">2019-11-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-17 23:21:27" itemprop="dateModified" datetime="2020-02-17T23:21:27+08:00">2020-02-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spark/" itemprop="url" rel="index"><span itemprop="name">Spark</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="一、BlockManager的用途。"><a href="#一、BlockManager的用途。" class="headerlink" title="一、BlockManager的用途。"></a>一、BlockManager的用途。</h1><p>BlockManager会运行在所有节点之上（driver+executor），管理整个Spark运行时的数据读写的。</p>
+<blockquote>
+<p>Manager running on every node (driver and executors) which provides interfaces for putting and retrieving blocks both locally and remotely into various stores (memory, disk, and off-heap).</p>
+</blockquote>
+<h1 id="二、BlockManager架构。"><a href="#二、BlockManager架构。" class="headerlink" title="二、BlockManager架构。"></a>二、BlockManager架构。</h1><p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217223404.png" alt="BlockManager架构"><br>1、每个Blockmanager实例化时都会向BlockManagerMaster进行注册。（实际上是 Executor 中的 BlockManager 注册给 Driver 上的 BlockMangerMasterEndpoiont）<br>2、BlockManagerMaster通过BlockManagerInfo来对Blockmanager进行元数据管理。<br>3、当改变了具体的ExecutorBackend 上的 Block 的信息后，就要向BlockManagerMaster发送消息来更新。<br>4、BlockManager也是典型的主从架构。</p>
+<h1 id="三、BlockManager相关源码。"><a href="#三、BlockManager相关源码。" class="headerlink" title="三、BlockManager相关源码。"></a>三、BlockManager相关源码。</h1><blockquote>
+<p>基于Spark 2.4.x</p>
+</blockquote>
+<h2 id="1-SparkEnv："><a href="#1-SparkEnv：" class="headerlink" title="1. SparkEnv："></a>1. SparkEnv：</h2><p>在这里会初始化Blockmanager的实例，但目前还不能用，只是确定初始化时的一些数据。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// NB: blockManager is not valid until initialize() is called later.</span></span><br><span class="line">val blockManager = <span class="keyword">new</span> BlockManager(executorId, rpcEnv, blockManagerMaster,</span><br><span class="line">      serializerManager, conf, memoryManager, mapOutputTracker, shuffleManager,</span><br><span class="line">      blockTransferService, securityManager, numUsableCores)</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-SparkContext："><a href="#2-SparkContext：" class="headerlink" title="2. SparkContext："></a>2. SparkContext：</h2><p>作为App的入口，初始化SparkContext时会根据AppId初始化Driver的BlockManager：<br>SparkContext.scala：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_env.blockManager.initialize(_applicationId)</span><br></pre></td></tr></table></figure>
+<p>Executor的Blockmanager会在Executor上完成初始化。executor的ID会在sparkEnv初始化时就确定了。<br>Executor.scala：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">env.blockManager.initialize(conf.getAppId)</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-初始化时，还会一并初始化blockTransferService与shuffleClient。"><a href="#3-初始化时，还会一并初始化blockTransferService与shuffleClient。" class="headerlink" title="3. 初始化时，还会一并初始化blockTransferService与shuffleClient。"></a>3. 初始化时，还会一并初始化blockTransferService与shuffleClient。</h2><pre><code>前者负责本地的块的存取。后者负责读取shuffle的中间文件。
+</code></pre>
+<blockquote>
+<p>BlockTransferService：Initialize the transfer service by giving it the BlockDataManager that can be used to fetch local blocks or put local blocks.<br>ShuffleClient：Provides an interface for reading shuffle files, either from an Executor or external service.</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">def <span class="title">initialize</span><span class="params">(appId: String)</span>: Unit </span>= &#123;</span><br><span class="line">    blockTransferService.init(<span class="keyword">this</span>)</span><br><span class="line">    shuffleClient.init(appId)</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-向BlockManagerMaster注册："><a href="#4-向BlockManagerMaster注册：" class="headerlink" title="4. 向BlockManagerMaster注册："></a>4. 向BlockManagerMaster注册：</h2><p>其本质是向 Driver 上的 BlockManagerMasterEndpoint 注册。其中slaveEndpoint负责接收Driver 中的 BlockManagerMaster 发过来的指令，如删除RDD。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">val id = BlockManagerId(executorId, blockTransferService.hostName, blockTransferService.port, None)</span><br><span class="line"></span><br><span class="line">val idFromMaster = master.registerBlockManager(</span><br><span class="line">      id,</span><br><span class="line">      maxOnHeapMemory,</span><br><span class="line">      maxOffHeapMemory,</span><br><span class="line">      slaveEndpoint)</span><br></pre></td></tr></table></figure>
+<p>registerBlockManager方法会向BlockManagerMasterEndpoint 发送注册信息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val updatedId = driverEndpoint.askSync[BlockManagerId](</span><br><span class="line">      RegisterBlockManager(blockManagerId, maxOnHeapMemSize, maxOffHeapMemSize, slaveEndpoint))</span><br></pre></td></tr></table></figure>
+<p>消息会在BlockManagerMasterEndpoint 的receiveAndReply方法进行匹配，注册并将ID返回：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">override def <span class="title">receiveAndReply</span><span class="params">(context: RpcCallContext)</span>: PartialFunction[Any, Unit] </span>= &#123;</span><br><span class="line">    <span class="function"><span class="keyword">case</span> <span class="title">RegisterBlockManager</span><span class="params">(blockManagerId, maxOnHeapMemSize, maxOffHeapMemSize, slaveEndpoint)</span> </span>=&gt;</span><br><span class="line">      context.reply(register(blockManagerId, maxOnHeapMemSize, maxOffHeapMemSize, slaveEndpoint))</span><br></pre></td></tr></table></figure>
+<p>最后，BlockManagerInfo会被存放在blockManagerInfo(这是一个Map)中进行管理：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">blockManagerInfo(id) = <span class="keyword">new</span> BlockManagerInfo(</span><br><span class="line">        id, System.currentTimeMillis(), maxOnHeapMemSize, maxOffHeapMemSize, slaveEndpoint)</span><br></pre></td></tr></table></figure>
+<p>每一个 BlockManager 都会对应一个 BlockManagerInfo，最后，BlockManagerMaster 包含了集群中整个 BlockManager 注册的信息。</p>
+<h1 id="四、BlockManager的具体操作举例。"><a href="#四、BlockManager的具体操作举例。" class="headerlink" title="四、BlockManager的具体操作举例。"></a>四、BlockManager的具体操作举例。</h1><p>前面说过BlockManager是用来管理数据的，具体我们参考remove这个方法看看逻辑是怎么样的。<br>具体来到RDD的unpersist方法，这里明显会删除缓存的RDD：</p>
+<h2 id="1、unpersist算子"><a href="#1、unpersist算子" class="headerlink" title="1、unpersist算子"></a>1、unpersist算子</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">def <span class="title">unpersist</span><span class="params">(blocking: Boolean = <span class="keyword">true</span>)</span>: <span class="keyword">this</span>.type </span>= &#123;</span><br><span class="line">  logInfo(<span class="string">&quot;Removing RDD &quot;</span> + id + <span class="string">&quot; from persistence list&quot;</span>)</span><br><span class="line">  sc.unpersistRDD(id, blocking)</span><br><span class="line">  storageLevel = StorageLevel.NONE</span><br><span class="line">  <span class="keyword">this</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>进入 sc.unpersistRDD(id, blocking)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span>[spark] <span class="function">def <span class="title">unpersistRDD</span><span class="params">(rddId: Int, blocking: Boolean = <span class="keyword">true</span>)</span> </span>&#123;</span><br><span class="line">    env.blockManager.master.removeRdd(rddId, blocking)</span><br><span class="line">    persistentRdds.remove(rddId)</span><br><span class="line">    listenerBus.post(SparkListenerUnpersistRDD(rddId))</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>这里就看到调用了env.blockManager.master.removeRdd(rddId, blocking)。</p>
+<h2 id="2、blockManagerMaster的removeRdd方法"><a href="#2、blockManagerMaster的removeRdd方法" class="headerlink" title="2、blockManagerMaster的removeRdd方法"></a>2、blockManagerMaster的removeRdd方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">def <span class="title">removeRdd</span><span class="params">(rddId: Int, blocking: Boolean)</span> </span>&#123;</span><br><span class="line">    val future = driverEndpoint.askSync[Future[Seq[Int]]](RemoveRdd(rddId))</span><br><span class="line">    future.failed.foreach(e =&gt;</span><br><span class="line">      logWarning(s<span class="string">&quot;Failed to remove RDD $rddId - $&#123;e.getMessage&#125;&quot;</span>, e)</span><br><span class="line">    )(ThreadUtils.sameThread)</span><br><span class="line">    <span class="keyword">if</span> (blocking) &#123;</span><br><span class="line">      timeout.awaitResult(future)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>这里会向BlockManagerSlaveEndpoint发送删除RDD的信息并等待回执，BlockManagerSlaveEndpoint的receiveAndReply方法会接收到，并调用对应的方法，让manager去删除RDD：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">override def <span class="title">receiveAndReply</span><span class="params">(context: RpcCallContext)</span>: PartialFunction[Any, Unit] </span>= &#123;</span><br><span class="line">	...</span><br><span class="line">    <span class="function"><span class="keyword">case</span> <span class="title">RemoveRdd</span><span class="params">(rddId)</span> </span>=&gt;</span><br><span class="line">      doAsync[Int](<span class="string">&quot;removing RDD &quot;</span> + rddId, context) &#123;</span><br><span class="line">        blockManager.removeRdd(rddId)</span><br><span class="line">      &#125;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3、Manager中的removeRdd"><a href="#3、Manager中的removeRdd" class="headerlink" title="3、Manager中的removeRdd"></a>3、Manager中的removeRdd</h2><p>根据RDD的id来拿到需要删除的块的集合，并通过foreach来进行删除操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">def <span class="title">removeRdd</span><span class="params">(rddId: Int)</span>: Int </span>= &#123;</span><br><span class="line">	...</span><br><span class="line">    val blocksToRemove = blockInfoManager.entries.flatMap(_._1.asRDDId).filter(_.rddId == rddId)</span><br><span class="line">    blocksToRemove.foreach &#123; blockId =&gt; removeBlock(blockId, tellMaster = <span class="keyword">false</span>) &#125;</span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>判断是否存在，并找到块完成删除操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">def <span class="title">removeBlock</span><span class="params">(blockId: BlockId, tellMaster: Boolean = <span class="keyword">true</span>)</span>: Unit </span>= &#123;</span><br><span class="line">	...</span><br><span class="line">  blockInfoManager.lockForWriting(blockId) match &#123;</span><br><span class="line">    <span class="keyword">case</span> None =&gt;</span><br><span class="line">      <span class="comment">// The block has already been removed; do nothing.</span></span><br><span class="line">    <span class="function"><span class="keyword">case</span> <span class="title">Some</span><span class="params">(info)</span> </span>=&gt;</span><br><span class="line">      removeBlockInternal(blockId, tellMaster = tellMaster &amp;&amp; info.tellMaster)</span><br><span class="line">      addUpdatedBlockStatusToTaskMetrics(blockId, BlockStatus.empty)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>找到块，并完成删除操作，最后向mater反馈信息。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> def <span class="title">removeBlockInternal</span><span class="params">(blockId: BlockId, tellMaster: Boolean)</span>: Unit </span>= &#123;</span><br><span class="line">	...</span><br><span class="line">    val removedFromMemory = memoryStore.remove(blockId)</span><br><span class="line">    val removedFromDisk = diskStore.remove(blockId)</span><br><span class="line">    <span class="keyword">if</span> (!removedFromMemory &amp;&amp; !removedFromDisk) &#123;</span><br><span class="line">      logWarning(s<span class="string">&quot;Block $blockId could not be removed as it was not found on disk or in memory&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    blockInfoManager.removeBlock(blockId)</span><br><span class="line">    <span class="keyword">if</span> (tellMaster) &#123;</span><br><span class="line">      reportBlockStatus(blockId, BlockStatus.empty)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>最后就来到了具体的删除业务代码了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">def <span class="title">removeBlock</span><span class="params">(blockId: BlockId)</span>: Unit </span>= <span class="keyword">synchronized</span> &#123;</span><br><span class="line">	...</span><br><span class="line">          infos.remove(blockId)</span><br><span class="line">          blockInfo.readerCount = <span class="number">0</span></span><br><span class="line">          blockInfo.writerTask = BlockInfo.NO_WRITER</span><br><span class="line">          writeLocksByTask.removeBinding(currentTaskAttemptId, blockId)</span><br><span class="line">    notifyAll()</span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2019/10/27/tong-guo-curator-api-cao-zuo-zookeeper-de-xue-xi-yu-jian-dan-shi-yong-jie-shao/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/10/27/tong-guo-curator-api-cao-zuo-zookeeper-de-xue-xi-yu-jian-dan-shi-yong-jie-shao/" class="post-title-link" itemprop="url">通过Curator API操作zookeeper的学习与简单使用介绍</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-27 19:17:26" itemprop="dateCreated datePublished" datetime="2019-10-27T19:17:26+08:00">2019-10-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-18 11:10:30" itemprop="dateModified" datetime="2020-02-18T11:10:30+08:00">2020-02-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Utils/" itemprop="url" rel="index"><span itemprop="name">Utils</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>主要记录些使用Curator的学习记录，方便随时查阅。</p>
+<h2 id="Curator"><a href="#Curator" class="headerlink" title="Curator"></a>Curator</h2><blockquote>
+<p>Curator框架在zookeeper原生API接口上进行了包装，解决了很多ZooKeeper客户端非常底层的细节开发。提供ZooKeeper各种应用场景(recipe， 比如：分布式锁服务、集群领导选举、共享计数器、缓存机制、分布式队列等)的抽象封装，实现了Fluent风格的API接口,是最好用，最流行的zookeeper的客户端。包括以下特性：</p>
+<ol>
+<li>自动化的连接管理。</li>
+<li>简化了原生的ZooKeeper的方法，事件等</li>
+<li>Curator初始化之后会一直对zk连接进行监听，一旦发现连接状态发生变化将会作出相应的处理。</li>
+<li>内部实现了诸如Session超时重连，Watcher反复注册等功能，</li>
+</ol>
+<p>更多相关信息请前往：<a target="_blank" rel="noopener" href="http://curator.apache.org/index.html">http://curator.apache.org</a></p>
+</blockquote>
+<h2 id="使用概述："><a href="#使用概述：" class="headerlink" title="使用概述："></a>使用概述：</h2><p>curator是Fluent风格API，创建会话方式与原生的API创建方式区别很大。<br>Curator创建客户端为CuratorFramework，是由CuratorFrameworkFactory工厂类来实现的，注：CuratorFramework是线程安全的，要连接的每个ZooKeeper集群只需要一个 CuratorFramework对象就可以了。</p>
+<h3 id="添加依赖："><a href="#添加依赖：" class="headerlink" title="添加依赖："></a>添加依赖：</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.curator<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>curator-recipes<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;curator.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>一般添加这个就够用了，这个依赖背后依赖了client和framework。<br>client是zookeeper client的封装，提供有用的客户端特性。<br>framework是api的高层封装，添加了连接管理，重试机制等。<br>本次使用版本：<br>curator：4.0.1<br>zookeeper：3.4.6（3.4版本需要排除zk的依赖包。）</p>
+<h3 id="获取client"><a href="#获取client" class="headerlink" title="获取client"></a>获取client</h3><p>总体而言，通过CuratorFrameworkFactory来获取Client对象。一种则是使用.builder()。另一种使用构造方法直接new，其实内部走的一条线：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 参数：</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> connectString       list of servers to connect to（zk地址）</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> retryPolicy         retry policy to use（重试策略）</span></span><br><span class="line"><span class="comment"> * 可选参数：</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> sessionTimeoutMs    session timeout（会话超时时间）默认60000</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> connectionTimeoutMs connection timeout（连接超时时间）默认15000</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> namespace           每个curatorFramework可以设置独立命名空间，之后操作基于该命名空间。</span></span><br><span class="line"><span class="comment"> *                            比如操作/test/abc =&gt;实际是操作：/zk1/test/abc.注意使用时前面不要加/号</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">cf2 = CuratorFrameworkFactory.builder().connectString(<span class="string">&quot;hadoop:2181&quot;</span>)</span><br><span class="line">        .sessionTimeoutMs(<span class="number">60000</span>)</span><br><span class="line">        .connectionTimeoutMs(<span class="number">15000</span>)</span><br><span class="line">        .retryPolicy(retryPolicy)</span><br><span class="line">        .namespace(<span class="string">&quot;test&quot;</span>)</span><br><span class="line">        .build();</span><br><span class="line"></span><br><span class="line"><span class="comment">//也可以采用常规的newClient的形式，不过无法支持命名空间。</span></span><br><span class="line"><span class="comment">//其实内部还是使用的builder，给出其中一个构造方法。</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> CuratorFramework <span class="title">newClient</span><span class="params">(String connectString, <span class="keyword">int</span> sessionTimeoutMs, <span class="keyword">int</span> connectionTimeoutMs, RetryPolicy retryPolicy)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> builder().</span><br><span class="line">        connectString(connectString).</span><br><span class="line">        sessionTimeoutMs(sessionTimeoutMs).</span><br><span class="line">        connectionTimeoutMs(connectionTimeoutMs).</span><br><span class="line">        retryPolicy(retryPolicy).</span><br><span class="line">        build();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面代码中有使用到一个实例，<code>retryPolicy</code>，即重试策略。<br>Curator提供了多种重试策略，后边会进行一个简单介绍，选择合适的即可。<br>不过目前为止，我们已经拿到了client。这时候需要我们调用<code>start()</code>来使用他。程序结束时我们也应该要调用<code>close()</code>来关闭他。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cf2.start()</span><br><span class="line">cf2.close()</span><br></pre></td></tr></table></figure>
+
+<h4 id="重试策略简介"><a href="#重试策略简介" class="headerlink" title="重试策略简介"></a>重试策略简介</h4><p>会给出构造方法即部分介绍，一般看看名字和参数就知道有啥区别了。<br>他们都是继承自SleepingRetry<br>常用的有：<br>ExponentialBackoffRetry<br>ExponentialBackoffRetry被BoundedExponetialBackoffRetry继承，参数作用都差不多，不做赘述。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> baseSleepTimeMs initial amount of time to wait between retries（每次重试会增加重试时间baseSleepTimeMs）</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> maxRetries max number of times to retry（最大重试次数）</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> maxSleepMs max time in ms to sleep on each retry（最大重试时间）</span></span><br><span class="line"><span class="comment"> *                   如果超过，将使用warn级别log，并使用最大重试时间</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ExponentialBackoffRetry</span><span class="params">(<span class="keyword">int</span> baseSleepTimeMs, <span class="keyword">int</span> maxRetries, <span class="keyword">int</span> maxSleepMs)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>RetryForever（一直重试）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> retryIntervalMs	重试间隔时间</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">RetryForever</span><span class="params">(<span class="keyword">int</span> retryIntervalMs)</span></span></span><br></pre></td></tr></table></figure>
+<p>RetryNTimes（重试N次）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> retryIntervalMs	重试间隔时间</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> n					重试N次</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">RetryNTimes</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> sleepMsBetweenRetries)</span></span></span><br></pre></td></tr></table></figure>
+<p>剩下还有RetryOneTime（重试一次）、RetryUntilElaspsed（一直重试，知道超过指定时间）</p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="常用的API"><a href="#常用的API" class="headerlink" title="常用的API"></a>常用的API</h3><p>这边大家直接看代码注释。因为使用的是zookeeper3.4。部分3.5的特性不支持。</p>
+<h4 id="创建节点"><a href="#创建节点" class="headerlink" title="创建节点"></a>创建节点</h4><p>可以允许递归创建，即父节点不存在时可以帮你创建父节点。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 创建节点。</span></span><br><span class="line"><span class="comment"> * 常见节点类型：</span></span><br><span class="line"><span class="comment"> *      永久：PERSISTENT</span></span><br><span class="line"><span class="comment"> *      临时（当前连接有效）：EPHEMERAL</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">create</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    cf2.create().creatingParentsIfNeeded()<span class="comment">//允许递归创建</span></span><br><span class="line">            .withMode(CreateMode.PERSISTENT)<span class="comment">//持久绩点</span></span><br><span class="line">            .withACL(ZooDefs.Ids.OPEN_ACL_UNSAFE)</span><br><span class="line">            .forPath(<span class="string">&quot;/test2&quot;</span>,<span class="string">&quot;data&quot;</span>.getBytes());</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="获取节点数据："><a href="#获取节点数据：" class="headerlink" title="获取节点数据："></a>获取节点数据：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取节点信息</span></span><br><span class="line"><span class="comment"> * data会作为byte数组返回。</span></span><br><span class="line"><span class="comment"> * 节点信息则会放入stat中。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getInfo</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">    Stat stat = <span class="keyword">new</span> Stat();</span><br><span class="line">    <span class="keyword">byte</span>[] bytes = cf2.getData()</span><br><span class="line">            .storingStatIn(stat)<span class="comment">//将节点信息传入stat中（和zk自带的stat一样）</span></span><br><span class="line">            .forPath(<span class="string">&quot;/a&quot;</span>);</span><br><span class="line">    System.out.println(<span class="keyword">new</span> String(bytes));</span><br><span class="line">    System.out.println(stat.getNumChildren());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取节点信息，并使用watcher</span></span><br><span class="line"><span class="comment"> * 默认只能监听本节点的修改、删除</span></span><br><span class="line"><span class="comment"> * 获取children可以用getChildren。</span></span><br><span class="line"><span class="comment"> * 初次运行节点不存在会报错。watcher只能监听一次。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getInfoWithWatcher</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">    Stat stat = <span class="keyword">new</span> Stat();</span><br><span class="line">    <span class="keyword">byte</span>[] bytes = cf2.getData().storingStatIn(stat)</span><br><span class="line">            .usingWatcher(<span class="keyword">new</span> Watcher() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">process</span><span class="params">(WatchedEvent watchedEvent)</span> </span>&#123;</span><br><span class="line">                    <span class="keyword">switch</span> (watchedEvent.getType())&#123;</span><br><span class="line">                        <span class="keyword">case</span> NodeDataChanged:</span><br><span class="line">                            System.out.println(<span class="string">&quot;change!&quot;</span>);<span class="keyword">break</span>;</span><br><span class="line">                        <span class="keyword">case</span> NodeDeleted:</span><br><span class="line">                            System.out.println(<span class="string">&quot;node delete!&quot;</span>);<span class="keyword">break</span>;</span><br><span class="line">                        <span class="keyword">case</span> NodeChildrenChanged:</span><br><span class="line">                            System.out.println(<span class="string">&quot;child!&quot;</span>);<span class="keyword">break</span>;</span><br><span class="line">                        <span class="keyword">case</span> NodeCreated:</span><br><span class="line">                            System.out.println(<span class="string">&quot;Create!&quot;</span>);<span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;).forPath(<span class="string">&quot;/test&quot;</span>);</span><br><span class="line">    System.out.println(stat.getVersion());</span><br><span class="line">    System.out.println(<span class="keyword">new</span> String(bytes));</span><br><span class="line">    Thread.sleep(<span class="number">60</span>*<span class="number">1000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="设置-修改节点数据"><a href="#设置-修改节点数据" class="headerlink" title="设置/修改节点数据"></a>设置/修改节点数据</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 设置节点</span></span><br><span class="line"><span class="comment"> * 不指定会使用defaultData。默认为ip</span></span><br><span class="line"><span class="comment"> * 返回设置后的stat</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setNode</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    Stat stat = cf2.setData().withVersion(-<span class="number">1</span>).forPath(<span class="string">&quot;/test&quot;</span>);</span><br><span class="line">    System.out.println(stat.getVersion());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="删除节点"><a href="#删除节点" class="headerlink" title="删除节点"></a>删除节点</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 删除节点</span></span><br><span class="line"><span class="comment"> * deletingChildrenIfNeeded：子节点存在则删除子节点，再删除父节点。</span></span><br><span class="line"><span class="comment"> * guaranteed：如果删除失败，后端会一直尝试删除知道成功。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">deleteNode</span><span class="params">()</span><span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">    Void aVoid = cf2.delete()</span><br><span class="line">            .guaranteed()<span class="comment">//可省略，保证删除节点（删除失败后段会一直删除知道成功）</span></span><br><span class="line">            .deletingChildrenIfNeeded()<span class="comment">//可省略，开启递归删除。</span></span><br><span class="line">            .forPath(<span class="string">&quot;/test&quot;</span>);</span><br><span class="line">    System.out.println(aVoid);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="-1"><a href="#-1" class="headerlink" title=""></a></h4><h3 id="Cache（watcher-N次）"><a href="#Cache（watcher-N次）" class="headerlink" title="Cache（watcher N次）"></a>Cache（watcher N次）</h3><p>原生的zk，有个比较蛋疼的地方就是watcher只能使用一次，如果需要重复使用，常见的可以采用生产消费者模式来重复触发注册，不过还是比较繁琐的。<br>幸运的是，Curator自带了一套名为Cache的东西，能够帮助我们完成类似功能：<br>注：上面有使用过usingWatcher的方法，不过也是一次性的。</p>
+<p>Cache一般有三种：NodeCache、PathChildrenCache、TreeCache。<br>NodeCache是监视当前节点。<br>PathChildrenCache则是监视该节点的子节点。（不能递归监视孙节点哦）<br>TreeCache则是前两者的结合，即监视当前节点+当前节点的子节点。<br>他们使用上其实是差不多的，所有这边就只介绍一种，需要使用另外一种时，稍微看看源码就会用了。</p>
+<h4 id="创建Cache"><a href="#创建Cache" class="headerlink" title="创建Cache"></a>创建Cache</h4><p>PathChildrenCache有6种构造方法，比另外两个加起来还多，这边介绍下常用的参数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> client           传入client</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> path             监视的path</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> cacheData        是否缓存data，写false，你会得不到节点的数据。只能拿到stat。</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> dataIsCompressed 是否压缩</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">PathChildrenCache pathChildrenCache = <span class="keyword">new</span> PathChildrenCache(cf2,<span class="string">&quot;/test&quot;</span>,<span class="keyword">true</span>);</span><br><span class="line">pathChildrenCache.start();</span><br></pre></td></tr></table></figure>
+<h4 id="StartMode"><a href="#StartMode" class="headerlink" title="StartMode"></a>StartMode</h4><p>PathChildrencache有三种启动模式：(另外两种Cache则没这么丰富)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* The cache will be primed (in the backgrouinitial values.</span></span><br><span class="line"><span class="comment">* Events for existing and new nodes will be posted.</span></span><br><span class="line"><span class="comment">* </span></span><br><span class="line"><span class="comment">* 默认的启动模式。异步初始化</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">StartMode.NORMAL</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* The cache will be primed (in the foregrouinitial values.</span></span><br><span class="line"><span class="comment">* &#123;<span class="doctag">@link</span> PathChildrenCache#rebuild()&#125; will be called before</span></span><br><span class="line"><span class="comment">* the &#123;<span class="doctag">@link</span> PathChildrenCache#start(Stamethod returns</span></span><br><span class="line"><span class="comment">* in order to get an initial view of the node.</span></span><br><span class="line"><span class="comment">* </span></span><br><span class="line"><span class="comment">* 同步初始化Cache。创建后就从服务器拉数据。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">StartMode.BUILD_INITIAL_CACHE</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* After cache is primed with initial values (in the background) a</span></span><br><span class="line"><span class="comment">* &#123;<span class="doctag">@link</span> PathChildrenCacheEvent.Type#INITIALIZED&#125; will be posted.</span></span><br><span class="line"><span class="comment">* </span></span><br><span class="line"><span class="comment">* 异步初始化，Cache准备好后，会触发INITIALIZED类型的事件。Listerner会收到该通知，</span></span><br><span class="line"><span class="comment">* 通过pathChildrenCacheEvent.getType()就能拿到。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">StartMode.POST_INITIALIZED_EVENT</span><br></pre></td></tr></table></figure>
+<p>其实就是一个异步/同步初始化、是否有通知的区别。</p>
+<h4 id="Listerner"><a href="#Listerner" class="headerlink" title="Listerner"></a>Listerner</h4><p>通过给Listerner设置监听器，我们就能够对设置的节点进行监听工作。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//设置为true才能够达到节点的data。</span></span><br><span class="line">PathChildrenCache pathChildrenCache = <span class="keyword">new</span> PathChildrenCache(cf2,<span class="string">&quot;/test&quot;</span>,<span class="keyword">true</span>);</span><br><span class="line">pathChildrenCache.start();</span><br><span class="line"></span><br><span class="line">pathChildrenCache.getListenable().addListener((curatorFramework, pathChildrenCacheEvent) -&gt; &#123;</span><br><span class="line">    String nodeName = ZKPaths.getNodeFromPath(pathChildrenCacheEvent.getData().getPath());</span><br><span class="line">    String path2 = pathChildrenCacheEvent.getData().getPath();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">switch</span> (pathChildrenCacheEvent.getType())&#123;</span><br><span class="line">        <span class="keyword">case</span> CHILD_ADDED:</span><br><span class="line">            System.out.println(nodeName+<span class="string">&quot; :add: &quot;</span>+path2);<span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> CHILD_REMOVED:</span><br><span class="line">            System.out.println(<span class="string">&quot;remove&quot;</span>);<span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> CHILD_UPDATED:</span><br><span class="line">            System.out.println(<span class="string">&quot;changed&quot;</span>);</span><br><span class="line">            System.out.println(<span class="keyword">new</span> String(pathChildrenCacheEvent.getData().getData()));</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>我们能够获取到节点对type，并作出对应对处理。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2019/09/30/hbase-de-rowkey-she-ji/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/09/30/hbase-de-rowkey-she-ji/" class="post-title-link" itemprop="url">HBase的RowKey设计</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-30 23:58:24" itemprop="dateCreated datePublished" datetime="2019-09-30T23:58:24+08:00">2019-09-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-17 23:21:27" itemprop="dateModified" datetime="2020-02-17T23:21:27+08:00">2020-02-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HBase/" itemprop="url" rel="index"><span itemprop="name">HBase</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对于hbase，会将一张Table中的数据，按照定义的RowKey，将数据切分到不同的Region中。一般不同的Region会被Master分配到不同的机器上。<br>所以如果RowKey设计良好，能够让集群<code>负载均衡，提高吞吐量。防止出现热点问题</code>。</p>
+<blockquote>
+<p>Hbase版本：1.2.0</p>
+</blockquote>
+<h2 id="设计原则"><a href="#设计原则" class="headerlink" title="设计原则"></a>设计原则</h2><ol>
+<li>RowKey<strong>长度不应该超过16字节</strong>，否则对于HFile和MemStore来说会极大的占用存储空间</li>
+<li>RowKey设计时需要保证<strong>唯一性</strong>。当两个rowKey经过变换可能生产同一个结果时，这种设计就是有问题的。</li>
+<li>Rowkey是按照<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%AD%97%E5%85%B8%E5%BA%8F">字典序</a><strong>排序</strong>。设计后请确认rowKey的排序能否符合预期。</li>
+<li>RowKey设计的最终目的是<strong>避免热点问题</strong>。设计时需要确认自己的方案对于上游来的数据能够做到均匀分布。<h2 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h2>整体来看，有两种情况：</li>
+<li>第一种，在RowKey前增加一个<strong>完全随机</strong>的随机前缀。这样简单，也会带来一些坏处，但其实也有解决方案。</li>
+<li>第二种，我们可以自己设计RowKey。我们可利用数据中的某1个或者某几个字段，<strong>通过一定的处理，组装成我们的RowKey</strong>。这样尽管设计复杂，但能够带来一些好处，但其也会有一些受限情况。</li>
+</ol>
+<p>实际上，上述两种情况虽有些许不同，不过本质都是需要随机。随机意味着数据打散，意味着查找变困难。但Hbase本身就是一个重写轻读的系统。</p>
+<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><h3 id="加盐前缀"><a href="#加盐前缀" class="headerlink" title="加盐前缀"></a>加盐前缀</h3><p>盐就是<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%9B%90_(%E5%AF%86%E7%A0%81%E5%AD%A6)">Salt</a>。<br>我们在创建Hbase表示，就能够人工指定上rowKey的分隔符（而不是等某个Region已经很大了，再让系统自动去划分）：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hbase&gt; create <span class="string">&#x27;ns1:t1&#x27;</span>, <span class="string">&#x27;f1&#x27;</span>, SPLITS =&gt; [<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>]</span><br></pre></td></tr></table></figure>
+<p>这样就能够创建出5个Region：（都是左闭右开的区间）<br>【null—a】、【a—b】、【b—c】、【c—d】、【d—null】<br>假如说我们rowKey本来都是：001，002，003。这样就都会分到第一个Region。这显然有问题。<br>通过给我们RowKey加上a-d的前缀，比如说：a-001，b-002。就能够均匀分到设计的<strong>4</strong>个Region了，而不是说基准到某一个Region。<br>ps：<br>实际上，我们如果使用Phoenix来管理hbase，这里会更加的方便。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">table</span> (</span><br><span class="line">a_key <span class="type">VARCHAR</span> <span class="keyword">PRIMARY</span> KEY, </span><br><span class="line">a_col <span class="type">VARCHAR</span></span><br><span class="line">) SALT_BUCKETS <span class="operator">=</span> <span class="number">20</span>;</span><br></pre></td></tr></table></figure>
+<p>不过phoenix不在本文章讨论范围，以后有机会再弄phoenix相关的。更多的请参考官网链接：<a target="_blank" rel="noopener" href="http://phoenix.apache.org/salted.html">Salted Tables</a><br>但加盐前缀解决了数据分布的问题，却也有很多缺点：</p>
+<h4 id="加盐前缀的缺点："><a href="#加盐前缀的缺点：" class="headerlink" title="加盐前缀的缺点："></a>加盐前缀的缺点：</h4><ol>
+<li>第一个分区永远没有数据。因为我们的加盐是从a开始加的。</li>
+<li>因为是完全随机，我们查询时并不知道之前加入的随机数是什么。这个问题不仅仅是查询，还会影响到put和delete指令。<h4 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h4>我们可以在Table的基础上，建立二级索引。即通过在外部维护一张小表，将我们查询查用的字段放到这张表中。这个方案可以使用Phoenix实现，也可以使用ES来实现。<br>Phoenix的实现：<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> INDEX my_index <span class="keyword">ON</span> my_table (v1,v2) INCLUDE(v3)</span><br></pre></td></tr></table></figure>
+由于Phoenix不在本文章讨论范围，可以参考：<a target="_blank" rel="noopener" href="http://phoenix.apache.org/secondary_indexing.html">Secondary Indexing</a><h4 id="关于Phoenix多说一句"><a href="#关于Phoenix多说一句" class="headerlink" title="关于Phoenix多说一句"></a>关于Phoenix多说一句</h4>尽管本文章不会过多的介绍Phoenix，不过使用phoenix管理盐前缀，还有个十分强大的功能。不感兴趣可以直接跳过。<br>前面的加前缀的方法中提到过，我们需要在代码中手工的拼接成新的rowKey。而如果使用phoenix管理，我们可以省略拼接这部工作，phoenix会帮助我们完成：<br>这里我们新建一张表mySalt，并设计成4个分区：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> mysalt (a_key <span class="type">VARCHAR</span> <span class="keyword">PRIMARY</span> KEY, a_col <span class="type">VARCHAR</span>) SALT_BUCKETS <span class="operator">=</span> <span class="number">4</span>;</span><br></pre></td></tr></table></figure>
+<p>这是upsert前：所有区域都没有数据</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20191110230534325.png" alt="insert前"></p>
+<p>我们向其中upsert 5条数据，实际上他们的rowKey是十分相似的。但通过查看web界面，我们可以知道他们被发往了不同的Region。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upsert <span class="keyword">into</span> mysalt <span class="keyword">values</span> (<span class="string">&#x27;111&#x27;</span>,<span class="string">&#x27;jone&#x27;</span>);</span><br><span class="line">upsert <span class="keyword">into</span> mysalt <span class="keyword">values</span> (<span class="string">&#x27;112&#x27;</span>,<span class="string">&#x27;jone&#x27;</span>);</span><br><span class="line">upsert <span class="keyword">into</span> mysalt <span class="keyword">values</span> (<span class="string">&#x27;113&#x27;</span>,<span class="string">&#x27;jone&#x27;</span>);</span><br><span class="line">upsert <span class="keyword">into</span> mysalt <span class="keyword">values</span> (<span class="string">&#x27;114&#x27;</span>,<span class="string">&#x27;jone&#x27;</span>);</span><br><span class="line">upsert <span class="keyword">into</span> mysalt <span class="keyword">values</span> (<span class="string">&#x27;115&#x27;</span>,<span class="string">&#x27;jone&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20191110230733649.png" alt="insert 后"><br>这里不过多的展开。</p>
+<h3 id="加Hash值"><a href="#加Hash值" class="headerlink" title="加Hash值"></a>加Hash值</h3><p>本方案的核心思路是对本来的RowKey去其Hash值，然后构建成新的RowKey。比如：Hash+RowKey。其实Hash我们取前几位就可以了，不然RowKey会太长了。<br>使用本方法时，建表可以使用官方自带的Hash分区规则：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">hbase&gt;</span><span class="bash"> create <span class="string">&#x27;t1&#x27;</span>, <span class="string">&#x27;f1&#x27;</span>, &#123;NUMREGIONS =&gt; 15, SPLITALGO =&gt; <span class="string">&#x27;HexStringSplit&#x27;</span>&#125;</span></span><br></pre></td></tr></table></figure>
+<p>我们在代码中处理时，人为的获取rowKey的hash值，再进行拼接。这样带来了几个好处：</p>
+<ol>
+<li>根据rowKey，我们能够拿到随即后的值，这样我们就能够快速定位到Region了。</li>
+<li>通过这种办法，也能够将数据打散，避免热点问题。</li>
+</ol>
+<h4 id="加hash值的缺点"><a href="#加hash值的缺点" class="headerlink" title="加hash值的缺点"></a>加hash值的缺点</h4><ol>
+<li>只有通过rowKey来索引会快些，我们想<strong>通过其他字段</strong>查找时依旧会面临一样的问题。</li>
+<li>原本可能在一块的数据会被打散，这一定程度上会影响查询效率。而实际业务中，查询一块的数据是非常常见的需求。</li>
+</ol>
+<p>实际上，第二点是无法避免的，毕竟本文的核心就是将原本有规律的rowKey打散。在加盐前缀中，解决方案就是二级索引。其实这个思路是通用的。</p>
+<blockquote>
+<p>注意：生成Hash时，请使用Hbase自己的工具：org.apache.hadoop.hbase.util.Hash</p>
+</blockquote>
+<h3 id="更加复杂的RowKey设计"><a href="#更加复杂的RowKey设计" class="headerlink" title="更加复杂的RowKey设计"></a>更加复杂的RowKey设计</h3><p>在Hash值那个方案的缺点里，有提过一个点：我们想<strong>通过其他字段</strong>查找时，有没有办法加速呢？<br>答案是有的。但会有诸多的限制。没有rowKey设计是完美的，本节会指导一个设计思路，而非通用的办法。</p>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>其实设计思路和加Hash值差不多，简单来说，我们需要<code>利用已有字段的数据，人工拼接成出一个RowKey</code>。并且保证这个RowKey是唯一的。因为我们的RowKey里包含了这部分数据，所以我们就能够快速的找到Region。<br>当然会有很多限制，我们在末尾讨论。</p>
+<h4 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h4><p>假设我们在生产过程中，需要经常进行下列几种查询：越前面越常用。</p>
+<ol>
+<li>查询某个用户的订单数据。</li>
+<li>获得某个用户最近的订单数据。</li>
+<li>查询过去一段时间的订单数据。</li>
+</ol>
+<p>通过分析，我们知道关键是两个字段：用户，时间。<br>所以我们可以考虑利用用户ID与订单时间，来构建RowKey。比如：<code>[Hash_userID]+[UserID]+[TIME]</code><br>这样，当我们需要使用userId进行查询时，就能够提高查询速度了。</p>
+<blockquote>
+<p>Hash主要是用来打散数据。因为UserID更加重要，所以我们取UserID的hash值作为前缀。</p>
+</blockquote>
+<h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><p>我们知道，RowKey在Region里面的存储默认是按照<strong>字典排序</strong>的，对于我们刚刚创建的RowKey，新的数据反倒会在后面。这在查询时会额外浪费一些时间。所以对于第二种场景，将新数据放在老数据之前是有必要的。</p>
+<blockquote>
+<p>这里虽然说的是新旧数据，但其实是两条数据，不要和Hbase内部的version机制搞混了。</p>
+</blockquote>
+<p>所以可以进一步对RowKey中的Time进行处理，可以找一个很大的值，对于本例的时间戳来说，我们可以找Long_MaxValue来做减法，或者你找2050年的时间戳来做减法。得到新的：<code>[USERID_HASH]+[USERID]+[xxxxxx-TIME]</code>，这样就达到了逆序的效果。</p>
+<blockquote>
+<p>注意：运算后的数据位数可能不一样，可能就达不到我们想要的结果，有必要的情况下，不要忘了补位处理。</p>
+</blockquote>
+<h4 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h4><p>对于第三种场景，这种rowKey设计是无能为力的，我们仍然需要遍历所有Region。</p>
+<blockquote>
+<p>因为Hbase底部的条件查询其实类似于SQL中的Like ‘XXX%’。现阶段我们无法利用中间的数据完成过滤。</p>
+</blockquote>
+<p>所以需要根据实际业务来设计Rowkey。本节只是讲述一种非常简单的例子。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>RowKey的设计，还有很多，比如反转RowKey等等。<br>但归根结底，就是两大类：</p>
+<ol>
+<li>加盐前缀。前缀与我们的数据毫无关系。这种方案最大的缺点就是会影响查询和数据的删除修改。不过我们可以通过建立二级索引来优化这些问题。Phoenix能够帮助我们更加方便的使用加盐前缀。</li>
+<li>根据某个字段配合Hash来设计我们的RowKey。这个字段最好选用我们查询经常会用到的字段，这样能够提升大部分业务的查询速度。</li>
+</ol>
+<p>我们需要结合我们拿到的数据是什么样的，再去进行设计。<br>归根结底，Hbase是一个重写轻读的系统，设计RowKey的本来目的就是让Hbase能够更好的取写数据。通过将数据打散，肯定会影响读场景的效率。<br>但数据存下来终归是要拿来用的，设计RowKey时也要考虑读场景，尽量优化。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2019/08/17/hbase-guan-jian-can-shu-diao-you/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/08/17/hbase-guan-jian-can-shu-diao-you/" class="post-title-link" itemprop="url">HBase关键参数调优及建议</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-08-17 17:35:58" itemprop="dateCreated datePublished" datetime="2019-08-17T17:35:58+08:00">2019-08-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-17 19:34:31" itemprop="dateModified" datetime="2020-02-17T19:34:31+08:00">2020-02-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HBase/" itemprop="url" rel="index"><span itemprop="name">HBase</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="HBase在哪些地方调优"><a href="#HBase在哪些地方调优" class="headerlink" title="HBase在哪些地方调优"></a>HBase在哪些地方调优</h3><p>HBase用下来主要有两类需要调优的地方，是最容易影响性能，最容易出问题的步骤：Flush和Compaction。</p>
+<p>查资料时也发现很多文章并没有给这两方面的建议，有些参数还已经过时了，所以才写了这篇文章。</p>
+<p>其他的比如网络超时时间等参数，GC选择可以参考其他文章。</p>
+<h3 id="Flush"><a href="#Flush" class="headerlink" title="Flush"></a>Flush</h3><h4 id="MemStore级别限制：（主要优化项）"><a href="#MemStore级别限制：（主要优化项）" class="headerlink" title="MemStore级别限制：（主要优化项）"></a>MemStore级别限制：（主要优化项）</h4><p>当Region的任意一个memstore的size 达到阈值时触发。这个是最正常的Flush，建议将参数调大，防止频繁的Flush操作。</p>
+<p>涉及参数：hbase.hregion.memstore.flush.size(默认128M) </p>
+<p>建议：调至256~512M左右。</p>
+<h4 id="Region级别限制："><a href="#Region级别限制：" class="headerlink" title="Region级别限制："></a>Region级别限制：</h4><p>当一个Region所有的memstore的size的和达到阈值时，会触发。</p>
+<p>涉及参数：hbase.hregion.memstore.block.multipiler(默认2) * hbase.hregion.memstore.flush.size(上一项中的参数)。</p>
+<p>建议：（前者）设置得略大于 列簇数（假如设置为4，则建表时列族不要超过3）</p>
+<h4 id="regionServer级别限制"><a href="#regionServer级别限制" class="headerlink" title="regionServer级别限制"></a>regionServer级别限制</h4><p>这个灾难的(<strong>需要调优避免</strong>) (会<strong>影响这台机器上的所有表</strong>)</p>
+<p>当RegionServer所有的memstore的size之和，超过低水位线。<strong>RS强制Flush</strong>，先从MemStore最大的开始，直到<strong>总的大小下降到低水位线以下</strong>。如果此时吞吐量依然很高，达到了高水位线，会触发阻塞Flush。直到大小降低到低水位线。</p>
+<p>这里的参数也和hbase.hregion.memstore.flush.size惜惜相关，所以具体设置时需要一起算一下。</p>
+<p>涉及参数：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>建议</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>JVM堆内存 -Xmx ， -Xms</td>
+<td>(默认50M),RS进程的堆内存.建议物理机32G。非物理机20~30G。<br />如果内存吃紧也可调低。重点调整。</td>
+</tr>
+<tr>
+<td>hbase.regionserver.global.memstore.size<br />或<br />hbase.regionserver.global.memstore.upperlimit（已过期）</td>
+<td>(默认0.4)不调<br />RS进程的堆内存*本参数 ==&gt; 高水位线</td>
+</tr>
+<tr>
+<td>hbase.regionserver.global.memstore.size.lower.limit<br />或<br />hbase.regionserver.global.memstore.lowerLimit（已过期）</td>
+<td>(默认0.95)，设置必须要&gt;=0.9。一般不用管。<br />高水位线*本参数 ==&gt; 低水位线</td>
+</tr>
+</tbody></table>
+<h4 id="HLog级别限制：（重点）"><a href="#HLog级别限制：（重点）" class="headerlink" title="HLog级别限制：（重点）"></a>HLog级别限制：（重点）</h4><p>一个RegionServer上HLog总的大小达到会触发。系统会选取最早的HLog对应的一个或多个Region进行Flush。</p>
+<p>涉及参数：hbase.regionserver.maxlogs（默认32）（一个Region Server中HLog数量）</p>
+<p>建议：当我们调整了hbase.hregion.memstore.flush.size后，也需要调整这个参数，否则这个参数一样会频繁的触发Flush。本参数建议根据hbase.hregion.memstore.flush.size的调整来设置。具体设置可以参考<a target="_blank" rel="noopener" href="https://issues.apache.org/jira/browse/HBASE-14951">HBASE-14951</a></p>
+<h4 id="定期Flush"><a href="#定期Flush" class="headerlink" title="定期Flush"></a>定期Flush</h4><p>如果我们很久没有对 HBase 的数据进行更新，hbase会起一个线程flush所有memstore。默认周期为1h。这里的定期有一定的随机延迟（20000左右）。</p>
+<p>涉及参数：hbase.regionserver.optionalcacheflushinterval（默认3600000）（单位ms）</p>
+<p>建议：建议调大，但这个根据集群的压力来判断，没有一个合适的值，过短的Flush可能会造成小文件问题。</p>
+<h4 id="手动触发flush"><a href="#手动触发flush" class="headerlink" title="手动触发flush"></a>手动触发flush</h4><p>flush ‘table_name’ 刷写单个表</p>
+<p>flush ‘region_name’ 刷写单个region</p>
+<h4 id="重点"><a href="#重点" class="headerlink" title="重点"></a>重点</h4><ol>
+<li>hbase.hregion.memstore.flush.size</li>
+<li>HBase的堆内存</li>
+<li>HLog级别限制。</li>
+</ol>
+<h3 id="Compaction"><a href="#Compaction" class="headerlink" title="Compaction"></a>Compaction</h3><p>合并在HBase里分为大合并和小合并：</p>
+<ul>
+<li>小合并容易发生，且允许发生。小合并主要用来将数量过多的HFile进行合并。（仅仅合并而已）</li>
+<li>大文件尽量不要发生。大合并主要是用来处理update(超过版本数)，delete，ddl产生的多余文件。</li>
+</ul>
+<p>讨论这块的调优还是跟着触发时机来看：</p>
+<h4 id="小合并"><a href="#小合并" class="headerlink" title="小合并"></a>小合并</h4><p>触发及处理：同一个Region下，HFile数量过多，读取效率低。类似于小文件合并。选择相邻的一部分HFile文件，合成一个文件。(仅仅合并)</p>
+<p>触发条件：</p>
+<ul>
+<li><p>数量出发</p>
+<p>每次memstore级别的flush之后，都要对当前的HFile的<strong>文件数量</strong>进行判断，一旦大于就会触发合并。</p>
+<p>涉及参数：hbase.hstore.compactionThreshold(默认3)</p>
+<p>建议：一般不用调整，如果写入qps较高比较大，可以略微调高至5左右。调整该参数建议同时调整<strong>hbase.hstore.compaction.max</strong>至同样的倍数</p>
+</li>
+<li><p>时间触发</p>
+<p>到达参数设置的时间后，会进行检查。一旦达到要求。就会触发合并。</p>
+<p>涉及参数：hbase.server.thread.wakefrequency * hbase.server.compactchecker.interval.multiplier</p>
+<p>建议：一般不用调整。</p>
+</li>
+</ul>
+<p>其他参数：</p>
+<p>hbase.hstore.blockingStoreFiles：默认为10，表示一旦某个store中文件数大于该阈值，就会导致所有更新阻塞。建议逐步调大至100，特别是出现“Too many HFiles, delaying flush”时。</p>
+<p>hbase.regionserver.thread.compaction.small：小合并的线程数。默认为1。建议调整为3/5。但不能过大。</p>
+<h4 id="大合并"><a href="#大合并" class="headerlink" title="大合并"></a>大合并</h4><p>一句话：避免自动大合并，所以把<strong>hbase.hregion.majorcompaction</strong>设置为0。写个脚本在业务低谷期去定期大合并。</p>
+<p>大合并主要清除3类数据：</p>
+<ul>
+<li>清理TTL：假如table设置了过期时间，大合并会清理已过期的数据</li>
+<li>清理put造成的多版本。（版本号超过设定）</li>
+<li>清理delete操作造成的多版本。</li>
 </ul>
 
-<div id="mobile-nav" class="side-nav sidenav">
-
-    <div class="mobile-head bg-color">
-        
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
-        
-        <div class="logo-name">Ssiu Blog</div>
-        <div class="logo-desc">
-            
-            Never really desperate, only the lost of the soul.
-            
-        </div>
+      
     </div>
 
     
-
-    <ul class="menu-list mobile-menu-list">
-        
-        <li class="m-nav-item">
-	  
-		<a href="/" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-home"></i>
-			
-			首页
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/tags" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-tags"></i>
-			
-			标签
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/categories" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bookmark"></i>
-			
-			分类
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/archives" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-archive"></i>
-			
-			归档
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/about" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-user-circle"></i>
-			
-			关于
-		</a>
-          
-        </li>
-        
-        
-    </ul>
-</div>
-
-        </div>
-
-        
-    </nav>
-
-</header>
-
     
-    <div class="bg-cover pd-header about-cover">
-    <div class="container">
-    <div class="row">
-    <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
-        <div class="brand">
-            <div class="title center-align">
-                
-                Spark Hadoop Hbase
-                
-            </div>
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
-            <div class="description center-align">
-                
-                <span id="subtitle"></span>
-                <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
-                <script>
-                    var typed = new Typed("#subtitle", {
-                        strings: ['无名小站','无名小站'],
-                        startDelay: 300,
-                        typeSpeed: 100,
-                        loop: true,
-                        backSpeed: 50,
-                        showCursor: true
-                    });
-                </script>
-                
-            </div>
-        </div>
-    </div>
-</div>
 
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
 
 <script>
-    // 每天切换 banner 图.  Switch banner image every day.
-    $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay() + '.jpg)');
-</script>
-
-
-    </div>
-</div>
-
-
-<main class="content">
-
-    
-
-    
-
-    <!-- 所有文章卡片 -->
-    <article id="articles" class="container articles">
-        <div class="row article-row">
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/09/30/spark-ren-wu-ti-jiao-liu-cheng/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Spark任务提交流程">
-                            
-                            <span class="card-title">Spark任务提交流程</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                前言：通过源码，整理了下Spark-submit任务提交-&gt;执行流程。源码中其实有很多保证可靠性的判断代码，这边会将不那么核心的源码略去，所以贴的代码实际与源码会有些许区别。不过源码中的英文注释会保留重要的。任务执行流程会放在另一篇博
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-09-30
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Spark/" class="post-category">
-                                    Spark
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Spark/">
-                            <span class="chip bg-color">Spark</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/08/05/tong-guo-baserelation-zi-ding-yi-sparksql-shu-ju-yuan/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="通过BaseRelation自定义SparkSQL数据源">
-                            
-                            <span class="card-title">通过BaseRelation自定义SparkSQL数据源</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                前言使用org.apache.spark.sql.sources.interfaces中的接口可以实现自定义SparkSql数据源。不过对此在官网和相关书籍中没有找到相关信息，使用网上资料实际使用时其实遇到很多坑，特此记录下。本身是用Spa
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-08-05
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Spark/" class="post-category">
-                                    Spark
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Spark/">
-                            <span class="chip bg-color">Spark</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/07/01/scala-zhong-de-option-try-either-lei-xing-jian-jie/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="Scala中的Option、Try、Either类型简介">
-                            
-                            <span class="card-title">Scala中的Option、Try、Either类型简介</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                Scala中的异常处理Scala提供了许多选择来处理异常的数据。总的来说，三种类型解决三个方面的问题：
-
-Option：Null或空指针问题。
-
-Try：运行时函数抛出异常的问题。
-
-Either：返回值不确定的问题
-
-Scala版本：2.
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-07-01
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Scala/" class="post-category">
-                                    Scala
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Scala/">
-                            <span class="chip bg-color">Scala</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/06/16/shuffle-in-spark/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="Shuffle in Spark">
-                            
-                            <span class="card-title">Shuffle in Spark</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                什么是ShuffleShuffle简单来说就是将同一特征的数据经过网络/磁盘IO，分别分发聚集到各自的Executor上，因为这个过程涉及着数据的落地，传输。自然是费性能的。在Spark中，负责shuffle过程的执行、计算和处理的组件主要
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-06-16
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Spark/" class="post-category">
-                                    Spark
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Spark/">
-                            <span class="chip bg-color">Spark</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/05/17/hadoop-shi-yong-lzo-ya-suo/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Hadoop使用LZO压缩">
-                            
-                            <span class="card-title">Hadoop使用LZO压缩</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                为什么要使用LZO压缩。Hadoop目前支持的压缩中，用得多的主要有：Snappy，Bzip2，LZO。
-其中：
-
-
-
-压缩格式
-特点
-
-
-
-Bzip2
-压缩率高，可切分。
-
-
-LZO
-压缩率中，速度快，可建索引来完成分片。
-
-
-Snapp
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-05-17
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Hadoop/" class="post-category">
-                                    Hadoop
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Hadoop/">
-                            <span class="chip bg-color">Hadoop</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/04/15/spark-nei-cun-guan-li/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="Spark内存管理">
-                            
-                            <span class="card-title">Spark内存管理</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                Spark的内存管理Spark的内存管理一共分为了：UnifiedMemoryManager和StaticMemoryManager。1.6以后Spark默认会使用前者。本文主要讨论在yarn上运行的情况。大体上是一样的。
-
-Version
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-04-15
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Spark/" class="post-category">
-                                    Spark
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Spark/">
-                            <span class="chip bg-color">Spark</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-        </div>
-    </article>
-
-</main>
-
-
-<div class="container paging">
-    <div class="row">
-        <div class="col s6 m4 l4">
-            
-            <a href="/page/6/"
-               class="left btn-floating btn-large waves-effect waves-light bg-color">
-                <i class="fas fa-angle-left"></i>
-            </a>
-            
-        </div>
-        <div class="page-info col m4 l4 hide-on-small-only">
-            <div class="center-align b-text-gray">7 / 9</div>
-        </div>
-        <div class="col s6 m4 l4">
-            
-            <a href="/page/8/"
-               class="right btn-floating btn-large waves-effect waves-light bg-color">
-                <i class="fas fa-angle-right"></i>
-            </a>
-            
-        </div>
-    </div>
-</div>
-
-
-
-
-    <footer class="page-footer bg-color">
-    <div class="container row center-align" style="margin-bottom: 0px !important;">
-        <div class="col s12 m8 l8 copy-right">
-            Copyright&nbsp;&copy;
-            <span id="year">2017-2020</span>
-            <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
-            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
-            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
-            <br>
-            
-            
-            
-            
-            
-            
-            <span id="busuanzi_container_site_pv" style="display:none">
-                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
-                    class="white-color"></span>&nbsp;次
-            </span>
-            
-            
-            <span id="busuanzi_container_site_uv" style="display:none">
-                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
-                    class="white-color"></span>&nbsp;人
-            </span>
-            
-            
-        </div>
-        <div class="col s12 m4 l4 social-link social-statis">
-
-
-    <a href="mailto:smokeriu@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
-        <i class="fas fa-envelope-open"></i>
-    </a>
-
-
-
-
-
-
-
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=604522169" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 604522169" data-position="top" data-delay="50">
-        <i class="fab fa-qq"></i>
-    </a>
-
-
-
-
-
-
-
-</div>
-    </div>
-</footer>
-
-<div class="progress-bar"></div>
-
-<script language=javascript>
-    function siteTime() {
-        window.setTimeout("siteTime()", 1000);
-        var seconds = 1000;
-        var minutes = seconds * 60;
-        var hours = minutes * 60;
-        var days = hours * 24;
-	var months = days * 30;
-        var years = days * 365;
-        var today = new Date();
-        var todayYear = today.getFullYear();
-        var todayMonth = today.getMonth() + 1;
-        var todayDate = today.getDate();
-        var todayHour = today.getHours();
-        var todayMinute = today.getMinutes();
-        var todaySecond = today.getSeconds();
-        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
-        year - 作为date对象的年份，为4位年份值
-        month - 0-11之间的整数，做为date对象的月份
-        day - 1-31之间的整数，做为date对象的天数
-        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
-        minutes - 0-59之间的整数，做为date对象的分钟数
-        seconds - 0-59之间的整数，做为date对象的秒数
-        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
-        var t1 = Date.UTC(2017, 02, 12, 00, 00, 00); //北京时间2018-2-13 00:00:00
-        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
-        var diff = t2 - t1;
-        var diffYears = Math.floor(diff / years);
-        var diffDays = Math.floor((diff / days) - diffYears * 365);
-        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
-        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
-        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
-        document.getElementById("sitetime").innerHTML = "本站已运行 " +diffYears+" 年 "+diffDays + " 天 ";
-    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
-    siteTime();
-</script>
-
-
-<script>
-    $(document).ready(function () {
-
-        var int = setInterval(fixCount, 50);  // 50ms周期检测函数
-        var pvcountOffset = 5423;  // 初始化首次数据
-        var uvcountOffset = 3322;
-
-        function fixCount() {
-            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
-                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
-                clearInterval(int);
-            }
-            if ($("#busuanzi_container_site_pv").css("display") != "none") {
-                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
-                clearInterval(int); // 停止检测
-            }
-        }
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
     });
+  }
 </script>
 
-
-
-    <!-- 搜索遮罩框 -->
-<div id="searchModal" class="modal">
-    <div class="modal-content">
-        <div class="search-header">
-            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
-            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
-                   class="search-input">
         </div>
-        <div id="searchResult"></div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ssiu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
     </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ssiu</span>
 </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
 
-<script src="/js/search.js"></script>
-<script type="text/javascript">
-$(function () {
-    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
-});
-</script>
-    <!-- 回到顶部按钮 -->
-<div id="backTop" class="top-scroll">
-    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
-        <i class="fas fa-arrow-up"></i>
-    </a>
-</div>
+        
 
 
-    <script src="/libs/materialize/materialize.min.js"></script>
-    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
-    <script src="/libs/aos/aos.js"></script>
-    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
-    <script src="/js/matery.js"></script>
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <!-- Baidu Analytics -->
 
-    <!-- Baidu Push -->
 
-<script>
-    (function () {
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        } else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-</script>
 
-    
-    
-    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
-    
 
-    
+      </div>
+    </footer>
+  </div>
 
-    
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
-    
+<script src="/js/utils.js"></script>
 
-    
+<script src="/js/motion.js"></script>
 
-    
-    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
-    
-    
-    
-    <script src="/libs/instantpage/instantpage.js" type="module"></script>
-    
 
-</body>
+<script src="/js/schemes/pisces.js"></script>
 
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
 </html>

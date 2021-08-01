@@ -1,432 +1,224 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="zh-CN">
-
-
 <head>
-    <meta charset="utf-8">
-    <meta name="keywords" content="go入门, Ssiu Blog">
-    <meta name="description" content="数据类型变量定义// 数据类型在后。与scala类似（不过不需要引号）
-// 所有数据会有个初始值。int为0
-var a int
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-// 能够自动进行类型推断。属性可省略
-var a = 1
-
-// 可以使用 := 定义变量
-a := 1">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="renderer" content="webkit|ie-stand|ie-comp">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>go入门 | Ssiu Blog</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
-
-    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
-    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/matery.css">
-    <link rel="stylesheet" type="text/css" href="/css/my.css">
-
-    <script src="/libs/jquery/jquery.min.js"></script>
-    
-<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<link rel="stylesheet" href="/css/main.css">
 
 
-<body>
-    <header class="navbar-fixed">
-    <nav id="headNav" class="bg-color nav-transparent">
-        <div id="navContainer" class="nav-wrapper container">
-            <div class="brand-logo">
-                <a href="/" class="waves-effect waves-light">
-                    
-                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
-                    
-                    <span class="logo-span">Ssiu Blog</span>
-                </a>
-            </div>
-            
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-material.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
 
-<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
-<ul class="right nav-menu">
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.ibuer.fun","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="数据类型变量定义1234567891011121314151617181920212223242526272829&#x2F;&#x2F; 数据类型在后。与scala类似（不过不需要引号）&#x2F;&#x2F; 所有数据会有个初始值。int为0var a int&#x2F;&#x2F; 能够自动进行类型推断。属性可省略var a &#x3D; 1&#x2F;&#x2F; 可以使用 :&#x3D; 定义变量a :&#x3D; 1&#x2F;&#x2F; 包变量（方法外变量，类似于java的全局变量），必须使用var定义，而不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="go入门">
+<meta property="og:url" content="http://blog.ibuer.fun/2021/06/20/go-ru-men/index.html">
+<meta property="og:site_name" content="Ssiu Blog">
+<meta property="og:description" content="数据类型变量定义1234567891011121314151617181920212223242526272829&#x2F;&#x2F; 数据类型在后。与scala类似（不过不需要引号）&#x2F;&#x2F; 所有数据会有个初始值。int为0var a int&#x2F;&#x2F; 能够自动进行类型推断。属性可省略var a &#x3D; 1&#x2F;&#x2F; 可以使用 :&#x3D; 定义变量a :&#x3D; 1&#x2F;&#x2F; 包变量（方法外变量，类似于java的全局变量），必须使用var定义，而不">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210620171841.png">
+<meta property="og:image" content="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210620172136.png">
+<meta property="article:published_time" content="2021-06-20T05:00:12.000Z">
+<meta property="article:modified_time" content="2021-06-30T14:04:06.713Z">
+<meta property="article:author" content="Ssiu">
+<meta property="article:tag" content="Go">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210620171841.png">
+
+<link rel="canonical" href="http://blog.ibuer.fun/2021/06/20/go-ru-men/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>go入门 | Ssiu Blog</title>
   
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/" class="waves-effect waves-light">
-      
-      <i class="fas fa-home" style="zoom: 0.6;"></i>
-      
-      <span>首页</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/tags" class="waves-effect waves-light">
-      
-      <i class="fas fa-tags" style="zoom: 0.6;"></i>
-      
-      <span>标签</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/categories" class="waves-effect waves-light">
-      
-      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
-      
-      <span>分类</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/archives" class="waves-effect waves-light">
-      
-      <i class="fas fa-archive" style="zoom: 0.6;"></i>
-      
-      <span>归档</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/about" class="waves-effect waves-light">
-      
-      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
-      
-      <span>关于</span>
-    </a>
-    
-  </li>
-  
-  <li>
-    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
-      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
-    </a>
-  </li>
-</ul>
 
-<div id="mobile-nav" class="side-nav sidenav">
 
-    <div class="mobile-head bg-color">
-        
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
-        
-        <div class="logo-name">Ssiu Blog</div>
-        <div class="logo-desc">
-            
-            Never really desperate, only the lost of the soul.
-            
-        </div>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
+  </div>
 
-    
+  <div class="site-meta">
 
-    <ul class="menu-list mobile-menu-list">
-        
-        <li class="m-nav-item">
-	  
-		<a href="/" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-home"></i>
-			
-			首页
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/tags" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-tags"></i>
-			
-			标签
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/categories" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bookmark"></i>
-			
-			分类
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/archives" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-archive"></i>
-			
-			归档
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/about" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-user-circle"></i>
-			
-			关于
-		</a>
-          
-        </li>
-        
-        
-    </ul>
-</div>
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ssiu Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-        </div>
-
-        
-    </nav>
-
-</header>
-
-    
-
-
-
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
-    <div class="container" style="right: 0px;left: 0px;">
-        <div class="row">
-            <div class="col s12 m12 l12">
-                <div class="brand">
-                    <h1 class="description center-align post-title">go入门</h1>
-                </div>
-            </div>
-        </div>
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
     </div>
+  </div>
 </div>
 
 
 
 
-<main class="post-container content">
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
 
     
-    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
-<style>
-    #articleContent h1::before,
-    #articleContent h2::before,
-    #articleContent h3::before,
-    #articleContent h4::before,
-    #articleContent h5::before,
-    #articleContent h6::before {
-        display: block;
-        content: " ";
-        height: 100px;
-        margin-top: -100px;
-        visibility: hidden;
-    }
 
-    #articleContent :focus {
-        outline: none;
-    }
 
-    .toc-fixed {
-        position: fixed;
-        top: 64px;
-    }
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
 
-    .toc-widget {
-        width: 345px;
-        padding-left: 20px;
-    }
+          <div class="content post posts-expand">
+            
 
-    .toc-widget .toc-title {
-        margin: 35px 0 15px 0;
-        padding-left: 17px;
-        font-size: 1.5rem;
-        font-weight: bold;
-        line-height: 1.5rem;
-    }
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2021/06/20/go-ru-men/">
 
-    .toc-widget ol {
-        padding: 0;
-        list-style: none;
-    }
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
 
-    #toc-content {
-        height: calc(100vh - 250px);
-        overflow: auto;
-    }
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          go入门
+        </h1>
 
-    #toc-content ol {
-        padding-left: 10px;
-    }
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
 
-    #toc-content ol li {
-        padding-left: 10px;
-    }
+              <time title="创建时间：2021-06-20 13:00:12" itemprop="dateCreated datePublished" datetime="2021-06-20T13:00:12+08:00">2021-06-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-30 22:04:06" itemprop="dateModified" datetime="2021-06-30T22:04:06+08:00">2021-06-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
+                </span>
+            </span>
 
-    #toc-content .toc-link:hover {
-        color: #42b983;
-        font-weight: 700;
-        text-decoration: underline;
-    }
-
-    #toc-content .toc-link::before {
-        background-color: transparent;
-        max-height: 25px;
-    }
-
-    #toc-content .is-active-link {
-        color: #42b983;
-    }
-
-    #toc-content .is-active-link::before {
-        background-color: #42b983;
-    }
-
-    #floating-toc-btn {
-        position: fixed;
-        right: 15px;
-        bottom: 76px;
-        padding-top: 15px;
-        margin-bottom: 0;
-        z-index: 998;
-    }
-
-    #floating-toc-btn .btn-floating {
-        width: 48px;
-        height: 48px;
-    }
-
-    #floating-toc-btn .btn-floating i {
-        line-height: 48px;
-        font-size: 1.4rem;
-    }
-</style>
-<div class="row">
-    <div id="main-content" class="col s12 m12 l9">
-        <!-- 文章内容详情 -->
-<div id="artDetail">
-    <div class="card">
-        <div class="card-content article-info">
-            <div class="row tag-cate">
-                <div class="col s7">
-                    
-                    <div class="article-tag">
-                        
-                            <a href="/tags/Go/">
-                                <span class="chip bg-color">Go</span>
-                            </a>
-                        
-                    </div>
-                    
-                </div>
-                <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/Go/" class="post-category">
-                                Go
-                            </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-
-            <div class="post-info">
-                
-                <div class="post-date info-break-policy">
-                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-06-20
-                </div>
-                
-
-                
-
-                
-
-                
-
-                
-            </div>
+          
 
         </div>
-        <hr class="clearfix">
-        <div class="card-content article-card-content">
-            <div id="articleContent">
-                <h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="变量定义"><a href="#变量定义" class="headerlink" title="变量定义"></a>变量定义</h3><pre class=" language-go"><code class="language-go"><span class="token comment" spellcheck="true">// 数据类型在后。与scala类似（不过不需要引号）</span>
-<span class="token comment" spellcheck="true">// 所有数据会有个初始值。int为0</span>
-<span class="token keyword">var</span> a <span class="token builtin">int</span>
+      </header>
 
-<span class="token comment" spellcheck="true">// 能够自动进行类型推断。属性可省略</span>
-<span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">1</span>
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
-<span class="token comment" spellcheck="true">// 可以使用 := 定义变量</span>
-a <span class="token operator">:=</span> <span class="token number">1</span>
+      
+        <h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="变量定义"><a href="#变量定义" class="headerlink" title="变量定义"></a>变量定义</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 数据类型在后。与scala类似（不过不需要引号）</span></span><br><span class="line"><span class="comment">// 所有数据会有个初始值。int为0</span></span><br><span class="line"><span class="keyword">var</span> a <span class="keyword">int</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 能够自动进行类型推断。属性可省略</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 可以使用 := 定义变量</span></span><br><span class="line">a := <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 包变量（方法外变量，类似于java的全局变量），必须使用var定义，而不能使用 :=</span></span><br><span class="line"><span class="keyword">var</span> aa = <span class="string">&quot;a&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义多个变量时。可以使用 var()</span></span><br><span class="line"><span class="keyword">var</span>(</span><br><span class="line">	a = <span class="number">1</span></span><br><span class="line">  b = <span class="string">&quot;a&quot;</span></span><br><span class="line">  c = <span class="string">&quot;d&quot;</span></span><br><span class="line">)</span><br><span class="line"><span class="comment">// 也可以使用如下方式同时定义</span></span><br><span class="line"><span class="keyword">var</span> aa,bb,cc = <span class="number">1</span>,<span class="string">&quot;2&quot;</span>,<span class="literal">true</span></span><br><span class="line">aa,bb,cc := <span class="number">1</span>,<span class="string">&quot;2&quot;</span>,<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 变量定义完后类型是确定的。go不会进行隐式数据类型转换</span></span><br><span class="line"><span class="comment">// 如使用math.Sqrt(x)时，x必须传入float</span></span><br><span class="line">a, b := <span class="number">1</span>, <span class="number">2</span></span><br><span class="line">math.Sqrt(<span class="keyword">float64</span>(a*a + b*b))</span><br><span class="line"></span><br><span class="line"><span class="comment">// go中，定义了的变量必须要用到</span></span><br></pre></td></tr></table></figure>
 
-<span class="token comment" spellcheck="true">// 包变量（方法外变量，类似于java的全局变量），必须使用var定义，而不能使用 :=</span>
-<span class="token keyword">var</span> aa <span class="token operator">=</span> <span class="token string">"a"</span>
+<h3 id="常量定义"><a href="#常量定义" class="headerlink" title="常量定义"></a>常量定义</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用const定义常量，类似于scala中的val，java中的final</span></span><br><span class="line"><span class="comment">// int可以省略</span></span><br><span class="line"><span class="comment">// go中首字母大写有含义，故常量不会全部大写。</span></span><br><span class="line"><span class="keyword">const</span> a <span class="keyword">int</span> = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 未指定int时，a能够被识别为数字数据类型</span></span><br><span class="line"><span class="comment">// 不需要像var一样强制转换</span></span><br><span class="line"><span class="keyword">const</span> a, b = <span class="number">3</span>, <span class="number">4</span></span><br><span class="line">math.Sqrt(a*a + b*b)</span><br><span class="line"></span><br><span class="line"><span class="comment">// go中没有枚举类型。可利用const定义枚举</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">enums</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="keyword">const</span> (</span><br><span class="line">  	cpp = <span class="number">1</span></span><br><span class="line">    java = <span class="number">2</span></span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义有递增关系的枚举。可使用iota</span></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	a = <span class="literal">iota</span> <span class="comment">// 0</span></span><br><span class="line">  b				 <span class="comment">// 1</span></span><br><span class="line">  c				 <span class="comment">// 2</span></span><br><span class="line">)</span><br><span class="line"><span class="comment">// 也可以使用公式</span></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">  aa = <span class="number">2</span> * (<span class="number">1</span> + <span class="literal">iota</span>) <span class="comment">// 2 </span></span><br><span class="line">  bb                  <span class="comment">// 4</span></span><br><span class="line">  cc                  <span class="comment">// 6</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
-<span class="token comment" spellcheck="true">// 定义多个变量时。可以使用 var()</span>
-<span class="token keyword">var</span><span class="token punctuation">(</span>
-    a <span class="token operator">=</span> <span class="token number">1</span>
-  b <span class="token operator">=</span> <span class="token string">"a"</span>
-  c <span class="token operator">=</span> <span class="token string">"d"</span>
-<span class="token punctuation">)</span>
-<span class="token comment" spellcheck="true">// 也可以使用如下方式同时定义</span>
-<span class="token keyword">var</span> aa<span class="token punctuation">,</span>bb<span class="token punctuation">,</span>cc <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span><span class="token string">"2"</span><span class="token punctuation">,</span><span class="token boolean">true</span>
-aa<span class="token punctuation">,</span>bb<span class="token punctuation">,</span>cc <span class="token operator">:=</span> <span class="token number">1</span><span class="token punctuation">,</span><span class="token string">"2"</span><span class="token punctuation">,</span><span class="token boolean">true</span>
-
-<span class="token comment" spellcheck="true">// 变量定义完后类型是确定的。go不会进行隐式数据类型转换</span>
-<span class="token comment" spellcheck="true">// 如使用math.Sqrt(x)时，x必须传入float</span>
-a<span class="token punctuation">,</span> b <span class="token operator">:=</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span>
-math<span class="token punctuation">.</span><span class="token function">Sqrt</span><span class="token punctuation">(</span><span class="token function">float64</span><span class="token punctuation">(</span>a<span class="token operator">*</span>a <span class="token operator">+</span> b<span class="token operator">*</span>b<span class="token punctuation">)</span><span class="token punctuation">)</span>
-
-<span class="token comment" spellcheck="true">// go中，定义了的变量必须要用到</span></code></pre>
-<h3 id="常量定义"><a href="#常量定义" class="headerlink" title="常量定义"></a>常量定义</h3><pre class=" language-go"><code class="language-go"><span class="token comment" spellcheck="true">// 使用const定义常量，类似于scala中的val，java中的final</span>
-<span class="token comment" spellcheck="true">// int可以省略</span>
-<span class="token comment" spellcheck="true">// go中首字母大写有含义，故常量不会全部大写。</span>
-<span class="token keyword">const</span> a <span class="token builtin">int</span> <span class="token operator">=</span> <span class="token number">1</span>
-
-<span class="token comment" spellcheck="true">// 未指定int时，a能够被识别为数字数据类型</span>
-<span class="token comment" spellcheck="true">// 不需要像var一样强制转换</span>
-<span class="token keyword">const</span> a<span class="token punctuation">,</span> b <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span>
-math<span class="token punctuation">.</span><span class="token function">Sqrt</span><span class="token punctuation">(</span>a<span class="token operator">*</span>a <span class="token operator">+</span> b<span class="token operator">*</span>b<span class="token punctuation">)</span>
-
-<span class="token comment" spellcheck="true">// go中没有枚举类型。可利用const定义枚举</span>
-<span class="token keyword">func</span> <span class="token function">enums</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-  <span class="token keyword">const</span> <span class="token punctuation">(</span>
-      cpp <span class="token operator">=</span> <span class="token number">1</span>
-    java <span class="token operator">=</span> <span class="token number">2</span>
-  <span class="token punctuation">)</span>
-<span class="token punctuation">}</span>
-
-<span class="token comment" spellcheck="true">// 定义有递增关系的枚举。可使用iota</span>
-<span class="token keyword">const</span> <span class="token punctuation">(</span>
-    a <span class="token operator">=</span> <span class="token boolean">iota</span> <span class="token comment" spellcheck="true">// 0</span>
-  b                 <span class="token comment" spellcheck="true">// 1</span>
-  c                 <span class="token comment" spellcheck="true">// 2</span>
-<span class="token punctuation">)</span>
-<span class="token comment" spellcheck="true">// 也可以使用公式</span>
-<span class="token keyword">const</span> <span class="token punctuation">(</span>
-  aa <span class="token operator">=</span> <span class="token number">2</span> <span class="token operator">*</span> <span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">+</span> <span class="token boolean">iota</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 2 </span>
-  bb                  <span class="token comment" spellcheck="true">// 4</span>
-  cc                  <span class="token comment" spellcheck="true">// 6</span>
-<span class="token punctuation">)</span></code></pre>
 <h3 id="数据类型-1"><a href="#数据类型-1" class="headerlink" title="数据类型"></a>数据类型</h3><p>go的内建类型与java等有一定区别。</p>
 <ul>
 <li><code>bool</code>， <code>string</code>， <code>byte</code><ul>
@@ -436,7 +228,12 @@ math<span class="token punctuation">.</span><span class="token function">Sqrt</s
 <li><code>(u)int</code>，<code>(u)int8/16/32/64</code>，<code>uintptr</code><ul>
 <li><code>(u)int</code>为不定长整形。具体范围视设备/运行的操作系统决定。带u的为无符号整型。</li>
 <li><code>(u)int8/16/32/64</code>为定长整型。</li>
-<li><code>uintptr</code>为指针</li>
+<li><code>uintptr</code>为指针<ul>
+<li><code>var i = *T</code>：变量<code>i</code>是一个指向T类型值的指针。</li>
+<li><code>t := &quot;1&quot; ; r := &amp;t</code>：<code>t</code>是一个字符串变量，<code>r</code>表示一个指向变量t的指针</li>
+<li><code>l := *r</code>：<code>r</code>若为指针，则变量<code>l</code>表示表示指针指向变量的本身，即<code>t</code></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><code>float32/64</code>，<code>complex64/128</code><ul>
@@ -456,76 +253,15 @@ math<span class="token punctuation">.</span><span class="token function">Sqrt</s
 </li>
 <li><p>可以在<code>if</code>后直接跟变量定义</p>
 </li>
-<li><pre class=" language-go"><code class="language-go"><span class="token comment" spellcheck="true">// 不需要小括号</span>
-<span class="token keyword">if</span> a <span class="token operator">==</span> <span class="token number">3</span> <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// do something1</span>
-<span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token keyword">if</span> a <span class="token operator">==</span> <span class="token number">2</span> <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// do something2</span>
-<span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// do something3</span>
-<span class="token punctuation">}</span>
-
-<span class="token comment" spellcheck="true">// if后跟定义. a 只能在if的作用域中使用</span>
-<span class="token keyword">if</span> a <span class="token operator">:=</span> <span class="token function">func1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> a <span class="token operator">==</span> <span class="token number">1</span> <span class="token punctuation">{</span>
-  fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span>
-<span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token keyword">if</span> a <span class="token operator">==</span> <span class="token number">2</span> <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// do something2</span>
-<span class="token punctuation">}</span><span class="token keyword">else</span><span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// do something3</span>
-<span class="token punctuation">}</span></code></pre>
-</li>
+<li><p>```go<br>// 不需要小括号<br>if a == 3 {<br>  // do something1<br>}else if a == 2 {<br>  // do something2<br>}else {<br>  // do something3<br>}</p>
+<p>// if后跟定义. a 只能在if的作用域中使用<br>if a := func1(); a == 1 {<br>  fmt.Println(a)<br>}else if a == 2 {<br>  // do something2<br>}else{<br>  // do something3<br>}</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### swith</span><br><span class="line"></span><br><span class="line">`switch`用法与java类似。只是不需要在每句后break</span><br><span class="line"></span><br><span class="line">```go</span><br><span class="line">// 可以switch某一个值</span><br><span class="line">a := 1</span><br><span class="line">switch a &#123;</span><br><span class="line">  case 1:</span><br><span class="line">	  fmt.Println(&quot;A&quot;)</span><br><span class="line">  case 2:</span><br><span class="line">	  fmt.Println(&quot;B&quot;)</span><br><span class="line">  default:</span><br><span class="line">	  fmt.Println(&quot;60&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 可以直接在case后跟条件</span><br><span class="line">a := 1</span><br><span class="line">switch &#123;</span><br><span class="line">case a &lt; 60:</span><br><span class="line">	fmt.Println(&quot;A&quot;)</span><br><span class="line">case a &gt; 60:</span><br><span class="line">	fmt.Println(&quot;B&quot;)</span><br><span class="line">default:</span><br><span class="line">	fmt.Println(&quot;60&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
-<h3 id="swith"><a href="#swith" class="headerlink" title="swith"></a>swith</h3><p><code>switch</code>用法与java类似。只是不需要在每句后break</p>
-<pre class=" language-go"><code class="language-go"><span class="token comment" spellcheck="true">// 可以switch某一个值</span>
-a <span class="token operator">:=</span> <span class="token number">1</span>
-<span class="token keyword">switch</span> a <span class="token punctuation">{</span>
-  <span class="token keyword">case</span> <span class="token number">1</span><span class="token punctuation">:</span>
-      fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"A"</span><span class="token punctuation">)</span>
-  <span class="token keyword">case</span> <span class="token number">2</span><span class="token punctuation">:</span>
-      fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"B"</span><span class="token punctuation">)</span>
-  <span class="token keyword">default</span><span class="token punctuation">:</span>
-      fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"60"</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span>
-
-<span class="token comment" spellcheck="true">// 可以直接在case后跟条件</span>
-a <span class="token operator">:=</span> <span class="token number">1</span>
-<span class="token keyword">switch</span> <span class="token punctuation">{</span>
-<span class="token keyword">case</span> a <span class="token operator">&lt;</span> <span class="token number">60</span><span class="token punctuation">:</span>
-    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"A"</span><span class="token punctuation">)</span>
-<span class="token keyword">case</span> a <span class="token operator">></span> <span class="token number">60</span><span class="token punctuation">:</span>
-    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"B"</span><span class="token punctuation">)</span>
-<span class="token keyword">default</span><span class="token punctuation">:</span>
-    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"60"</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span></code></pre>
 <h2 id="循环语句"><a href="#循环语句" class="headerlink" title="循环语句"></a>循环语句</h2><p>go中只有<code>for</code>一种循环。与java的<code>fori</code>类似，分为三段。但这三段可以任意省略。</p>
-<pre class=" language-go"><code class="language-go"><span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">30</span> <span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// do something</span>
-<span class="token punctuation">}</span>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i := <span class="number">1</span>; i &lt; <span class="number">30</span> ; i++ &#123;</span><br><span class="line">  <span class="comment">// do something</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 省略定义i，则可以使用外部变量</span></span><br><span class="line">i := <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> ; i &lt; <span class="number">30</span> ; i++ &#123;</span><br><span class="line">  <span class="comment">// do something</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 再省略递增处，则类似于一般语言的while循环</span></span><br><span class="line"><span class="comment">// 这种情况可以省略;号</span></span><br><span class="line">i := <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> i &lt; <span class="number">30</span> &#123;</span><br><span class="line">  <span class="comment">// like while</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 省略退出条件。则是死循环</span></span><br><span class="line">i := <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> ; ; i++&#123;</span><br><span class="line">  fmt.Println(i)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 可以全省略</span></span><br><span class="line">i := <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> &#123;</span><br><span class="line">  fmt.<span class="built_in">println</span>(i)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<span class="token comment" spellcheck="true">// 省略定义i，则可以使用外部变量</span>
-i <span class="token operator">:=</span> <span class="token number">1</span>
-<span class="token keyword">for</span> <span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">30</span> <span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// do something</span>
-<span class="token punctuation">}</span>
 
-<span class="token comment" spellcheck="true">// 再省略递增处，则类似于一般语言的while循环</span>
-<span class="token comment" spellcheck="true">// 这种情况可以省略;号</span>
-i <span class="token operator">:=</span> <span class="token number">1</span>
-<span class="token keyword">for</span> i <span class="token operator">&lt;</span> <span class="token number">30</span> <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// like while</span>
-<span class="token punctuation">}</span>
 
-<span class="token comment" spellcheck="true">// 省略退出条件。则是死循环</span>
-i <span class="token operator">:=</span> <span class="token number">1</span>
-<span class="token keyword">for</span> <span class="token punctuation">;</span> <span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">{</span>
-  fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span>
-<span class="token punctuation">}</span>
-<span class="token comment" spellcheck="true">// 可以全省略</span>
-i <span class="token operator">:=</span> <span class="token number">1</span>
-<span class="token keyword">for</span> <span class="token punctuation">{</span>
-  fmt<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span>
-<span class="token punctuation">}</span>
-</code></pre>
 <h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>go的函数有几个特点：</p>
 <ul>
 <li><code>func</code>关键字</li>
@@ -538,28 +274,20 @@ i <span class="token operator">:=</span> <span class="token number">1</span>
 <li>参数部分，同类型的参数可以放一起，省略类型命名</li>
 <li>对于不想要的返回值，可以使用<code>_</code>来接收</li>
 </ul>
-<pre class=" language-go"><code class="language-go"><span class="token comment" spellcheck="true">// 参数部分，同类型的参数可以放一起，省略类型命名</span>
-<span class="token keyword">func</span> <span class="token function">eval</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b <span class="token builtin">int</span><span class="token punctuation">,</span> op <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token builtin">int</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
-<span class="token comment" spellcheck="true">// 多个返回值</span>
-<span class="token keyword">func</span> <span class="token function">div</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token builtin">int</span> <span class="token builtin">int</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-  <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span>
-<span class="token punctuation">}</span>
-<span class="token comment" spellcheck="true">// 返回值命名/合并</span>
-<span class="token keyword">func</span> <span class="token function">div</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>q<span class="token punctuation">,</span> r <span class="token builtin">int</span><span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
-<span class="token comment" spellcheck="true">// 多返回值一般把第二个用来返回error</span>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 参数部分，同类型的参数可以放一起，省略类型命名</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">eval</span><span class="params">(a, b <span class="keyword">int</span>, op <span class="keyword">string</span>)</span> <span class="title">int</span></span> &#123;&#125;</span><br><span class="line"><span class="comment">// 多个返回值</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">div</span><span class="params">(a, b <span class="keyword">int</span>)</span> <span class="params">(<span class="keyword">int</span> <span class="keyword">int</span>)</span></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">1</span>, <span class="number">2</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 返回值命名/合并</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">div</span><span class="params">(a, b <span class="keyword">int</span>)</span> <span class="params">(q, r <span class="keyword">int</span>)</span></span>&#123;&#125;</span><br><span class="line"><span class="comment">// 多返回值一般把第二个用来返回error</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 丢弃不需要的返回值</span></span><br><span class="line">q, _ := div(<span class="number">13</span>, <span class="number">3</span>)</span><br><span class="line">fmt.Println(q)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<span class="token comment" spellcheck="true">// 丢弃不需要的返回值</span>
-q<span class="token punctuation">,</span> <span class="token boolean">_</span> <span class="token operator">:=</span> <span class="token function">div</span><span class="token punctuation">(</span><span class="token number">13</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>
-fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>q<span class="token punctuation">)</span>
-</code></pre>
 <ul>
 <li>函数的参数也可以是一个函数</li>
 </ul>
-<pre class=" language-go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">apply</span><span class="token punctuation">(</span>op <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token builtin">int</span><span class="token punctuation">,</span> <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token builtin">int</span> <span class="token punctuation">,</span> a <span class="token punctuation">,</span> b <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token builtin">int</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">apply</span><span class="params">(op <span class="keyword">func</span>(<span class="keyword">int</span>, <span class="keyword">int</span>)</span> <span class="title">int</span> , <span class="title">a</span> , <span class="title">b</span> <span class="title">int</span>) <span class="title">int</span></span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>go不支持默认参数等。只支持可变参数列表</li>
 </ul>
-<pre class=" language-go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">sum</span><span class="token punctuation">(</span>numbers <span class="token operator">...</span><span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token builtin">int</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(numbers ...<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h2><blockquote>
 <p>go语言的指针不能预算。只能赋值</p>
 </blockquote>
@@ -574,23 +302,14 @@ fmt<span class="token punctuation">.</span><span class="token function">Println<
 <blockquote>
 <p>定义数组时必须指定数据类型。利用函数返回值时例外</p>
 </blockquote>
-<pre class=" language-go"><code class="language-go">numbers <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">}</span>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">numbers := [<span class="number">5</span>]<span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可以不定义初始值, 此时必须制定类型+长度</span></span><br><span class="line"><span class="keyword">var</span> numbers [<span class="number">5</span>]<span class="keyword">int</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 可以由系统推断长度, 此时必须指定初始元素</span></span><br><span class="line">numbers := [...]<span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用[index]来取得索引上的值.go也是从0开始</span></span><br><span class="line">a := numbers[<span class="number">0</span>] <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
 
-<span class="token comment" spellcheck="true">// 可以不定义初始值, 此时必须制定类型+长度</span>
-<span class="token keyword">var</span> numbers <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token builtin">int</span>
-
-<span class="token comment" spellcheck="true">// 可以由系统推断长度, 此时必须指定初始元素</span>
-numbers <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">}</span>
-
-<span class="token comment" spellcheck="true">// 使用[index]来取得索引上的值.go也是从0开始</span>
-a <span class="token operator">:=</span> numbers<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token comment" spellcheck="true">// 1</span></code></pre>
 <blockquote>
 <p><code>[]int</code> 是切片。<code>[5]int</code>才是数组</p>
 </blockquote>
 <p>可以使用<code>range</code>关键字遍历数组</p>
-<pre class=" language-go"><code class="language-go"><span class="token keyword">for</span> index<span class="token punctuation">,</span> value <span class="token operator">:=</span> <span class="token keyword">range</span> numbers <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// do something</span>
-<span class="token punctuation">}</span></code></pre>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> index, value := <span class="keyword">range</span> numbers &#123;</span><br><span class="line">  <span class="comment">// do something</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p><strong>数组是值类型</strong></p>
 <ul>
 <li>定义func时，如果参数时<code>(a [5]int)</code>，则只能接受<code>[5]int</code>，不能接受<code>[3]int</code></li>
@@ -600,23 +319,14 @@ a <span class="token operator">:=</span> numbers<span class="token punctuation">
 <p>和python的切片很像。区间也是左闭右开</p>
 <p><strong>slice是array的视图</strong></p>
 </blockquote>
-<pre class=" language-go"><code class="language-go"><span class="token comment" spellcheck="true">// start , end均可省略。</span>
-<span class="token comment" spellcheck="true">// slice包含start对应的内容，不包含end对应的内容。</span>
-<span class="token comment" spellcheck="true">// 若start，end均省略，则为arr数组的完整视图</span>
-slice <span class="token operator">:=</span> arr<span class="token punctuation">[</span>start<span class="token punctuation">:</span>end<span class="token punctuation">]</span></code></pre>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// start , end均可省略。</span></span><br><span class="line"><span class="comment">// slice包含start对应的内容，不包含end对应的内容。</span></span><br><span class="line"><span class="comment">// 若start，end均省略，则为arr数组的完整视图</span></span><br><span class="line">slice := arr[start:end]</span><br></pre></td></tr></table></figure>
+
 <p><strong>slice是array的视图</strong></p>
 <ul>
 <li><p>修改slice的值，会对array本身产生影响</p>
-<pre class=" language-go"><code class="language-go">slice <span class="token operator">:=</span> arr<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">:</span><span class="token punctuation">]</span>
-slice<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">100</span> <span class="token comment" spellcheck="true">// arr[2] => 100</span></code></pre>
-</li>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">slice := arr[<span class="number">2</span>:]</span><br><span class="line">slice[<span class="number">0</span>] = <span class="number">100</span> <span class="comment">// arr[2] =&gt; 100</span></span><br></pre></td></tr></table></figure></li>
 <li><p>当函数参数为slice时，修改slice会影响slice所指向的数组</p>
-<pre class=" language-go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">update</span><span class="token punctuation">(</span>sl <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-    <span class="token builtin">int</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">100</span>
-<span class="token punctuation">}</span>
-
-<span class="token function">update</span><span class="token punctuation">(</span>arr<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// arr[2] => 100</span></code></pre>
-</li>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">update</span><span class="params">(sl []<span class="keyword">int</span>)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span>[<span class="number">0</span>] = <span class="number">100</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">update(arr[<span class="number">2</span>:]) <span class="comment">// arr[2] =&gt; 100</span></span><br></pre></td></tr></table></figure></li>
 <li><p>可以在slice的基础上继续slice</p>
 <ul>
 <li><p>继续slice时，可以扩展</p>
@@ -665,71 +375,52 @@ slice<span class="token punctuation">[</span><span class="token number">0</span>
 <h4 id="创建slice"><a href="#创建slice" class="headerlink" title="创建slice"></a>创建slice</h4><blockquote>
 <p>可以直接创建slice，而不是在数组的基础上。</p>
 </blockquote>
-<pre class=" language-go"><code class="language-go"><span class="token keyword">var</span> s <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s []<span class="keyword">int</span></span><br><span class="line"></span><br><span class="line">s1 := []<span class="keyword">int</span>&#123;<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// (type, len, cap)</span></span><br><span class="line">s2 := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">16</span> ,<span class="number">32</span>)</span><br></pre></td></tr></table></figure>
 
-s1 <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">{</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">}</span>
 
-<span class="token comment" spellcheck="true">// (type, len, cap)</span>
-s2 <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">,</span> <span class="token number">16</span> <span class="token punctuation">,</span><span class="token number">32</span><span class="token punctuation">)</span></code></pre>
+
 <h4 id="复制slice"><a href="#复制slice" class="headerlink" title="复制slice"></a>复制slice</h4><blockquote>
 <p>使用copy方法复制slice</p>
 </blockquote>
-<pre class=" language-go"><code class="language-go">s1 <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">}</span>
-s2 <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">)</span>
-<span class="token comment" spellcheck="true">// copy(dst, src)</span>
-<span class="token function">copy</span><span class="token punctuation">(</span>s2<span class="token punctuation">,</span> s1<span class="token punctuation">)</span>
-fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>s2<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// [1 2 3]</span>
-s3 <span class="token operator">:=</span> s2<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">4</span><span class="token punctuation">]</span>
-fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>s3<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// [1 2 3 0]</span></code></pre>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">s1 := []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;</span><br><span class="line">s2 := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">3</span>, <span class="number">16</span>)</span><br><span class="line"><span class="comment">// copy(dst, src)</span></span><br><span class="line"><span class="built_in">copy</span>(s2, s1)</span><br><span class="line">fmt.Println(s2) <span class="comment">// [1 2 3]</span></span><br><span class="line">s3 := s2[:<span class="number">4</span>]</span><br><span class="line">fmt.Println(s3) <span class="comment">// [1 2 3 0]</span></span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="删除slice的某个元素"><a href="#删除slice的某个元素" class="headerlink" title="删除slice的某个元素"></a>删除slice的某个元素</h4><blockquote>
 <p>go不自带该功能，可以使用append方法实现</p>
 </blockquote>
-<pre class=" language-go"><code class="language-go">s1 <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">}</span>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">s1 := []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 删除第2个元素2。</span></span><br><span class="line">s1 = <span class="built_in">append</span>(s1[:<span class="number">1</span>], s1[<span class="number">2</span>:]...)</span><br><span class="line"></span><br><span class="line">fmt.Println(s1) <span class="comment">// [1 3 4 5]</span></span><br></pre></td></tr></table></figure>
 
-<span class="token comment" spellcheck="true">// 删除第2个元素2。</span>
-s1 <span class="token operator">=</span> <span class="token function">append</span><span class="token punctuation">(</span>s1<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> s1<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token operator">...</span><span class="token punctuation">)</span>
 
-fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>s1<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// [1 3 4 5]</span></code></pre>
+
 <h4 id="移除slice首尾元素"><a href="#移除slice首尾元素" class="headerlink" title="移除slice首尾元素"></a>移除slice首尾元素</h4><blockquote>
 <p>同样不自带。可以使用切片完成</p>
 </blockquote>
-<pre class=" language-go"><code class="language-go">s1 <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">}</span>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">s1 := []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;</span><br><span class="line"></span><br><span class="line">front := s1[<span class="number">0</span>]</span><br><span class="line">s1 = s1[<span class="number">1</span>:]</span><br><span class="line">fmt.Printf(<span class="string">&quot;front: %d, s1: %v\n&quot;</span>, front, s1) <span class="comment">// front: 1, s1: [2 3 4 5]</span></span><br><span class="line"></span><br><span class="line">tail := s1[<span class="built_in">len</span>(s1)<span class="number">-1</span>]</span><br><span class="line">s1 = s1[:<span class="built_in">len</span>(s1)<span class="number">-1</span>]</span><br><span class="line">fmt.Printf(<span class="string">&quot;tail: %d, s1: %v\n&quot;</span>, tail, s1) <span class="comment">// tail: 5, s1: [2 3 4]</span></span><br></pre></td></tr></table></figure>
 
-front <span class="token operator">:=</span> s1<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
-s1 <span class="token operator">=</span> s1<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token punctuation">]</span>
-fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"front: %d, s1: %v\n"</span><span class="token punctuation">,</span> front<span class="token punctuation">,</span> s1<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// front: 1, s1: [2 3 4 5]</span>
 
-tail <span class="token operator">:=</span> s1<span class="token punctuation">[</span><span class="token function">len</span><span class="token punctuation">(</span>s1<span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span>
-s1 <span class="token operator">=</span> s1<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token function">len</span><span class="token punctuation">(</span>s1<span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span>
-fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"tail: %d, s1: %v\n"</span><span class="token punctuation">,</span> tail<span class="token punctuation">,</span> s1<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// tail: 5, s1: [2 3 4]</span></code></pre>
+
 <h3 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h3><h4 id="Map的定义"><a href="#Map的定义" class="headerlink" title="Map的定义"></a>Map的定义</h4><blockquote>
 <p>正常Map：<code>map[K]V</code>,</p>
 <p>复合Map： <code>map[K1]map[K2]V</code></p>
 <p>map是一个hashMap</p>
 </blockquote>
-<pre class=" language-go"><code class="language-go"><span class="token comment" spellcheck="true">// 初始化一个map</span>
-m1 <span class="token operator">:=</span> <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token builtin">int</span> <span class="token punctuation">{</span><span class="token string">"id"</span><span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">"age"</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">}</span>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化一个map</span></span><br><span class="line">m1 := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span> &#123;<span class="string">&quot;id&quot;</span>:<span class="number">1</span>, <span class="string">&quot;age&quot;</span>:<span class="number">2</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 空map</span></span><br><span class="line"><span class="keyword">var</span> m2 <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span> <span class="comment">// m3 == nil</span></span><br><span class="line"></span><br><span class="line">m3 := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>) <span class="comment">// m2 == empty map</span></span><br></pre></td></tr></table></figure>
 
-<span class="token comment" spellcheck="true">// 空map</span>
-<span class="token keyword">var</span> m2 <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token builtin">int</span> <span class="token comment" spellcheck="true">// m3 == nil</span>
 
-m3 <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// m2 == empty map</span></code></pre>
+
 <h4 id="Map遍历"><a href="#Map遍历" class="headerlink" title="Map遍历"></a>Map遍历</h4><blockquote>
 <p>同样可使用range来遍历</p>
 </blockquote>
-<pre class=" language-go"><code class="language-go"><span class="token keyword">for</span> k<span class="token punctuation">,</span> v <span class="token operator">:=</span> <span class="token keyword">range</span> m <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// do something with k, v </span>
-<span class="token punctuation">}</span></code></pre>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> k, v := <span class="keyword">range</span> m &#123;</span><br><span class="line">  <span class="comment">// do something with k, v </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="Map的内容获取"><a href="#Map的内容获取" class="headerlink" title="Map的内容获取"></a>Map的内容获取</h4><blockquote>
 <p>value := map[key]</p>
 </blockquote>
-<pre class=" language-go"><code class="language-go">m1 <span class="token operator">:=</span> <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token builtin">int</span> <span class="token punctuation">{</span><span class="token string">"id"</span><span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">"age"</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">}</span>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">m1 := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span> &#123;<span class="string">&quot;id&quot;</span>:<span class="number">1</span>, <span class="string">&quot;age&quot;</span>:<span class="number">2</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ok这个参数可省略，主要用于判断key是否存在</span></span><br><span class="line">age, ok := m1[<span class="string">&quot;age&quot;</span>] <span class="comment">// 2, true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果key不存在</span></span><br><span class="line">other, ok2 := m1[<span class="string">&quot;other&quot;</span>] <span class="comment">// 0 , false</span></span><br></pre></td></tr></table></figure>
 
-<span class="token comment" spellcheck="true">// ok这个参数可省略，主要用于判断key是否存在</span>
-age<span class="token punctuation">,</span> ok <span class="token operator">:=</span> m1<span class="token punctuation">[</span><span class="token string">"age"</span><span class="token punctuation">]</span> <span class="token comment" spellcheck="true">// 2, true</span>
-
-<span class="token comment" spellcheck="true">// 如果key不存在</span>
-other<span class="token punctuation">,</span> ok2 <span class="token operator">:=</span> m1<span class="token punctuation">[</span><span class="token string">"other"</span><span class="token punctuation">]</span> <span class="token comment" spellcheck="true">// 0 , false</span></code></pre>
 <blockquote>
 <p>当key在map中不存在时，会得到对应数据格式的zero value。</p>
 <p>对于int，就是0。对于string，则是空字符串</p>
@@ -737,560 +428,219 @@ other<span class="token punctuation">,</span> ok2 <span class="token operator">:
 <h4 id="Map的数据删除"><a href="#Map的数据删除" class="headerlink" title="Map的数据删除"></a>Map的数据删除</h4><blockquote>
 <p>使用delete函数进行删除</p>
 </blockquote>
-<pre class=" language-go"><code class="language-go">m1 <span class="token operator">:=</span> <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token builtin">int</span> <span class="token punctuation">{</span><span class="token string">"id"</span><span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">"age"</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">}</span>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">m1 := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span> &#123;<span class="string">&quot;id&quot;</span>:<span class="number">1</span>, <span class="string">&quot;age&quot;</span>:<span class="number">2</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 一次只能删除一个key</span></span><br><span class="line"><span class="built_in">delete</span>(m1, age) <span class="comment">// &#123;&quot;id&quot;: 1&#125;</span></span><br></pre></td></tr></table></figure>
 
-<span class="token comment" spellcheck="true">// 一次只能删除一个key</span>
-<span class="token function">delete</span><span class="token punctuation">(</span>m1<span class="token punctuation">,</span> age<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// {"id": 1}</span></code></pre>
-<h4 id="Map数据添加或修改"><a href="#Map数据添加或修改" class="headerlink" title="Map数据添加或修改"></a>Map数据添加或修改</h4><pre class=" language-go"><code class="language-go">m <span class="token operator">:=</span> <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">{</span><span class="token string">"id"</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">"age"</span><span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">}</span>
 
-m<span class="token punctuation">[</span><span class="token string">"age2"</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">2</span>    
-m<span class="token punctuation">[</span><span class="token string">"age"</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">3</span>
 
-fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>m<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// map[age:3 age2:2 id:1]</span></code></pre>
+<h4 id="Map数据添加或修改"><a href="#Map数据添加或修改" class="headerlink" title="Map数据添加或修改"></a>Map数据添加或修改</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">m := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>&#123;<span class="string">&quot;id&quot;</span>: <span class="number">1</span>, <span class="string">&quot;age&quot;</span>: <span class="number">2</span>&#125;</span><br><span class="line"></span><br><span class="line">m[<span class="string">&quot;age2&quot;</span>] = <span class="number">2</span>	</span><br><span class="line">m[<span class="string">&quot;age&quot;</span>] = <span class="number">3</span></span><br><span class="line"></span><br><span class="line">fmt.Println(m) <span class="comment">// map[age:3 age2:2 id:1]</span></span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="Map的使用"><a href="#Map的使用" class="headerlink" title="Map的使用"></a>Map的使用</h4><ul>
 <li>map使用hash表，key必须能够比较</li>
 <li>除了<code>slice, map, function</code>的其他内建类型都可以作为key</li>
 <li>struct类型不包含上述3个类型时，也可以作为key</li>
 </ul>
 
-            </div>
-            <hr/>
-
-            
-
-    <div class="reprint" id="reprint-statement">
-        
-            <div class="reprint__author">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-user">
-                        文章作者:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    <a href="http://blog.ibuer.fun" rel="external nofollow noreferrer">Ssiu</a>
-                </span>
-            </div>
-            <div class="reprint__type">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-link">
-                        文章链接:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    <a href="http://blog.ibuer.fun/2021/06/20/go-ru-men/">http://blog.ibuer.fun/2021/06/20/go-ru-men/</a>
-                </span>
-            </div>
-            <div class="reprint__notice">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-copyright">
-                        版权声明:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    本博客所有文章除特別声明外，均采用
-                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
-                    许可协议。转载请注明来源
-                    <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
-                    !
-                </span>
-            </div>
-        
     </div>
 
-    <script async defer>
-      document.addEventListener("copy", function (e) {
-        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
-        M.toast({html: toastHTML})
-      });
+    
+    
+    
 
-      function navToReprintStatement() {
-        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Go/" rel="tag"># Go</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/06/05/k8s-de-fu-ben-ji-zhi-yu-kong-zhi-qi-tuo-guan/" rel="prev" title="k8s的副本机制与控制器托管">
+      <i class="fa fa-chevron-left"></i> k8s的副本机制与控制器托管
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/06/26/go-de-mian-xiang-dui-xiang/" rel="next" title="go的面向对象">
+      go的面向对象 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
       }
-    </script>
-
-
-
-            <div class="tag_share" style="display: block;">
-                <div class="post-meta__tag-list" style="display: inline-block;">
-                    
-                        <div class="article-tag">
-                            
-                                <a href="/tags/Go/">
-                                    <span class="chip bg-color">Go</span>
-                                </a>
-                            
-                        </div>
-                    
-                </div>
-                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
-                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
-
-<div id="article-share">
-    
-    
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
-    <script src="/libs/share/js/social-share.min.js"></script>
-    
-
-    
-
-</div>
-
-                </div>
-            </div>
-            
-        </div>
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-<article id="prenext-posts" class="prev-next articles">
-    <div class="row article-row">
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
-            <div class="card">
-                <a href="/2021/06/26/go-de-mian-xiang-dui-xiang/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="go的面向对象">
-                        
-                        <span class="card-title">go的面向对象</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-Go语言仅支持封装，不支持继承和多态
-
-初始化结构体通过type &lt;name&gt; struct {code}的形式定义结构体
-type MyStruct struct{
-  value int
-}
-
-// new struct
-
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-06-26
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/Go/" class="post-category">
-                                    Go
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Go/">
-                        <span class="chip bg-color">Go</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2021/06/05/k8s-de-fu-ben-ji-zhi-yu-kong-zhi-qi-tuo-guan/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="k8s的副本机制与控制器托管">
-                        
-                        <span class="card-title">k8s的副本机制与控制器托管</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            实用存活探针管理容器
-当容器崩溃时，POD能够自动完成容器的重启，但有时候进程没崩溃只是由于某些原因无法正常工作，需要通过存活探针来检测容器进程是否正常运行。并在异常时重启它。
-
-Kubernetes提供三种探测容器的机制。
-
-HTTP G
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-06-05
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
-                                    容器
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/k8s/">
-                        <span class="chip bg-color">k8s</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-    </div>
-</article>
-
-</div>
-
-
-
-<!-- 代码块功能依赖 -->
-<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
-
-<!-- 代码语言 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
-
-
-<!-- 代码块复制 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
-
-
-<!-- 代码块收缩 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
-
-
-<!-- 代码块折行 -->
-
-<style type="text/css">
-code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
-</style>
-
-
-    </div>
-    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
-        <div class="toc-widget">
-            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
-            <div id="toc-content"></div>
-        </div>
-    </div>
-</div>
-
-<!-- TOC 悬浮按钮. -->
-
-<div id="floating-toc-btn" class="hide-on-med-and-down">
-    <a class="btn-floating btn-large bg-color">
-        <i class="fas fa-list-ul"></i>
-    </a>
-</div>
-
-
-<script src="/libs/tocbot/tocbot.min.js"></script>
-<script>
-    $(function () {
-        tocbot.init({
-            tocSelector: '#toc-content',
-            contentSelector: '#articleContent',
-            headingsOffset: -($(window).height() * 0.4 - 45),
-            collapseDepth: Number('0'),
-            headingSelector: 'h2, h3, h4'
-        });
-
-        // modify the toc link href to support Chinese.
-        let i = 0;
-        let tocHeading = 'toc-heading-';
-        $('#toc-content a').each(function () {
-            $(this).attr('href', '#' + tocHeading + (++i));
-        });
-
-        // modify the heading title id to support Chinese.
-        i = 0;
-        $('#articleContent').children('h2, h3, h4').each(function () {
-            $(this).attr('id', tocHeading + (++i));
-        });
-
-        // Set scroll toc fixed.
-        let tocHeight = parseInt($(window).height() * 0.4 - 64);
-        let $tocWidget = $('.toc-widget');
-        $(window).scroll(function () {
-            let scroll = $(window).scrollTop();
-            /* add post toc fixed. */
-            if (scroll > tocHeight) {
-                $tocWidget.addClass('toc-fixed');
-            } else {
-                $tocWidget.removeClass('toc-fixed');
-            }
-        });
-
-        
-        /* 修复文章卡片 div 的宽度. */
-        let fixPostCardWidth = function (srcId, targetId) {
-            let srcDiv = $('#' + srcId);
-            if (srcDiv.length === 0) {
-                return;
-            }
-
-            let w = srcDiv.width();
-            if (w >= 450) {
-                w = w + 21;
-            } else if (w >= 350 && w < 450) {
-                w = w + 18;
-            } else if (w >= 300 && w < 350) {
-                w = w + 16;
-            } else {
-                w = w + 14;
-            }
-            $('#' + targetId).width(w);
-        };
-
-        // 切换TOC目录展开收缩的相关操作.
-        const expandedClass = 'expanded';
-        let $tocAside = $('#toc-aside');
-        let $mainContent = $('#main-content');
-        $('#floating-toc-btn .btn-floating').click(function () {
-            if ($tocAside.hasClass(expandedClass)) {
-                $tocAside.removeClass(expandedClass).hide();
-                $mainContent.removeClass('l9');
-            } else {
-                $tocAside.addClass(expandedClass).show();
-                $mainContent.addClass('l9');
-            }
-            fixPostCardWidth('artDetail', 'prenext-posts');
-        });
-        
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
     });
+  }
 </script>
 
-    
-
-</main>
-
-
-
-    <footer class="page-footer bg-color">
-    <div class="container row center-align" style="margin-bottom: 0px !important;">
-        <div class="col s12 m8 l8 copy-right">
-            Copyright&nbsp;&copy;
-            <span id="year">2017-2020</span>
-            <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
-            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
-            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
-            <br>
-            
-            
-            
-            
-            
-            
-            <span id="busuanzi_container_site_pv" style="display:none">
-                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
-                    class="white-color"></span>&nbsp;次
-            </span>
-            
-            
-            <span id="busuanzi_container_site_uv" style="display:none">
-                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
-                    class="white-color"></span>&nbsp;人
-            </span>
-            
-            
         </div>
-        <div class="col s12 m4 l4 social-link social-statis">
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
 
+  <aside class="sidebar">
+    <div class="sidebar-inner">
 
-    <a href="mailto:smokeriu@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
-        <i class="fas fa-envelope-open"></i>
-    </a>
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
 
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E5%AE%9A%E4%B9%89"><span class="nav-number">1.1.</span> <span class="nav-text">变量定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E9%87%8F%E5%AE%9A%E4%B9%89"><span class="nav-number">1.2.</span> <span class="nav-text">常量定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B-1"><span class="nav-number">1.3.</span> <span class="nav-text">数据类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5"><span class="nav-number">2.</span> <span class="nav-text">条件语句</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#if"><span class="nav-number">2.0.1.</span> <span class="nav-text">if</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5"><span class="nav-number">3.</span> <span class="nav-text">循环语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0"><span class="nav-number">4.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E9%92%88"><span class="nav-number">5.</span> <span class="nav-text">指针</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92"><span class="nav-number">5.1.</span> <span class="nav-text">参数传递</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E5%90%88"><span class="nav-number">6.</span> <span class="nav-text">集合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E7%BB%84"><span class="nav-number">6.1.</span> <span class="nav-text">数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%87%E7%89%87%EF%BC%88slice%EF%BC%89"><span class="nav-number">6.2.</span> <span class="nav-text">切片（slice）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%91slice%E6%B7%BB%E5%8A%A0%E5%85%83%E7%B4%A0"><span class="nav-number">6.2.1.</span> <span class="nav-text">向slice添加元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAslice"><span class="nav-number">6.2.2.</span> <span class="nav-text">创建slice</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6slice"><span class="nav-number">6.2.3.</span> <span class="nav-text">复制slice</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4slice%E7%9A%84%E6%9F%90%E4%B8%AA%E5%85%83%E7%B4%A0"><span class="nav-number">6.2.4.</span> <span class="nav-text">删除slice的某个元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4slice%E9%A6%96%E5%B0%BE%E5%85%83%E7%B4%A0"><span class="nav-number">6.2.5.</span> <span class="nav-text">移除slice首尾元素</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Map"><span class="nav-number">6.3.</span> <span class="nav-text">Map</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Map%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">6.3.1.</span> <span class="nav-text">Map的定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Map%E9%81%8D%E5%8E%86"><span class="nav-number">6.3.2.</span> <span class="nav-text">Map遍历</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Map%E7%9A%84%E5%86%85%E5%AE%B9%E8%8E%B7%E5%8F%96"><span class="nav-number">6.3.3.</span> <span class="nav-text">Map的内容获取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Map%E7%9A%84%E6%95%B0%E6%8D%AE%E5%88%A0%E9%99%A4"><span class="nav-number">6.3.4.</span> <span class="nav-text">Map的数据删除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Map%E6%95%B0%E6%8D%AE%E6%B7%BB%E5%8A%A0%E6%88%96%E4%BF%AE%E6%94%B9"><span class="nav-number">6.3.5.</span> <span class="nav-text">Map数据添加或修改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Map%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">6.3.6.</span> <span class="nav-text">Map的使用</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
 
-
-
-
-
-
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=604522169" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 604522169" data-position="top" data-delay="50">
-        <i class="fab fa-qq"></i>
-    </a>
-
-
-
-
-
-
-
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ssiu</p>
+  <div class="site-description" itemprop="description"></div>
 </div>
-    </div>
-</footer>
-
-<div class="progress-bar"></div>
-
-<script language=javascript>
-    function siteTime() {
-        window.setTimeout("siteTime()", 1000);
-        var seconds = 1000;
-        var minutes = seconds * 60;
-        var hours = minutes * 60;
-        var days = hours * 24;
-	var months = days * 30;
-        var years = days * 365;
-        var today = new Date();
-        var todayYear = today.getFullYear();
-        var todayMonth = today.getMonth() + 1;
-        var todayDate = today.getDate();
-        var todayHour = today.getHours();
-        var todayMinute = today.getMinutes();
-        var todaySecond = today.getSeconds();
-        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
-        year - 作为date对象的年份，为4位年份值
-        month - 0-11之间的整数，做为date对象的月份
-        day - 1-31之间的整数，做为date对象的天数
-        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
-        minutes - 0-59之间的整数，做为date对象的分钟数
-        seconds - 0-59之间的整数，做为date对象的秒数
-        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
-        var t1 = Date.UTC(2017, 02, 12, 00, 00, 00); //北京时间2018-2-13 00:00:00
-        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
-        var diff = t2 - t1;
-        var diffYears = Math.floor(diff / years);
-        var diffDays = Math.floor((diff / days) - diffYears * 365);
-        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
-        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
-        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
-        document.getElementById("sitetime").innerHTML = "本站已运行 " +diffYears+" 年 "+diffDays + " 天 ";
-    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
-    siteTime();
-</script>
-
-
-<script>
-    $(document).ready(function () {
-
-        var int = setInterval(fixCount, 50);  // 50ms周期检测函数
-        var pvcountOffset = 5423;  // 初始化首次数据
-        var uvcountOffset = 3322;
-
-        function fixCount() {
-            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
-                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
-                clearInterval(int);
-            }
-            if ($("#busuanzi_container_site_pv").css("display") != "none") {
-                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
-                clearInterval(int); // 停止检测
-            }
-        }
-    });
-</script>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
 
 
 
-    <!-- 搜索遮罩框 -->
-<div id="searchModal" class="modal">
-    <div class="modal-content">
-        <div class="search-header">
-            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
-            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
-                   class="search-input">
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
         </div>
-        <div id="searchResult"></div>
+
     </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ssiu</span>
 </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
 
-<script src="/js/search.js"></script>
-<script type="text/javascript">
-$(function () {
-    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
-});
-</script>
-    <!-- 回到顶部按钮 -->
-<div id="backTop" class="top-scroll">
-    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
-        <i class="fas fa-arrow-up"></i>
-    </a>
-</div>
+        
 
 
-    <script src="/libs/materialize/materialize.min.js"></script>
-    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
-    <script src="/libs/aos/aos.js"></script>
-    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
-    <script src="/js/matery.js"></script>
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <!-- Baidu Analytics -->
 
-    <!-- Baidu Push -->
 
-<script>
-    (function () {
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        } else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-</script>
 
-    
-    
-    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
-    
 
-    
+      </div>
+    </footer>
+  </div>
 
-    
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
-    
+<script src="/js/utils.js"></script>
 
-    
+<script src="/js/motion.js"></script>
 
-    
-    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
-    
-    
-    
-    <script src="/libs/instantpage/instantpage.js" type="module"></script>
-    
 
-</body>
+<script src="/js/schemes/pisces.js"></script>
 
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
 </html>

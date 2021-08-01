@@ -1,755 +1,1400 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="zh-CN">
-
-
 <head>
-    <meta charset="utf-8">
-    <meta name="keywords" content="Ssiu Blog">
-    <meta name="description" content="Ssiu Blog">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="renderer" content="webkit|ie-stand|ie-comp">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Ssiu Blog</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
-    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/matery.css">
-    <link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" href="/css/main.css">
 
-    <script src="/libs/jquery/jquery.min.js"></script>
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-material.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.ibuer.fun","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Ssiu Blog">
+<meta property="og:url" content="http://blog.ibuer.fun/page/4/index.html">
+<meta property="og:site_name" content="Ssiu Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Ssiu">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.ibuer.fun/page/4/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Ssiu Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ssiu Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
     
-<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
-<body>
-    <header class="navbar-fixed">
-    <nav id="headNav" class="bg-color nav-transparent">
-        <div id="navContainer" class="nav-wrapper container">
-            <div class="brand-logo">
-                <a href="/" class="waves-effect waves-light">
-                    
-                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
-                    
-                    <span class="logo-span">Ssiu Blog</span>
-                </a>
-            </div>
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2021/05/29/chu-shi-kubernetes/">
 
-<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
-<ul class="right nav-menu">
-  
-  <li class="hide-on-med-and-down nav-item">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/29/chu-shi-kubernetes/" class="post-title-link" itemprop="url">初识Kubernetes</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-29 15:56:22 / 修改时间：17:21:51" itemprop="dateCreated datePublished" datetime="2021-05-29T15:56:22+08:00">2021-05-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AE%B9%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">容器</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
     
-    <a href="/" class="waves-effect waves-light">
-      
-      <i class="fas fa-home" style="zoom: 0.6;"></i>
-      
-      <span>首页</span>
-    </a>
     
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
     
-    <a href="/tags" class="waves-effect waves-light">
+    <div class="post-body" itemprop="articleBody">
+
       
-      <i class="fas fa-tags" style="zoom: 0.6;"></i>
-      
-      <span>标签</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/categories" class="waves-effect waves-light">
-      
-      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
-      
-      <span>分类</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/archives" class="waves-effect waves-light">
-      
-      <i class="fas fa-archive" style="zoom: 0.6;"></i>
-      
-      <span>归档</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/about" class="waves-effect waves-light">
-      
-      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
-      
-      <span>关于</span>
-    </a>
-    
-  </li>
-  
-  <li>
-    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
-      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
-    </a>
-  </li>
+          <h2 id="何为容器"><a href="#何为容器" class="headerlink" title="何为容器"></a>何为容器</h2><ul>
+<li><p>容器允许开发者在同一台物理机上运行多个服务。且将他们相互隔离。</p>
+</li>
+<li><p>容器中运行的进程，实际就是运行在物理机上。</p>
+</li>
+<li><p>相比虚拟机，减少资源消耗。</p>
+</li>
+<li><p>同一台物理机上的容器，调用的是同一个内核。</p>
+</li>
+<li><blockquote>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210529160509.png" alt="image-20210529160459962"></p>
+</blockquote>
+</li>
+</ul>
+<h3 id="容器如何隔离"><a href="#容器如何隔离" class="headerlink" title="容器如何隔离"></a>容器如何隔离</h3><p>主要可以利用两个机制：</p>
+<ul>
+<li>Linux的命名空间：<ul>
+<li>命名空间被用来隔离一组特定的资源，如进程能够使用哪些网络接口等。</li>
+</ul>
+</li>
+<li>Linux的控制组（cgroups）：<ul>
+<li>控制组能够限制进程使用的资源情况（CPU、内存、网络带宽等）</li>
+</ul>
+</li>
+</ul>
+<h2 id="关于Docker"><a href="#关于Docker" class="headerlink" title="关于Docker"></a>关于Docker</h2><ul>
+<li>Docker是容器的一个具体实现项目/平台。</li>
+<li>Docker主要由三个概念组成：<ul>
+<li>镜像：Docker镜像里包含了开发者打包的应用程序及其所依赖的环境。<ul>
+<li>Docker的镜像与虚拟机镜像有一个很大不同，容器镜像是由多层构成的。<ul>
+<li>如果镜像B、C都依赖镜像A，则镜像A只会被存储一份。</li>
+</ul>
+</li>
+<li>容器镜像层是只读的。</li>
+</ul>
+</li>
+<li>镜像仓库：用于存放Docker镜像。</li>
+<li>容器：Docker容器通常是一个Linux容器，基于Docker镜像被创建。<ul>
+<li>一个运行中的容器是一个运行在Docker主机上的进程，但它和主机、以及所有其他进程都是隔离的。</li>
+<li>容器运行时，一个新的可写层会在镜像层之上被创建。相当于进程写的都是拷贝。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Docker运行容器背后的原理"><a href="#Docker运行容器背后的原理" class="headerlink" title="Docker运行容器背后的原理"></a>Docker运行容器背后的原理</h3><p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210529164800.png" alt="image-20210529164800241"></p>
+<h2 id="关于Kubernetes"><a href="#关于Kubernetes" class="headerlink" title="关于Kubernetes"></a>关于Kubernetes</h2><h3 id="Kubernetes的核心功能"><a href="#Kubernetes的核心功能" class="headerlink" title="Kubernetes的核心功能"></a>Kubernetes的核心功能</h3><ul>
+<li>整个系统由一个主节点和若干工作节点组成。</li>
+<li>组件被部署在哪个节点对于开发者和系统管理员来说都不用关心。</li>
+</ul>
+<h3 id="Kubernetes架构"><a href="#Kubernetes架构" class="headerlink" title="Kubernetes架构"></a>Kubernetes架构</h3><p>硬件级别上，一个Kubernetes集群由很多节点组成：</p>
+<ul>
+<li><p>主节点：它承载着K8s控制和管理整个集群系统的<strong>控制面板</strong></p>
+</li>
+<li><p>工作节点：它们运行用户实际部署的应用</p>
+</li>
+<li><blockquote>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210529163842.png" alt="image-20210529163842048"></p>
+</blockquote>
+</li>
+</ul>
+<h4 id="控制面板"><a href="#控制面板" class="headerlink" title="控制面板"></a>控制面板</h4><p>它包含多个组件。这些组件可运行在单个主节点上，或通过副本部署在多个主节点上（高可用）。</p>
+<ul>
+<li>Kubernetes API服务器：开发者客户端和其他控制面板组件都要和它通信。</li>
+<li>Scheculer：用于调度应用（为应用的每个可部署组件分配一个工作节点）</li>
+<li>ControllerManager：执行集群级别的功能，如复制组件、持续跟踪工作节点、处理失败节点等。</li>
+<li>etcd：分布式数据存储。用于持久化集群的配置。</li>
+</ul>
+<p>控制面板持有并控制集群状态。</p>
+<h4 id="工作节点"><a href="#工作节点" class="headerlink" title="工作节点"></a>工作节点</h4><p>工作节点是运行容器化应用的机器。</p>
+<ul>
+<li>运行的容器，如Docker</li>
+<li>Kubelet：它与API服务器通信。管理它所在节点的容器。</li>
+<li>Kube-proxy：负责组件之间的负载均衡网络流量</li>
+</ul>
+<h3 id="POD"><a href="#POD" class="headerlink" title="POD"></a>POD</h3><p>POD是k8s的概念。一个pod是一组紧密相关的容器。它们总是一起运行在同一个工作节点上。每个pod就像一个独立的逻辑机器，拥有自己的IP、主机名、进程等。</p>
+<ul>
+<li><p>一个pod可以运行多个容器。</p>
+</li>
+<li><p>一个pod的所有容器都运行在同一个<strong>逻辑</strong>机器上。</p>
+</li>
+<li><p>其他pod中的容器，即使运行在一个工作节点上，也会出现在不同的节点上。</p>
+</li>
+<li><blockquote>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/podpng" alt="image-20210529165205700"></p>
+</blockquote>
+</li>
+</ul>
+<h3 id="运行容器镜像"><a href="#运行容器镜像" class="headerlink" title="运行容器镜像"></a>运行容器镜像</h3><p>通过kubectl run可以运行docker镜像，其背后流程如下：</p>
+<ol>
+<li><p>kubectl向API服务器发送HTTP请求。创建一个ReplicationController对象。</p>
+</li>
+<li><p>RC创建一个新的POD，调度器将其调度到一个工作节点上。</p>
+</li>
+<li><p>kubelet看到pod已经被调度到指定节点上后，通知docker从镜像中心拉去指定的镜像。并创建运行容器。</p>
+</li>
+<li><blockquote>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/k8s%E8%BF%90%E8%A1%8C%E6%B5%81%E7%A8%8B.png" alt="image-20210529165547735"></p>
+</blockquote>
+</li>
+</ol>
+<h3 id="外部访问"><a href="#外部访问" class="headerlink" title="外部访问"></a>外部访问</h3><p>由于每个POD都有自己的IP地址，所以如果要从集群外部访问，需要通过服务对象公开他。创建一个特殊的LoadBalancer类型的<strong>服务</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl expose rc kubia --type=LoadBalancer --name kubia-http</span><br><span class="line"><span class="meta">#</span><span class="bash"> 这里是对名为kubia的replicationcontroller(rc)，创建一个loadbalancer服务，名字叫kubia-http</span></span><br></pre></td></tr></table></figure>
+
+<p>不同于pod，示例中创建的kubia-http属于K8s中的服务（sercvice），通过<code>kubectl get services</code>能够看到。</p>
+<h3 id="ReplicationController与POD"><a href="#ReplicationController与POD" class="headerlink" title="ReplicationController与POD"></a>ReplicationController与POD</h3><ul>
+<li>用户创建的是ReplicationController。</li>
+<li>POD是ReplicationController创建并管理。</li>
+<li>ReplicationController可以创建并管理多个POD副本。<ul>
+<li>负责重启消失的POD</li>
+</ul>
+</li>
+</ul>
+<h3 id="为什么需要服务"><a href="#为什么需要服务" class="headerlink" title="为什么需要服务"></a>为什么需要服务</h3><ul>
+<li><p>POD的存在是短暂的。消失的POD会被RC替换为新的POD。</p>
+</li>
+<li><p>通过服务，能够保证外部访问并不会因为POD的更换而变化。</p>
+</li>
+<li><p>通过服务，能够将请求平均分配到多个POD副本上，实现负载均衡。</p>
+</li>
+<li><blockquote>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/pod%E4%B8%8E%E6%9C%8D%E5%8A%A1%E4%B8%8Erc.png" alt="image-20210529172109644"></p>
+</blockquote>
+</li>
 </ul>
 
-<div id="mobile-nav" class="side-nav sidenav">
-
-    <div class="mobile-head bg-color">
-        
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
-        
-        <div class="logo-name">Ssiu Blog</div>
-        <div class="logo-desc">
-            
-            Never really desperate, only the lost of the soul.
-            
-        </div>
+      
     </div>
 
     
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
-    <ul class="menu-list mobile-menu-list">
-        
-        <li class="m-nav-item">
-	  
-		<a href="/" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-home"></i>
-			
-			首页
-		</a>
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2021/04/12/flink-he-xin-chou-xiang-gai-nian/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
           
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/tags" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-tags"></i>
-			
-			标签
-		</a>
+            <a href="/2021/04/12/flink-he-xin-chou-xiang-gai-nian/" class="post-title-link" itemprop="url">Flink核心抽象概念</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-12 20:11:21" itemprop="dateCreated datePublished" datetime="2021-04-12T20:11:21+08:00">2021-04-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-24 16:23:29" itemprop="dateModified" datetime="2021-07-24T16:23:29+08:00">2021-07-24</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Flink/" itemprop="url" rel="index"><span itemprop="name">Flink</span></a>
+                </span>
+            </span>
+
           
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/categories" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bookmark"></i>
-			
-			分类
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/archives" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-archive"></i>
-			
-			归档
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/about" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-user-circle"></i>
-			
-			关于
-		</a>
-          
-        </li>
-        
-        
-    </ul>
-</div>
 
         </div>
-
-        
-    </nav>
-
-</header>
+      </header>
 
     
-    <div class="bg-cover pd-header about-cover">
-    <div class="container">
-    <div class="row">
-    <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
-        <div class="brand">
-            <div class="title center-align">
-                
-                Spark Hadoop Hbase
-                
-            </div>
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
-            <div class="description center-align">
-                
-                <span id="subtitle"></span>
-                <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
-                <script>
-                    var typed = new Typed("#subtitle", {
-                        strings: ['无名小站','无名小站'],
-                        startDelay: 300,
-                        typeSpeed: 100,
-                        loop: true,
-                        backSpeed: 50,
-                        showCursor: true
-                    });
-                </script>
-                
-            </div>
-        </div>
+      
+          <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>Flink采用流水线的形式，通过Transformation的概念记录上游的数据来源，将代码逻辑组织成流水线。</p>
+<h1 id="环境对象"><a href="#环境对象" class="headerlink" title="环境对象"></a>环境对象</h1><ul>
+<li><code>StreamExecutionEnvironment</code>是Flink开发时的入口，表示流应用的执行环境。</li>
+<li><code>Environment</code>是运行时作业级别的概念。<ul>
+<li><code>Environment</code>从<code>StreamExecutionEnvironment</code>的配置信息衍生而来。作为运行时刻的上下文。</li>
+</ul>
+</li>
+<li><code>RuntimeContext</code>是运行时Task实例级别的概念。</li>
+</ul>
+<blockquote>
+<p>对于开发而言：</p>
+<ul>
+<li><code>StreamExecutionEnvironment</code>在main方法中使用。</li>
+<li><code>RuntimeContext</code>在UDF开发中使用。</li>
+<li>Environment则起到衔接StreamExecutionEnvironment和RuntimeContext的作用。</li>
+</ul>
+</blockquote>
+<h2 id="运行时环境"><a href="#运行时环境" class="headerlink" title="运行时环境"></a>运行时环境</h2><p>即<code>Environment</code>。</p>
+<p>定义了运行时Task所需的所有配置信息，包括静态配置和调度器调度后生成的动态配置信息。主要由两个实现类：<code>RuntimeEnvironment</code>和<code>SavepointEnvironment</code>。后者主要是<code>state-processor-api</code>使用</p>
+<blockquote>
+<p>A minimally implemented Environment that provides the functionality required to run the state-processor-api.</p>
+</blockquote>
+<h3 id="RuntimeEnvironment"><a href="#RuntimeEnvironment" class="headerlink" title="RuntimeEnvironment"></a>RuntimeEnvironment</h3><p>在Task开始执行时进行初始化。将Task运行相关的信息都封装到该对象中，包括：<code>jobId</code>,<code>executionId</code>等。</p>
+<h2 id="运行时上下文"><a href="#运行时上下文" class="headerlink" title="运行时上下文"></a>运行时上下文</h2><p>即<code>RuntimeContext</code></p>
+<p>是<code>Function</code>运行时的上下文，封装了<code>Function</code>运行时可能需要的所有信息，使得<code>Function</code>能够获取到作业级别的信息，如作业并行度等。在<code>RichFunction</code>中，可以通过<code>getRuntimeContext</code>得到。不同的地方会得到不同的RuntimeContext</p>
+<ul>
+<li>StreamingRuntimeContext：流计算的UDF</li>
+<li>DistributedRuntimeUDFContext：由运行时UDF所在的批处理算子创建。</li>
+<li>RuntimeUDFContext：批处理UDF中使用</li>
+<li>SavepointRuntimeContext：支持读取变更写入<code>checkpoint</code>和<code>savepoint</code>。在<code>state-processor-api</code>使用。</li>
+<li>CepRuntimeContext：CEP中使用</li>
+</ul>
+<h1 id="数据流元素"><a href="#数据流元素" class="headerlink" title="数据流元素"></a>数据流元素</h1><p>数据流元素在Flink中被称为StreamElement。由四类组成：</p>
+<ul>
+<li>StreamRecord。数据记录。<ul>
+<li>即数据流中的一条记录。包含：<ul>
+<li>数据本身。</li>
+<li>数据的时间戳（可选）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>LatencyMarker。延迟标记。<ul>
+<li>用来近似评估延迟。</li>
+<li>在<code>Source</code>中创建，并向下游发送。</li>
+<li>在<code>Sink</code>节点用来估计整个DAG图中花费的时间，用来评估整体的处理延迟。</li>
+<li>包含：<ul>
+<li>周期性在数据源中创造出来的时间戳。</li>
+<li>算子编号。</li>
+<li>数据源算子所在的Task编号。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Watermark。水位线<ul>
+<li>是一个时间戳。</li>
+<li>用来告诉算子所有时间早于水位线的数据已经到达。</li>
+</ul>
+</li>
+<li>StreamStatus。流状态标记。<ul>
+<li>用来通知Task是否会继续接收到上游的记录或者水位线。</li>
+<li>在<code>Source</code>中生成，并沿着Dataflow向下游传播。</li>
+<li>包含两种状态<ul>
+<li>IDLE（空闲）</li>
+<li>ACTIVE（活动）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="数据转换"><a href="#数据转换" class="headerlink" title="数据转换"></a>数据转换</h1><p><code>Transformation</code>分为两类：物理和虚拟。在运行时，DataStream的API调用都会被转换为<code>Transformation</code>。然后从<code>Transformation</code>转换成实际运行的算子。而虚拟的<code>Transformation</code>则不会转换为具体的算子。</p>
+<p>所有的物理<code>Transformation</code>继承<code>PhysicalTransformation</code>。其他的都是虚拟<code>Transformation</code>。<code>Transformation</code>包含了Flink运行时的一些关键参数：</p>
+<ul>
+<li>name：转换器的名字。一般是用户指定。</li>
+<li>uid：用户指定的uid。用于从savePoint重启时恢复状态。</li>
+<li>bufferTimeout：buffer超时时间。</li>
+<li>parallelism：并行度。</li>
+<li>id：自动生成的唯一id。</li>
+<li>outputType：输出类型。用于进行序列化数据。（<code>TypeInformation&lt;T&gt;类型</code>）</li>
+<li>slotSharingGroup：给当前的Transformation设置Slot共享组。</li>
+</ul>
+<h2 id="物理Transformation"><a href="#物理Transformation" class="headerlink" title="物理Transformation"></a>物理Transformation</h2><ul>
+<li>SourceTransformation<ul>
+<li>Flink作业的起点。读取数据。</li>
+</ul>
+</li>
+<li>SinkTransformation<ul>
+<li>Flink作业的终点。写出数据。</li>
+</ul>
+</li>
+<li>OneInputTransformation<ul>
+<li>只接收一个输入流。需要input和operator参数。</li>
+</ul>
+</li>
+<li>TwoInputTransformation<ul>
+<li>接收两种流作为输入。</li>
+</ul>
+</li>
+</ul>
+<h2 id="虚拟Transformation"><a href="#虚拟Transformation" class="headerlink" title="虚拟Transformation"></a>虚拟Transformation</h2><ul>
+<li>SideOutputTransformation</li>
+<li>SplitTransformation</li>
+<li>SelectTransformation</li>
+<li>PartitionTransformation</li>
+<li>UnionTransformation</li>
+<li>FeedbackTransformation<ul>
+<li>表示FlinkDAG中的一个反馈点。把符合条件的数据重新发回上游Transformation中处理。</li>
+<li>一个反馈点可以连接一个或者多个上游的Transformation。</li>
+<li>包含两个重要参数：<ul>
+<li>input：上有输入StreamTransformation。</li>
+<li>waitTime：默认为0，即永远等待。如果超出等待时间，则计算结束不再接收数据</li>
+</ul>
+</li>
+<li>FeedbackTransformation要与待加入的StreamTransformation实例的并行度一致。</li>
+</ul>
+</li>
+<li>CoFeedbackTransformation</li>
+</ul>
+<h1 id="算子"><a href="#算子" class="headerlink" title="算子"></a>算子</h1><p>即<code>StreamOperator</code></p>
+<p>Flink运行时由Task组成一个Dataflow，<strong>每个Task中包含了一个或多个算子</strong>，一个算子就是一个计算步骤。使用算子需要实现对应的函数<code>Function</code></p>
+<h2 id="算子行为"><a href="#算子行为" class="headerlink" title="算子行为"></a>算子行为</h2><p>所有算子都包含了生命周期管理、状态与容错管理、数据处理三个方面。</p>
+<h3 id="生命周期管理"><a href="#生命周期管理" class="headerlink" title="生命周期管理"></a>生命周期管理</h3><ul>
+<li>setup：初始化环境、时间服务、注册监控等。</li>
+<li>open：由具体算子负责实现。包含初始化逻辑。</li>
+<li>close：数据处理完后关闭算子。确保所有缓存数据向下游发送。</li>
+<li>dispose：进行资源释放。</li>
+</ul>
+<h3 id="状态与容错管理"><a href="#状态与容错管理" class="headerlink" title="状态与容错管理"></a>状态与容错管理</h3><p>提供状态存储。在出发checkpoint时，保存状态快照。当作业失败时从保存的快照中恢复状态。</p>
+<h3 id="数据处理"><a href="#数据处理" class="headerlink" title="数据处理"></a>数据处理</h3><p>按照单流输入和双流输入定义了不同的行为接口：</p>
+<ul>
+<li>OneInputStreamOperator<ul>
+<li><code>void processElement(StreamRecord&lt;IN&gt; element)</code></li>
+<li><code>void processWatermark(Watermark mark)</code></li>
+<li><code>void processLatencyMaker(LatencyMarker latencyMarker)</code></li>
+</ul>
+</li>
+<li>TowInputStreamOperator。<ul>
+<li>相当于单输入所有方法翻倍</li>
+<li><code>void processElement1(StreamRecord&lt;IN&gt; element)</code></li>
+<li><code>void processElement2(StreamRecord&lt;IN&gt; element)</code></li>
+<li><code>void processWatermark1(Watermark mark)</code></li>
+<li><code>void processWatermark2(Watermark mark)</code></li>
+<li><code>void processLatencyMaker1(LatencyMarker latencyMarker)</code></li>
+<li><code>void processLatencyMaker2(LatencyMarker latencyMarker)</code></li>
+</ul>
+</li>
+<li>算子融合优化策略<ul>
+<li>OperatorChain的策略。具体规则参考JobGraph优化。</li>
+</ul>
+</li>
+</ul>
+<h2 id="Flink算子"><a href="#Flink算子" class="headerlink" title="Flink算子"></a>Flink算子</h2><blockquote>
+<p>Flink算子在设计时主要分为两条线</p>
+</blockquote>
+<ol>
+<li>数据处理。主要是<code>OneInputStreamOperator</code>和<code>TwoInputStreamOperator</code>接口。</li>
+<li>生命周期。主要是<code>AbstractStreamOperator抽象类及其子实现类</code>。</li>
+</ol>
+<h2 id="Blink算子"><a href="#Blink算子" class="headerlink" title="Blink算子"></a>Blink算子</h2><blockquote>
+<p>目前BlinkRuntime中重新实现了很多与SQL相关的算子，但仍然使用了Flink-Streaming-java中定义的Transformation来包装这些算子</p>
+</blockquote>
+<blockquote>
+<p>Blink Runtime中的算子并不是完全批流通用。支持批的算子都实现了BoundedOneInput接口或者BoundedMultiInput接口。通过<code>endInput</code>方法来标识数据是否有界。</p>
+</blockquote>
+<p>目前用到的算子可以分为3类</p>
+<ul>
+<li>Blink Runtime内置。</li>
+<li>通过模块内置的算子，如CEP算子（CepOperator）、ProcessOperator等。</li>
+<li>通过动态代码生成的算子。</li>
+</ul>
+<h2 id="异步算子"><a href="#异步算子" class="headerlink" title="异步算子"></a>异步算子</h2><blockquote>
+<p>Flink在异步算子中提供了两种输出模式：顺序输出和无序输出模式。</p>
+</blockquote>
+<ul>
+<li>顺序输出模式<ul>
+<li>先收到的元素先输出。后续元素的异步函数调用无论是否先完成，都等待。</li>
+<li>保证消息不乱序。</li>
+<li>可能增加延迟、降低算子的吞吐量。</li>
+<li><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210721195127.png" alt="image-20210721195122585"><ul>
+<li>R1是第一个到达的元素。必定比R2先输出。</li>
+<li>这种模式的异步主要体现在处理R1，R2是异步的，并不会等待R1处理完才去处理R2。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>无序输出模式<ul>
+<li><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210721195440.png" alt="image-20210721195440859"></li>
+<li>R2的结果可能早于R1进行输出。</li>
+<li>无序输出并不是完全无序，<strong>仍然要保持Watermark不能超越前面元素的原则</strong>。即等待队列中将按照Watermark进行分组。组内无序。组与组之间有序。<ul>
+<li>对于途中，需要按照<code>[R1,R2,R3]、W1、[R4]</code>的顺序输出。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="函数体系"><a href="#函数体系" class="headerlink" title="函数体系"></a>函数体系</h1><blockquote>
+<p>函数是算子具体功能/计算逻辑的实现</p>
+</blockquote>
+<p>一般包含三类Function：</p>
+<ul>
+<li>SourceFunction<ul>
+<li>直接从外部存储读取数据。</li>
+</ul>
+</li>
+<li>SinkFunction<ul>
+<li>将数据写入外部存储。</li>
+</ul>
+</li>
+<li>一般Function<ul>
+<li>中间的处理逻辑。</li>
+<li>包含单流输入和双流输入两种。</li>
+</ul>
+</li>
+</ul>
+<h2 id="函数层次"><a href="#函数层次" class="headerlink" title="函数层次"></a>函数层次</h2><p>UDF在<code>DataStream API</code>层使用。从高阶到低阶Function如下图所示：</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210721200310.png" alt="image-20210721200310714"></p>
+<p>其中，RichFunction相较于无状态Function，有两个方面的增强：</p>
+<ul>
+<li>增加了<code>open</code>和<code>close</code>方法来管理Function的生命周期。<ul>
+<li>Function启动时执停止时行open方法。停止时执行close方法</li>
+</ul>
+</li>
+<li>增加了<code>getRuntimeContext</code>和<code>setRuntimeContext</code><ul>
+<li>可以拿到执行时作业级别的参数信息。</li>
+</ul>
+</li>
+</ul>
+<h2 id="处理函数"><a href="#处理函数" class="headerlink" title="处理函数"></a>处理函数</h2><p>ProcessFunction可以访问流应用程序所有基本构建块：</p>
+<ul>
+<li>事件。即流元素。</li>
+<li>状态。容错和一致性。</li>
+<li>定时器。事件时间和处理时间。</li>
+</ul>
+<h2 id="广播函数"><a href="#广播函数" class="headerlink" title="广播函数"></a>广播函数</h2><p>需要继承<code>BroadcastProcessFunction</code>或<code>KeyedBroadcastProcessFunction</code>。相比于一般的<code>ProcessFunction</code>，主要多了<code>processBroadcastElement</code>方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">processBroadcastElement</span><span class="params">(<span class="keyword">final</span> IN2 value, <span class="keyword">final</span> Context ctx, <span class="keyword">final</span> Collector&lt;OUT&gt; out)</span> <span class="keyword">throws</span> Exception</span>;</span><br></pre></td></tr></table></figure>
+
+<p>通过Context就能够得到广播出去的数据。<code>IN2 value</code>则表示数据记录。所以对于<code>BroadcastProcessFunction</code>来说，其实数据会被<code>processBroadcastElement</code>和<code>processElement</code>各处理一次。</p>
+<h2 id="异步函数"><a href="#异步函数" class="headerlink" title="异步函数"></a>异步函数</h2><p>异步函数是对Java异步框架的封装。包括了<code>RichAsyncFunction</code>和<code>AsyncFunction</code>。异步函数接口定义了两种行为：</p>
+<ul>
+<li>将调用结果封装到ResultFurtrue中。<ul>
+<li><code>void asyncInvoke(IN input, ResultFuture&lt;OUT&gt; resultFuture)</code></li>
+</ul>
+</li>
+<li>提供调用超时的处理，防止不释放资源。<ul>
+<li><code>default void timeout(IN input, ResultFuture&lt;OUT&gt; resultFuture)</code></li>
+</ul>
+</li>
+</ul>
+<p>###官方的使用用例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这个例子使用 Java 8 的 Future 接口（与 Flink 的 Future 相同）实现了异步请求和回调。</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 实现 &#x27;AsyncFunction&#x27; 用于发送请求和设置回调。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AsyncDatabaseRequest</span> <span class="keyword">extends</span> <span class="title">RichAsyncFunction</span>&lt;<span class="title">String</span>, <span class="title">Tuple2</span>&lt;<span class="title">String</span>, <span class="title">String</span>&gt;&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** 能够利用回调函数并发发送请求的数据库客户端 */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">transient</span> DatabaseClient client;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">open</span><span class="params">(Configuration parameters)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        client = <span class="keyword">new</span> DatabaseClient(host, post, credentials);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        client.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">asyncInvoke</span><span class="params">(String key, <span class="keyword">final</span> ResultFuture&lt;Tuple2&lt;String, String&gt;&gt; resultFuture)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 发送异步请求，接收 future 结果</span></span><br><span class="line">        <span class="keyword">final</span> Future&lt;String&gt; result = client.query(key);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置客户端完成请求后要执行的回调函数</span></span><br><span class="line">        <span class="comment">// 回调函数只是简单地把结果发给 future</span></span><br><span class="line">        CompletableFuture.supplyAsync(<span class="keyword">new</span> Supplier&lt;String&gt;() &#123;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> String <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="keyword">return</span> result.get();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException | ExecutionException e) &#123;</span><br><span class="line">                    <span class="comment">// 显示地处理异常。</span></span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).thenAccept( (String dbResult) -&gt; &#123;</span><br><span class="line">            resultFuture.complete(Collections.singleton(<span class="keyword">new</span> Tuple2&lt;&gt;(key, dbResult)));</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建初始 DataStream</span></span><br><span class="line">DataStream&lt;String&gt; stream = ...;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 应用异步 I/O 转换操作</span></span><br><span class="line"><span class="comment">// 注：AsyncDataStream是一个位于org.apache.flink.streaming.api.datastream包下的帮助类，用于实现异步调用。并非之前产生的某个流</span></span><br><span class="line">DataStream&lt;Tuple2&lt;String, String&gt;&gt; resultStream =</span><br><span class="line">    AsyncDataStream.unorderedWait(stream, <span class="keyword">new</span> AsyncDatabaseRequest(), <span class="number">1000</span>, TimeUnit.MILLISECONDS, <span class="number">100</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>注：</p>
+<ul>
+<li>第一次调用 <code>ResultFuture.complete</code> 后 <code>ResultFuture</code> 就完成了。 后续的 <code>complete</code> 调用都将被忽略。</li>
+</ul>
+<h3 id="结果的顺序"><a href="#结果的顺序" class="headerlink" title="结果的顺序"></a>结果的顺序</h3><p>对应于异步算子中提到的两种输出模式</p>
+<ul>
+<li><p>顺序输出模式：</p>
+<ul>
+<li>异步请求一结束就立刻发出结果记录。 流中记录的顺序在经过异步 I/O 算子之后发生了改变。 </li>
+<li>此模式使用 <code>AsyncDataStream.unorderedWait(...)</code> 方法</li>
+</ul>
+</li>
+<li><p>无序输出模式：</p>
+<ul>
+<li>保持了流的顺序。发出结果记录的顺序与触发异步请求的顺序（记录输入算子的顺序）相同。</li>
+<li>此模式使用 <code>AsyncDataStream.orderedWait(...)</code> 方法。</li>
+</ul>
+</li>
+</ul>
+<p>###使用提示</p>
+<p>在实现使用 <em>Executor</em>（或者 Scala 中的 <em>ExecutionContext</em>）和回调的 <em>Futures</em> 时，建议使用 <code>DirectExecutor</code>，因为通常回调的工作量很小，<code>DirectExecutor</code> 避免了额外的线程切换开销。回调通常只是把结果发送给 <code>ResultFuture</code>，也就是把它添加进输出缓冲。从这里开始，包括发送记录和与 chenkpoint 交互在内的繁重逻辑都将在专有的线程池中进行处理。</p>
+<p><code>DirectExecutor</code> 可以通过 <code>org.apache.flink.runtime.concurrent.Executors.directExecutor()</code> 或 <code>com.google.common.util.concurrent.MoreExecutors.directExecutor()</code> 获得。</p>
+<p><strong>Flink 不以多线程方式调用 AsyncFunction</strong></p>
+<p><strong>目前，出于一致性的原因，AsyncFunction 的算子（异步等待算子）必须位于算子链的头部</strong></p>
+<h2 id="数据源函数"><a href="#数据源函数" class="headerlink" title="数据源函数"></a>数据源函数</h2><blockquote>
+<p><code>SourceFunction</code>，一般实现<code>RichSourceFunction</code>或<code>RichParallelSourceFunction</code>，后者可以增加读取时的并行度</p>
+</blockquote>
+<blockquote>
+<p><code>RichParallelSourceFunction</code>本身并没有增加其他方法，如果要实现数据源的并行读取，一般需要通过<code>getRuntimeContext().getIndexOfThisSubtask();</code>来获取subTask的index值，通过index值来判断每个Task的读取范围，实现不同Task读取不同范围的数据，实现并行读取。</p>
+</blockquote>
+<p>SourceFunction有几个比较关键的行为：</p>
+<ul>
+<li>生命周期管理<ul>
+<li>主要通过open、close、cancle三个方法控制初始化、清理。</li>
+</ul>
+</li>
+<li>读取数据<ul>
+<li>通过run方法，从数据源读取数据。</li>
+</ul>
+</li>
+<li>向下游发送数据<ul>
+<li>将读取的数据传递给<code>SourceContext&lt;OUT&gt; ctx</code></li>
+</ul>
+</li>
+<li>发送Watermark<ul>
+<li>生成Watermark并向下游发送，发送逻辑定义在<code>SourceContext&lt;OUT&gt; ctx</code>中</li>
+</ul>
+</li>
+<li>空闲标记<ul>
+<li>如果读取不到数据，则将该Task标记为空闲，阻止Watermark向下游传递。发送逻辑定义在<code>SourceContext&lt;OUT&gt; ctx</code>中。</li>
+</ul>
+</li>
+</ul>
+<p><code>StreamSourceContext</code>提供了生成不同类型<code>SourceContext</code>实例的方法：<code>NonTimestampContext</code>和<code>WaterMarkContext</code></p>
+<p>Flink会根据时间进行判断并使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> (timeCharacteristic) &#123;</span><br><span class="line">    <span class="keyword">case</span> EventTime:</span><br><span class="line">        ctx =</span><br><span class="line">                <span class="keyword">new</span> ManualWatermarkContext&lt;&gt;(</span><br><span class="line">                        output,</span><br><span class="line">                        processingTimeService,</span><br><span class="line">                        checkpointLock,</span><br><span class="line">                        streamStatusMaintainer,</span><br><span class="line">                        idleTimeout);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> IngestionTime:</span><br><span class="line">        ctx =</span><br><span class="line">                <span class="keyword">new</span> AutomaticWatermarkContext&lt;&gt;(</span><br><span class="line">                        output,</span><br><span class="line">                        watermarkInterval,</span><br><span class="line">                        processingTimeService,</span><br><span class="line">                        checkpointLock,</span><br><span class="line">                        streamStatusMaintainer,</span><br><span class="line">                        idleTimeout);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> ProcessingTime:</span><br><span class="line">        ctx = <span class="keyword">new</span> NonTimestampContext&lt;&gt;(checkpointLock, output);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(String.valueOf(timeCharacteristic));</span><br></pre></td></tr></table></figure>
+
+<h3 id="NonTimestampContext"><a href="#NonTimestampContext" class="headerlink" title="NonTimestampContext"></a>NonTimestampContext</h3><p>不会向下游发送Watermark（所有元素时间戳都是-1）。使用<code>process Time</code>时使用。因为使用事件时间时，Watermark没有意义。</p>
+<h3 id="WatermarkContext"><a href="#WatermarkContext" class="headerlink" title="WatermarkContext"></a>WatermarkContext</h3><p>定义了与Watermark相关的行为，包括：</p>
+<ul>
+<li>负责管理当前的StreamStatus，确保StreamStatus向下游传递。</li>
+<li>负责空闲检测的逻辑，当超过设定的事件间隔而没有收到数据或者Watermark时，认为Task处于空闲状态。</li>
+</ul>
+<p>实际实现分为了<code>AutomaticWatermarkContext</code>和<code>ManualWatermarkContext</code>。</p>
+<p>####AutomaticWatermarkContext</p>
+<p>使用<code>ingestionTime</code>时使用，自动生成Watermark。持续的自动注册定时器。</p>
+<p>其相关方法实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">emitWatermark</span><span class="params">(Watermark mark)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (allowWatermark(mark)) &#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (checkpointLock) &#123;</span><br><span class="line">            streamStatusMaintainer.toggleStreamStatus(StreamStatus.ACTIVE);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (nextCheck != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">this</span>.failOnNextCheck = <span class="keyword">false</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                scheduleNextIdleDetectionTask();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            processAndEmitWatermark(mark);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">allowWatermark</span><span class="params">(Watermark mark)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// allow Long.MAX_VALUE since this is the special end-watermark that for example the</span></span><br><span class="line">    <span class="comment">// Kafka source emits</span></span><br><span class="line">    <span class="keyword">return</span> mark.getTimestamp() == Long.MAX_VALUE &amp;&amp; nextWatermarkTime != Long.MAX_VALUE;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">processAndCollect</span><span class="params">(T element)</span> </span>&#123;</span><br><span class="line">    lastRecordTime = <span class="keyword">this</span>.timeService.getCurrentProcessingTime();</span><br><span class="line">    output.collect(reuse.replace(element, lastRecordTime));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// this is to avoid lock contention in the lockingObject by</span></span><br><span class="line">    <span class="comment">// sending the watermark before the firing of the watermark</span></span><br><span class="line">    <span class="comment">// emission task.</span></span><br><span class="line">    <span class="keyword">if</span> (lastRecordTime &gt; nextWatermarkTime) &#123;</span><br><span class="line">        <span class="comment">// in case we jumped some watermarks, recompute the next watermark time</span></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">long</span> watermarkTime = lastRecordTime - (lastRecordTime % watermarkInterval);</span><br><span class="line">        nextWatermarkTime = watermarkTime + watermarkInterval;</span><br><span class="line">        output.emitWatermark(<span class="keyword">new</span> Watermark(watermarkTime));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// we do not need to register another timer here</span></span><br><span class="line">        <span class="comment">// because the emitting task will do so.</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于来说，一般不会调用<code>processAndEmitWatermark</code>方法，而是通过<code>processAndCollect</code>来创建Watermark</p>
+<p>####ManualWatermarkContext</p>
+<p>使用<code>EventTime</code>时使用，不会产生WaterMark，而是向下游发送透传(只负责将传输的内容由源地址传输到目的地址)上游的Watermark。</p>
+<p>其相关方法实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">allowWatermark</span><span class="params">(Watermark mark)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">processAndEmitWatermark</span><span class="params">(Watermark mark)</span> </span>&#123;</span><br><span class="line">    output.emitWatermark(mark);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>两者的区别其实相关注释有提及</p>
+<blockquote>
+<p>This method is only relevant when running on TimeCharacteristic.EventTime. On TimeCharacteristic.ProcessingTime,Watermarks will be ignored. On TimeCharacteristic.IngestionTime, the Watermarks will be replaced by the automatic ingestion time watermarks.</p>
+</blockquote>
+<h2 id="输出函数"><a href="#输出函数" class="headerlink" title="输出函数"></a>输出函数</h2><p>Connector在实现Sink时，基本都是从<code>RichSinkFunction</code>和<code>TwoPhaseCommitSinkFunction</code>继承。故并没有Function的生命周期管理行为。</p>
+<p><code>TwoPhaseCommitSinkFunction</code>是Flink实现端到端Exactly-Once的关键函数。需要配合检查点机制结合实现。</p>
+<h2 id="检查点函数"><a href="#检查点函数" class="headerlink" title="检查点函数"></a>检查点函数</h2><p>用来实现函数级别的State管理。Flink设计了<code>CheckpointedFunction</code>和<code>ListCheckpointed</code>接口。</p>
+<h3 id="CheckpointedFunction"><a href="#CheckpointedFunction" class="headerlink" title="CheckpointedFunction"></a>CheckpointedFunction</h3><ul>
+<li>当保存状态后，<code>snapshotStat</code>会被调用，用来备份保存状态到外部存储。</li>
+<li><code>initializeState</code>方法负责<strong>初始化State</strong>以及<strong>从上一个检查点恢复状态</strong>的逻辑。<ul>
+<li>函数初始化时也会调用该方法。</li>
+</ul>
+</li>
+</ul>
+<h3 id="ListCheckpointed"><a href="#ListCheckpointed" class="headerlink" title="ListCheckpointed"></a>ListCheckpointed</h3><blockquote>
+<p>在1.13中已经被标记为过时：If you need to do non-keyed state snapshots of your operator, use CheckpointedFunction. This should only be needed in rare cases, though.</p>
+</blockquote>
+<ul>
+<li><code>snapshotState</code>方法，方法有个checkpointId参数，是唯一单调递增的数字，而timestamp则是master触发checkpoint的时间戳，该方法要返回当前的state(<code>List结构</code>)。</li>
+<li><code>restoreState</code>方法会在failure recovery的时候被调用，传递的参数为List类型的state，方法里头可以将state恢复到本地。</li>
+</ul>
+<p><code>ListCheckpointed</code>是<code>CheckpointedFunction</code>的限制版，它只能支持<strong>Even-split redistribution模式的list-style state</strong>。</p>
+<blockquote>
+<ul>
+<li><strong>Even-split redistribution:</strong> 每个算子都保存一个列表形式的状态集合，整个状态由所有的列表拼接而成。当作业恢复或重新分配的时候，<strong>整个状态会按照算子的并发度进行均匀分配</strong>。 比如说，算子 A 的并发读为 1，包含两个元素 <code>element1</code> 和 <code>element2</code>，当并发读增加为 2 时，<code>element1</code> 会被分到并发 0 上，<code>element2</code> 则会被分到并发 1 上。</li>
+<li><strong>Union redistribution:</strong> 每个算子保存一个列表形式的状态集合。整个状态由所有的列表拼接而成。当作业恢复或重新分配时，<strong>每个算子都将获得所有的状态数据</strong>。</li>
+</ul>
+</blockquote>
+<p>在限制的同时，省略了初始化State的步骤。</p>
+<h1 id="数据分区"><a href="#数据分区" class="headerlink" title="数据分区"></a>数据分区</h1><p>数据分区在Flink中叫做Partition。抽象接口时StreamPartitioner，决定了实际运行中数据流分发模式。所有的数据分区器(包括<code>StreamPartitioner</code>)都实现了<code>ChannelSelector</code>接口，<code>ChannelSelector</code>接口定义了负载均衡选择行为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ChannelSelector</span>&lt;<span class="title">T</span> <span class="keyword">extends</span> <span class="title">IOReadableWritable</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 初始化下游可选Channel数量</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setup</span><span class="params">(<span class="keyword">int</span> numberOfChannels)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 每条记录的选择方法</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">selectChannel</span><span class="params">(T record)</span></span>;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 是否向下游广播。即决定是否将记录写入到下游的所有channel</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isBroadcast</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在API层面上，分区器作用于DataStream上，并且会生成一个新的DataStream。</p>
+<h1 id="连接器"><a href="#连接器" class="headerlink" title="连接器"></a>连接器</h1><p>Flink内置了一批连接器，Github的Bahir项目实现了一部分其他数据库的连接器。</p>
+
+      
     </div>
-</div>
 
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2021/03/08/shi-yong-scala-fan-she-ji-zhi-dong-tai-sheng-cheng-udf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/08/shi-yong-scala-fan-she-ji-zhi-dong-tai-sheng-cheng-udf/" class="post-title-link" itemprop="url">使用Scala反射机制动态生成UDF</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-03-08 16:35:34 / 修改时间：16:51:35" itemprop="dateCreated datePublished" datetime="2021-03-08T16:35:34+08:00">2021-03-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spark/" itemprop="url" rel="index"><span itemprop="name">Spark</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>由于项目需要，需要通过String类型的代码，动态生成UDF函数。</p>
+<p>由于需要同时适配Java代码和Scala代码目前考虑到两种实现：</p>
+<p>Scala代码通过Scala的反射机制动态编译代码并作为UDF注册到Spark。</p>
+<p>Java代码使用Spark的Expression机制。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2021/03/07/java-de-serviceloader-shi-yong/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/07/java-de-serviceloader-shi-yong/" class="post-title-link" itemprop="url">Java的ServiceLoader使用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-03-07 15:39:15 / 修改时间：15:39:37" itemprop="dateCreated datePublished" datetime="2021-03-07T15:39:15+08:00">2021-03-07</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2021/02/03/flink-de-zhuang-tai-guan-li/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/03/flink-de-zhuang-tai-guan-li/" class="post-title-link" itemprop="url">Flink的状态管理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-03 14:38:44" itemprop="dateCreated datePublished" datetime="2021-02-03T14:38:44+08:00">2021-02-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-25 11:51:19" itemprop="dateModified" datetime="2021-07-25T11:51:19+08:00">2021-07-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Flink/" itemprop="url" rel="index"><span itemprop="name">Flink</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="状态管理的逻辑"><a href="#状态管理的逻辑" class="headerlink" title="状态管理的逻辑"></a>状态管理的逻辑</h2><p>状态在Flink中的工作逻辑可以简单的理解为：业务需要访问的本地或实例变量。一般来说工作逻辑如下图所示：</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210203145253.png" alt="状态获取和更新示意图"></p>
+<ol>
+<li>任务接受输入数据。并进行处理。</li>
+<li>处理过程中对状态进行读取或更新。</li>
+<li>处理完的结果进行输出。</li>
+</ol>
+<h2 id="状态的分类"><a href="#状态的分类" class="headerlink" title="状态的分类"></a>状态的分类</h2><p>在Flink中，状态主要可以分为两大类：算子状态(Operator State) 和 键值分区状态(Keyed State)</p>
+<h3 id="算子状态"><a href="#算子状态" class="headerlink" title="算子状态"></a>算子状态</h3><p>Operator State可以用在所有<strong>算子</strong>上，每个算子子任务或者说每个算子实例共享一个状态。流入这个算子子任务的数据可以访问和更新这个状态。反过来说，算子状态不能通过其他任务访问，无论该任务是否来自相同算子。</p>
+<p>算子状态一般用于输入/输出和少数没有键值的情况下。一般来说有如下特点：</p>
+<ul>
+<li><p>状态对于同一个任务而言是共享的。（每一个并行子任务共享一个状态）</p>
+</li>
+<li><p>相同算子的不同任务之间也不能访问。（如何理解相同算子的不同任务？）</p>
+</li>
+<li><blockquote>
+<p>Flink概念：</p>
+<p>算子：一个数据处理单元。体现在代码中就是stream的处理方法。</p>
+<p>任务：每当并行度发生变化或者数据需要分组（keyBy）时（还可通过API明确设置），就会产生任务。和spark一样，一般伴随着shuffle。</p>
+<p>子任务：当某个任务并行度为4时，就拥有4个子任务。</p>
+</blockquote>
+</li>
+</ul>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210203152734.png" alt="Operator State示意图"></p>
+<p>针对状态算子，Flink提供了三类原语：</p>
+<ul>
+<li>列表状态<ul>
+<li>将状态表示为一个条目列表。</li>
+</ul>
+</li>
+<li>联合列表状态<ul>
+<li>类似于列表状态，将状态表示为一个条目列表。</li>
+<li>故障恢复/重启时会有所不同。扩容时有所不同。</li>
+</ul>
+</li>
+<li>广播状态<ul>
+<li>保证算子的每个任务状态都相同。</li>
+</ul>
+</li>
+</ul>
+<p>###键值分区状态</p>
+<p>键值状态作用域键值上。所有键值相同的记录能够访问到一样的状态。</p>
+<p>Keyed State是<code>KeyedStream</code>上的状态。假如输入流按照id为Key进行了<code>keyBy</code>分组，形成一个<code>KeyedStream</code>，数据流中所有id为1的数据共享一个状态，可以访问和更新这个状态。因为一个算子子任务可以处理一到多个Key，算子子任务1处理了两种Key，两种Key分别对应自己的状态</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210203160816.png" alt="Keyed State示意图"></p>
+<p>Flink为Keyed State提供了几类原语，下述为三类常见的：</p>
+<ul>
+<li>单值状态（value state）<ul>
+<li>每个键对应存储着一个任意类型的值。该值可以是某种复杂的数据结构。</li>
+</ul>
+</li>
+<li>列表状态（list state）<ul>
+<li>每个键对应存储着一个值的列表。</li>
+</ul>
+</li>
+<li>映射状态（map state）<ul>
+<li>每个键对应存储着一个键值映射Map。</li>
+</ul>
+</li>
+</ul>
+<h2 id="有状态算子的缩扩容"><a href="#有状态算子的缩扩容" class="headerlink" title="有状态算子的缩扩容"></a>有状态算子的缩扩容</h2><p>当算子并行度发生变化时，就会涉及到有状态算子的缩扩容问题，Flink准备了总共4种策略</p>
+<h3 id="算子状态-1"><a href="#算子状态-1" class="headerlink" title="算子状态"></a>算子状态</h3><p>算子状态根据状态原语不同，会有不同的缩扩容方式。</p>
+<h4 id="普通"><a href="#普通" class="headerlink" title="普通"></a>普通</h4><p>会对列表中的条目进行重新分配：</p>
+<ol>
+<li>收集所有并行算子任务的列表条目。</li>
+<li>均匀分配到更多或更少的任务上。</li>
+</ol>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210203163257.png" alt="算子状态普通"></p>
+<h4 id="联合列表状态"><a href="#联合列表状态" class="headerlink" title="联合列表状态"></a>联合列表状态</h4><ol>
+<li>将任务的列表条目广播到全部下游任务上。</li>
+<li>由下游任务决定哪些条目保留/丢弃。</li>
+</ol>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210203163423.png" alt="联合列表状态缩扩容"></p>
+<h4 id="广播状态"><a href="#广播状态" class="headerlink" title="广播状态"></a>广播状态</h4><p>广播状态需要与广播流一起使用。</p>
+<ol>
+<li>算子会把状态拷贝到下游任务上。（不同于联合列表，上下游任务是一一对应的）</li>
+<li>当缩容时，也是拷贝到下游任务。停掉多出的任务。</li>
+</ol>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210203170326.png" alt="广播状态缩扩容"></p>
+<h3 id="键值分区状态"><a href="#键值分区状态" class="headerlink" title="键值分区状态"></a>键值分区状态</h3><p>对于键值分区缩扩容时会相对简单。Flink会通过下述步骤完成：</p>
+<ol>
+<li>将统一任务中的键值分为不同的键值组。</li>
+<li>对键值组进行重新分区。（一个键值组只会发往一个下游任务，但上游一个任务中的不同键值组可能发往不同下游任务）</li>
+</ol>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210203162854.png" alt="键值分区缩扩容"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>无论是Keyed State还是Operator State，Flink的状态都是基于本地的，即每个算子子任务维护着这个算子子任务对应的状态存储，算子子任务之间的状态不能相互访问。</p>
+<p>使用Keyed State一般需要在<code>RichFunction</code>中的<code>open</code>方法中初始化。而对于Operator State，还需进一步实现<code>CheckpointedFunction</code>接口。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Keyed State</th>
+<th>Operator State</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>适用算子类型</td>
+<td>只适用于<code>KeyedStream</code>上的算子</td>
+<td>可以用于所有算子</td>
+</tr>
+<tr>
+<td>状态分配</td>
+<td>每个Key对应一个状态</td>
+<td>一个算子子任务对应一个状态</td>
+</tr>
+<tr>
+<td>创建和访问方式</td>
+<td>重写Rich Function，通过里面的RuntimeContext访问</td>
+<td>实现<code>CheckpointedFunction</code>等接口</td>
+</tr>
+<tr>
+<td>缩扩容</td>
+<td>状态随着Key自动在多个算子子任务上迁移</td>
+<td>根据状态类型不同而不同</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2021/01/30/flink-de-liu-shi-join/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/30/flink-de-liu-shi-join/" class="post-title-link" itemprop="url">Flink的流式Join</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-30 14:43:21" itemprop="dateCreated datePublished" datetime="2021-01-30T14:43:21+08:00">2021-01-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-25 11:52:09" itemprop="dateModified" datetime="2021-07-25T11:52:09+08:00">2021-07-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Flink/" itemprop="url" rel="index"><span itemprop="name">Flink</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>本文Flink API版本：java-1.12</p>
+</blockquote>
+<p>#Flink的流式Join</p>
+<p>流式Join一般来说分为两类：基于间隔的Join和基于窗口的的Join</p>
+<h2 id="基于间隔的Join"><a href="#基于间隔的Join" class="headerlink" title="基于间隔的Join"></a>基于间隔的Join</h2><p>概念： 对两条流中，拥有相同键值，且彼此时间戳不超过某一指定间隔的事件进行Join。</p>
+<blockquote>
+<p>间隔是基于左侧流事件决定的（即B事件的事件在 A时间+设定的时间范围内时触发）</p>
+<p>这类Join只支持Inner Join</p>
+</blockquote>
+<p>以官网的图为例：</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210130154332.svg" alt="interval-join"></p>
+<p>对于上述两条流，当<code>green.timestamp ∈ [orange.timestamp + lowerBound; orange.timestamp + upperBound]</code>时，就能够符合关联所需的时间范围。</p>
+<p>使用方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">orangeStream</span><br><span class="line">    .keyBy(&lt;KeySelector&gt;)</span><br><span class="line">  	<span class="comment">// 指定使用间隔Join</span></span><br><span class="line">    .intervalJoin(greenStream.keyBy(&lt;KeySelector&gt;))</span><br><span class="line">  	<span class="comment">// 设置间隔范围</span></span><br><span class="line">    .between(Time.milliseconds(-<span class="number">2</span>), Time.milliseconds(<span class="number">1</span>))</span><br><span class="line">    .process (<span class="keyword">new</span> ProcessJoinFunction&lt;Integer, Integer, String()&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">processElement</span><span class="params">(Integer left, Integer right, Context ctx, Collector&lt;String&gt; out)</span> </span>&#123;</span><br><span class="line">            out.collect(first + <span class="string">&quot;,&quot;</span> + second);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>关键就在于使用<code>intervalJoin</code>指定为间隔Join，同时使用<code>between</code>设置间隔范围。Join成功的事件会发送给process，一般来说需要实现<code>ProcessJoinFunction</code>：</p>
+<ul>
+<li>left对应的途中的橙色数据流，其数据类型就对应<code>orangeStream</code>的数据类型。同理right对应于绿色数据流。</li>
+<li>第三个参数对应于输出事件的数据类型。</li>
+</ul>
+<p>对于间隔Join，由于这个算子的水位线总是由 <em>较慢</em> 的那条流决定。所以需要注意防止两条流相差过大。</p>
+<p>对于第一个输入而言：</p>
+<ul>
+<li>所有时间戳大于 <em>水位线 - 间隔上界</em> 的数据都会被缓存起来。<ul>
+<li>水位线触发计算时，为了保证<strong>第二条</strong>流在水位线上的数据被正确参与计算，这条数据最早能够匹配到的数据是 【水位线 - 上限】的【第一条】数据中的数据。</li>
+</ul>
+</li>
+</ul>
+<p>对于第二个输入而言：</p>
+<ul>
+<li>所有时间戳大雨 <em>水位线 - 间隔下界</em> 的数据都会被缓存起来。<ul>
+<li>水位线触发计算时，为了保证<strong>第一条</strong>流在水位线上的数据被正确参与计算，这条数据最早能够匹配到的数据是【水位线 - 下限】的【第二条】数据中的数据。</li>
+</ul>
+</li>
+</ul>
+<h2 id="基于窗口的Join"><a href="#基于窗口的Join" class="headerlink" title="基于窗口的Join"></a>基于窗口的Join</h2><p>基于窗口的Join又可以根据窗口的定义，分为三类：基于滚动窗口、基于滑动窗口、基于事件窗口。无论具体是哪种窗口，使用方式都差不多：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">orangeStream.join(greenStream)</span><br><span class="line">    <span class="comment">// 为orangeStream指定键值属性。</span></span><br><span class="line">    .where(&lt;KeySelector&gt;)</span><br><span class="line">  	<span class="comment">// 为greenStream指定键值属性。</span></span><br><span class="line">    .equalTo(&lt;KeySelector&gt;)</span><br><span class="line">  	<span class="comment">// 选择一类Window</span></span><br><span class="line">    .window(...choose one window...)</span><br><span class="line">    .apply (<span class="keyword">new</span> JoinFunction&lt;Integer, Integer, String&gt; ()&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">join</span><span class="params">(Integer first, Integer second)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> first + <span class="string">&quot;,&quot;</span> + second;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>其中，</p>
+<ul>
+<li><code>join</code>紧跟的<code>where</code>用于为左侧流指定键值属性，<code>equalTo</code>为右侧流指定键值属性。<ul>
+<li>即选择那个key（可以指定一个元组，注意位置即可）作为join匹配。</li>
+</ul>
+</li>
+</ul>
+<p>基于窗口的Join工作原理如图：</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210130165328.png" alt="窗口Join原理"></p>
+<p>触发Join需要满足下述三个条件：</p>
+<ul>
+<li><p>想要Join的元素位于一个窗口中。</p>
+</li>
+<li><p><code>where</code>中指定的左侧key与<code>equalTo</code>中指定的右侧key相等。</p>
+</li>
+<li><p>触发窗口计算（即水位线来到窗口的结束时间）。</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
 
 <script>
-    // 每天切换 banner 图.  Switch banner image every day.
-    $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay() + '.jpg)');
-</script>
-
-
-    </div>
-</div>
-
-
-<main class="content">
-
-    
-
-    
-
-    <!-- 所有文章卡片 -->
-    <article id="articles" class="container articles">
-        <div class="row article-row">
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/05/18/flink-zhong-shi-yong-cep/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Flink中使用cep">
-                            
-                            <span class="card-title">Flink中使用cep</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                Flink中使用CEP进行复杂计算CEP简介：官网介绍: Complex event processing for FlinkCEP主要用于流式处理过程中的数据状态转移，我们假设一个场景，我们接受的流数据有2两个字段：（id，name），利
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-18
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Flink/" class="post-category">
-                                    Flink
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Flink/">
-                            <span class="chip bg-color">Flink</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/05/15/structured-li-shi-yong-state-ji-suan/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="structured里使用state计算">
-                            
-                            <span class="card-title">structured里使用state计算</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                structured里使用state计算structured主要提供了mapGroupsWithState和flatMapGroupsWithState来进行有状态计算，以mapGroupsWithState为例，其主要接受：
-def ma
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-15
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Spark/" class="post-category">
-                                    Spark
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Spark/">
-                            <span class="chip bg-color">Spark</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/05/14/manage-sparktask-in-code/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="manage sparkTask in code">
-                            
-                            <span class="card-title">manage sparkTask in code</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                Manage SparkTask in codesubmit Spark
-Get SparkLauncher:
-
-// init SparkLauncher
-SparkLauncher sparkLauncher = new SparkLa
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-14
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-user fa-fw"></i>
-                                Ssiu
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/04/27/kerberos-on-cdh/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="kerberos on CDH">
-                            
-                            <span class="card-title">kerberos on CDH</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                为CDH添加kerberos认证
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-27
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/CDH/" class="post-category">
-                                    CDH
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/CDH/">
-                            <span class="chip bg-color">CDH</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/02/24/liao-liao-submit-de-chang-yong-can-shu/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="聊聊spark-submit的常用参数">
-                            
-                            <span class="card-title">聊聊spark-submit的常用参数</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                在使用spark-submit在yarn跑应用程序时，我们除了设置参数，一般还会附加jar包，file文件等。这些东西实际去哪了？答案就是我们配置的yarn.nodemanager.local-dirstmp目录。
-&lt;property
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-02-24
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Spark/" class="post-category">
-                                    Spark
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Spark/">
-                            <span class="chip bg-color">Spark</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/01/27/flink-de-shui-wei-xian-zai-dan-xian-cheng-he-bing-xing-chu-li-shi-hou-de-wen-ti-ji-lu/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="Flink的水位线在单线程和并行处理时候的问题记录">
-                            
-                            <span class="card-title">Flink的水位线在单线程和并行处理时候的问题记录</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                前言Flink对于eventTime的处理是很妙的一个地方，借助水位线机制，能够帮助Flink处理延迟数据。不过在测试途中却遇到了一些有些奇怪的现象，特此记录。
-
-Flink版本：1.9.x
-
-单线程下的水位线：这篇博客写的很好，基本把水位
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-01-27
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Flink/" class="post-category">
-                                    Flink
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Flink/">
-                            <span class="chip bg-color">Flink</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-        </div>
-    </article>
-
-</main>
-
-
-<div class="container paging">
-    <div class="row">
-        <div class="col s6 m4 l4">
-            
-            <a href="/page/3/"
-               class="left btn-floating btn-large waves-effect waves-light bg-color">
-                <i class="fas fa-angle-left"></i>
-            </a>
-            
-        </div>
-        <div class="page-info col m4 l4 hide-on-small-only">
-            <div class="center-align b-text-gray">4 / 9</div>
-        </div>
-        <div class="col s6 m4 l4">
-            
-            <a href="/page/5/"
-               class="right btn-floating btn-large waves-effect waves-light bg-color">
-                <i class="fas fa-angle-right"></i>
-            </a>
-            
-        </div>
-    </div>
-</div>
-
-
-
-
-    <footer class="page-footer bg-color">
-    <div class="container row center-align" style="margin-bottom: 0px !important;">
-        <div class="col s12 m8 l8 copy-right">
-            Copyright&nbsp;&copy;
-            <span id="year">2017-2020</span>
-            <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
-            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
-            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
-            <br>
-            
-            
-            
-            
-            
-            
-            <span id="busuanzi_container_site_pv" style="display:none">
-                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
-                    class="white-color"></span>&nbsp;次
-            </span>
-            
-            
-            <span id="busuanzi_container_site_uv" style="display:none">
-                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
-                    class="white-color"></span>&nbsp;人
-            </span>
-            
-            
-        </div>
-        <div class="col s12 m4 l4 social-link social-statis">
-
-
-    <a href="mailto:smokeriu@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
-        <i class="fas fa-envelope-open"></i>
-    </a>
-
-
-
-
-
-
-
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=604522169" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 604522169" data-position="top" data-delay="50">
-        <i class="fab fa-qq"></i>
-    </a>
-
-
-
-
-
-
-
-</div>
-    </div>
-</footer>
-
-<div class="progress-bar"></div>
-
-<script language=javascript>
-    function siteTime() {
-        window.setTimeout("siteTime()", 1000);
-        var seconds = 1000;
-        var minutes = seconds * 60;
-        var hours = minutes * 60;
-        var days = hours * 24;
-	var months = days * 30;
-        var years = days * 365;
-        var today = new Date();
-        var todayYear = today.getFullYear();
-        var todayMonth = today.getMonth() + 1;
-        var todayDate = today.getDate();
-        var todayHour = today.getHours();
-        var todayMinute = today.getMinutes();
-        var todaySecond = today.getSeconds();
-        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
-        year - 作为date对象的年份，为4位年份值
-        month - 0-11之间的整数，做为date对象的月份
-        day - 1-31之间的整数，做为date对象的天数
-        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
-        minutes - 0-59之间的整数，做为date对象的分钟数
-        seconds - 0-59之间的整数，做为date对象的秒数
-        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
-        var t1 = Date.UTC(2017, 02, 12, 00, 00, 00); //北京时间2018-2-13 00:00:00
-        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
-        var diff = t2 - t1;
-        var diffYears = Math.floor(diff / years);
-        var diffDays = Math.floor((diff / days) - diffYears * 365);
-        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
-        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
-        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
-        document.getElementById("sitetime").innerHTML = "本站已运行 " +diffYears+" 年 "+diffDays + " 天 ";
-    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
-    siteTime();
-</script>
-
-
-<script>
-    $(document).ready(function () {
-
-        var int = setInterval(fixCount, 50);  // 50ms周期检测函数
-        var pvcountOffset = 5423;  // 初始化首次数据
-        var uvcountOffset = 3322;
-
-        function fixCount() {
-            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
-                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
-                clearInterval(int);
-            }
-            if ($("#busuanzi_container_site_pv").css("display") != "none") {
-                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
-                clearInterval(int); // 停止检测
-            }
-        }
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
     });
+  }
 </script>
 
-
-
-    <!-- 搜索遮罩框 -->
-<div id="searchModal" class="modal">
-    <div class="modal-content">
-        <div class="search-header">
-            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
-            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
-                   class="search-input">
         </div>
-        <div id="searchResult"></div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ssiu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
     </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ssiu</span>
 </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
 
-<script src="/js/search.js"></script>
-<script type="text/javascript">
-$(function () {
-    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
-});
-</script>
-    <!-- 回到顶部按钮 -->
-<div id="backTop" class="top-scroll">
-    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
-        <i class="fas fa-arrow-up"></i>
-    </a>
-</div>
+        
 
 
-    <script src="/libs/materialize/materialize.min.js"></script>
-    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
-    <script src="/libs/aos/aos.js"></script>
-    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
-    <script src="/js/matery.js"></script>
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <!-- Baidu Analytics -->
 
-    <!-- Baidu Push -->
 
-<script>
-    (function () {
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        } else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-</script>
 
-    
-    
-    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
-    
 
-    
+      </div>
+    </footer>
+  </div>
 
-    
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
-    
+<script src="/js/utils.js"></script>
 
-    
+<script src="/js/motion.js"></script>
 
-    
-    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
-    
-    
-    
-    <script src="/libs/instantpage/instantpage.js" type="module"></script>
-    
 
-</body>
+<script src="/js/schemes/pisces.js"></script>
 
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
 </html>

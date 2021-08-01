@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-material.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.ibuer.fun","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Window是Flink中一类算子。一般会搭配时间来处理一个范围的数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flink的Window详解">
+<meta property="og:url" content="http://blog.ibuer.fun/2021/07/31/flink-de-window-xiang-jie/index.html">
+<meta property="og:site_name" content="Ssiu Blog">
+<meta property="og:description" content="Window是Flink中一类算子。一般会搭配时间来处理一个范围的数据">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ci.apache.org/projects/flink/flink-docs-release-1.13/fig/tumbling-windows.svg">
+<meta property="og:image" content="https://ci.apache.org/projects/flink/flink-docs-release-1.13/fig/sliding-windows.svg">
+<meta property="article:published_time" content="2021-07-31T06:48:13.000Z">
+<meta property="article:modified_time" content="2021-08-01T05:26:09.159Z">
+<meta property="article:author" content="Ssiu">
+<meta property="article:tag" content="Flink">
+<meta property="article:tag" content="Window">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ci.apache.org/projects/flink/flink-docs-release-1.13/fig/tumbling-windows.svg">
+
+<link rel="canonical" href="http://blog.ibuer.fun/2021/07/31/flink-de-window-xiang-jie/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Flink的Window详解 | Ssiu Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ssiu Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2021/07/31/flink-de-window-xiang-jie/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Flink的Window详解
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-07-31 14:48:13" itemprop="dateCreated datePublished" datetime="2021-07-31T14:48:13+08:00">2021-07-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 13:26:09" itemprop="dateModified" datetime="2021-08-01T13:26:09+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Flink/" itemprop="url" rel="index"><span itemprop="name">Flink</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Window是Flink中一类算子。一般会搭配时间来处理一个范围的数据</p>
+<span id="more"></span>
+
+<h1 id="Window的分类"><a href="#Window的分类" class="headerlink" title="Window的分类"></a>Window的分类</h1><p>Flink中Window可以有不同维度的多种分类，总的来说，Flink提供了三类默认窗口：计数窗口、时间窗口和会话窗口。而计数窗口和时间窗口根据Window的位移方式又分为了：滑动窗口和滚动窗口。两类。</p>
+<h2 id="计数窗口"><a href="#计数窗口" class="headerlink" title="计数窗口"></a>计数窗口</h2><p>累计固定个数的元素视为一个窗口。</p>
+<blockquote>
+<p>不过计数窗口其实并不是一个单独的类别。不过实际使用上来说，</p>
+<p>看源码可以知道，本质上是一种<strong>基于全局窗口实现的</strong>，故后续讨论的没注明的都是基于时间的窗口。</p>
+</blockquote>
+<h2 id="时间窗口"><a href="#时间窗口" class="headerlink" title="时间窗口"></a>时间窗口</h2><p>在时间上按照事先约定的窗口大小切分的窗口</p>
+<h2 id="会话窗口"><a href="#会话窗口" class="headerlink" title="会话窗口"></a>会话窗口</h2><p>当超过一定时间后，该窗口没有新元素进入时，则窗口结束。故无法实现确定窗口的大小、元素个数。窗口间也不会重叠</p>
+<h2 id="滚动窗口"><a href="#滚动窗口" class="headerlink" title="滚动窗口"></a>滚动窗口</h2><p>滚动窗口整体概念上是最简单的，即设定好窗口长度即可。下一个窗口的开始是上一个窗口的结束，每个窗口长度一致：</p>
+<p><img src="https://ci.apache.org/projects/flink/flink-docs-release-1.13/fig/tumbling-windows.svg" alt="Tumbling Windows"></p>
+<h2 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h2><p>滑动窗口则按照划分方式是时间还是计数略有不同。</p>
+<p>对于时间/计数，下一个窗口的开始，是上一个窗口的开始 + 设定的滑动时间/数量大小。</p>
+<p>两个滑动窗口间可能会出现重叠部分，如图中的Window1和Window2。（图中的slide恰好是Window size的一半）</p>
+<p><img src="https://ci.apache.org/projects/flink/flink-docs-release-1.13/fig/sliding-windows.svg" alt="sliding windows"></p>
+<h1 id="窗口原理与机制"><a href="#窗口原理与机制" class="headerlink" title="窗口原理与机制"></a>窗口原理与机制</h1><blockquote>
+<p>之前在介绍时间语义时写过，这次换一个角度去说明。</p>
+</blockquote>
+<p>每一个数据元素进入窗口算子时，首先会被交给<code>WindowAssigner</code>。<code>WindowAssigner</code>决定元素被放到<em>哪个</em>或<em>哪些</em>窗口。在这个过程中可能会创建或者合并旧的窗口。<strong>WindowOperator中可能会存在多个窗口，一个元素也可能被放入多个窗口中</strong>。</p>
+<p>Window本身只是一个ID标识符，内存可能存储了一些元数据，如TimeWindow会存放开始和结束时间，但<strong>窗口不会存储窗口中的元素</strong>。窗口的元素实际存储在Key/Value State中，其中Key为Window，Value为数据集合（某些函数为聚合后的值）。这部分实现依赖于Flink的State机制。</p>
+<p>每个窗口都会拥有一个自己的<code>Trigger</code>，<code>Trigger</code>上有定时器，用来决定窗口何时能够被计算或清除。同时，<strong>每当有元素被分配到该窗口</strong>或者<strong>之前注册的定时器超时时</strong>，<code>Trigger</code>都会被调用。</p>
+<p><code>Trigger</code>被触发后，元素集合会交给<code>Evictor</code>（如果没有指定<code>Evictor</code>则没有这一步）。<code>Evictor</code>主要用来从窗口中删除一些已收集元素。如果定义在具体的计算函数前，则会将删除后的元素再交给计算函数。如果没有指定<code>Evictor</code>，则会将所有元素直接交给执行函数。同样，<code>Evictor</code>也可以放在执行函数后，过滤计算结果。</p>
+<p>最后元素就会交给具体的计算函数，Flink对一些聚合类函数进行了优化，如<code>sum</code>、<code>min</code>、<code>max</code>等，由于这些聚合函数不需要将所有元素存储下来，只需要存储每一次的聚合结果，能够大大降低内存消耗并提升性能。不过如果制定了<code>Evictor</code>，则不会启用这些优化。</p>
+<blockquote>
+<p>在API层面，WindowAssigner时必须要指定的，不过Flink会有一个默认的<code>Trigger</code>分配给窗口，故如果不需要自定义这部分逻辑且不是<code>Global Window</code>，可省去这部分：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">stream</span><br><span class="line">    .keyBy(...)               &lt;-  keyed versus non-keyed windows</span><br><span class="line">    .window(...)              &lt;-  required: <span class="string">&quot;assigner&quot;</span></span><br><span class="line">   [.trigger(...)]            &lt;-  optional: <span class="string">&quot;trigger&quot;</span> (<span class="keyword">else</span> <span class="keyword">default</span> trigger)</span><br><span class="line">   [.evictor(...)]            &lt;-  optional: <span class="string">&quot;evictor&quot;</span> (<span class="keyword">else</span> no evictor)</span><br><span class="line">   [.allowedLateness(...)]    &lt;-  optional: <span class="string">&quot;lateness&quot;</span> (<span class="keyword">else</span> zero)</span><br><span class="line">   [.sideOutputLateData(...)] &lt;-  optional: <span class="string">&quot;output tag&quot;</span> (<span class="keyword">else</span> no side output <span class="keyword">for</span> late data)</span><br><span class="line">    .reduce/aggregate/apply()      &lt;-  required: <span class="string">&quot;function&quot;</span></span><br><span class="line">   [.getSideOutput(...)]      &lt;-  optional: <span class="string">&quot;output tag&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>window</code>和<code>windowAll</code>这部分是一致的。而计数窗口的入口为<code>countWindow</code>。</p>
+</blockquote>
+<h2 id="WindowAssigner"><a href="#WindowAssigner" class="headerlink" title="WindowAssigner"></a>WindowAssigner</h2><p>用来决定元素被分配到哪个/哪些窗口中。<code>SessionWindow</code>此处较为特殊，因为其无法事先确定窗口的范围。一般来说使用内置的<code>WindowAssigner</code>就可以了。在其它情况也可以自定义<code>WindowAssigner</code>。</p>
+<h3 id="内置窗口分配器"><a href="#内置窗口分配器" class="headerlink" title="内置窗口分配器"></a>内置窗口分配器</h3><ul>
+<li><p>（滚动窗口）：下一个窗口的开始为：这个窗口的结束时间。</p>
+<ul>
+<li><p>提供两个内置实现（事件时间和处理时间各一个）：</p>
+<ul>
+<li><p><code>TumblingEventTimeWindows</code>：基于事件时间的滚动窗口。</p>
+</li>
+<li><p><code>of</code>方法接收参数：</p>
+<ul>
+<li><p>size : 窗口大小</p>
+</li>
+<li><p>offset : 偏移量。相比于UTC±00:00。否则第一个滚动窗口开始时间一定是0点。</p>
+</li>
+<li><p>windowStagger：交错策略。实际源码中表现为会影响offset的效果。</p>
+<ul>
+<li><blockquote>
+<p>The utility that produces staggering offset in runtime. </p>
+<p>有三类：</p>
+<p>​    ALIGNED：默认。不产生任何影响。所有分区的窗口开始时间都是一样的</p>
+<p>​    RANDOM：加入一个随机值作为交错参数。即每个分区的第一个窗口的开始时间会随机开始。</p>
+<p>​    NATURAL：根据每个线程得到的第一个元素，来作为该分区的第一个窗口的开始时间。</p>
+<p>（待验证）</p>
+<p>Flink会在WindowOperator中的processElement方法中，对每个接收到的流元素进行窗口画风。而这个参数会影响到最后生成的elementWindows，windowStagger主要就是通过影响offset，来影响elementWindows的生成。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>窗口大小决定了多久会生成一个新的窗口。</p>
+</li>
+</ul>
+</li>
+<li><p>SlidingTimeWindow（滑动窗口）：下一个窗口开始时间为：这个窗口开始时间+滑动距离。</p>
+<ul>
+<li>提供两个内置实现（事件时间和处理时间各一个）：<ul>
+<li><code>SlidingEventTimeWindows</code>：基于事件时间的滑动窗口。</li>
+<li><code>of</code>方法接收参数：<ul>
+<li>size : 窗口大小。</li>
+<li>slide：滑动距离。</li>
+<li>offset : 偏移量。相比于UTC±00:00。否则第一个滚动窗口开始时间一定是0点。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>滑动距离决定了多久会生成一个新的窗口。</li>
+</ul>
+</li>
+<li><p>sessionWindow（会话窗口）：下一个窗口开始时间为：新元素到达 且距离上一个元素到达时间超过阈值。</p>
+<ul>
+<li><p>提供两类(动态和固定)，供四个（事件时间和处理时间各两个）内置实现：</p>
+<ul>
+<li><p><code>EventTimeSessionWindows</code>：基于事件时间的会话窗口。</p>
+<ul>
+<li>方法：<ul>
+<li><code>withGap(Time size)</code>：间隔阈值。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>DynamicEventTimeSessionWindows</code>：基于事件时间的动态会话窗口。</p>
+<ul>
+<li><p>方法：</p>
+<ul>
+<li><p><code>withDynamicGap(SessionWindowTimeGapExtractor&lt;T&gt; sessionWindowTimeGapExtractor)</code>：</p>
+<ul>
+<li><blockquote>
+<p>SessionWindowTimeGapExtractor能够从数据中提取超时间隔。</p>
+<p>即数据中可以有一个字段，来作为这条数据距离上一条数据多久。<code>SessionWindowTimeGapExtractor</code>接口需要手动实现。且只有一个方法，从数据中拿到这他的间隔<code>long extract(T element);</code></p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>两者的主要区别：</p>
+<ul>
+<li>非动态：超时间隔是固定的。</li>
+<li>动态：有数据自己决定是否划分新窗口。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>globalWindow（全局窗口）: 只会产生一个窗口</p>
+<ul>
+<li>不会自动触发，必须手动指定<em>触发器</em>。</li>
+<li>必须指定<em>移除器</em>来移除窗口中的元素</li>
+</ul>
+</li>
+</ul>
+<h3 id="自定义窗口分配器"><a href="#自定义窗口分配器" class="headerlink" title="自定义窗口分配器"></a>自定义窗口分配器</h3><p><code>WindowAssigner</code>接口提供了四个方法需要实现：</p>
+<ul>
+<li><code>assignWindows(T element, long timestamp, WindowAssignerContext context)</code>：返回元素归属的窗口集合（这条记录归属哪些窗口）<ul>
+<li>一般都是返回TimeWindow。基于数量的窗口可以使用<code>countWindow</code></li>
+</ul>
+</li>
+<li><code>getDefaultTrigger(StreamExecutionEnvironment env)</code>：返回该分配器的默认触发器。<ul>
+<li>由于触发器在API层面可以省略，故在省略时需要一个默认的触发器，来源就是这。</li>
+<li>请参考自定义触发器，或者Trigger子类的内部实现。</li>
+</ul>
+</li>
+<li><code>getWindowSerializer(ExecutionConfig executionConfig)</code>：返回窗口的TypeSerializer<ul>
+<li>对于TimeWindow而言，则返回<code>new TimeWindow.Serializer()</code>即可。</li>
+</ul>
+</li>
+<li><code>isEventTime()</code>：是否是事件时间窗口</li>
+</ul>
+<blockquote>
+<p>需要注意的是，<code>SessionWindow</code>的<code>WindowAssigner</code>需要实现<code>MergingWindowAssigner</code>抽象类，因为对于<code>SessionWindow</code>来说，每个记录都会被创建一个单独的窗口，当Window间差距小于<code>Gap</code>时会触发<code>Merge</code>，以此达到<code>SessionWindow</code>的效果。在Flink使用``时，也会进行判断，只有实现了该抽象类，Flink才会认为是会话窗口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// WindowOperator.java</span></span><br><span class="line"><span class="keyword">if</span> (windowAssigner <span class="keyword">instanceof</span> MergingWindowAssigner)&#123;...&#125;</span><br></pre></td></tr></table></figure>
+
+
+</blockquote>
+<h3 id="关于计数窗口"><a href="#关于计数窗口" class="headerlink" title="关于计数窗口"></a>关于计数窗口</h3><p>计数窗口的入口函数为<code>countWindow</code>，观察其源码可以看到都是基于全局窗口实现的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Windows this &#123;<span class="doctag">@code</span> KeyedStream&#125; into tumbling count windows.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> WindowedStream&lt;T, KEY, GlobalWindow&gt; <span class="title">countWindow</span><span class="params">(<span class="keyword">long</span> size)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> window(GlobalWindows.create()).trigger(PurgingTrigger.of(CountTrigger.of(size)));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Windows this &#123;<span class="doctag">@code</span> KeyedStream&#125; into sliding count windows.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> WindowedStream&lt;T, KEY, GlobalWindow&gt; <span class="title">countWindow</span><span class="params">(<span class="keyword">long</span> size, <span class="keyword">long</span> slide)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> window(GlobalWindows.create())</span><br><span class="line">            .evictor(CountEvictor.of(size))</span><br><span class="line">            .trigger(CountTrigger.of(slide));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其实也很好理解，计数窗口的触发条件就是数量达到多少个。滑动计数窗口的位移就是移除多少个老的元素。</p>
+<h2 id="WindowTrigger"><a href="#WindowTrigger" class="headerlink" title="WindowTrigger"></a>WindowTrigger</h2><p>WindowTrigger决定了一个窗口何时能够被计算或清除。这个通过Trigger的触发结果来决定。每个窗口都有一个属于自己的Trigger。<strong>每当有元素被分配到该窗口</strong>或者<strong>之前注册的定时器超时时</strong>，<code>Trigger</code>都会被调用。</p>
+<h3 id="Trigger的触发结果"><a href="#Trigger的触发结果" class="headerlink" title="Trigger的触发结果"></a>Trigger的触发结果</h3><p>Trigger有四种触发结果：</p>
+<ul>
+<li>Continue：继续，不做任何操作。</li>
+<li>Fire：触发<strong>计算</strong>。处理窗口中的数据。并发出结果。</li>
+<li>Purge：触发<strong>清理</strong>。清空窗口内容，并删除窗口、及窗口元数据。并调用<code>ProcessWindowFunction.clear()</code>方法。</li>
+<li>Fire+Purge：触发<strong>计算</strong>和<strong>清理</strong>。并移除窗口中的数据。</li>
+</ul>
+<h3 id="Trigger的触发流程"><a href="#Trigger的触发流程" class="headerlink" title="Trigger的触发流程"></a>Trigger的触发流程</h3><ol>
+<li>当Trigger Fire时，窗口中的元素会交给Evictor。数据经过Evictor后会交给指定的计算函数进行计算。</li>
+<li>计算函数收到元素后，触发计算并得到计算结果。窗口计算的结果值可能是多个。</li>
+<li>如果触发清理，则会移除窗口中的数据。</li>
+</ol>
+<h3 id="内置触发器"><a href="#内置触发器" class="headerlink" title="内置触发器"></a>内置触发器</h3><p>Flink提供一些内置的触发器，包括（只说明事件时间的，处理时间一样的）：</p>
+<ul>
+<li><p><code>EventTimeTrigger</code>：水位线大于窗口结束时间，则触发。</p>
+</li>
+<li><p><code>CountTrigger</code>：当窗口内元素数量大于阈值时则触发。<code>countWindow</code>的实现就使用的该触发器。</p>
+<ul>
+<li>所以官方并没有将计数窗口单独归为一类窗口，其和时间窗口是可以共存的。</li>
+</ul>
+</li>
+<li><p><code>DeltaTrigger</code>：初始化是需要给定一个<code>DeltaFunction</code>，根据接入数据计算出来的Delta指标是否超过指定的Threshold去判断是否触发窗口计算。</p>
+<ul>
+<li>计算当前元素与上一个触发计算元素的Delta值来与阈值进行比较。</li>
+</ul>
+</li>
+<li><p><code>ContinuousEventTimeTrigger</code>:</p>
+<ul>
+<li><p>水位线大于窗口结束时间，则触发。</p>
+</li>
+<li><p>定期设置处理时间计时器。（计时器触发时会调用触发器的<code>onEventTime</code>方法。详见自定义）</p>
+<ul>
+<li><blockquote>
+<p>1、当第一个元素达到时，会根据时间间隔注册一个计时器。触发时间约为开始时间+时间间隔（<code>start = timestamp - (timestamp % interval)+interval</code>）</p>
+<p>2、当计时器触发时（），进行判断。</p>
+<p>​    2.1、如果触发事件 等于 窗口结束时间，则触发触发器。</p>
+<p>​    2.2、其他情况，则判断计时器是否有效，若有效则触发触发器，并根据设定的间隔注册下一个计时器。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>PurgingTrigger</code>：是一个trigger的包装类。具体作用为：如果被包装的trigger触发返回FIRE，则PurgingTrigger将返回修改为FIRE_AND_PURGE，其他的返回值不做处理。</p>
+<ul>
+<li>通过<code>of(Trigger&lt;T, W&gt; nestedTrigger)</code>来包装其他<code>Trigger</code></li>
+</ul>
+</li>
+<li><p><code>ProcessingTimeoutTrigger</code>是一个trigger的包装类，作用于处理时间。具体作用为：为元素配置处理时间超时。当到达超时时间时，清除触发器状态</p>
+</li>
+</ul>
+<h2 id="WindowEvictor"><a href="#WindowEvictor" class="headerlink" title="WindowEvictor"></a>WindowEvictor</h2><h2 id="WindowFunction"><a href="#WindowFunction" class="headerlink" title="WindowFunction"></a>WindowFunction</h2><h2 id="Lateness-And-LateData"><a href="#Lateness-And-LateData" class="headerlink" title="Lateness And LateData"></a>Lateness And LateData</h2><h2 id="SideOutput"><a href="#SideOutput" class="headerlink" title="SideOutput"></a>SideOutput</h2>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Flink/" rel="tag"># Flink</a>
+              <a href="/tags/Window/" rel="tag"># Window</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/30/chu-shi-clickhouse/" rel="prev" title="初试ClickHouse">
+      <i class="fa fa-chevron-left"></i> 初试ClickHouse
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Window%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">1.</span> <span class="nav-text">Window的分类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A1%E6%95%B0%E7%AA%97%E5%8F%A3"><span class="nav-number">1.1.</span> <span class="nav-text">计数窗口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E7%AA%97%E5%8F%A3"><span class="nav-number">1.2.</span> <span class="nav-text">时间窗口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%9A%E8%AF%9D%E7%AA%97%E5%8F%A3"><span class="nav-number">1.3.</span> <span class="nav-text">会话窗口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BB%9A%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="nav-number">1.4.</span> <span class="nav-text">滚动窗口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="nav-number">1.5.</span> <span class="nav-text">滑动窗口</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AA%97%E5%8F%A3%E5%8E%9F%E7%90%86%E4%B8%8E%E6%9C%BA%E5%88%B6"><span class="nav-number">2.</span> <span class="nav-text">窗口原理与机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#WindowAssigner"><span class="nav-number">2.1.</span> <span class="nav-text">WindowAssigner</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E7%BD%AE%E7%AA%97%E5%8F%A3%E5%88%86%E9%85%8D%E5%99%A8"><span class="nav-number">2.1.1.</span> <span class="nav-text">内置窗口分配器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%AA%97%E5%8F%A3%E5%88%86%E9%85%8D%E5%99%A8"><span class="nav-number">2.1.2.</span> <span class="nav-text">自定义窗口分配器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E8%AE%A1%E6%95%B0%E7%AA%97%E5%8F%A3"><span class="nav-number">2.1.3.</span> <span class="nav-text">关于计数窗口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WindowTrigger"><span class="nav-number">2.2.</span> <span class="nav-text">WindowTrigger</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Trigger%E7%9A%84%E8%A7%A6%E5%8F%91%E7%BB%93%E6%9E%9C"><span class="nav-number">2.2.1.</span> <span class="nav-text">Trigger的触发结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Trigger%E7%9A%84%E8%A7%A6%E5%8F%91%E6%B5%81%E7%A8%8B"><span class="nav-number">2.2.2.</span> <span class="nav-text">Trigger的触发流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E7%BD%AE%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">2.2.3.</span> <span class="nav-text">内置触发器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WindowEvictor"><span class="nav-number">2.3.</span> <span class="nav-text">WindowEvictor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WindowFunction"><span class="nav-number">2.4.</span> <span class="nav-text">WindowFunction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lateness-And-LateData"><span class="nav-number">2.5.</span> <span class="nav-text">Lateness And LateData</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SideOutput"><span class="nav-number">2.6.</span> <span class="nav-text">SideOutput</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ssiu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ssiu</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
+</html>

@@ -1,422 +1,237 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="zh-CN">
-
-
 <head>
-    <meta charset="utf-8">
-    <meta name="keywords" content="go的面向对象, Ssiu Blog">
-    <meta name="description" content="
-Go语言仅支持封装，不支持继承和多态
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-初始化结构体通过type &amp;lt;name&amp;gt; struct {code}的形式定义结构体
-type MyStruct struct{
-  value int
-}
-
-// new struct
-">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="renderer" content="webkit|ie-stand|ie-comp">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>go的面向对象 | Ssiu Blog</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
-
-    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
-    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/matery.css">
-    <link rel="stylesheet" type="text/css" href="/css/my.css">
-
-    <script src="/libs/jquery/jquery.min.js"></script>
-    
-<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<link rel="stylesheet" href="/css/main.css">
 
 
-<body>
-    <header class="navbar-fixed">
-    <nav id="headNav" class="bg-color nav-transparent">
-        <div id="navContainer" class="nav-wrapper container">
-            <div class="brand-logo">
-                <a href="/" class="waves-effect waves-light">
-                    
-                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
-                    
-                    <span class="logo-span">Ssiu Blog</span>
-                </a>
-            </div>
-            
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-material.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
 
-<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
-<ul class="right nav-menu">
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.ibuer.fun","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Go语言仅支持封装，不支持继承和多态  初始化结构体通过type &lt;name&gt; struct &amp;#123;code&amp;#125;的形式定义结构体 12345678910type MyStruct struct&amp;#123;  value int&amp;#125;&#x2F;&#x2F; new structmyStruct :&#x3D; MyStruct&amp;#123;value: 3&amp;#125;var myStruct M">
+<meta property="og:type" content="article">
+<meta property="og:title" content="go的面向对象">
+<meta property="og:url" content="http://blog.ibuer.fun/2021/06/26/go-de-mian-xiang-dui-xiang/index.html">
+<meta property="og:site_name" content="Ssiu Blog">
+<meta property="og:description" content="Go语言仅支持封装，不支持继承和多态  初始化结构体通过type &lt;name&gt; struct &amp;#123;code&amp;#125;的形式定义结构体 12345678910type MyStruct struct&amp;#123;  value int&amp;#125;&#x2F;&#x2F; new structmyStruct :&#x3D; MyStruct&amp;#123;value: 3&amp;#125;var myStruct M">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-06-26T12:33:05.000Z">
+<meta property="article:modified_time" content="2021-06-27T10:15:45.712Z">
+<meta property="article:author" content="Ssiu">
+<meta property="article:tag" content="Go">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.ibuer.fun/2021/06/26/go-de-mian-xiang-dui-xiang/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>go的面向对象 | Ssiu Blog</title>
   
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/" class="waves-effect waves-light">
-      
-      <i class="fas fa-home" style="zoom: 0.6;"></i>
-      
-      <span>首页</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/tags" class="waves-effect waves-light">
-      
-      <i class="fas fa-tags" style="zoom: 0.6;"></i>
-      
-      <span>标签</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/categories" class="waves-effect waves-light">
-      
-      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
-      
-      <span>分类</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/archives" class="waves-effect waves-light">
-      
-      <i class="fas fa-archive" style="zoom: 0.6;"></i>
-      
-      <span>归档</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/about" class="waves-effect waves-light">
-      
-      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
-      
-      <span>关于</span>
-    </a>
-    
-  </li>
-  
-  <li>
-    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
-      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
-    </a>
-  </li>
-</ul>
 
-<div id="mobile-nav" class="side-nav sidenav">
 
-    <div class="mobile-head bg-color">
-        
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
-        
-        <div class="logo-name">Ssiu Blog</div>
-        <div class="logo-desc">
-            
-            Never really desperate, only the lost of the soul.
-            
-        </div>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
+  </div>
 
-    
+  <div class="site-meta">
 
-    <ul class="menu-list mobile-menu-list">
-        
-        <li class="m-nav-item">
-	  
-		<a href="/" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-home"></i>
-			
-			首页
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/tags" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-tags"></i>
-			
-			标签
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/categories" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bookmark"></i>
-			
-			分类
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/archives" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-archive"></i>
-			
-			归档
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/about" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-user-circle"></i>
-			
-			关于
-		</a>
-          
-        </li>
-        
-        
-    </ul>
-</div>
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ssiu Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-        </div>
-
-        
-    </nav>
-
-</header>
-
-    
-
-
-
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
-    <div class="container" style="right: 0px;left: 0px;">
-        <div class="row">
-            <div class="col s12 m12 l12">
-                <div class="brand">
-                    <h1 class="description center-align post-title">go的面向对象</h1>
-                </div>
-            </div>
-        </div>
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
     </div>
+  </div>
 </div>
 
 
 
 
-<main class="post-container content">
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
 
     
-    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
-<style>
-    #articleContent h1::before,
-    #articleContent h2::before,
-    #articleContent h3::before,
-    #articleContent h4::before,
-    #articleContent h5::before,
-    #articleContent h6::before {
-        display: block;
-        content: " ";
-        height: 100px;
-        margin-top: -100px;
-        visibility: hidden;
-    }
 
-    #articleContent :focus {
-        outline: none;
-    }
 
-    .toc-fixed {
-        position: fixed;
-        top: 64px;
-    }
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
 
-    .toc-widget {
-        width: 345px;
-        padding-left: 20px;
-    }
+          <div class="content post posts-expand">
+            
 
-    .toc-widget .toc-title {
-        margin: 35px 0 15px 0;
-        padding-left: 17px;
-        font-size: 1.5rem;
-        font-weight: bold;
-        line-height: 1.5rem;
-    }
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2021/06/26/go-de-mian-xiang-dui-xiang/">
 
-    .toc-widget ol {
-        padding: 0;
-        list-style: none;
-    }
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
 
-    #toc-content {
-        height: calc(100vh - 250px);
-        overflow: auto;
-    }
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          go的面向对象
+        </h1>
 
-    #toc-content ol {
-        padding-left: 10px;
-    }
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
 
-    #toc-content ol li {
-        padding-left: 10px;
-    }
+              <time title="创建时间：2021-06-26 20:33:05" itemprop="dateCreated datePublished" datetime="2021-06-26T20:33:05+08:00">2021-06-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-27 18:15:45" itemprop="dateModified" datetime="2021-06-27T18:15:45+08:00">2021-06-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
+                </span>
+            </span>
 
-    #toc-content .toc-link:hover {
-        color: #42b983;
-        font-weight: 700;
-        text-decoration: underline;
-    }
-
-    #toc-content .toc-link::before {
-        background-color: transparent;
-        max-height: 25px;
-    }
-
-    #toc-content .is-active-link {
-        color: #42b983;
-    }
-
-    #toc-content .is-active-link::before {
-        background-color: #42b983;
-    }
-
-    #floating-toc-btn {
-        position: fixed;
-        right: 15px;
-        bottom: 76px;
-        padding-top: 15px;
-        margin-bottom: 0;
-        z-index: 998;
-    }
-
-    #floating-toc-btn .btn-floating {
-        width: 48px;
-        height: 48px;
-    }
-
-    #floating-toc-btn .btn-floating i {
-        line-height: 48px;
-        font-size: 1.4rem;
-    }
-</style>
-<div class="row">
-    <div id="main-content" class="col s12 m12 l9">
-        <!-- 文章内容详情 -->
-<div id="artDetail">
-    <div class="card">
-        <div class="card-content article-info">
-            <div class="row tag-cate">
-                <div class="col s7">
-                    
-                    <div class="article-tag">
-                        
-                            <a href="/tags/Go/">
-                                <span class="chip bg-color">Go</span>
-                            </a>
-                        
-                    </div>
-                    
-                </div>
-                <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/Go/" class="post-category">
-                                Go
-                            </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-
-            <div class="post-info">
-                
-                <div class="post-date info-break-policy">
-                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-06-26
-                </div>
-                
-
-                
-
-                
-
-                
-
-                
-            </div>
+          
 
         </div>
-        <hr class="clearfix">
-        <div class="card-content article-card-content">
-            <div id="articleContent">
-                <ul>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ul>
 <li>Go语言仅支持封装，不支持继承和多态</li>
 </ul>
-<h2 id="初始化结构体"><a href="#初始化结构体" class="headerlink" title="初始化结构体"></a>初始化结构体</h2><p>通过<code>type &lt;name&gt; struct {code}</code>的形式定义结构体</p>
-<pre class=" language-go"><code class="language-go"><span class="token keyword">type</span> MyStruct <span class="token keyword">struct</span><span class="token punctuation">{</span>
-  value <span class="token builtin">int</span>
-<span class="token punctuation">}</span>
+<h2 id="初始化结构体"><a href="#初始化结构体" class="headerlink" title="初始化结构体"></a>初始化结构体</h2><p>通过<code>type &lt;name&gt; struct &#123;code&#125;</code>的形式定义结构体</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MyStruct <span class="keyword">struct</span>&#123;</span><br><span class="line">  value <span class="keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// new struct</span></span><br><span class="line">myStruct := MyStruct&#123;value: <span class="number">3</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> myStruct MyStrcut</span><br><span class="line"></span><br><span class="line">node3 := <span class="built_in">new</span>(MyStruct)</span><br></pre></td></tr></table></figure>
 
-<span class="token comment" spellcheck="true">// new struct</span>
-myStruct <span class="token operator">:=</span> MyStruct<span class="token punctuation">{</span>value<span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">}</span>
 
-<span class="token keyword">var</span> myStruct MyStrcut
 
-node3 <span class="token operator">:=</span> <span class="token function">new</span><span class="token punctuation">(</span>MyStruct<span class="token punctuation">)</span></code></pre>
 <h2 id="结构体的方法"><a href="#结构体的方法" class="headerlink" title="结构体的方法"></a>结构体的方法</h2><p>要为结构体添加函数。需要将结构体作为接收参数（接收者）写在方法前面。</p>
-<pre class=" language-go"><code class="language-go"><span class="token keyword">func</span> <span class="token punctuation">(</span>myStruct MyStruct<span class="token punctuation">)</span> <span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">int</span> <span class="token punctuation">{</span>
-  <span class="token keyword">return</span> myStruct<span class="token punctuation">.</span>value
-<span class="token punctuation">}</span>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(myStruct MyStruct)</span> <span class="title">getValue</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">  <span class="keyword">return</span> myStruct.value</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(myStruct MyStruct)</span> <span class="title">print</span><span class="params">()</span></span> &#123;</span><br><span class="line">  fmt.Prtinln(myStruct)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这样getValue和print就作为了MyStruct的函数。可以直接调用</span></span><br><span class="line">myStruct := MyStruct&#123;value: <span class="number">3</span>&#125;</span><br><span class="line">myStruct.<span class="built_in">print</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果这样写</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">print</span><span class="params">(myStruct MyStruct)</span></span>&#123;</span><br><span class="line">  fmt.Prtinln(myStruct)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 则需要当作一个普通函数调用</span></span><br><span class="line"><span class="built_in">print</span>(myStruct)</span><br></pre></td></tr></table></figure>
 
-<span class="token keyword">func</span> <span class="token punctuation">(</span>myStruct MyStruct<span class="token punctuation">)</span> <span class="token function">print</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  fmt<span class="token punctuation">.</span><span class="token function">Prtinln</span><span class="token punctuation">(</span>myStruct<span class="token punctuation">)</span>
-<span class="token punctuation">}</span>
 
-<span class="token comment" spellcheck="true">// 这样getValue和print就作为了MyStruct的函数。可以直接调用</span>
-myStruct <span class="token operator">:=</span> MyStruct<span class="token punctuation">{</span>value<span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">}</span>
-myStruct<span class="token punctuation">.</span><span class="token builtin">print</span>
 
-<span class="token comment" spellcheck="true">// 如果这样写</span>
-<span class="token keyword">func</span> <span class="token function">print</span><span class="token punctuation">(</span>myStruct MyStruct<span class="token punctuation">)</span><span class="token punctuation">{</span>
-  fmt<span class="token punctuation">.</span><span class="token function">Prtinln</span><span class="token punctuation">(</span>myStruct<span class="token punctuation">)</span>
-<span class="token punctuation">}</span>
-<span class="token comment" spellcheck="true">// 则需要当作一个普通函数调用</span>
-<span class="token function">print</span><span class="token punctuation">(</span>myStruct<span class="token punctuation">)</span></code></pre>
 <h3 id="关于值传递"><a href="#关于值传递" class="headerlink" title="关于值传递"></a>关于值传递</h3><p>在结构体方法中，<strong>接收者也是值传递</strong>。意味着<code>myStruct.getValue()</code>调用的其实是<code>myStruct</code>的复制的<code>value</code>。这种时候需要将接收者作为指针，传递地址。</p>
-<pre class=" language-go"><code class="language-go"><span class="token keyword">func</span> <span class="token punctuation">(</span>myStruct <span class="token operator">*</span>MyStruct<span class="token punctuation">)</span> <span class="token function">setValue</span><span class="token punctuation">(</span>newValue<span class="token punctuation">:</span> <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  myStruct<span class="token punctuation">.</span>value <span class="token operator">=</span> newValue
-<span class="token punctuation">}</span>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(myStruct *MyStruct)</span> <span class="title">setValue</span><span class="params">(newValue: <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">  myStruct.value = newValue</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// usage</span></span><br><span class="line"></span><br><span class="line">myStruct.setValue(<span class="number">100</span>) <span class="comment">// value = 100</span></span><br></pre></td></tr></table></figure>
 
-<span class="token comment" spellcheck="true">// usage</span>
-
-myStruct<span class="token punctuation">.</span><span class="token function">setValue</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// value = 100</span></code></pre>
 <p>这么做，调用<code>setValue</code>方法时，实际上调用的是<code>myStruct</code>对应地址上的方法。不过在使用没有任何区别，都是用<code>.func</code>调用即可。</p>
 <p>同样的，当我们将<code>myStruct</code>的指针付给一个新变量时，调用这类办法，也会将<code>myStruct</code>的<code>value</code>值进行修改。</p>
-<pre class=" language-go"><code class="language-go">myStruct2 <span class="token operator">:=</span> <span class="token operator">&amp;</span>myStruct <span class="token comment" spellcheck="true">// value = 3</span>
-myStruct2<span class="token punctuation">.</span><span class="token function">setValue</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">myStruct2 := &amp;myStruct <span class="comment">// value = 3</span></span><br><span class="line">myStruct2.setValue(<span class="number">100</span>)</span><br><span class="line"></span><br><span class="line">fmt.Println(myStruct2) <span class="comment">// value = 100</span></span><br><span class="line">fmt.Println(myStruct)  <span class="comment">// value = 100</span></span><br></pre></td></tr></table></figure>
 
-fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>myStruct2<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// value = 100</span>
-fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>myStruct<span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">// value = 100</span></code></pre>
 <p>同时，nil也可以调用指针的方法。并且方法调用本身不会报错，只当进行具体操作时，比如过nil并没有value这个属性，所以nil.value时会报错。</p>
 <h3 id="指针接收者还是值接收者"><a href="#指针接收者还是值接收者" class="headerlink" title="指针接收者还是值接收者"></a>指针接收者还是值接收者</h3><ul>
 <li>要改变内容必须使用指针接收者。</li>
@@ -426,9 +241,8 @@ fmt<span class="token punctuation">.</span><span class="token function">Println<
 <h2 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h2><blockquote>
 <p>Go没有构造方法一说。不过可以通过方法的形式，创建构造方法</p>
 </blockquote>
-<pre class=" language-go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">createMyStruct</span><span class="token punctuation">(</span>newValue <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token operator">*</span>MyStruct<span class="token punctuation">{</span>
-  <span class="token keyword">return</span> <span class="token operator">&amp;</span>MyStruct<span class="token punctuation">{</span>value<span class="token punctuation">:</span> newValue<span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">createMyStruct</span><span class="params">(newValue <span class="keyword">int</span>)</span> *<span class="title">MyStruct</span></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &amp;MyStruct&#123;value: newValue&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>有几个点需要注意：</p>
 <ul>
 <li>这里返回的是一个局部变量。在方法里创造的<code>MyStruct</code></li>
@@ -438,7 +252,7 @@ fmt<span class="token punctuation">.</span><span class="token function">Println<
 </ul>
 </li>
 </ul>
-<h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><ul>
+<h2 id="结构体的可见域与使用"><a href="#结构体的可见域与使用" class="headerlink" title="结构体的可见域与使用"></a>结构体的可见域与使用</h2><h3 id="包"><a href="#包" class="headerlink" title="包"></a>包</h3><ul>
 <li>每个目录只允许有一个包</li>
 <li>main包包含可执行入口。<ul>
 <li>如果一个目录下有一个main函数，那么这个目录下只能有一个main包(即<code>package main</code>)。</li>
@@ -449,7 +263,7 @@ fmt<span class="token punctuation">.</span><span class="token function">Println<
 </ul>
 </li>
 </ul>
-<h2 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h2><blockquote>
+<h3 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h3><blockquote>
 <p>在Go中，首字母大写有含义</p>
 </blockquote>
 <ul>
@@ -457,569 +271,240 @@ fmt<span class="token punctuation">.</span><span class="token function">Println<
 <li>首字母小写。表示private</li>
 <li>结构的元素，方法，结构体本身都遵循上述可见规则。</li>
 </ul>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>使用<code>包.类</code>进行调用。</p>
-<pre class=" language-go"><code class="language-go"><span class="token comment" spellcheck="true">// 假设Node在tree包下,下述代码在use包下的hello.go</span>
-<span class="token comment" spellcheck="true">// -root</span>
-<span class="token comment" spellcheck="true">// |-use</span>
-<span class="token comment" spellcheck="true">// |--hello.go</span>
-<span class="token comment" spellcheck="true">// |-tree</span>
-<span class="token comment" spellcheck="true">// |--node.go</span>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>使用<code>包.类</code>进行调用。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 假设Node在tree包下,下述代码在use包下的hello.go</span></span><br><span class="line"><span class="comment">// -root</span></span><br><span class="line"><span class="comment">// |-use</span></span><br><span class="line"><span class="comment">// |--hello.go</span></span><br><span class="line"><span class="comment">// |-tree</span></span><br><span class="line"><span class="comment">// |--node.go</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 一个目录下只允许有一个package main</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="comment">// 需要根据目录进行import</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;awesomeProject/tree&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="comment">// 包名tree不能省略</span></span><br><span class="line">	node := tree.Node&#123;Value: <span class="number">2</span>&#125;</span><br><span class="line">	node.Print()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<span class="token comment" spellcheck="true">// 一个目录下只允许有一个package main</span>
-<span class="token keyword">package</span> main
 
-<span class="token comment" spellcheck="true">// 需要根据目录进行import</span>
-<span class="token keyword">import</span> <span class="token string">"awesomeProject/tree"</span>
 
-<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// 包名tree不能省略</span>
-    node <span class="token operator">:=</span> tree<span class="token punctuation">.</span>Node<span class="token punctuation">{</span>Value<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">}</span>
-    node<span class="token punctuation">.</span><span class="token function">Print</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span></code></pre>
+<h2 id="扩展已有类型"><a href="#扩展已有类型" class="headerlink" title="扩展已有类型"></a>扩展已有类型</h2><blockquote>
+<p>Go中，没有继承，需要通过其他方法扩充系统类型或者别人的类型。</p>
+</blockquote>
+<h3 id="定义别名（自定义类型）"><a href="#定义别名（自定义类型）" class="headerlink" title="定义别名（自定义类型）"></a>定义别名（自定义类型）</h3><blockquote>
+<p>示例使用queue去扩展[]int</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Queue []<span class="keyword">int</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(q *Queue)</span> <span class="title">push</span><span class="params">(i <span class="keyword">int</span>)</span></span>&#123;</span><br><span class="line">  <span class="comment">// 由于我们需要修改q本身的内容，所以需要使用*q来接收。</span></span><br><span class="line">  <span class="comment">// q本身是Queue的指针。指向Queue的地址。</span></span><br><span class="line">  <span class="comment">// 通过*q，就把Queue本身拿到。然后将其赋予一个新的内容。</span></span><br><span class="line">	*q = <span class="built_in">append</span>(*q, i)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(q *Queue)</span> <span class="title">pop</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	elem := (*q)[<span class="number">0</span>]</span><br><span class="line">	*q = (*q)[<span class="number">1</span>:]</span><br><span class="line">	<span class="keyword">return</span> elem</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-            </div>
-            <hr/>
+<p>几个注意点</p>
+<ul>
+<li>使用<code>type 别名 希望扩展的类型</code>进行定义。</li>
+<li>自定义类型不能与原始类型进行计算。</li>
+<li>可以把type写在main里。</li>
+<li>自定义type具有隐藏原type的效果</li>
+</ul>
+<h3 id="使用组合"><a href="#使用组合" class="headerlink" title="使用组合"></a>使用组合</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	node := tree.Node&#123;Value: <span class="number">3</span>&#125;</span><br><span class="line">	newStruct := MyNewStruct&#123;newValue: &amp;node&#125;</span><br><span class="line">	newStruct.post()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> MyNewStruct <span class="keyword">struct</span> &#123;</span><br><span class="line">	newValue *tree.Node</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(myNewStruct *MyNewStruct)</span> <span class="title">post</span><span class="params">()</span></span> &#123;</span><br><span class="line">	newValue := MyNewStruct&#123;newValue: myNewStruct.newValue&#125;</span><br><span class="line">	fmt.Println(newValue.newValue)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-            
 
-    <div class="reprint" id="reprint-statement">
-        
-            <div class="reprint__author">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-user">
-                        文章作者:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    <a href="http://blog.ibuer.fun" rel="external nofollow noreferrer">Ssiu</a>
-                </span>
-            </div>
-            <div class="reprint__type">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-link">
-                        文章链接:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    <a href="http://blog.ibuer.fun/2021/06/26/go-de-mian-xiang-dui-xiang/">http://blog.ibuer.fun/2021/06/26/go-de-mian-xiang-dui-xiang/</a>
-                </span>
-            </div>
-            <div class="reprint__notice">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-copyright">
-                        版权声明:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    本博客所有文章除特別声明外，均采用
-                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
-                    许可协议。转载请注明来源
-                    <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
-                    !
-                </span>
-            </div>
-        
+
+<h3 id="使用内嵌-Embedding-扩展已有类型"><a href="#使用内嵌-Embedding-扩展已有类型" class="headerlink" title="使用内嵌(Embedding)扩展已有类型"></a>使用内嵌(Embedding)扩展已有类型</h3><blockquote>
+<p>相当于组合基础上的语法糖。本质上是一种语法糖</p>
+</blockquote>
+<ul>
+<li>使用上类似于Java的继承</li>
+<li>出现同名方法时，会使用新的类型的方法。</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MyNewStruct <span class="keyword">struct</span> &#123;</span><br><span class="line">	*tree.Node <span class="comment">// embedding, 省略了变量名</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(receiver *MyNewStruct)</span> <span class="title">name</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="comment">// 可以直接使用tree.Node的内容</span></span><br><span class="line">	<span class="keyword">return</span> receiver.Value</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(receiver *MyNewStruct)</span> <span class="title">Print</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// 隐藏掉tree.Node的Print方法。</span></span><br><span class="line">	fmt.Println(<span class="string">&quot;MyNewStruct&quot;</span>)</span><br><span class="line">	fmt.Println(receiver.Value)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(receiver *MyNewStruct)</span> <span class="title">changeValue</span><span class="params">(newValue <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">	receiver.Value = newValue</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	my := MyNewStruct&#123;&amp;tree.Node&#123;Value: <span class="number">3</span>&#125;&#125;</span><br><span class="line">	my.Print()</span><br><span class="line">	my.changeValue(<span class="number">4</span>)</span><br><span class="line">	my.Print()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用选择"><a href="#使用选择" class="headerlink" title="使用选择"></a>使用选择</h3><p>组合使用比较常见。因为别名和组合之间没办法很好的转换。</p>
+
     </div>
 
-    <script async defer>
-      document.addEventListener("copy", function (e) {
-        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
-        M.toast({html: toastHTML})
-      });
+    
+    
+    
 
-      function navToReprintStatement() {
-        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Go/" rel="tag"># Go</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/06/20/go-ru-men/" rel="prev" title="go入门">
+      <i class="fa fa-chevron-left"></i> go入门
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/06/27/go-de-yi-lai-guan-li/" rel="next" title="go的依赖管理">
+      go的依赖管理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
       }
-    </script>
-
-
-
-            <div class="tag_share" style="display: block;">
-                <div class="post-meta__tag-list" style="display: inline-block;">
-                    
-                        <div class="article-tag">
-                            
-                                <a href="/tags/Go/">
-                                    <span class="chip bg-color">Go</span>
-                                </a>
-                            
-                        </div>
-                    
-                </div>
-                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
-                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
-
-<div id="article-share">
-    
-    
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
-    <script src="/libs/share/js/social-share.min.js"></script>
-    
-
-    
-
-</div>
-
-                </div>
-            </div>
-            
-        </div>
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-<article id="prenext-posts" class="prev-next articles">
-    <div class="row article-row">
-        
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
-            <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
-            <div class="card">
-                <a href="/2021/06/26/go-de-mian-xiang-dui-xiang/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="go的面向对象">
-                        
-                        <span class="card-title">go的面向对象</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-Go语言仅支持封装，不支持继承和多态
-
-初始化结构体通过type &lt;name&gt; struct {code}的形式定义结构体
-type MyStruct struct{
-  value int
-}
-
-// new struct
-
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-06-26
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/Go/" class="post-category">
-                                    Go
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Go/">
-                        <span class="chip bg-color">Go</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2021/06/20/go-ru-men/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="go入门">
-                        
-                        <span class="card-title">go入门</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            数据类型变量定义// 数据类型在后。与scala类似（不过不需要引号）
-// 所有数据会有个初始值。int为0
-var a int
-
-// 能够自动进行类型推断。属性可省略
-var a = 1
-
-// 可以使用 := 定义变量
-a := 1
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-06-20
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/Go/" class="post-category">
-                                    Go
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Go/">
-                        <span class="chip bg-color">Go</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-    </div>
-</article>
-
-</div>
-
-
-
-<!-- 代码块功能依赖 -->
-<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
-
-<!-- 代码语言 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
-
-
-<!-- 代码块复制 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
-
-
-<!-- 代码块收缩 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
-
-
-<!-- 代码块折行 -->
-
-<style type="text/css">
-code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
-</style>
-
-
-    </div>
-    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
-        <div class="toc-widget">
-            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
-            <div id="toc-content"></div>
-        </div>
-    </div>
-</div>
-
-<!-- TOC 悬浮按钮. -->
-
-<div id="floating-toc-btn" class="hide-on-med-and-down">
-    <a class="btn-floating btn-large bg-color">
-        <i class="fas fa-list-ul"></i>
-    </a>
-</div>
-
-
-<script src="/libs/tocbot/tocbot.min.js"></script>
-<script>
-    $(function () {
-        tocbot.init({
-            tocSelector: '#toc-content',
-            contentSelector: '#articleContent',
-            headingsOffset: -($(window).height() * 0.4 - 45),
-            collapseDepth: Number('0'),
-            headingSelector: 'h2, h3, h4'
-        });
-
-        // modify the toc link href to support Chinese.
-        let i = 0;
-        let tocHeading = 'toc-heading-';
-        $('#toc-content a').each(function () {
-            $(this).attr('href', '#' + tocHeading + (++i));
-        });
-
-        // modify the heading title id to support Chinese.
-        i = 0;
-        $('#articleContent').children('h2, h3, h4').each(function () {
-            $(this).attr('id', tocHeading + (++i));
-        });
-
-        // Set scroll toc fixed.
-        let tocHeight = parseInt($(window).height() * 0.4 - 64);
-        let $tocWidget = $('.toc-widget');
-        $(window).scroll(function () {
-            let scroll = $(window).scrollTop();
-            /* add post toc fixed. */
-            if (scroll > tocHeight) {
-                $tocWidget.addClass('toc-fixed');
-            } else {
-                $tocWidget.removeClass('toc-fixed');
-            }
-        });
-
-        
-        /* 修复文章卡片 div 的宽度. */
-        let fixPostCardWidth = function (srcId, targetId) {
-            let srcDiv = $('#' + srcId);
-            if (srcDiv.length === 0) {
-                return;
-            }
-
-            let w = srcDiv.width();
-            if (w >= 450) {
-                w = w + 21;
-            } else if (w >= 350 && w < 450) {
-                w = w + 18;
-            } else if (w >= 300 && w < 350) {
-                w = w + 16;
-            } else {
-                w = w + 14;
-            }
-            $('#' + targetId).width(w);
-        };
-
-        // 切换TOC目录展开收缩的相关操作.
-        const expandedClass = 'expanded';
-        let $tocAside = $('#toc-aside');
-        let $mainContent = $('#main-content');
-        $('#floating-toc-btn .btn-floating').click(function () {
-            if ($tocAside.hasClass(expandedClass)) {
-                $tocAside.removeClass(expandedClass).hide();
-                $mainContent.removeClass('l9');
-            } else {
-                $tocAside.addClass(expandedClass).show();
-                $mainContent.addClass('l9');
-            }
-            fixPostCardWidth('artDetail', 'prenext-posts');
-        });
-        
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
     });
+  }
 </script>
 
-    
-
-</main>
-
-
-
-    <footer class="page-footer bg-color">
-    <div class="container row center-align" style="margin-bottom: 0px !important;">
-        <div class="col s12 m8 l8 copy-right">
-            Copyright&nbsp;&copy;
-            <span id="year">2017-2020</span>
-            <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
-            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
-            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
-            <br>
-            
-            
-            
-            
-            
-            
-            <span id="busuanzi_container_site_pv" style="display:none">
-                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
-                    class="white-color"></span>&nbsp;次
-            </span>
-            
-            
-            <span id="busuanzi_container_site_uv" style="display:none">
-                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
-                    class="white-color"></span>&nbsp;人
-            </span>
-            
-            
         </div>
-        <div class="col s12 m4 l4 social-link social-statis">
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
 
+  <aside class="sidebar">
+    <div class="sidebar-inner">
 
-    <a href="mailto:smokeriu@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
-        <i class="fas fa-envelope-open"></i>
-    </a>
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
 
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-number">1.</span> <span class="nav-text">初始化结构体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">结构体的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%80%BC%E4%BC%A0%E9%80%92"><span class="nav-number">2.1.</span> <span class="nav-text">关于值传递</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E9%92%88%E6%8E%A5%E6%94%B6%E8%80%85%E8%BF%98%E6%98%AF%E5%80%BC%E6%8E%A5%E6%94%B6%E8%80%85"><span class="nav-number">2.2.</span> <span class="nav-text">指针接收者还是值接收者</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">构造方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E5%8F%AF%E8%A7%81%E5%9F%9F%E4%B8%8E%E4%BD%BF%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">结构体的可见域与使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%85"><span class="nav-number">4.1.</span> <span class="nav-text">包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%81%E8%A3%85"><span class="nav-number">4.2.</span> <span class="nav-text">封装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-number">4.3.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%A9%E5%B1%95%E5%B7%B2%E6%9C%89%E7%B1%BB%E5%9E%8B"><span class="nav-number">5.</span> <span class="nav-text">扩展已有类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E5%88%AB%E5%90%8D%EF%BC%88%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%9E%8B%EF%BC%89"><span class="nav-number">5.1.</span> <span class="nav-text">定义别名（自定义类型）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%BB%84%E5%90%88"><span class="nav-number">5.2.</span> <span class="nav-text">使用组合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%86%85%E5%B5%8C-Embedding-%E6%89%A9%E5%B1%95%E5%B7%B2%E6%9C%89%E7%B1%BB%E5%9E%8B"><span class="nav-number">5.3.</span> <span class="nav-text">使用内嵌(Embedding)扩展已有类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E9%80%89%E6%8B%A9"><span class="nav-number">5.4.</span> <span class="nav-text">使用选择</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
 
-
-
-
-
-
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=604522169" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 604522169" data-position="top" data-delay="50">
-        <i class="fab fa-qq"></i>
-    </a>
-
-
-
-
-
-
-
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ssiu</p>
+  <div class="site-description" itemprop="description"></div>
 </div>
-    </div>
-</footer>
-
-<div class="progress-bar"></div>
-
-<script language=javascript>
-    function siteTime() {
-        window.setTimeout("siteTime()", 1000);
-        var seconds = 1000;
-        var minutes = seconds * 60;
-        var hours = minutes * 60;
-        var days = hours * 24;
-	var months = days * 30;
-        var years = days * 365;
-        var today = new Date();
-        var todayYear = today.getFullYear();
-        var todayMonth = today.getMonth() + 1;
-        var todayDate = today.getDate();
-        var todayHour = today.getHours();
-        var todayMinute = today.getMinutes();
-        var todaySecond = today.getSeconds();
-        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
-        year - 作为date对象的年份，为4位年份值
-        month - 0-11之间的整数，做为date对象的月份
-        day - 1-31之间的整数，做为date对象的天数
-        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
-        minutes - 0-59之间的整数，做为date对象的分钟数
-        seconds - 0-59之间的整数，做为date对象的秒数
-        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
-        var t1 = Date.UTC(2017, 02, 12, 00, 00, 00); //北京时间2018-2-13 00:00:00
-        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
-        var diff = t2 - t1;
-        var diffYears = Math.floor(diff / years);
-        var diffDays = Math.floor((diff / days) - diffYears * 365);
-        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
-        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
-        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
-        document.getElementById("sitetime").innerHTML = "本站已运行 " +diffYears+" 年 "+diffDays + " 天 ";
-    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
-    siteTime();
-</script>
-
-
-<script>
-    $(document).ready(function () {
-
-        var int = setInterval(fixCount, 50);  // 50ms周期检测函数
-        var pvcountOffset = 5423;  // 初始化首次数据
-        var uvcountOffset = 3322;
-
-        function fixCount() {
-            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
-                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
-                clearInterval(int);
-            }
-            if ($("#busuanzi_container_site_pv").css("display") != "none") {
-                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
-                clearInterval(int); // 停止检测
-            }
-        }
-    });
-</script>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
 
 
 
-    <!-- 搜索遮罩框 -->
-<div id="searchModal" class="modal">
-    <div class="modal-content">
-        <div class="search-header">
-            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
-            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
-                   class="search-input">
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
         </div>
-        <div id="searchResult"></div>
+
     </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ssiu</span>
 </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
 
-<script src="/js/search.js"></script>
-<script type="text/javascript">
-$(function () {
-    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
-});
-</script>
-    <!-- 回到顶部按钮 -->
-<div id="backTop" class="top-scroll">
-    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
-        <i class="fas fa-arrow-up"></i>
-    </a>
-</div>
+        
 
 
-    <script src="/libs/materialize/materialize.min.js"></script>
-    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
-    <script src="/libs/aos/aos.js"></script>
-    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
-    <script src="/js/matery.js"></script>
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <!-- Baidu Analytics -->
 
-    <!-- Baidu Push -->
 
-<script>
-    (function () {
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        } else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-</script>
 
-    
-    
-    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
-    
 
-    
+      </div>
+    </footer>
+  </div>
 
-    
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
-    
+<script src="/js/utils.js"></script>
 
-    
+<script src="/js/motion.js"></script>
 
-    
-    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
-    
-    
-    
-    <script src="/libs/instantpage/instantpage.js" type="module"></script>
-    
 
-</body>
+<script src="/js/schemes/pisces.js"></script>
 
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
 </html>

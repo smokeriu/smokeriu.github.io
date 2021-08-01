@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-material.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.ibuer.fun","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="之前大概介绍过在简单的水印使用。时间作为流计算中最重要的部分，Flink对于其中关键的Watermark提供了比较丰富的支持。可以在多个地方生成、分配和使用Watermark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flink中水印的使用">
+<meta property="og:url" content="http://blog.ibuer.fun/2021/07/24/flink-zhong-shui-yin-de-shi-yong/index.html">
+<meta property="og:site_name" content="Ssiu Blog">
+<meta property="og:description" content="之前大概介绍过在简单的水印使用。时间作为流计算中最重要的部分，Flink对于其中关键的Watermark提供了比较丰富的支持。可以在多个地方生成、分配和使用Watermark">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210725105916.png">
+<meta property="og:image" content="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210725113741.png">
+<meta property="og:image" content="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217223730.png">
+<meta property="article:published_time" content="2021-07-24T09:41:33.000Z">
+<meta property="article:modified_time" content="2021-08-01T05:35:10.357Z">
+<meta property="article:author" content="Ssiu">
+<meta property="article:tag" content="Flink">
+<meta property="article:tag" content="Time">
+<meta property="article:tag" content="Window">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210725105916.png">
+
+<link rel="canonical" href="http://blog.ibuer.fun/2021/07/24/flink-zhong-shui-yin-de-shi-yong/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Flink中水印的使用 | Ssiu Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ssiu Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2021/07/24/flink-zhong-shui-yin-de-shi-yong/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Flink中水印的使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-07-24 17:41:33" itemprop="dateCreated datePublished" datetime="2021-07-24T17:41:33+08:00">2021-07-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 13:35:10" itemprop="dateModified" datetime="2021-08-01T13:35:10+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Flink/" itemprop="url" rel="index"><span itemprop="name">Flink</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>之前大概介绍过在简单的水印使用。时间作为流计算中最重要的部分，Flink对于其中关键的Watermark提供了比较丰富的支持。可以在多个地方生成、分配和使用Watermark</p>
+<span id="more"></span>
+
+<blockquote>
+<p>内容基于1.13</p>
+</blockquote>
+<h1 id="Watermark的生成"><a href="#Watermark的生成" class="headerlink" title="Watermark的生成"></a>Watermark的生成</h1><h2 id="在DataStream中生成"><a href="#在DataStream中生成" class="headerlink" title="在DataStream中生成"></a>在DataStream中生成</h2><p>通常水位线会在source中生成，不过Flink能够根据业务需要，在对DataStream进行API操作后，使用时间戳和watermark生成器修改数据记录的时间戳和watermark</p>
+<h3 id="SourceFunction中生成Watermark"><a href="#SourceFunction中生成Watermark" class="headerlink" title="SourceFunction中生成Watermark"></a>SourceFunction中生成Watermark</h3><ul>
+<li><p>为记录分配时间戳，需要调用<code>SourceContext</code>的<code>collectWithTimestamp</code>方法。</p>
+<ul>
+<li>```java<br>/**<ul>
+<li>提交从数据源获取的记录，并附加给记录时间戳。该方法与使用事件时间息息相关。</li>
+<li>使用事件时间需要通过记录内容获取时间戳。而不是依赖于流上的TimestampAssigner</li>
+<li></li>
+<li>On ProcessingTime, 时间戳会被忽略</li>
+<li>On IngestionTime, 时间戳会被覆盖为系统当前时间</li>
+<li>On EventTime, 时间戳会被使用</li>
+<li></li>
+<li>@param element The element to emit</li>
+<li>@param timestamp The timestamp in milliseconds since the Epoch</li>
+<li>/<br>@PublicEvolving<br>void collectWithTimestamp(T element, long timestamp);<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">- 为生成Watermark，需要调用`SourceContext`的`emitWatermark`方法。</span><br><span class="line"></span><br><span class="line">  - ```java</span><br><span class="line">    /**</span><br><span class="line">     * 提交一个给定的Watermark</span><br><span class="line">     * On ProcessingTime, 该Watermark会被忽略</span><br><span class="line">     * On IngestionTime, 该Watermark会被覆盖为系统自动生成的IngestionTime Watermark</span><br><span class="line">     * On EventTime, 该Watermark会被使用</span><br><span class="line">     *</span><br><span class="line">     * @param mark The Watermark to emit</span><br><span class="line">     */</span><br><span class="line">    @PublicEvolving</span><br><span class="line">    void emitWatermark(Watermark mark);</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="DataStream-API中生成Watermark"><a href="#DataStream-API中生成Watermark" class="headerlink" title="DataStream API中生成Watermark"></a>DataStream API中生成Watermark</h3><p>DataSream API中使用的TimestampAssigner接口定义了时间戳的提取行为。其有两个子接口，定义了不同的Watermark生成策略。</p>
+<h4 id="AssignerWithPeriodicWatermarks"><a href="#AssignerWithPeriodicWatermarks" class="headerlink" title="AssignerWithPeriodicWatermarks"></a>AssignerWithPeriodicWatermarks</h4><p>该接口的实现类会周期性的生成Watermark，而不会针对每个事件都生成。</p>
+<p>####AssignerWithPunctuatedWatermarks</p>
+<p>该接口的实现类对每个事件都会尝试生成Watermark，不过如果生成的Watermark为null或者小于之前的Watermark，则不会像下游发送。</p>
+<p>通过调用<code>assignTimestampsAndWatermarks</code>方法。可以为流数据分配一个Assigner。</p>
+<blockquote>
+<p>在新版本的Flink中。TimestampAssigner已经被标记为过时，总的来说建议通过WatermarkStrategy来进行上述操作。</p>
+</blockquote>
+<p>####WatermarkStrategy</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WatermarkStrategy&lt;Event&gt; eventWatermarkStrategy = WatermarkStrategy</span><br><span class="line">      .&lt;Event&gt;forBoundedOutOfOrderness(Duration.ZERO)</span><br><span class="line">      .withTimestampAssigner((event, timestamp) -&gt; event.getTimestamp());</span><br></pre></td></tr></table></figure>
+
+<p>同样也是通过调用<code>DataStream</code>的<code>assignTimestampsAndWatermarks</code>方法。</p>
+<h2 id="在Flink-SQL中生成"><a href="#在Flink-SQL中生成" class="headerlink" title="在Flink SQL中生成"></a>在Flink SQL中生成</h2><h3 id="TableSource定义"><a href="#TableSource定义" class="headerlink" title="TableSource定义"></a>TableSource定义</h3><p>可以在实现了 <code>DefinedRowTimeAttributes</code> 的 <code>TableSource</code> 中定义。<code>getRowtimeAttributeDescriptors()</code> 方法返回 <code>RowtimeAttributeDescriptor</code> 的列表，包含了描述事件时间属性的字段名字、如何计算事件时间、以及 watermark 生成策略等信息。</p>
+<p>同时需要确保 <code>getDataStream</code> 返回的 <code>DataStream</code> 已经定义好了时间属性。 只有在定义了 <code>StreamRecordTimestamp</code> 时间戳分配器的时候，才认为 <code>DataStream</code> 是有时间戳信息的。 只有定义了 <code>PreserveWatermarks</code> watermark 生成策略的 <code>DataStream</code> 的 watermark 才会被保留。反之，则只有时间字段的值是生效的。</p>
+<blockquote>
+<p>TableSource及相关使用在新版本中已经被标记为过时，而改用新的<code>DynamicTableSource</code>接口。新的数据源需要实现<code>SupportsSourceWatermark</code>接口或<code>SupportsWatermarkPushDown</code>接口，获得相关的水位线能力。这部分会在自定义Table-Connector中提及。</p>
+<p>可参考<a target="_blank" rel="noopener" href="https://cwiki.apache.org/confluence/display/FLINK/FLIP-95%3A+New+TableSource+and+TableSink+interfaces">FLIP-95: Add new table source and sink interfaces</a>。主要应该还是为了统一批流一体。</p>
+</blockquote>
+<h3 id="在DataStream中定义"><a href="#在DataStream中定义" class="headerlink" title="在DataStream中定义"></a>在DataStream中定义</h3><p><em>事件时间属性可以用 .rowtime 后缀在定义 DataStream schema 的时候来定义。</em>其时间属性与stream保持一致。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> table: <span class="type">Table</span> = tableEnv.fromDataStream(stream, $<span class="string">&quot;sid&quot;</span>, $<span class="string">&quot;callOut&quot;</span>, $<span class="string">&quot;callIn&quot;</span>, $<span class="string">&quot;callType&quot;</span>, $<span class="string">&quot;callTime&quot;</span>.rowtime(), $<span class="string">&quot;duration&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="在DDL中定义"><a href="#在DDL中定义" class="headerlink" title="在DDL中定义"></a>在DDL中定义</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> user_actions (</span><br><span class="line">  user_name STRING,</span><br><span class="line">  data STRING,</span><br><span class="line">  user_action_time <span class="type">TIMESTAMP</span>(<span class="number">3</span>),</span><br><span class="line">  <span class="comment">-- 声明 user_action_time 是事件时间属性，并且用 延迟 5 秒的策略来生成 watermark</span></span><br><span class="line">  WATERMARK <span class="keyword">FOR</span> user_action_time <span class="keyword">AS</span> user_action_time <span class="operator">-</span> <span class="type">INTERVAL</span> <span class="string">&#x27;5&#x27;</span> <span class="keyword">SECOND</span></span><br><span class="line">) <span class="keyword">WITH</span> (</span><br><span class="line">  ...</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="多流的Watermark"><a href="#多流的Watermark" class="headerlink" title="多流的Watermark"></a>多流的Watermark</h1><p>Flink内部实现每一个边上只能有一个递增的Watermark，当出现多个汇聚在一起时，Flink会选择流入的EventTime中最小的一个向下游流出。保证Watermark的单调递增性。</p>
+<p>在Flink的底层模型上，多流输入会被分解为多个双流输入。无论哪一个流的Watermark进入算子，都需要跟<strong>另一个流</strong>的当前算子进行比较，选择较小的Watermark，再与算子当前的Watermark进行比较，如果大于算子当前的Watermark，则更新。处理逻辑如下图所示：</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210725105916.png" alt="image-20210725105916565"></p>
+<p>具体的代码逻辑如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// AbstractStreamOperator.java</span></span><br><span class="line"><span class="comment">// 处理source1的watermark</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">processWatermark1</span><span class="params">(Watermark mark)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    processWatermark(mark, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 处理source2的watermark</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">processWatermark2</span><span class="params">(Watermark mark)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    processWatermark(mark, <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 处理watermark时会调用combinedWatermark.updateWatermark</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">processWatermark</span><span class="params">(Watermark mark, <span class="keyword">int</span> index)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (combinedWatermark.updateWatermark(index, mark.getTimestamp())) &#123;</span><br><span class="line">      <span class="comment">// 如果确实需要更新，再更新</span></span><br><span class="line">        processWatermark(<span class="keyword">new</span> Watermark(combinedWatermark.getCombinedWatermark()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 尝试更新当前算子的watermark</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">updateWatermark</span><span class="params">(<span class="keyword">int</span> index, <span class="keyword">long</span> timestamp)</span> </span>&#123;</span><br><span class="line">    checkArgument(index &lt; partialWatermarks.length);</span><br><span class="line">  	<span class="comment">// 设置某条流的Watermark为新的watermark</span></span><br><span class="line">    partialWatermarks[index].setWatermark(timestamp);</span><br><span class="line">    <span class="comment">// 尝试更新合并</span></span><br><span class="line">    <span class="keyword">return</span> combinedWatermarkStatus.updateCombinedWatermark();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置某条流的Watermark为新的watermark。</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">setWatermark</span><span class="params">(<span class="keyword">long</span> watermark)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.idle = <span class="keyword">false</span>;</span><br><span class="line">    <span class="comment">// 设置时会进行大小判断，保证watermark比之前的大</span></span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">boolean</span> updated = watermark &gt; <span class="keyword">this</span>.watermark;</span><br><span class="line">    <span class="keyword">this</span>.watermark = Math.max(watermark, <span class="keyword">this</span>.watermark);</span><br><span class="line">    <span class="keyword">return</span> updated;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 更新当前算子的watermark</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">updateCombinedWatermark</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> minimumOverAllOutputs = Long.MAX_VALUE;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 仅当有水位线时才更新</span></span><br><span class="line">    <span class="keyword">if</span> (partialWatermarks.isEmpty()) &#123;</span><br><span class="line">        <span class="keyword">this</span>.idle = combinedWatermark &gt; Long.MIN_VALUE;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">boolean</span> allIdle = <span class="keyword">true</span>;</span><br><span class="line">    <span class="comment">// 遍历所有水位线</span></span><br><span class="line">    <span class="keyword">for</span> (PartialWatermark partialWatermark : partialWatermarks) &#123;</span><br><span class="line">      	<span class="comment">// 当一条线不是空闲时进行判断</span></span><br><span class="line">        <span class="keyword">if</span> (!partialWatermark.isIdle()) &#123;</span><br><span class="line">          	<span class="comment">// 将partialWatermark与minimumOverAllOutputs比较，取得最小值。</span></span><br><span class="line">          	<span class="comment">// 这里出来的是所有partialWatermark最小的watermark</span></span><br><span class="line">            minimumOverAllOutputs =</span><br><span class="line">                    Math.min(minimumOverAllOutputs, partialWatermark.getWatermark());</span><br><span class="line">            allIdle = <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.idle = allIdle;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!allIdle &amp;&amp; minimumOverAllOutputs &gt; combinedWatermark) &#123;</span><br><span class="line">        combinedWatermark = minimumOverAllOutputs;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">processWatermark</span><span class="params">(Watermark mark)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (timeServiceManager != <span class="keyword">null</span>) &#123;</span><br><span class="line">        timeServiceManager.advanceWatermark(mark);</span><br><span class="line">    &#125;</span><br><span class="line">    output.emitWatermark(mark);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其简单的调用路径如下：</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210725113741.png" alt="image-20210725113741307"></p>
+<p>在官方的例子中：</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217223730.png" alt="Kafka in WaterMark"></p>
+<p>Source算子各自产生Watermark（黄色部分），并随着数据流流向下游map算子。由于map是无状态算子，并不需要使用watermark，会讲其透传至后续算子。window接收到后，会选择其中较小的一个使用。如图所示选择了watermark14。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Flink/" rel="tag"># Flink</a>
+              <a href="/tags/Time/" rel="tag"># Time</a>
+              <a href="/tags/Window/" rel="tag"># Window</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/15/flink1-13-zhong-de-sql-you-hua/" rel="prev" title="Flink1.13中的SQL优化">
+      <i class="fa fa-chevron-left"></i> Flink1.13中的SQL优化
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/07/25/flink-zhong-shi-jian-fu-wu/" rel="next" title="Flink中时间服务">
+      Flink中时间服务 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Watermark%E7%9A%84%E7%94%9F%E6%88%90"><span class="nav-number">1.</span> <span class="nav-text">Watermark的生成</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8DataStream%E4%B8%AD%E7%94%9F%E6%88%90"><span class="nav-number">1.1.</span> <span class="nav-text">在DataStream中生成</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SourceFunction%E4%B8%AD%E7%94%9F%E6%88%90Watermark"><span class="nav-number">1.1.1.</span> <span class="nav-text">SourceFunction中生成Watermark</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DataStream-API%E4%B8%AD%E7%94%9F%E6%88%90Watermark"><span class="nav-number">1.1.2.</span> <span class="nav-text">DataStream API中生成Watermark</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AssignerWithPeriodicWatermarks"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">AssignerWithPeriodicWatermarks</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8Flink-SQL%E4%B8%AD%E7%94%9F%E6%88%90"><span class="nav-number">1.2.</span> <span class="nav-text">在Flink SQL中生成</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TableSource%E5%AE%9A%E4%B9%89"><span class="nav-number">1.2.1.</span> <span class="nav-text">TableSource定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8DataStream%E4%B8%AD%E5%AE%9A%E4%B9%89"><span class="nav-number">1.2.2.</span> <span class="nav-text">在DataStream中定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8DDL%E4%B8%AD%E5%AE%9A%E4%B9%89"><span class="nav-number">1.2.3.</span> <span class="nav-text">在DDL中定义</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E6%B5%81%E7%9A%84Watermark"><span class="nav-number">2.</span> <span class="nav-text">多流的Watermark</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ssiu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ssiu</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
+</html>

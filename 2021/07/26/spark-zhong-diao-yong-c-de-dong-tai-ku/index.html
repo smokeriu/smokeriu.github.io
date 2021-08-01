@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-material.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.ibuer.fun","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Spark是基于Scala开发的，通过Java的Native方式，实现对C程序的调用。本文主要记录一些使用中遇到的问题，并不会进行深入探讨。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spark中调用C的动态库">
+<meta property="og:url" content="http://blog.ibuer.fun/2021/07/26/spark-zhong-diao-yong-c-de-dong-tai-ku/index.html">
+<meta property="og:site_name" content="Ssiu Blog">
+<meta property="og:description" content="Spark是基于Scala开发的，通过Java的Native方式，实现对C程序的调用。本文主要记录一些使用中遇到的问题，并不会进行深入探讨。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-07-26T07:58:54.000Z">
+<meta property="article:modified_time" content="2021-08-01T05:34:23.990Z">
+<meta property="article:author" content="Ssiu">
+<meta property="article:tag" content="Spark">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.ibuer.fun/2021/07/26/spark-zhong-diao-yong-c-de-dong-tai-ku/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Spark中调用C的动态库 | Ssiu Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ssiu Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2021/07/26/spark-zhong-diao-yong-c-de-dong-tai-ku/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Spark中调用C的动态库
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-07-26 15:58:54" itemprop="dateCreated datePublished" datetime="2021-07-26T15:58:54+08:00">2021-07-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 13:34:23" itemprop="dateModified" datetime="2021-08-01T13:34:23+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spark/" itemprop="url" rel="index"><span itemprop="name">Spark</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Spark是基于Scala开发的，通过Java的Native方式，实现对C程序的调用。本文主要记录一些使用中遇到的问题，并不会进行深入探讨。</p>
+<span id="more"></span>
+
+<blockquote>
+<p>由于项目需要，需要在Spark的Driver与Executor端调用C的动态库(*.so)，不过某些细节网上资料并没有说明清楚，故记录实际实现中遇到的一些问题。</p>
+</blockquote>
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><p>可参考<a target="_blank" rel="noopener" href="http://icejoywoo.github.io/2018/07/25/spark-jni.html#spark-shell-%E6%B5%8B%E8%AF%95">在 Apache Spark 中使用 JNI 调用 C/C++ 代码</a>。</p>
+<p>后续代码也会参考这篇文章。</p>
+<p>本文暂时不做具体赘述。参考文章很详细了。仅仅记录一些参考该文章遇到的问题，或是原文没特别提及的内容。</p>
+<h1 id="Java类需要注意"><a href="#Java类需要注意" class="headerlink" title="Java类需要注意"></a>Java类需要注意</h1><h2 id="定义Java类时需要注意"><a href="#定义Java类时需要注意" class="headerlink" title="定义Java类时需要注意"></a>定义Java类时需要注意</h2><p>这里定义的Java类包含了调用C时的native方法</p>
+<ul>
+<li><p>定义的类需要实现 Serializable，否则可能在 Spark 程序中出现序列化错误。</p>
+</li>
+<li><p>类必须是 public。</p>
+</li>
+<li><p>建议在类中包含<code>System.loadLibrary(&quot;myCpp&quot;);</code></p>
+<ul>
+<li>```java<br>static {<pre><code>System.loadLibrary(&quot;myCpp&quot;);
+</code></pre>
+}<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - `myCpp`后续会使用到。</span><br><span class="line"></span><br><span class="line">参考实现：</span><br><span class="line"></span><br><span class="line">```java</span><br><span class="line">// filename: Base64.java</span><br><span class="line">package org.example.jni;</span><br><span class="line"></span><br><span class="line">import java.io.Serializable;</span><br><span class="line"></span><br><span class="line">public class Base64 implements Serializable &#123;</span><br><span class="line">    static &#123;</span><br><span class="line">        System.loadLibrary(&quot;base64&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Base64() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    public native static String encode(String data);</span><br><span class="line">    public native static String decode(String data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h2 id="编译Java类时需要注意"><a href="#编译Java类时需要注意" class="headerlink" title="编译Java类时需要注意"></a>编译Java类时需要注意</h2><blockquote>
+<p>这里的类指包含了调用C时的native方法的类</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 编译，生成 .class 文件</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 任意目录均可</span></span><br><span class="line">javac Base64.java</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 生成头文件</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 需要与org同级目录(ls结果有org)执行，测试下无法在jni目录下执行。</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 需要完整的package名</span></span><br><span class="line">javah org.example.jni.Base64</span><br><span class="line"><span class="meta">#</span><span class="bash"> 生成的头文件会在org同级目录</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 如果有额外的依赖，可以通过 -cp 来指定依赖的 jar 包路径或 class 文件路径。</span></span><br><span class="line">javac -cp $class_path:. Base64.java</span><br><span class="line">javah -cp $class_path:. org.example.jni.Base64</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="编译动态库需要注意"><a href="#编译动态库需要注意" class="headerlink" title="编译动态库需要注意"></a>编译动态库需要注意</h1><blockquote>
+<p>请根据系统来编译C。这部分C的伙伴比较熟悉。故简单写一下</p>
+</blockquote>
+<ul>
+<li><p>不同系统需要使用/生成不一样的动态库</p>
+<ul>
+<li>Mac系统需要使用*.jnilib</li>
+<li>Linux系统一般是*.so</li>
+</ul>
+</li>
+<li><p>makefile里有些内容需要注意</p>
+<ul>
+<li><p>```makefile<br>CC=g++<br>CFLAGS=-Wall<br>OBJS=Base64.o<br>all: libbase64.so</p>
+<p>Base64.o: Base64.cpp</p>
+<pre><code>$(CC) $(CFLAGS) -I$&#123;JAVA_HOME&#125;/include \
+        -I$&#123;JAVA_HOME&#125;/include/linux \
+        -I. \
+  -fpic -c $&lt; -o $@
+</code></pre>
+<p>libbase64.so: $(OBJS)</p>
+<pre><code>g++ -shared -o $@ $(OBJS)
+rm -f $(OBJS)
+</code></pre>
+<p>.PHONY : clean<br>clean:</p>
+<pre><code>rm -f $(OBJS) libbase64.so
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - 对于第7行后半部分：`-I$&#123;JAVA_HOME&#125;/include`，实际是需要指向`jni.h`所在目录。</span><br><span class="line"></span><br><span class="line">  - 对于第8行：`-I$&#123;JAVA_HOME&#125;/include/linux`，实际是需要指向`jni_md.h`所在目录。</span><br><span class="line"></span><br><span class="line">    - 对于Mac系统，则一般需要修改为`-I$&#123;JAVA_HOME&#125;/include/darwin`</span><br><span class="line"></span><br><span class="line">- 产生的文件需要参考Java类的定义</span><br><span class="line"></span><br><span class="line">  - ```java</span><br><span class="line">    static &#123;</span><br><span class="line">        System.loadLibrary(&quot;myCpp&quot;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>如果这里写的<code>myCpp</code>，则生成的动态库文件必须为：</p>
+<ul>
+<li>Mac下：<code>libmyCpp.jnilib</code></li>
+<li>Linux下：<code>libmyCpp.so</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="Spark中使用需要注意"><a href="#Spark中使用需要注意" class="headerlink" title="Spark中使用需要注意"></a>Spark中使用需要注意</h1><ul>
+<li>包含Java类的jar包需要作为依赖调用</li>
+<li>所有动态库需要作为文件上传。<ul>
+<li>可以在submit时，使用<code>--files *.so</code>上传。并同时设置两个参数：<ul>
+<li><code>--conf spark.executor.extraJavaOptions=&#39;-Djava.library.path=./&#39;</code></li>
+<li><code>--conf spark.driver.extraJavaOptions=&#39;-Djava.library.path=./&#39;</code></li>
+<li>其路径需要指向<code>*.so</code>所在的目录。</li>
+</ul>
+</li>
+<li>也可以放在hdfs上，在spark代码里通过<code>spark.sparkContext.addFile(&quot;hdfs:///c-lib/libbase64.so&quot;)</code>加载亦可。<ul>
+<li>如果只是在executor中使用，则不需要设置额外参数。</li>
+<li>如果通过这种途径，要在Driver中使用，需要一些额外操作<ul>
+<li>在submit时，需要<code> --conf spark.driver.extraJavaOptions=&#39;-Djava.library.path=/tmp/spark-test/c-lib/&#39;</code>。并且在代码里，通过<code>SparkFiles.get(&quot;libbase64.so&quot;)</code>拿到实际动态库的位置，移动到设置的<code>/tmp/spark-test/c-lib/</code>下才行。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>注：这部分也仅仅是简单测试使用后得到的结论，由于时间有限并没有针对一些疑问点进行深入测试。后续有新结论会进行补充和纠错。目前结论仅供参考。</p>
+</blockquote>
+<h1 id="未完整验证的已知问题"><a href="#未完整验证的已知问题" class="headerlink" title="未完整验证的已知问题"></a>未完整验证的已知问题</h1><p>当C中的*.so使用了其他*.so时，会出现无法调用的情况。建议将完整的C功能打包成一个完整的*.so。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Spark/" rel="tag"># Spark</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/25/flink-zhong-shi-jian-fu-wu/" rel="prev" title="Flink中时间服务">
+      <i class="fa fa-chevron-left"></i> Flink中时间服务
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/07/28/flink-de-runtime-he-xin-ji-zhi/" rel="next" title="Flink的Runtime核心机制">
+      Flink的Runtime核心机制 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E7%B1%BB%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F"><span class="nav-number">2.</span> <span class="nav-text">Java类需要注意</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89Java%E7%B1%BB%E6%97%B6%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F"><span class="nav-number">2.1.</span> <span class="nav-text">定义Java类时需要注意</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91Java%E7%B1%BB%E6%97%B6%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F"><span class="nav-number">2.2.</span> <span class="nav-text">编译Java类时需要注意</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%8A%A8%E6%80%81%E5%BA%93%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F"><span class="nav-number">3.</span> <span class="nav-text">编译动态库需要注意</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spark%E4%B8%AD%E4%BD%BF%E7%94%A8%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F"><span class="nav-number">4.</span> <span class="nav-text">Spark中使用需要注意</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%AA%E5%AE%8C%E6%95%B4%E9%AA%8C%E8%AF%81%E7%9A%84%E5%B7%B2%E7%9F%A5%E9%97%AE%E9%A2%98"><span class="nav-number">5.</span> <span class="nav-text">未完整验证的已知问题</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ssiu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ssiu</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
+</html>

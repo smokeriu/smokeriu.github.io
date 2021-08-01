@@ -1,773 +1,1304 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="zh-CN">
-
-
 <head>
-    <meta charset="utf-8">
-    <meta name="keywords" content="Ssiu Blog">
-    <meta name="description" content="Ssiu Blog">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="renderer" content="webkit|ie-stand|ie-comp">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Ssiu Blog</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
-    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/matery.css">
-    <link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" href="/css/main.css">
 
-    <script src="/libs/jquery/jquery.min.js"></script>
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-material.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.ibuer.fun","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Ssiu Blog">
+<meta property="og:url" content="http://blog.ibuer.fun/page/3/index.html">
+<meta property="og:site_name" content="Ssiu Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Ssiu">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.ibuer.fun/page/3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Ssiu Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ssiu Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
     
-<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
-<body>
-    <header class="navbar-fixed">
-    <nav id="headNav" class="bg-color nav-transparent">
-        <div id="navContainer" class="nav-wrapper container">
-            <div class="brand-logo">
-                <a href="/" class="waves-effect waves-light">
-                    
-                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
-                    
-                    <span class="logo-span">Ssiu Blog</span>
-                </a>
-            </div>
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2021/06/29/go-de-jie-kou/">
 
-<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
-<ul class="right nav-menu">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/06/29/go-de-jie-kou/" class="post-title-link" itemprop="url">go的接口</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-06-29 21:48:19" itemprop="dateCreated datePublished" datetime="2021-06-29T21:48:19+08:00">2021-06-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-27 19:48:07" itemprop="dateModified" datetime="2021-07-27T19:48:07+08:00">2021-07-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="duck-typing"><a href="#duck-typing" class="headerlink" title="duck typing"></a>duck typing</h2><blockquote>
+<p>描述事物的外部行为而非内部结构</p>
+</blockquote>
+<h3 id="Pyhon中的duckTyping"><a href="#Pyhon中的duckTyping" class="headerlink" title="Pyhon中的duckTyping"></a>Pyhon中的duckTyping</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">download</span>(<span class="params">retriever</span>):</span></span><br><span class="line">  <span class="keyword">return</span> retrierver.get(<span class="string">&quot;ssss&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>运行时才知道传入的retriever是否有get方法。</li>
+<li>需要在注释中提醒使用者，传入的retriever需要实现get方法。</li>
+</ul>
+<h3 id="C-中的duckTyping"><a href="#C-中的duckTyping" class="headerlink" title="C++中的duckTyping"></a>C++中的duckTyping</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">R</span>&gt;</span></span><br><span class="line"><span class="function">string <span class="title">download</span><span class="params">(<span class="keyword">const</span> R&amp; retriever)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> retriever.<span class="built_in">get</span>(<span class="string">&quot;ssss&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>编译时才知道传入的retriever有没有get方法。</li>
+<li>需要通过注释提醒使用者</li>
+</ul>
+<h3 id="Java中的duckTyping"><a href="#Java中的duckTyping" class="headerlink" title="Java中的duckTyping"></a>Java中的duckTyping</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;R extends Retriever&gt;</span><br><span class="line"><span class="function">String <span class="title">download</span><span class="params">(R r)</span></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> r.get(<span class="string">&quot;ssss&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>传入的参数必须实现Retriever</li>
+</ul>
+<h3 id="Go中的duckTyping"><a href="#Go中的duckTyping" class="headerlink" title="Go中的duckTyping"></a>Go中的duckTyping</h3><p>Java的问题：</p>
+<ul>
+<li>同时需要Readable和Appendable怎么办。（apache polygene）</li>
+<li>缺少灵活性</li>
+</ul>
+<p>Python/C++的问题：</p>
+<ul>
+<li>不具备类型检查</li>
+</ul>
+<p>Go的特点：</p>
+<ul>
+<li>接口由使用者定义</li>
+<li>接口的实现是<strong>隐式的</strong>，只需要实现<strong>接口定义的方法</strong>，就表示实现了对应的接口。<ul>
+<li>即调用者只关心接口有哪些方法。不关心实现。</li>
+<li>实现者只需要实现所有接口方法，就能作为这个接口被使用者调用。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Http.go</span></span><br><span class="line"><span class="keyword">type</span> Http <span class="keyword">interface</span> &#123;</span><br><span class="line">	Get(url <span class="keyword">string</span>) <span class="keyword">string</span></span><br><span class="line">	Post(url <span class="keyword">string</span>) <span class="keyword">string</span></span><br><span class="line">	Delete(url <span class="keyword">string</span>) <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// MyHttp.go</span></span><br><span class="line"><span class="keyword">type</span> MyHttp <span class="keyword">struct</span> &#123;</span><br><span class="line">	version <span class="keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 需要同时实现这三个借口，才能被识别为实现了Http接口</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m MyHttp)</span> <span class="title">Get</span><span class="params">(url <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="string">&quot;get!&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m MyHttp)</span> <span class="title">Post</span><span class="params">(url <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="string">&quot;post!&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m MyHttp)</span> <span class="title">Delete</span><span class="params">(url <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="string">&quot;delete!&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 接口使用</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getHttp</span><span class="params">()</span> <span class="title">inter</span>.<span class="title">Http</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> inter.MyHttp&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ---------</span></span><br><span class="line"><span class="comment">// ---------</span></span><br><span class="line"><span class="comment">// 如果方法实现中接收者为指针类型。则需要当作指针返回</span></span><br><span class="line"><span class="keyword">type</span> MyHttp <span class="keyword">struct</span> &#123;</span><br><span class="line">	version <span class="keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *MyHttp)</span> <span class="title">Get</span><span class="params">(url <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="string">&quot;get!&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *MyHttp)</span> <span class="title">Post</span><span class="params">(url <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="string">&quot;post!&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *MyHttp)</span> <span class="title">Delete</span><span class="params">(url <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="string">&quot;delete!&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 需要取得地址返回</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getHttp</span><span class="params">()</span> <span class="title">inter</span>.<span class="title">Http</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;inter.MyHttp&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="接口的值类型"><a href="#接口的值类型" class="headerlink" title="接口的值类型"></a>接口的值类型</h2><p>由于Go都是值传递。所以当讲接口作为一个接口传递时，接口也是一个值。</p>
+<p>接口变量里有什么：</p>
+<ul>
+<li>实现者类型。</li>
+<li>实现者的值。（实现者的指针）<ul>
+<li>所以几乎不需要使用接口的指针。</li>
+<li>指针接收者实现只能以指针方式使用；值接收者则都可。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// todo</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="查看接口变量"><a href="#查看接口变量" class="headerlink" title="查看接口变量"></a>查看接口变量</h2><ul>
+<li><p>表示任何类型：<code>interface&#123;&#125;</code></p>
+</li>
+<li><p>Type Assertion</p>
+<ul>
+<li><p>```go</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - </span><br><span class="line"></span><br><span class="line">- Type Switch</span><br><span class="line"></span><br><span class="line">  - </span><br><span class="line"></span><br><span class="line">    ```go</span><br></pre></td></tr></table></figure></li>
+<li></li>
+</ul>
+</li>
+</ul>
+<h2 id="接口的组合"><a href="#接口的组合" class="headerlink" title="接口的组合"></a>接口的组合</h2><blockquote>
+<p>一个接口可以由多个接口组合而成，则表示该接口包含所有接口的特性。</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 已有两个借口</span></span><br><span class="line"><span class="keyword">type</span> Http1 <span class="keyword">interface</span> &#123;</span><br><span class="line">  Get(url <span class="keyword">string</span>) <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> Http2 <span class="keyword">interface</span> &#123;</span><br><span class="line">  Post(url <span class="keyword">string</span>) <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 接口组合, 若实现HTTP接口，则包含了Get/Post/OtherHttpInterfaceFunc三方法</span></span><br><span class="line"><span class="keyword">type</span> Http <span class="keyword">interface</span> &#123;</span><br><span class="line">  Http1</span><br><span class="line">  Http2</span><br><span class="line">  OtherHttpInterfaceFunc()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
   
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/" class="waves-effect waves-light">
-      
-      <i class="fas fa-home" style="zoom: 0.6;"></i>
-      
-      <span>首页</span>
-    </a>
-    
-  </li>
   
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/tags" class="waves-effect waves-light">
-      
-      <i class="fas fa-tags" style="zoom: 0.6;"></i>
-      
-      <span>标签</span>
-    </a>
-    
-  </li>
   
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/categories" class="waves-effect waves-light">
+
       
-      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
-      
-      <span>分类</span>
-    </a>
-    
-  </li>
   
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/archives" class="waves-effect waves-light">
-      
-      <i class="fas fa-archive" style="zoom: 0.6;"></i>
-      
-      <span>归档</span>
-    </a>
-    
-  </li>
   
-  <li class="hide-on-med-and-down nav-item">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2021/06/27/go-de-yi-lai-guan-li/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/06/27/go-de-yi-lai-guan-li/" class="post-title-link" itemprop="url">go的依赖管理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-06-27 18:17:43" itemprop="dateCreated datePublished" datetime="2021-06-27T18:17:43+08:00">2021-06-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-27 19:47:54" itemprop="dateModified" datetime="2021-07-27T19:47:54+08:00">2021-07-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
     
-    <a href="/about" class="waves-effect waves-light">
-      
-      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
-      
-      <span>关于</span>
-    </a>
     
-  </li>
-  
-  <li>
-    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
-      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
-    </a>
-  </li>
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Go依赖管理的发展"><a href="#Go依赖管理的发展" class="headerlink" title="Go依赖管理的发展"></a>Go依赖管理的发展</h2><h3 id="GOPATH"><a href="#GOPATH" class="headerlink" title="GOPATH"></a>GOPATH</h3><p>编译寻找依赖，会在<code>$GOPATH/src/</code>下去寻找。</p>
+<p>存在的问题：</p>
+<ul>
+<li>由于依赖都是放在linux目录下，所以无法直接进行版本管理。依赖只有一个版本。</li>
+</ul>
+<h3 id="GOVENDOOR"><a href="#GOVENDOOR" class="headerlink" title="GOVENDOOR"></a>GOVENDOOR</h3><p>为了解决依赖版本的问题，可以：</p>
+<ul>
+<li>通过在工程内建立<code>vendor</code>文件夹。将依赖放在<code>vendor</code>文件夹下。</li>
+</ul>
+<h3 id="GOMO"><a href="#GOMO" class="headerlink" title="GOMO"></a>GOMO</h3><p>新的依赖管理工具。会将依赖放在固定目录。</p>
+<ul>
+<li>go get进行依赖下载。</li>
 </ul>
 
-<div id="mobile-nav" class="side-nav sidenav">
-
-    <div class="mobile-head bg-color">
-        
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
-        
-        <div class="logo-name">Ssiu Blog</div>
-        <div class="logo-desc">
-            
-            Never really desperate, only the lost of the soul.
-            
-        </div>
+      
     </div>
 
     
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
-    <ul class="menu-list mobile-menu-list">
-        
-        <li class="m-nav-item">
-	  
-		<a href="/" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-home"></i>
-			
-			首页
-		</a>
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2021/06/26/go-de-mian-xiang-dui-xiang/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
           
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/tags" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-tags"></i>
-			
-			标签
-		</a>
+            <a href="/2021/06/26/go-de-mian-xiang-dui-xiang/" class="post-title-link" itemprop="url">go的面向对象</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-06-26 20:33:05" itemprop="dateCreated datePublished" datetime="2021-06-26T20:33:05+08:00">2021-06-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-27 18:15:45" itemprop="dateModified" datetime="2021-06-27T18:15:45+08:00">2021-06-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
+                </span>
+            </span>
+
           
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/categories" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bookmark"></i>
-			
-			分类
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/archives" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-archive"></i>
-			
-			归档
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/about" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-user-circle"></i>
-			
-			关于
-		</a>
-          
-        </li>
-        
-        
-    </ul>
-</div>
 
         </div>
-
-        
-    </nav>
-
-</header>
+      </header>
 
     
-    <div class="bg-cover pd-header about-cover">
-    <div class="container">
-    <div class="row">
-    <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
-        <div class="brand">
-            <div class="title center-align">
-                
-                Spark Hadoop Hbase
-                
-            </div>
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
-            <div class="description center-align">
-                
-                <span id="subtitle"></span>
-                <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
-                <script>
-                    var typed = new Typed("#subtitle", {
-                        strings: ['无名小站','无名小站'],
-                        startDelay: 300,
-                        typeSpeed: 100,
-                        loop: true,
-                        backSpeed: 50,
-                        showCursor: true
-                    });
-                </script>
-                
-            </div>
-        </div>
+      
+          <ul>
+<li>Go语言仅支持封装，不支持继承和多态</li>
+</ul>
+<h2 id="初始化结构体"><a href="#初始化结构体" class="headerlink" title="初始化结构体"></a>初始化结构体</h2><p>通过<code>type &lt;name&gt; struct &#123;code&#125;</code>的形式定义结构体</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MyStruct <span class="keyword">struct</span>&#123;</span><br><span class="line">  value <span class="keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// new struct</span></span><br><span class="line">myStruct := MyStruct&#123;value: <span class="number">3</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> myStruct MyStrcut</span><br><span class="line"></span><br><span class="line">node3 := <span class="built_in">new</span>(MyStruct)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="结构体的方法"><a href="#结构体的方法" class="headerlink" title="结构体的方法"></a>结构体的方法</h2><p>要为结构体添加函数。需要将结构体作为接收参数（接收者）写在方法前面。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(myStruct MyStruct)</span> <span class="title">getValue</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">  <span class="keyword">return</span> myStruct.value</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(myStruct MyStruct)</span> <span class="title">print</span><span class="params">()</span></span> &#123;</span><br><span class="line">  fmt.Prtinln(myStruct)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这样getValue和print就作为了MyStruct的函数。可以直接调用</span></span><br><span class="line">myStruct := MyStruct&#123;value: <span class="number">3</span>&#125;</span><br><span class="line">myStruct.<span class="built_in">print</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果这样写</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">print</span><span class="params">(myStruct MyStruct)</span></span>&#123;</span><br><span class="line">  fmt.Prtinln(myStruct)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 则需要当作一个普通函数调用</span></span><br><span class="line"><span class="built_in">print</span>(myStruct)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="关于值传递"><a href="#关于值传递" class="headerlink" title="关于值传递"></a>关于值传递</h3><p>在结构体方法中，<strong>接收者也是值传递</strong>。意味着<code>myStruct.getValue()</code>调用的其实是<code>myStruct</code>的复制的<code>value</code>。这种时候需要将接收者作为指针，传递地址。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(myStruct *MyStruct)</span> <span class="title">setValue</span><span class="params">(newValue: <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">  myStruct.value = newValue</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// usage</span></span><br><span class="line"></span><br><span class="line">myStruct.setValue(<span class="number">100</span>) <span class="comment">// value = 100</span></span><br></pre></td></tr></table></figure>
+
+<p>这么做，调用<code>setValue</code>方法时，实际上调用的是<code>myStruct</code>对应地址上的方法。不过在使用没有任何区别，都是用<code>.func</code>调用即可。</p>
+<p>同样的，当我们将<code>myStruct</code>的指针付给一个新变量时，调用这类办法，也会将<code>myStruct</code>的<code>value</code>值进行修改。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">myStruct2 := &amp;myStruct <span class="comment">// value = 3</span></span><br><span class="line">myStruct2.setValue(<span class="number">100</span>)</span><br><span class="line"></span><br><span class="line">fmt.Println(myStruct2) <span class="comment">// value = 100</span></span><br><span class="line">fmt.Println(myStruct)  <span class="comment">// value = 100</span></span><br></pre></td></tr></table></figure>
+
+<p>同时，nil也可以调用指针的方法。并且方法调用本身不会报错，只当进行具体操作时，比如过nil并没有value这个属性，所以nil.value时会报错。</p>
+<h3 id="指针接收者还是值接收者"><a href="#指针接收者还是值接收者" class="headerlink" title="指针接收者还是值接收者"></a>指针接收者还是值接收者</h3><ul>
+<li>要改变内容必须使用指针接收者。</li>
+<li>结构过大也考虑使用指针接收者。</li>
+<li>一致性：如果有指针接收者，最好其他方法也修改为指针接收者。</li>
+</ul>
+<h2 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h2><blockquote>
+<p>Go没有构造方法一说。不过可以通过方法的形式，创建构造方法</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">createMyStruct</span><span class="params">(newValue <span class="keyword">int</span>)</span> *<span class="title">MyStruct</span></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &amp;MyStruct&#123;value: newValue&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>有几个点需要注意：</p>
+<ul>
+<li>这里返回的是一个局部变量。在方法里创造的<code>MyStruct</code></li>
+<li>Go的编译器会在编译时判断这个变量建立在堆上还是栈上。<ul>
+<li>如果返回值是一个指针。Go会将其创建在堆上。供外部使用，同时参与到后续的垃圾回收。</li>
+<li>如果返回值是一个值。Go会将其创建的栈上。返回一个其的复制。并在结束时销毁。</li>
+</ul>
+</li>
+</ul>
+<h2 id="结构体的可见域与使用"><a href="#结构体的可见域与使用" class="headerlink" title="结构体的可见域与使用"></a>结构体的可见域与使用</h2><h3 id="包"><a href="#包" class="headerlink" title="包"></a>包</h3><ul>
+<li>每个目录只允许有一个包</li>
+<li>main包包含可执行入口。<ul>
+<li>如果一个目录下有一个main函数，那么这个目录下只能有一个main包(即<code>package main</code>)。</li>
+</ul>
+</li>
+<li>为结构定义的方法必须放在同一个包内。<ul>
+<li>但可以在同一个包下的不同文件。</li>
+</ul>
+</li>
+</ul>
+<h3 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h3><blockquote>
+<p>在Go中，首字母大写有含义</p>
+</blockquote>
+<ul>
+<li>首字母大写。表示public</li>
+<li>首字母小写。表示private</li>
+<li>结构的元素，方法，结构体本身都遵循上述可见规则。</li>
+</ul>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>使用<code>包.类</code>进行调用。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 假设Node在tree包下,下述代码在use包下的hello.go</span></span><br><span class="line"><span class="comment">// -root</span></span><br><span class="line"><span class="comment">// |-use</span></span><br><span class="line"><span class="comment">// |--hello.go</span></span><br><span class="line"><span class="comment">// |-tree</span></span><br><span class="line"><span class="comment">// |--node.go</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 一个目录下只允许有一个package main</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="comment">// 需要根据目录进行import</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;awesomeProject/tree&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="comment">// 包名tree不能省略</span></span><br><span class="line">	node := tree.Node&#123;Value: <span class="number">2</span>&#125;</span><br><span class="line">	node.Print()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="扩展已有类型"><a href="#扩展已有类型" class="headerlink" title="扩展已有类型"></a>扩展已有类型</h2><blockquote>
+<p>Go中，没有继承，需要通过其他方法扩充系统类型或者别人的类型。</p>
+</blockquote>
+<h3 id="定义别名（自定义类型）"><a href="#定义别名（自定义类型）" class="headerlink" title="定义别名（自定义类型）"></a>定义别名（自定义类型）</h3><blockquote>
+<p>示例使用queue去扩展[]int</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Queue []<span class="keyword">int</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(q *Queue)</span> <span class="title">push</span><span class="params">(i <span class="keyword">int</span>)</span></span>&#123;</span><br><span class="line">  <span class="comment">// 由于我们需要修改q本身的内容，所以需要使用*q来接收。</span></span><br><span class="line">  <span class="comment">// q本身是Queue的指针。指向Queue的地址。</span></span><br><span class="line">  <span class="comment">// 通过*q，就把Queue本身拿到。然后将其赋予一个新的内容。</span></span><br><span class="line">	*q = <span class="built_in">append</span>(*q, i)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(q *Queue)</span> <span class="title">pop</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	elem := (*q)[<span class="number">0</span>]</span><br><span class="line">	*q = (*q)[<span class="number">1</span>:]</span><br><span class="line">	<span class="keyword">return</span> elem</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>几个注意点</p>
+<ul>
+<li>使用<code>type 别名 希望扩展的类型</code>进行定义。</li>
+<li>自定义类型不能与原始类型进行计算。</li>
+<li>可以把type写在main里。</li>
+<li>自定义type具有隐藏原type的效果</li>
+</ul>
+<h3 id="使用组合"><a href="#使用组合" class="headerlink" title="使用组合"></a>使用组合</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	node := tree.Node&#123;Value: <span class="number">3</span>&#125;</span><br><span class="line">	newStruct := MyNewStruct&#123;newValue: &amp;node&#125;</span><br><span class="line">	newStruct.post()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> MyNewStruct <span class="keyword">struct</span> &#123;</span><br><span class="line">	newValue *tree.Node</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(myNewStruct *MyNewStruct)</span> <span class="title">post</span><span class="params">()</span></span> &#123;</span><br><span class="line">	newValue := MyNewStruct&#123;newValue: myNewStruct.newValue&#125;</span><br><span class="line">	fmt.Println(newValue.newValue)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="使用内嵌-Embedding-扩展已有类型"><a href="#使用内嵌-Embedding-扩展已有类型" class="headerlink" title="使用内嵌(Embedding)扩展已有类型"></a>使用内嵌(Embedding)扩展已有类型</h3><blockquote>
+<p>相当于组合基础上的语法糖。本质上是一种语法糖</p>
+</blockquote>
+<ul>
+<li>使用上类似于Java的继承</li>
+<li>出现同名方法时，会使用新的类型的方法。</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MyNewStruct <span class="keyword">struct</span> &#123;</span><br><span class="line">	*tree.Node <span class="comment">// embedding, 省略了变量名</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(receiver *MyNewStruct)</span> <span class="title">name</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="comment">// 可以直接使用tree.Node的内容</span></span><br><span class="line">	<span class="keyword">return</span> receiver.Value</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(receiver *MyNewStruct)</span> <span class="title">Print</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// 隐藏掉tree.Node的Print方法。</span></span><br><span class="line">	fmt.Println(<span class="string">&quot;MyNewStruct&quot;</span>)</span><br><span class="line">	fmt.Println(receiver.Value)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(receiver *MyNewStruct)</span> <span class="title">changeValue</span><span class="params">(newValue <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">	receiver.Value = newValue</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	my := MyNewStruct&#123;&amp;tree.Node&#123;Value: <span class="number">3</span>&#125;&#125;</span><br><span class="line">	my.Print()</span><br><span class="line">	my.changeValue(<span class="number">4</span>)</span><br><span class="line">	my.Print()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用选择"><a href="#使用选择" class="headerlink" title="使用选择"></a>使用选择</h3><p>组合使用比较常见。因为别名和组合之间没办法很好的转换。</p>
+
+      
     </div>
-</div>
 
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2021/06/20/go-ru-men/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/06/20/go-ru-men/" class="post-title-link" itemprop="url">go入门</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-06-20 13:00:12" itemprop="dateCreated datePublished" datetime="2021-06-20T13:00:12+08:00">2021-06-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-30 22:04:06" itemprop="dateModified" datetime="2021-06-30T22:04:06+08:00">2021-06-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="变量定义"><a href="#变量定义" class="headerlink" title="变量定义"></a>变量定义</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 数据类型在后。与scala类似（不过不需要引号）</span></span><br><span class="line"><span class="comment">// 所有数据会有个初始值。int为0</span></span><br><span class="line"><span class="keyword">var</span> a <span class="keyword">int</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 能够自动进行类型推断。属性可省略</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 可以使用 := 定义变量</span></span><br><span class="line">a := <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 包变量（方法外变量，类似于java的全局变量），必须使用var定义，而不能使用 :=</span></span><br><span class="line"><span class="keyword">var</span> aa = <span class="string">&quot;a&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义多个变量时。可以使用 var()</span></span><br><span class="line"><span class="keyword">var</span>(</span><br><span class="line">	a = <span class="number">1</span></span><br><span class="line">  b = <span class="string">&quot;a&quot;</span></span><br><span class="line">  c = <span class="string">&quot;d&quot;</span></span><br><span class="line">)</span><br><span class="line"><span class="comment">// 也可以使用如下方式同时定义</span></span><br><span class="line"><span class="keyword">var</span> aa,bb,cc = <span class="number">1</span>,<span class="string">&quot;2&quot;</span>,<span class="literal">true</span></span><br><span class="line">aa,bb,cc := <span class="number">1</span>,<span class="string">&quot;2&quot;</span>,<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 变量定义完后类型是确定的。go不会进行隐式数据类型转换</span></span><br><span class="line"><span class="comment">// 如使用math.Sqrt(x)时，x必须传入float</span></span><br><span class="line">a, b := <span class="number">1</span>, <span class="number">2</span></span><br><span class="line">math.Sqrt(<span class="keyword">float64</span>(a*a + b*b))</span><br><span class="line"></span><br><span class="line"><span class="comment">// go中，定义了的变量必须要用到</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="常量定义"><a href="#常量定义" class="headerlink" title="常量定义"></a>常量定义</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用const定义常量，类似于scala中的val，java中的final</span></span><br><span class="line"><span class="comment">// int可以省略</span></span><br><span class="line"><span class="comment">// go中首字母大写有含义，故常量不会全部大写。</span></span><br><span class="line"><span class="keyword">const</span> a <span class="keyword">int</span> = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 未指定int时，a能够被识别为数字数据类型</span></span><br><span class="line"><span class="comment">// 不需要像var一样强制转换</span></span><br><span class="line"><span class="keyword">const</span> a, b = <span class="number">3</span>, <span class="number">4</span></span><br><span class="line">math.Sqrt(a*a + b*b)</span><br><span class="line"></span><br><span class="line"><span class="comment">// go中没有枚举类型。可利用const定义枚举</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">enums</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="keyword">const</span> (</span><br><span class="line">  	cpp = <span class="number">1</span></span><br><span class="line">    java = <span class="number">2</span></span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义有递增关系的枚举。可使用iota</span></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	a = <span class="literal">iota</span> <span class="comment">// 0</span></span><br><span class="line">  b				 <span class="comment">// 1</span></span><br><span class="line">  c				 <span class="comment">// 2</span></span><br><span class="line">)</span><br><span class="line"><span class="comment">// 也可以使用公式</span></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">  aa = <span class="number">2</span> * (<span class="number">1</span> + <span class="literal">iota</span>) <span class="comment">// 2 </span></span><br><span class="line">  bb                  <span class="comment">// 4</span></span><br><span class="line">  cc                  <span class="comment">// 6</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="数据类型-1"><a href="#数据类型-1" class="headerlink" title="数据类型"></a>数据类型</h3><p>go的内建类型与java等有一定区别。</p>
+<ul>
+<li><code>bool</code>， <code>string</code>， <code>byte</code><ul>
+<li>这几类与一般语言类似</li>
+</ul>
+</li>
+<li><code>(u)int</code>，<code>(u)int8/16/32/64</code>，<code>uintptr</code><ul>
+<li><code>(u)int</code>为不定长整形。具体范围视设备/运行的操作系统决定。带u的为无符号整型。</li>
+<li><code>(u)int8/16/32/64</code>为定长整型。</li>
+<li><code>uintptr</code>为指针<ul>
+<li><code>var i = *T</code>：变量<code>i</code>是一个指向T类型值的指针。</li>
+<li><code>t := &quot;1&quot; ; r := &amp;t</code>：<code>t</code>是一个字符串变量，<code>r</code>表示一个指向变量t的指针</li>
+<li><code>l := *r</code>：<code>r</code>若为指针，则变量<code>l</code>表示表示指针指向变量的本身，即<code>t</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>float32/64</code>，<code>complex64/128</code><ul>
+<li><code>float32/64</code>为浮点数</li>
+<li><code>complex64/128</code>为复数。实部虚部均为<code>float32/64</code></li>
+</ul>
+</li>
+<li><code>rune</code><ul>
+<li>字符型。类似于java中的<code>char</code>。但有一些区别</li>
+</ul>
+</li>
+</ul>
+<h2 id="条件语句"><a href="#条件语句" class="headerlink" title="条件语句"></a>条件语句</h2><p>go中使用<code>if</code>和<code>swith-case</code>作为条件语句</p>
+<h4 id="if"><a href="#if" class="headerlink" title="if"></a>if</h4><p><code>if</code>的用法和大多数语言相似。有几个区别：</p>
+<ul>
+<li><p>判断不需要加小括号。</p>
+</li>
+<li><p>可以在<code>if</code>后直接跟变量定义</p>
+</li>
+<li><p>```go<br>// 不需要小括号<br>if a == 3 {<br>  // do something1<br>}else if a == 2 {<br>  // do something2<br>}else {<br>  // do something3<br>}</p>
+<p>// if后跟定义. a 只能在if的作用域中使用<br>if a := func1(); a == 1 {<br>  fmt.Println(a)<br>}else if a == 2 {<br>  // do something2<br>}else{<br>  // do something3<br>}</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### swith</span><br><span class="line"></span><br><span class="line">`switch`用法与java类似。只是不需要在每句后break</span><br><span class="line"></span><br><span class="line">```go</span><br><span class="line">// 可以switch某一个值</span><br><span class="line">a := 1</span><br><span class="line">switch a &#123;</span><br><span class="line">  case 1:</span><br><span class="line">	  fmt.Println(&quot;A&quot;)</span><br><span class="line">  case 2:</span><br><span class="line">	  fmt.Println(&quot;B&quot;)</span><br><span class="line">  default:</span><br><span class="line">	  fmt.Println(&quot;60&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 可以直接在case后跟条件</span><br><span class="line">a := 1</span><br><span class="line">switch &#123;</span><br><span class="line">case a &lt; 60:</span><br><span class="line">	fmt.Println(&quot;A&quot;)</span><br><span class="line">case a &gt; 60:</span><br><span class="line">	fmt.Println(&quot;B&quot;)</span><br><span class="line">default:</span><br><span class="line">	fmt.Println(&quot;60&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="循环语句"><a href="#循环语句" class="headerlink" title="循环语句"></a>循环语句</h2><p>go中只有<code>for</code>一种循环。与java的<code>fori</code>类似，分为三段。但这三段可以任意省略。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i := <span class="number">1</span>; i &lt; <span class="number">30</span> ; i++ &#123;</span><br><span class="line">  <span class="comment">// do something</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 省略定义i，则可以使用外部变量</span></span><br><span class="line">i := <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> ; i &lt; <span class="number">30</span> ; i++ &#123;</span><br><span class="line">  <span class="comment">// do something</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 再省略递增处，则类似于一般语言的while循环</span></span><br><span class="line"><span class="comment">// 这种情况可以省略;号</span></span><br><span class="line">i := <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> i &lt; <span class="number">30</span> &#123;</span><br><span class="line">  <span class="comment">// like while</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 省略退出条件。则是死循环</span></span><br><span class="line">i := <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> ; ; i++&#123;</span><br><span class="line">  fmt.Println(i)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 可以全省略</span></span><br><span class="line">i := <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> &#123;</span><br><span class="line">  fmt.<span class="built_in">println</span>(i)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>go的函数有几个特点：</p>
+<ul>
+<li><code>func</code>关键字</li>
+<li>返回类型在最后（类似于scala），但函数除非不需要返回值，否则必须设定返回值（不能类似于变量那样自动推断）</li>
+<li>可以返回多个返回值（写法类似于scala的元组，但必须用多个变量去接收）<ul>
+<li>返回值也能够进行命名。</li>
+</ul>
+</li>
+<li>不能使用<code>const</code>去接收函数的返回值？似乎是，存疑</li>
+<li>参数部分，同类型的参数可以放一起，省略类型命名</li>
+<li>对于不想要的返回值，可以使用<code>_</code>来接收</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 参数部分，同类型的参数可以放一起，省略类型命名</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">eval</span><span class="params">(a, b <span class="keyword">int</span>, op <span class="keyword">string</span>)</span> <span class="title">int</span></span> &#123;&#125;</span><br><span class="line"><span class="comment">// 多个返回值</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">div</span><span class="params">(a, b <span class="keyword">int</span>)</span> <span class="params">(<span class="keyword">int</span> <span class="keyword">int</span>)</span></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">1</span>, <span class="number">2</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 返回值命名/合并</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">div</span><span class="params">(a, b <span class="keyword">int</span>)</span> <span class="params">(q, r <span class="keyword">int</span>)</span></span>&#123;&#125;</span><br><span class="line"><span class="comment">// 多返回值一般把第二个用来返回error</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 丢弃不需要的返回值</span></span><br><span class="line">q, _ := div(<span class="number">13</span>, <span class="number">3</span>)</span><br><span class="line">fmt.Println(q)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>函数的参数也可以是一个函数</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">apply</span><span class="params">(op <span class="keyword">func</span>(<span class="keyword">int</span>, <span class="keyword">int</span>)</span> <span class="title">int</span> , <span class="title">a</span> , <span class="title">b</span> <span class="title">int</span>) <span class="title">int</span></span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>go不支持默认参数等。只支持可变参数列表</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(numbers ...<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h2><blockquote>
+<p>go语言的指针不能预算。只能赋值</p>
+</blockquote>
+<h3 id="参数传递"><a href="#参数传递" class="headerlink" title="参数传递"></a>参数传递</h3><blockquote>
+<p>Go语言只有值传递。没有引用传递</p>
+</blockquote>
+<p>即便是传递指针，也是会将指针拷贝，然后再传入函数。不过内外两个指针会指向同一个内存地址。</p>
+<h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><blockquote>
+<p>在go语言中一般不直接使用数组，而是使用切片</p>
+</blockquote>
+<p>定义数组时，长度在前，数据类型在后。</p>
+<blockquote>
+<p>定义数组时必须指定数据类型。利用函数返回值时例外</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">numbers := [<span class="number">5</span>]<span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可以不定义初始值, 此时必须制定类型+长度</span></span><br><span class="line"><span class="keyword">var</span> numbers [<span class="number">5</span>]<span class="keyword">int</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 可以由系统推断长度, 此时必须指定初始元素</span></span><br><span class="line">numbers := [...]<span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用[index]来取得索引上的值.go也是从0开始</span></span><br><span class="line">a := numbers[<span class="number">0</span>] <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>[]int</code> 是切片。<code>[5]int</code>才是数组</p>
+</blockquote>
+<p>可以使用<code>range</code>关键字遍历数组</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> index, value := <span class="keyword">range</span> numbers &#123;</span><br><span class="line">  <span class="comment">// do something</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>数组是值类型</strong></p>
+<ul>
+<li>定义func时，如果参数时<code>(a [5]int)</code>，则只能接受<code>[5]int</code>，不能接受<code>[3]int</code></li>
+<li>func中修改数组内容时，其实是修改的拷贝。</li>
+</ul>
+<h3 id="切片（slice）"><a href="#切片（slice）" class="headerlink" title="切片（slice）"></a>切片（slice）</h3><blockquote>
+<p>和python的切片很像。区间也是左闭右开</p>
+<p><strong>slice是array的视图</strong></p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// start , end均可省略。</span></span><br><span class="line"><span class="comment">// slice包含start对应的内容，不包含end对应的内容。</span></span><br><span class="line"><span class="comment">// 若start，end均省略，则为arr数组的完整视图</span></span><br><span class="line">slice := arr[start:end]</span><br></pre></td></tr></table></figure>
+
+<p><strong>slice是array的视图</strong></p>
+<ul>
+<li><p>修改slice的值，会对array本身产生影响</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">slice := arr[<span class="number">2</span>:]</span><br><span class="line">slice[<span class="number">0</span>] = <span class="number">100</span> <span class="comment">// arr[2] =&gt; 100</span></span><br></pre></td></tr></table></figure></li>
+<li><p>当函数参数为slice时，修改slice会影响slice所指向的数组</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">update</span><span class="params">(sl []<span class="keyword">int</span>)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span>[<span class="number">0</span>] = <span class="number">100</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">update(arr[<span class="number">2</span>:]) <span class="comment">// arr[2] =&gt; 100</span></span><br></pre></td></tr></table></figure></li>
+<li><p>可以在slice的基础上继续slice</p>
+<ul>
+<li><p>继续slice时，可以扩展</p>
+<ul>
+<li><blockquote>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210620171841.png" alt="image-20210620171835125"></p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>s2实际上能拿到<code>arr[6]</code>，不过s1是没有<code>s1[4]</code>的。这个源于slice的实现</p>
+<ul>
+<li><p>slice主要由三部分组成</p>
+<ul>
+<li><p>ptr：指向slice开始的指针。</p>
+</li>
+<li><p>len：slice的长度。如果越界会报错</p>
+</li>
+<li><p>cap：从slice开始，到arr结尾的所有元素</p>
+</li>
+<li><blockquote>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/blog/20210620172136.png" alt="image-20210620172136456"></p>
+</blockquote>
+</li>
+<li><p><code>s[i]</code>不能超越len(s)，向后扩展不可以超过底层数组cap(s)</p>
+<ul>
+<li>能够通过<code>len(s)</code>，<code>cap(3)</code>获取slice的这两个长度。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>slice可以向后扩展，不能向前扩展</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="向slice添加元素"><a href="#向slice添加元素" class="headerlink" title="向slice添加元素"></a>向slice添加元素</h4><blockquote>
+<p>使用append函数，append会返回一个修改后的切片</p>
+</blockquote>
+<ul>
+<li>首先会在len后，cap处修改元素。逐个向后修改。此时会影响底层的array</li>
+<li>如果在新的切片上增加多次，长度超过了cap，则系统会重新分配一个更大的底层数组，此时slice不再指向原本的arr</li>
+</ul>
+<h4 id="创建slice"><a href="#创建slice" class="headerlink" title="创建slice"></a>创建slice</h4><blockquote>
+<p>可以直接创建slice，而不是在数组的基础上。</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s []<span class="keyword">int</span></span><br><span class="line"></span><br><span class="line">s1 := []<span class="keyword">int</span>&#123;<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// (type, len, cap)</span></span><br><span class="line">s2 := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">16</span> ,<span class="number">32</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="复制slice"><a href="#复制slice" class="headerlink" title="复制slice"></a>复制slice</h4><blockquote>
+<p>使用copy方法复制slice</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">s1 := []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;</span><br><span class="line">s2 := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">3</span>, <span class="number">16</span>)</span><br><span class="line"><span class="comment">// copy(dst, src)</span></span><br><span class="line"><span class="built_in">copy</span>(s2, s1)</span><br><span class="line">fmt.Println(s2) <span class="comment">// [1 2 3]</span></span><br><span class="line">s3 := s2[:<span class="number">4</span>]</span><br><span class="line">fmt.Println(s3) <span class="comment">// [1 2 3 0]</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="删除slice的某个元素"><a href="#删除slice的某个元素" class="headerlink" title="删除slice的某个元素"></a>删除slice的某个元素</h4><blockquote>
+<p>go不自带该功能，可以使用append方法实现</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">s1 := []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 删除第2个元素2。</span></span><br><span class="line">s1 = <span class="built_in">append</span>(s1[:<span class="number">1</span>], s1[<span class="number">2</span>:]...)</span><br><span class="line"></span><br><span class="line">fmt.Println(s1) <span class="comment">// [1 3 4 5]</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="移除slice首尾元素"><a href="#移除slice首尾元素" class="headerlink" title="移除slice首尾元素"></a>移除slice首尾元素</h4><blockquote>
+<p>同样不自带。可以使用切片完成</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">s1 := []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;</span><br><span class="line"></span><br><span class="line">front := s1[<span class="number">0</span>]</span><br><span class="line">s1 = s1[<span class="number">1</span>:]</span><br><span class="line">fmt.Printf(<span class="string">&quot;front: %d, s1: %v\n&quot;</span>, front, s1) <span class="comment">// front: 1, s1: [2 3 4 5]</span></span><br><span class="line"></span><br><span class="line">tail := s1[<span class="built_in">len</span>(s1)<span class="number">-1</span>]</span><br><span class="line">s1 = s1[:<span class="built_in">len</span>(s1)<span class="number">-1</span>]</span><br><span class="line">fmt.Printf(<span class="string">&quot;tail: %d, s1: %v\n&quot;</span>, tail, s1) <span class="comment">// tail: 5, s1: [2 3 4]</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h3><h4 id="Map的定义"><a href="#Map的定义" class="headerlink" title="Map的定义"></a>Map的定义</h4><blockquote>
+<p>正常Map：<code>map[K]V</code>,</p>
+<p>复合Map： <code>map[K1]map[K2]V</code></p>
+<p>map是一个hashMap</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化一个map</span></span><br><span class="line">m1 := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span> &#123;<span class="string">&quot;id&quot;</span>:<span class="number">1</span>, <span class="string">&quot;age&quot;</span>:<span class="number">2</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 空map</span></span><br><span class="line"><span class="keyword">var</span> m2 <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span> <span class="comment">// m3 == nil</span></span><br><span class="line"></span><br><span class="line">m3 := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>) <span class="comment">// m2 == empty map</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="Map遍历"><a href="#Map遍历" class="headerlink" title="Map遍历"></a>Map遍历</h4><blockquote>
+<p>同样可使用range来遍历</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> k, v := <span class="keyword">range</span> m &#123;</span><br><span class="line">  <span class="comment">// do something with k, v </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="Map的内容获取"><a href="#Map的内容获取" class="headerlink" title="Map的内容获取"></a>Map的内容获取</h4><blockquote>
+<p>value := map[key]</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">m1 := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span> &#123;<span class="string">&quot;id&quot;</span>:<span class="number">1</span>, <span class="string">&quot;age&quot;</span>:<span class="number">2</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ok这个参数可省略，主要用于判断key是否存在</span></span><br><span class="line">age, ok := m1[<span class="string">&quot;age&quot;</span>] <span class="comment">// 2, true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果key不存在</span></span><br><span class="line">other, ok2 := m1[<span class="string">&quot;other&quot;</span>] <span class="comment">// 0 , false</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>当key在map中不存在时，会得到对应数据格式的zero value。</p>
+<p>对于int，就是0。对于string，则是空字符串</p>
+</blockquote>
+<h4 id="Map的数据删除"><a href="#Map的数据删除" class="headerlink" title="Map的数据删除"></a>Map的数据删除</h4><blockquote>
+<p>使用delete函数进行删除</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">m1 := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span> &#123;<span class="string">&quot;id&quot;</span>:<span class="number">1</span>, <span class="string">&quot;age&quot;</span>:<span class="number">2</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 一次只能删除一个key</span></span><br><span class="line"><span class="built_in">delete</span>(m1, age) <span class="comment">// &#123;&quot;id&quot;: 1&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="Map数据添加或修改"><a href="#Map数据添加或修改" class="headerlink" title="Map数据添加或修改"></a>Map数据添加或修改</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">m := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>&#123;<span class="string">&quot;id&quot;</span>: <span class="number">1</span>, <span class="string">&quot;age&quot;</span>: <span class="number">2</span>&#125;</span><br><span class="line"></span><br><span class="line">m[<span class="string">&quot;age2&quot;</span>] = <span class="number">2</span>	</span><br><span class="line">m[<span class="string">&quot;age&quot;</span>] = <span class="number">3</span></span><br><span class="line"></span><br><span class="line">fmt.Println(m) <span class="comment">// map[age:3 age2:2 id:1]</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="Map的使用"><a href="#Map的使用" class="headerlink" title="Map的使用"></a>Map的使用</h4><ul>
+<li>map使用hash表，key必须能够比较</li>
+<li>除了<code>slice, map, function</code>的其他内建类型都可以作为key</li>
+<li>struct类型不包含上述3个类型时，也可以作为key</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2021/06/05/k8s-de-fu-ben-ji-zhi-yu-kong-zhi-qi-tuo-guan/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/06/05/k8s-de-fu-ben-ji-zhi-yu-kong-zhi-qi-tuo-guan/" class="post-title-link" itemprop="url">k8s的副本机制与控制器托管</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-06-05 14:35:15" itemprop="dateCreated datePublished" datetime="2021-06-05T14:35:15+08:00">2021-06-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-07 11:06:07" itemprop="dateModified" datetime="2021-06-07T11:06:07+08:00">2021-06-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AE%B9%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">容器</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="实用存活探针管理容器"><a href="#实用存活探针管理容器" class="headerlink" title="实用存活探针管理容器"></a>实用存活探针管理容器</h1><blockquote>
+<p>当容器崩溃时，POD能够自动完成容器的重启，但有时候进程没崩溃只是由于某些原因无法正常工作，需要通过存活探针来检测容器进程是否正常运行。并在异常时重启它。</p>
+</blockquote>
+<p>Kubernetes提供三种探测容器的机制。</p>
+<ul>
+<li><em>HTTP GET探针</em>：对容器的IP地址的端口和路径执行HTTP GET请求。若探测器收到相应，且响应状态码不代表错误，则认为探测成功。</li>
+<li><em>TCP 套接字探针</em>：尝试与容器指定的端口建立TCP连接，如果连接成功建立，则探测成功。</li>
+<li><em>Exec探针</em>：在容器内执行任意命令，并检查命令的推出状态码。如果状态码是0，则探测成功。</li>
+</ul>
+<blockquote>
+<p>在pod的spec.containers.livenessProbe中建立存活探针。</p>
+</blockquote>
+<h2 id="存活探针的问题"><a href="#存活探针的问题" class="headerlink" title="存活探针的问题"></a>存活探针的问题</h2><p>Kubernetes会在你容器崩溃或其存活探针失败时，通过重启容器来保持运行，但这项任务由<strong>承载Pod的节点上的Kubelet执行</strong></p>
+<blockquote>
+<p>主节点的Kubernetes Control Plane组件不会参与该过程</p>
+</blockquote>
+<p>这就意味着，如果节点本身崩溃，存活探针或崩溃重启机制将无法执行任何操作，所以我们应该使用ReplicationController或类似机制管理Pod。</p>
+<h1 id="使用ReplicationController创建并管理容器"><a href="#使用ReplicationController创建并管理容器" class="headerlink" title="使用ReplicationController创建并管理容器"></a>使用ReplicationController创建并管理容器</h1><blockquote>
+<p>ReplicationController是一种Kubernetes资源。用于确保它的POD始终保持运行状态。如果POD因为任何原因消失，则能够创建替代。</p>
+</blockquote>
+<blockquote>
+<p>ReplicationController的管理对象是Pod，而非之前存活探针/自动重启的容器</p>
+</blockquote>
+<p>ReplicationController会始终保持响应类型的Pod数量与期望相符，即删除多的，创建缺少的。</p>
+<h2 id="ReplicationController主要的三部分"><a href="#ReplicationController主要的三部分" class="headerlink" title="ReplicationController主要的三部分"></a>ReplicationController主要的三部分</h2><ul>
+<li><em>label selector</em>：标签选择器。<ul>
+<li>确定ReplicationController的作用域。即哪些pod归它管。</li>
+</ul>
+</li>
+<li><em>replica count</em>：副本个数。<ul>
+<li>期望运行的Pod数量</li>
+</ul>
+</li>
+<li><em>pod temlate</em>：pod模版。<ul>
+<li>创建新的Pod使用的模版。</li>
+</ul>
+</li>
+</ul>
+<h3 id="修改标签选择器和模版的影响"><a href="#修改标签选择器和模版的影响" class="headerlink" title="修改标签选择器和模版的影响"></a>修改标签选择器和模版的影响</h3><p><strong>更改标签选择器和Pod模版对现有的Pod没有影响</strong>。</p>
+<ul>
+<li>更改标签选择器会使现有的pod脱离ReplicationController的范围。</li>
+<li>ReplicationController也不关心其Pod的实际“内容”。所以修改模版仅仅影响由此ReplicationController创建的新Pod。</li>
+</ul>
+<h2 id="RC的优势"><a href="#RC的优势" class="headerlink" title="RC的优势"></a>RC的优势</h2><ul>
+<li><p>确保一个Pod（或多个Pod副本）持续运行。</p>
+</li>
+<li><p>集群节点发生故障时，它将为故障节点上运行的受rc管理的所有pod创建替代副本。</p>
+<ul>
+<li>rc会创建全新的pod实例，而不是将pod实例重新安置到其他节点。</li>
+</ul>
+</li>
+<li><p>轻松实现pod的水平伸缩。</p>
+</li>
+</ul>
+<h2 id="将pod移入-移出ReplicationController的作用域"><a href="#将pod移入-移出ReplicationController的作用域" class="headerlink" title="将pod移入/移出ReplicationController的作用域"></a>将pod移入/移出ReplicationController的作用域</h2><p>通过更改Pod的标签，能够将pod移入/移出ReplicationController的作用域。</p>
+<blockquote>
+<p>可以通过pod的metadata.ownerReferences字段，找到pod属于哪个ReplicationController。</p>
+</blockquote>
+<p>当有pod移出/移入时，</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2021/05/31/k8s-zhong-de-pod/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/31/k8s-zhong-de-pod/" class="post-title-link" itemprop="url">K8s中的POD</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-31 19:29:51" itemprop="dateCreated datePublished" datetime="2021-05-31T19:29:51+08:00">2021-05-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-05 14:29:00" itemprop="dateModified" datetime="2021-06-05T14:29:00+08:00">2021-06-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AE%B9%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">容器</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="何为POD"><a href="#何为POD" class="headerlink" title="何为POD"></a>何为POD</h2><blockquote>
+<p>pod是一组并置的容器，是k8s中的基本构建模块。</p>
+</blockquote>
+<p>一个pod可以包含多个容器。不过一般建议一个pod只有一个容器。原因会在后续详细说明。同时一个pod绝对不会跨越多个工作节点。</p>
+<h3 id="了解POD"><a href="#了解POD" class="headerlink" title="了解POD"></a>了解POD</h3><h4 id="多容器好与单容器多进程"><a href="#多容器好与单容器多进程" class="headerlink" title="多容器好与单容器多进程"></a>多容器好与单容器多进程</h4><ul>
+<li>当在一个容器中运行多个我们的应用时，获取日志，管理重启都需要通过内部解决。</li>
+<li>无法通过k8s直接管理某一个应用的生命周期，同时也会影响缩扩容。</li>
+</ul>
+<h4 id="同一POD中容器之间的隔离与共享"><a href="#同一POD中容器之间的隔离与共享" class="headerlink" title="同一POD中容器之间的隔离与共享"></a>同一POD中容器之间的隔离与共享</h4><p>POD的目标就是让不同容器中的进程<em>好像</em>运行在单个容器中，却又同时保持着一定的隔离。每个容器组（POD）内的容器能共享一些资源。</p>
+<ul>
+<li>一个POD内容器共享相同的Linux命名空间。（都在相同的network、IPC和UTS命名空间下运行）<ul>
+<li>共享相同的主机名和网络接口。</li>
+<li>能够通过IPC进行通信。</li>
+<li>容器可以通过localhost与同一pod的其他容器通信。</li>
+</ul>
+</li>
+<li>每个容器的文件系统与其他容器完全隔离。如果要共享需要使用Volume</li>
+</ul>
+<h3 id="POD间的平坦网络"><a href="#POD间的平坦网络" class="headerlink" title="POD间的平坦网络"></a>POD间的平坦网络</h3><ul>
+<li>POD之间没有NAT网关。就算是不同的工作节点也是这样。</li>
+<li>每个POD都可以通过其他POD的ip地址来相互访问。</li>
+</ul>
+<p>POD是<strong>逻辑主机</strong>，其行为与非容器世界中的物理主机或虚拟机非常相似。</p>
+<h2 id="合理管理容器"><a href="#合理管理容器" class="headerlink" title="合理管理容器"></a>合理管理容器</h2><blockquote>
+<p>我们应该将应用程序组织到多个POD中，每个POD只包含紧密相关的组件或进程。</p>
+</blockquote>
+<ul>
+<li>将多层应用分散到多个POD<ul>
+<li>前端和数据库并不需要运行在一个POD中，特别是一个POD只能运行在一台物理工作节点上，如果将前端与数据库分开，能够充分利用资源。</li>
+</ul>
+</li>
+<li>基于缩扩容考虑<ul>
+<li>POD是K8s中缩扩容的基本单位。</li>
+<li>前后端会有完全不同的扩缩容需求。</li>
+</ul>
+</li>
+</ul>
+<h3 id="何时在一个POD中使用多个容器"><a href="#何时在一个POD中使用多个容器" class="headerlink" title="何时在一个POD中使用多个容器"></a>何时在一个POD中使用多个容器</h3><ul>
+<li>这些容器必须在一台主机上运行。</li>
+<li>缩扩容是否是同步的。</li>
+</ul>
+<blockquote>
+<p>容器不应该包含多个进程，POD也不应该包含多个并不需要运行在同一主机上的容器</p>
+<p>即最理想：一个POD=一个容器=一个进程。</p>
+</blockquote>
+<h2 id="使用yaml创建POD"><a href="#使用yaml创建POD" class="headerlink" title="使用yaml创建POD"></a>使用yaml创建POD</h2><p>POD的定义由下属几个部分组成：</p>
+<ul>
+<li>kind: Pod</li>
+<li><em>metadata</em>: 包含POD的名称、命名空间、标签等元数据信息。 </li>
+<li><em>spec</em>: 包括POD内容的实际说明，例如容器、卷和其他信息。</li>
+<li><em>status</em>:POD的当前状态，构建时不需要。</li>
+</ul>
+<h2 id="用标签组织POD"><a href="#用标签组织POD" class="headerlink" title="用标签组织POD"></a>用标签组织POD</h2><p>通过metadata里的labels项，可以在创建pod时指定标签。一个pod可以有多个标签。且key可自由指定。</p>
+<p>也可以为标签分类工作节点。</p>
+<h3 id="标签的用途"><a href="#标签的用途" class="headerlink" title="标签的用途"></a>标签的用途</h3><ul>
+<li>使用标签筛选POD。</li>
+<li><strong>使用标签和选择器约束POD调度</strong><ul>
+<li>通过给工作节点赋予标签。觉得某个工作节点适合做什么</li>
+<li>在创建POD时，在<code>spec.nodeSelector</code>中就可以指定这个pod要创建在哪一类工作节点上。</li>
+<li>这样做的好处是让工作节点处理适合的事情，同时避免由于某个节点挂掉导致pod无法更换节点重启。</li>
+</ul>
+</li>
+</ul>
+<h2 id="命名空间"><a href="#命名空间" class="headerlink" title="命名空间"></a>命名空间</h2><blockquote>
+<p>用于对资源进行分组</p>
+</blockquote>
+<h3 id="为何需要命名空间"><a href="#为何需要命名空间" class="headerlink" title="为何需要命名空间"></a>为何需要命名空间</h3><blockquote>
+<p>类似于数据库中的库概念</p>
+</blockquote>
+<p>可以通过命名空间，我们能够将不属于一组的资源分到不重叠的组中。这样多用户使用同一个k8s集群时，就能各自管理自己的资源集合，防止无意删除或修改其他用户的资源。</p>
+<h3 id="创建和使用命名空间"><a href="#创建和使用命名空间" class="headerlink" title="创建和使用命名空间"></a>创建和使用命名空间</h3><ul>
+<li>使用<code>kubectl create namespace</code>命令创建命名空间</li>
+<li>使用<code>metadata.namespace: custom-ns</code>或<code>kubectl create xxx -n custom-ns</code>来指定将对象创建在哪个命名空间。</li>
+</ul>
+<h3 id="命名空间提供的隔离"><a href="#命名空间提供的隔离" class="headerlink" title="命名空间提供的隔离"></a>命名空间提供的隔离</h3><ul>
+<li>命名空间之间并不提供对正在运行的对象的任何隔离。</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
 
 <script>
-    // 每天切换 banner 图.  Switch banner image every day.
-    $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay() + '.jpg)');
-</script>
-
-
-    </div>
-</div>
-
-
-<main class="content">
-
-    
-
-    
-
-    <!-- 所有文章卡片 -->
-    <article id="articles" class="container articles">
-        <div class="row article-row">
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/06/22/spark-3-0-hadoop2-6-cdh-bian-yi-de-wen-ti/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="spark-3.0 Hadoop2.6-CDH编译的问题">
-                            
-                            <span class="card-title">spark-3.0 Hadoop2.6-CDH编译的问题</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                使用cdh5版本编译Spark3时，会出现如下问题：
-&gt; [ERROR] [Error]
-&gt; /Users/xxx/Documents/codes/xxx/spark-3.0/resource-managers/yarn/src
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-22
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Spark3/" class="post-category">
-                                    Spark3
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Spark3/">
-                            <span class="chip bg-color">Spark3</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/06/22/spark-3-0-zi-gua-ying-cha-xun/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="spark-3.0 自适应查询">
-                            
-                            <span class="card-title">spark-3.0 自适应查询</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                Adaptive Query Execution: Speeding Up Spark SQL at Runtime翻译原文链接：Adaptive Query Execution: Speeding Up Spark SQL at Runt
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-22
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Spark3/" class="post-category">
-                                    Spark3
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Spark3/">
-                            <span class="chip bg-color">Spark3</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/06/22/spark-3-0-dong-tai-fen-qu-cai-jian/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="spark-3.0 动态分区裁剪">
-                            
-                            <span class="card-title">spark-3.0 动态分区裁剪</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                Spark中的静态分区裁剪用过Spark的都知道，其实简单来说就是谓词下推。在Spark执行下述查询时，能够尽可能将谓词下推至扫描文件的阶段。从而减少读取的数据量，实现处理速度的提升：
-SELECT * FROM Sales WHERE d
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-22
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Spark3/" class="post-category">
-                                    Spark3
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Spark3/">
-                            <span class="chip bg-color">Spark3</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/05/28/cdh-zhong-jin-yong-kerberos/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="CDH中禁用kerberos">
-                            
-                            <span class="card-title">CDH中禁用kerberos</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                免费版的CDH关闭kerberos会相对复杂。
-
-关闭所有组件。
-
-一、操作zookeeper
-关闭zk的认证配置：
-
-
-
-找到zk的数据目录：[][1]
-
-
-
-删除目录下的内容：
-
-
-
-初始化zk：
-
-
-
-
-确认初始化成功：
-
-HDFS篇
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-28
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/CDH/" class="post-category">
-                                    CDH
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/CDH/">
-                            <span class="chip bg-color">CDH</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/05/21/structured-li-hui-fu-ying-yong-cheng-xu/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="structured里恢复应用程序">
-                            
-                            <span class="card-title">structured里恢复应用程序</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-21
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-user fa-fw"></i>
-                                Ssiu
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/05/20/kafka-bu-fen-topic-wu-fa-tong-guo-wu-ren-zheng-duan-kou-cha-xun-de-wen-ti-chu-li/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="kafka部分topic无法通过无认证端口查询的问题处理">
-                            
-                            <span class="card-title">kafka部分topic无法通过无认证端口查询的问题处理</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                kafka部分topic无法通过无认证端口查询的问题处理环境概述公司一套XX系统，采用无认证的方式访问XX的kafka集群。另外现场环境开启了kerberos认证。
-情况概述现场由于还是部署测试环境。忽然有一天部署小哥给我说之前好好的top
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-20
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Kafka/" class="post-category">
-                                    Kafka
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Kafka/">
-                            <span class="chip bg-color">Kafka</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-        </div>
-    </article>
-
-</main>
-
-
-<div class="container paging">
-    <div class="row">
-        <div class="col s6 m4 l4">
-            
-            <a href="/page/2/"
-               class="left btn-floating btn-large waves-effect waves-light bg-color">
-                <i class="fas fa-angle-left"></i>
-            </a>
-            
-        </div>
-        <div class="page-info col m4 l4 hide-on-small-only">
-            <div class="center-align b-text-gray">3 / 9</div>
-        </div>
-        <div class="col s6 m4 l4">
-            
-            <a href="/page/4/"
-               class="right btn-floating btn-large waves-effect waves-light bg-color">
-                <i class="fas fa-angle-right"></i>
-            </a>
-            
-        </div>
-    </div>
-</div>
-
-
-
-
-    <footer class="page-footer bg-color">
-    <div class="container row center-align" style="margin-bottom: 0px !important;">
-        <div class="col s12 m8 l8 copy-right">
-            Copyright&nbsp;&copy;
-            <span id="year">2017-2020</span>
-            <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
-            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
-            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
-            <br>
-            
-            
-            
-            
-            
-            
-            <span id="busuanzi_container_site_pv" style="display:none">
-                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
-                    class="white-color"></span>&nbsp;次
-            </span>
-            
-            
-            <span id="busuanzi_container_site_uv" style="display:none">
-                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
-                    class="white-color"></span>&nbsp;人
-            </span>
-            
-            
-        </div>
-        <div class="col s12 m4 l4 social-link social-statis">
-
-
-    <a href="mailto:smokeriu@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
-        <i class="fas fa-envelope-open"></i>
-    </a>
-
-
-
-
-
-
-
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=604522169" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 604522169" data-position="top" data-delay="50">
-        <i class="fab fa-qq"></i>
-    </a>
-
-
-
-
-
-
-
-</div>
-    </div>
-</footer>
-
-<div class="progress-bar"></div>
-
-<script language=javascript>
-    function siteTime() {
-        window.setTimeout("siteTime()", 1000);
-        var seconds = 1000;
-        var minutes = seconds * 60;
-        var hours = minutes * 60;
-        var days = hours * 24;
-	var months = days * 30;
-        var years = days * 365;
-        var today = new Date();
-        var todayYear = today.getFullYear();
-        var todayMonth = today.getMonth() + 1;
-        var todayDate = today.getDate();
-        var todayHour = today.getHours();
-        var todayMinute = today.getMinutes();
-        var todaySecond = today.getSeconds();
-        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
-        year - 作为date对象的年份，为4位年份值
-        month - 0-11之间的整数，做为date对象的月份
-        day - 1-31之间的整数，做为date对象的天数
-        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
-        minutes - 0-59之间的整数，做为date对象的分钟数
-        seconds - 0-59之间的整数，做为date对象的秒数
-        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
-        var t1 = Date.UTC(2017, 02, 12, 00, 00, 00); //北京时间2018-2-13 00:00:00
-        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
-        var diff = t2 - t1;
-        var diffYears = Math.floor(diff / years);
-        var diffDays = Math.floor((diff / days) - diffYears * 365);
-        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
-        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
-        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
-        document.getElementById("sitetime").innerHTML = "本站已运行 " +diffYears+" 年 "+diffDays + " 天 ";
-    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
-    siteTime();
-</script>
-
-
-<script>
-    $(document).ready(function () {
-
-        var int = setInterval(fixCount, 50);  // 50ms周期检测函数
-        var pvcountOffset = 5423;  // 初始化首次数据
-        var uvcountOffset = 3322;
-
-        function fixCount() {
-            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
-                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
-                clearInterval(int);
-            }
-            if ($("#busuanzi_container_site_pv").css("display") != "none") {
-                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
-                clearInterval(int); // 停止检测
-            }
-        }
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
     });
+  }
 </script>
 
-
-
-    <!-- 搜索遮罩框 -->
-<div id="searchModal" class="modal">
-    <div class="modal-content">
-        <div class="search-header">
-            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
-            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
-                   class="search-input">
         </div>
-        <div id="searchResult"></div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ssiu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
     </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ssiu</span>
 </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
 
-<script src="/js/search.js"></script>
-<script type="text/javascript">
-$(function () {
-    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
-});
-</script>
-    <!-- 回到顶部按钮 -->
-<div id="backTop" class="top-scroll">
-    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
-        <i class="fas fa-arrow-up"></i>
-    </a>
-</div>
+        
 
 
-    <script src="/libs/materialize/materialize.min.js"></script>
-    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
-    <script src="/libs/aos/aos.js"></script>
-    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
-    <script src="/js/matery.js"></script>
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <!-- Baidu Analytics -->
 
-    <!-- Baidu Push -->
 
-<script>
-    (function () {
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        } else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-</script>
 
-    
-    
-    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
-    
 
-    
+      </div>
+    </footer>
+  </div>
 
-    
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
-    
+<script src="/js/utils.js"></script>
 
-    
+<script src="/js/motion.js"></script>
 
-    
-    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
-    
-    
-    
-    <script src="/libs/instantpage/instantpage.js" type="module"></script>
-    
 
-</body>
+<script src="/js/schemes/pisces.js"></script>
 
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
 </html>

@@ -1,678 +1,1193 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="zh-CN">
-
-
 <head>
-    <meta charset="utf-8">
-    <meta name="keywords" content="Ssiu Blog">
-    <meta name="description" content="Ssiu Blog">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="renderer" content="webkit|ie-stand|ie-comp">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Ssiu Blog</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
-    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/matery.css">
-    <link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" href="/css/main.css">
 
-    <script src="/libs/jquery/jquery.min.js"></script>
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-material.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.ibuer.fun","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Ssiu Blog">
+<meta property="og:url" content="http://blog.ibuer.fun/page/9/index.html">
+<meta property="og:site_name" content="Ssiu Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Ssiu">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.ibuer.fun/page/9/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Ssiu Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ssiu Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
     
-<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
-<body>
-    <header class="navbar-fixed">
-    <nav id="headNav" class="bg-color nav-transparent">
-        <div id="navContainer" class="nav-wrapper container">
-            <div class="brand-logo">
-                <a href="/" class="waves-effect waves-light">
-                    
-                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
-                    
-                    <span class="logo-span">Ssiu Blog</span>
-                </a>
-            </div>
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2018/12/31/spark-zhong-de-chuang-kou-han-shu-shi-yong/">
 
-<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
-<ul class="right nav-menu">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/31/spark-zhong-de-chuang-kou-han-shu-shi-yong/" class="post-title-link" itemprop="url">Spark中的窗口函数使用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-12-31 22:26:44" itemprop="dateCreated datePublished" datetime="2018-12-31T22:26:44+08:00">2018-12-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-17 23:21:27" itemprop="dateModified" datetime="2020-02-17T23:21:27+08:00">2020-02-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spark/" itemprop="url" rel="index"><span itemprop="name">Spark</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>spark自1.4版本后就支持了window function。与sql里的xxx over xxx类似，便于人们进行聚合参数。<br>本文主要是学习时的一些理解，已经遇到的一些注意点。<br>有错误望指正。</p>
+<h2 id="创建window"><a href="#创建window" class="headerlink" title="创建window"></a>创建window</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//需要import这个包：</span></span><br><span class="line"><span class="keyword">import</span> org.apache.spark.sql.expressions.Window</span><br><span class="line"></span><br><span class="line"><span class="comment">//按照category分组，按照revenue排序</span></span><br><span class="line">val myWindow = Window.partitionBy($<span class="string">&quot;category&quot;</span>).orderBy($<span class="string">&quot;revenue&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//之后在函数后使用.over即可：</span></span><br><span class="line">sum($<span class="string">&quot;revenue&quot;</span>).over(myWindow)</span><br></pre></td></tr></table></figure>
+<p>这里就已经建立了一个简单的window函数了。</p>
+<h2 id="支持的函数："><a href="#支持的函数：" class="headerlink" title="支持的函数："></a>支持的函数：</h2><p>SparkSql支持3类窗口函数：ranking functions、analytic functions、aggregate functions<br>前两者只有某些函数能够支持：</p>
+<h3 id="1-Ranking-functions：（排名）"><a href="#1-Ranking-functions：（排名）" class="headerlink" title="1.Ranking functions：（排名）"></a>1.Ranking functions：（排名）</h3><table>
+<thead>
+<tr>
+<th>SQL</th>
+<th>API</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>rank</td>
+<td>rank</td>
+<td>排名第几，若值相等，rank相同，下一个值不同的行，rank+n</td>
+</tr>
+<tr>
+<td>dense_rank</td>
+<td>denseRank</td>
+<td>排名第几，若值相等，rank相同，下一个值不同的行，rank+1</td>
+</tr>
+<tr>
+<td>row_number</td>
+<td>rowNumber</td>
+<td>当前数据位于第几行，值相同，也会+1</td>
+</tr>
+<tr>
+<td>percent_rank</td>
+<td>percentRank</td>
+<td>排名百分比，分组内当前行的RANK值-1/分组内总行数-1</td>
+</tr>
+<tr>
+<td>ntile</td>
+<td>ntile</td>
+<td>用于将分组数据按照顺序切分成n片，返回当前切片值</td>
+</tr>
+</tbody></table>
+<h3 id="2-Analytic-functions（解析）"><a href="#2-Analytic-functions（解析）" class="headerlink" title="2.Analytic functions（解析）"></a>2.Analytic functions（解析）</h3><table>
+<thead>
+<tr>
+<th>SQL</th>
+<th>API</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>fiset_value</td>
+<td>first</td>
+<td>第一条记录的value</td>
+</tr>
+<tr>
+<td>last_value</td>
+<td>last</td>
+<td>最后记录的value</td>
+</tr>
+<tr>
+<td>cume_dist</td>
+<td>cume_dist</td>
+<td>小于等于当前值的行数/分组内总行数</td>
+</tr>
+<tr>
+<td>lag</td>
+<td>lag</td>
+<td>延迟offset位</td>
+</tr>
+<tr>
+<td>lead</td>
+<td>lead</td>
+<td>领先offset位</td>
+</tr>
+<tr>
+<td>Analytic不能理解的可以结合代码和运行结果看看：</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//window按照category分组，revenue排序</span></span><br><span class="line">readDF</span><br><span class="line">      .withColumn(<span class="string">&quot;first&quot;</span>,first(<span class="string">&quot;revenue&quot;</span>).over(myWindow))</span><br><span class="line">      .withColumn(<span class="string">&quot;last&quot;</span>,last(<span class="string">&quot;revenue&quot;</span>).over(myWindow))</span><br><span class="line">      .withColumn(<span class="string">&quot;cumeDist&quot;</span>,cume_dist().over(myWindow))</span><br><span class="line">      .withColumn(<span class="string">&quot;lag&quot;</span>,lag(<span class="string">&quot;revenue&quot;</span>,<span class="number">1</span>,<span class="number">0</span>).over(myWindow))</span><br><span class="line">      .withColumn(<span class="string">&quot;lead&quot;</span>,lead(<span class="string">&quot;revenue&quot;</span>,<span class="number">1</span>,<span class="number">0</span>).over(myWindow))</span><br><span class="line">      .show()</span><br></pre></td></tr></table></figure>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/1.png" alt="Analytic"></p>
+<h3 id="3-Aggregate（聚合）"><a href="#3-Aggregate（聚合）" class="headerlink" title="3. Aggregate（聚合）"></a>3. Aggregate（聚合）</h3><p>所有支持的函数都能够使用窗口函数（sum、avg、max、min），一般会结合row/rangeBetween来一起使用。</p>
+<h2 id="window函数"><a href="#window函数" class="headerlink" title="window函数"></a>window函数</h2><p>前两个意义比较简单：</p>
+<h3 id="1-partitionBy"><a href="#1-partitionBy" class="headerlink" title="1. partitionBy"></a>1. partitionBy</h3><p>按照哪个值进行分区。其实就是建立一个窗口，范围是分区。</p>
+<h3 id="2-orderBy"><a href="#2-orderBy" class="headerlink" title="2. orderBy"></a>2. orderBy</h3><p>按照哪个值在分区内进行排序。</p>
+<h3 id="3-rowBetween"><a href="#3-rowBetween" class="headerlink" title="3. rowBetween"></a>3. rowBetween</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val myWindow = Window.partitionBy($<span class="string">&quot;category&quot;</span>).orderBy($<span class="string">&quot;revenue&quot;</span>)</span><br><span class="line">				.rowsBetween(-<span class="number">1</span>,<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>图引用自：<a target="_blank" rel="noopener" href="https://databricks.com/blog/2015/07/15/introducing-window-functions-in-spark-sql.html">Introducing Window Functions in Spark SQL</a><br><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217231350.png" alt="rowBetween"><br>以当前行为标准，将前1行和后1行的数据组成一个窗口，size=3。<br>这个比较好理解。<br>示例看下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">readDF.withColumn(<span class="string">&quot;sum&quot;</span>,sum(<span class="string">&quot;revenue&quot;</span>).over(myWindow))</span><br></pre></td></tr></table></figure>
+<p>结果：sum会计算当前行+前一行+后一行的和。<br><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/2.png" alt="Aggregate"></p>
+<h3 id="4-rangeBetween"><a href="#4-rangeBetween" class="headerlink" title="4. rangeBetween"></a>4. rangeBetween</h3><p>根据当前值，来确定窗口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val myWindow = Window.partitionBy($<span class="string">&quot;category&quot;</span>).orderBy($<span class="string">&quot;revenue&quot;</span>)</span><br><span class="line">				.rangeBetween(-<span class="number">2000</span>,<span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217231424.png" alt="rangeBetween">几个注意点：<br>    1. 因为会使用值来加减确定窗口，所以sum(colA).over(window)，这个sum必须是值类型。<br>    2. 如果前方进行你是倒序排序，整个窗口会反过来。即=&gt;(-1000,2000) 应该理解成 (-2000,1000)的窗口。</p>
+<p>看下示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">readDF.withColumn(<span class="string">&quot;sum&quot;</span>,sum(<span class="string">&quot;revenue&quot;</span>).over(myWindow)).show()</span><br><span class="line"><span class="comment">//示例的window范围：（-1000，2000）</span></span><br></pre></td></tr></table></figure>
+<p>结果：<br><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/3.png" alt="rangeBetween"></p>
+<p>参考：<br><a target="_blank" rel="noopener" href="https://databricks.com/blog/2015/07/15/introducing-window-functions-in-spark-sql.html">1.Introducing Window Functions in Spark SQL</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
   
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/" class="waves-effect waves-light">
-      
-      <i class="fas fa-home" style="zoom: 0.6;"></i>
-      
-      <span>首页</span>
-    </a>
-    
-  </li>
   
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/tags" class="waves-effect waves-light">
-      
-      <i class="fas fa-tags" style="zoom: 0.6;"></i>
-      
-      <span>标签</span>
-    </a>
-    
-  </li>
   
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/categories" class="waves-effect waves-light">
+
       
-      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
-      
-      <span>分类</span>
-    </a>
-    
-  </li>
   
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/archives" class="waves-effect waves-light">
-      
-      <i class="fas fa-archive" style="zoom: 0.6;"></i>
-      
-      <span>归档</span>
-    </a>
-    
-  </li>
   
-  <li class="hide-on-med-and-down nav-item">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2018/10/01/sparkcontext-zhi-xing-liu-cheng/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/10/01/sparkcontext-zhi-xing-liu-cheng/" class="post-title-link" itemprop="url">SparkContext执行流程</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-10-01 00:45:50" itemprop="dateCreated datePublished" datetime="2018-10-01T00:45:50+08:00">2018-10-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-17 23:21:27" itemprop="dateModified" datetime="2020-02-17T23:21:27+08:00">2020-02-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spark/" itemprop="url" rel="index"><span itemprop="name">Spark</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
     
-    <a href="/about" class="waves-effect waves-light">
-      
-      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
-      
-      <span>关于</span>
-    </a>
     
-  </li>
-  
-  <li>
-    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
-      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
-    </a>
-  </li>
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>其实这个也算是Spark任务提交的内容之一。Spark任务的关键就是构建DAG图，Action触发然后去解析DAG图，将Stage交给Executor处理，executor处理完成后返回结果。<br>Spark程序都是以SparkContext为入口，触发Action算子后执行具体任务，这边也会顺着这条思路写下去。</p>
+<blockquote>
+<p>部分源码为了方便阅读会进行精简或调整，与真实源码会略有不同。但整体思路是一样的。<br>Spark版本参照最新的2.3.x<br>涉及模式主要介绍Yarn和Local</p>
+</blockquote>
+<h1 id="流程图概览"><a href="#流程图概览" class="headerlink" title="流程图概览"></a>流程图概览</h1><p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217224954.png" alt="流程图"><br>先看图，整个流程可以分成四个步骤，具体会在源码中有所展现：</p>
+<ol>
+<li>根据我们的各种算子生成DAG图</li>
+<li>解析DAG图，拆分成Stage（Task集合）。将Task集合发往下一步。</li>
+<li>Cluster Manager来发起任务，错误或落伍(比如说数据倾斜导致某一任务始终跑不完)，会进行重试。</li>
+<li>将Task发往具体的Worker/Container执行。</li>
+</ol>
+<h2 id="1）获取SparkContext"><a href="#1）获取SparkContext" class="headerlink" title="1）获取SparkContext"></a>1）获取SparkContext</h2><p>在程序里我们会通过<code>new SparkContext(Conf)</code>来得到一个SparkContext实例，具体到SparkContext里，由于代码很多，这边主要的其实就是初始化三个变量：    </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SparkContext</span>(<span class="title">config</span>: <span class="title">SparkConf</span>) <span class="keyword">extends</span> <span class="title">Logging</span></span>&#123;</span><br><span class="line">	<span class="comment">// 初始化三个主要变量</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">var</span> _schedulerBackend: SchedulerBackend = _</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">var</span> _taskScheduler: TaskScheduler = _</span><br><span class="line">	<span class="meta">@volatile</span> <span class="keyword">private</span> <span class="keyword">var</span> _dagScheduler: DAGScheduler = _</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 之后会对上述三个变量进行初始化：</span></span><br><span class="line">	val (sched, ts) = SparkContext.createTaskScheduler(<span class="keyword">this</span>, master, deployMode)</span><br><span class="line">    _schedulerBackend = sched</span><br><span class="line">    _taskScheduler = ts</span><br><span class="line">    _dagScheduler = <span class="keyword">new</span> DAGScheduler(<span class="keyword">this</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里代码根据具体的master、deployMode来对<code>_schedulerBackend</code>和<code>_taskScheduler</code>进行初始化，同时还会初始化<code>_dagScheduler</code></p>
+<h3 id="1-1）其中createTaskScheduler方法"><a href="#1-1）其中createTaskScheduler方法" class="headerlink" title="1.1）其中createTaskScheduler方法"></a>1.1）其中createTaskScheduler方法</h3><p>主要用来初始化<code>_schedulerBackend</code>和<code>_taskScheduler</code>，这里以local为例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> def <span class="title">createTaskScheduler</span><span class="params">(..)</span></span>&#123;</span><br><span class="line">	master match &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">&quot;local&quot;</span> =&gt;</span><br><span class="line">        val scheduler = <span class="keyword">new</span> TaskSchedulerImpl(sc, MAX_LOCAL_TASK_FAILURES, isLocal = <span class="keyword">true</span>)</span><br><span class="line">        val backend = <span class="keyword">new</span> LocalSchedulerBackend(sc.getConf, scheduler, <span class="number">1</span>)</span><br><span class="line">        scheduler.initialize(backend)</span><br><span class="line">        (backend, scheduler)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过这段代码，我们可以知道，一个是<code>TaskSchedulerImpl</code>的实例，一个是<code>LocalSchedulerBackend</code>的实例。里面主要就是初始化一些参数内容。具体的方法在后续过程会使用到，这里不进行过多赘述。</p>
+<h3 id="1-2）其中new-DAGScheduler-this-里"><a href="#1-2）其中new-DAGScheduler-this-里" class="headerlink" title="1.2）其中new DAGScheduler(this)里"></a>1.2）其中new DAGScheduler(this)里</h3><p>初始化时有两个关键点：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span>[spark] <span class="class"><span class="keyword">class</span> <span class="title">DAGScheduler</span>(...)</span>&#123;</span><br><span class="line">	<span class="keyword">private</span>[spark] val eventProcessLoop = <span class="keyword">new</span> DAGSchedulerEventProcessLoop(<span class="keyword">this</span>)</span><br><span class="line">	taskScheduler.setDAGScheduler(<span class="keyword">this</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这边会生成一个事件队列<code>eventProcessLoop</code>，同时设置我们的<code>taskScheduler</code>。这些内容会在之后使用到。<br>至此，这个阶段SparkContext的主要任务已经基本完成：设置我们上面提到的三个参数。<br>接下来，就要等到Action算子触发实际的作业运行了。</p>
+<h2 id="2）Action"><a href="#2）Action" class="headerlink" title="2）Action"></a>2）Action</h2><p>这里以Collect算子为例，里面会调用<code>runJob</code>这个方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">RDD</span>[<span class="title">T</span>: <span class="title">ClassTag</span>](...)</span>&#123;</span><br><span class="line">	<span class="function">def <span class="title">collect</span><span class="params">()</span>: Array[T] </span>= withScope &#123;</span><br><span class="line">    val results = sc.runJob(<span class="keyword">this</span>, (iter: Iterator[T]) =&gt; iter.toArray)</span><br><span class="line">    Array.concat(results: _*)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>里面点进去，实际会进行多次跳转，这边把中间过程进行省略，最后我们会来到：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SparkContext</span>(<span class="title">config</span>: <span class="title">SparkConf</span>) <span class="keyword">extends</span> <span class="title">Logging</span> </span>&#123;</span><br><span class="line">  def runJob[T, U: ClassTag](...)&#123;</span><br><span class="line">  	val callSite = getCallSite</span><br><span class="line">    val cleanedFunc = clean(func)</span><br><span class="line">  	<span class="comment">// 前面是一些参数初始化</span></span><br><span class="line">  	</span><br><span class="line">  	<span class="comment">// 核心，进入runJob。</span></span><br><span class="line">  	dagScheduler.runJob(rdd, cleanedFunc, partitions, callSite, resultHandler, localProperties.get)</span><br><span class="line">  	</span><br><span class="line">  	<span class="comment">// 其他处理</span></span><br><span class="line">    progressBar.foreach(_.finishAll())</span><br><span class="line">    rdd.doCheckpoint()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们这里主要需要关注<code>dagScheduler.runJob</code>方法，跟这个这个方法，我们来到了DAGScheduler：</p>
+<h2 id="3）DAGScheduler"><a href="#3）DAGScheduler" class="headerlink" title="3）DAGScheduler"></a>3）DAGScheduler</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">def runJob[T, U](...)&#123;</span><br><span class="line">	val start = System.nanoTime</span><br><span class="line">    val waiter = submitJob(rdd, func, partitions, callSite, resultHandler, properties)&#123;</span><br><span class="line">		eventProcessLoop.post(JobSubmitted(</span><br><span class="line">			jobId, rdd, func2, partitions.toArray, callSite, waiter,</span><br><span class="line">			SerializationUtils.clone(properties)))</span><br><span class="line">		waiter</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里我将两段代码进行了合并，runJob会调用<code>submitJob</code>方法，这个方法会返回一个<code>JobWaiter</code>对象，简单来说，就是将我们的Func、Rdd加入之前创建的<code>eventProcessLoop</code>。</p>
+<h3 id="3-1）DAGSchedulerEventProcessLoop"><a href="#3-1）DAGSchedulerEventProcessLoop" class="headerlink" title="3.1）DAGSchedulerEventProcessLoop"></a>3.1）DAGSchedulerEventProcessLoop</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span>[scheduler] <span class="class"><span class="keyword">class</span> <span class="title">DAGSchedulerEventProcessLoop</span></span>&#123;</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	* The main event loop of the DAG scheduler.</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">	<span class="function">override def <span class="title">onReceive</span><span class="params">(event: DAGSchedulerEvent)</span>: Unit </span>= &#123;..doOnReceive..&#125;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> def <span class="title">doOnReceive</span><span class="params">(event: DAGSchedulerEvent)</span>: Unit </span>= event match &#123;</span><br><span class="line">		<span class="function"><span class="keyword">case</span> <span class="title">JobSubmitted</span><span class="params">(jobId, rdd, func, partitions, callSite, listener, properties)</span> </span>=&gt;</span><br><span class="line">      dagScheduler.handleJobSubmitted(jobId, rdd, func, partitions, callSite, listener, properties)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个类我同样进行了简化，实际上就是判断我们提交过来的是什么，然后指向对应的方法。</p>
+<blockquote>
+<p>这里我们是JobSubmitted。所以指向dagScheduler.handleJobSubmitted</p>
+</blockquote>
+<h3 id="3-2）handleJobSubmitted"><a href="#3-2）handleJobSubmitted" class="headerlink" title="3.2）handleJobSubmitted"></a>3.2）handleJobSubmitted</h3><p>实际上源码会有很多的try catch，这边进行部分简写方便阅读</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">def <span class="title">handleJobSubmitted</span><span class="params">(...)</span></span>&#123;</span><br><span class="line">	<span class="keyword">var</span> finalStage: ResultStage = </span><br><span class="line">		createResultStage(finalRDD, func, partitions, jobId, callSite)</span><br><span class="line">	val job = <span class="keyword">new</span> ActiveJob(jobId, finalStage, callSite, listener, properties)</span><br><span class="line">	finalStage.setActiveJob(job)</span><br><span class="line">	submitStage(finalStage)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里首先会拿到最后一个Stage，并通过它生成running job。最终我们将finalStage提交。</p>
+<blockquote>
+<p>A running job in the DAGScheduler. Jobs can be of two types:<br>1）a result job, which computes a ResultStage to execute an action,<br>2）or a map-stage job, which computes the map outputs for a ShuffleMapStage before any downstream stages are submitted.</p>
+</blockquote>
+<h3 id="3-3）submitStage"><a href="#3-3）submitStage" class="headerlink" title="3.3）submitStage"></a>3.3）submitStage</h3><p>这个部分实际就承担了拆分Stage的职责，其实就是通过递归完成的，为了方便理解就直接搬源码了。大家可以结合提交的作业时打印的log看看。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> def <span class="title">submitStage</span><span class="params">(stage: Stage)</span> </span>&#123;</span><br><span class="line">  val jobId = activeJobForStage(stage)</span><br><span class="line">  <span class="keyword">if</span> (jobId.isDefined) &#123;</span><br><span class="line">    logDebug(<span class="string">&quot;submitStage(&quot;</span> + stage + <span class="string">&quot;)&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> (!waitingStages(stage) &amp;&amp; !runningStages(stage) &amp;&amp; !failedStages(stage)) &#123;</span><br><span class="line">      val missing = getMissingParentStages(stage).sortBy(_.id)</span><br><span class="line">      logDebug(<span class="string">&quot;missing: &quot;</span> + missing)</span><br><span class="line">      <span class="keyword">if</span> (missing.isEmpty) &#123;</span><br><span class="line">        logInfo(<span class="string">&quot;Submitting &quot;</span> + stage + <span class="string">&quot; (&quot;</span> + stage.rdd + <span class="string">&quot;), which has no missing parents&quot;</span>)</span><br><span class="line">        submitMissingTasks(stage, jobId.get)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (parent &lt;- missing) &#123;</span><br><span class="line">          submitStage(parent)</span><br><span class="line">        &#125;</span><br><span class="line">        waitingStages += stage</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    abortStage(stage, <span class="string">&quot;No active job for stage &quot;</span> + stage.id, None)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>方法首先接收到的是finalStage，关键是<code>getMissingParentStages(stage)</code>，方法返回<code>List[Stage]</code>。这里能够得到尚未执行的ParentStage，并按照id排序。<br>所以这边的逻辑实际是：提交finalStage → 尚有父Stage没执行 → 提交父Stage，递归，直到所有父Stage都执行。<br>最终，对于每个Stage，底层都会来到<code>submitMissingTasks(stage, jobId.get)</code></p>
+<h3 id="3-4）submitMissingTasks"><a href="#3-4）submitMissingTasks" class="headerlink" title="3.4）submitMissingTasks"></a>3.4）submitMissingTasks</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> def <span class="title">submitMissingTasks</span><span class="params">(stage: Stage, jobId: Int)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//..省略一些前置处理..</span></span><br><span class="line">	<span class="comment">//..主要就是将Stage包装成Tasks用来提交</span></span><br><span class="line">	val tasks: Seq[Task[_]] = <span class="keyword">try</span> &#123;</span><br><span class="line">		stage match &#123;</span><br><span class="line">        <span class="keyword">case</span> stage: ShuffleMapStage =&gt;</span><br><span class="line">          stage.pendingPartitions.clear()</span><br><span class="line">          partitionsToCompute.map &#123; id =&gt;</span><br><span class="line">            &#123;...&#125;</span><br><span class="line">            <span class="keyword">new</span> ShuffleMapTask(...)</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> stage: ResultStage =&gt;</span><br><span class="line">          partitionsToCompute.map &#123; id =&gt;</span><br><span class="line">            &#123;...&#125;</span><br><span class="line">            <span class="keyword">new</span> ResultTask(...)</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//..提交tasks..//</span></span><br><span class="line">	<span class="keyword">if</span> (tasks.size &gt; <span class="number">0</span>) &#123;</span><br><span class="line">		taskScheduler.submitTasks(<span class="keyword">new</span> TaskSet(</span><br><span class="line">        	tasks.toArray, stage.id, stage.latestInfo.attemptNumber, jobId, properties))</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调用<code>taskScheduler</code>的<code>submitTasks</code>方法进行task的提交，这段方法的用途注释已经说明，其实目的就是将Stage包装成Task集合。里面有大量的判断这边就忽略了。<br>其实刚刚也提到过，Task在内部被Spark分为中间的：ShuffleMap，以及最后的：Result。这个也对应的不同的Job。<br>代码跟着就来到了TasklScheduler</p>
+<h2 id="4）TaskScheduler"><a href="#4）TaskScheduler" class="headerlink" title="4）TaskScheduler"></a>4）TaskScheduler</h2><p>实际上TaskScheduler是一个trait，通过之前的分析(初始化SparkContext)，我们可以知道实际上我们建立的是一个<code>TaskSchedulerImpl</code>对象，实际上Spark本身就实现了这么一个子类。这里直接定位到对应方法即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span>[spark] <span class="class"><span class="keyword">class</span> <span class="title">TaskSchedulerImpl</span>(...)</span>&#123;</span><br><span class="line">	<span class="function">override def <span class="title">submitTasks</span><span class="params">(taskSet: TaskSet)</span> </span>&#123;</span><br><span class="line">	    val tasks = taskSet.tasks</span><br><span class="line">	    <span class="keyword">this</span>.<span class="keyword">synchronized</span> &#123;</span><br><span class="line">	    	val manager = createTaskSetManager(taskSet, maxTaskFailures)</span><br><span class="line">	    	val stage = taskSet.stageId</span><br><span class="line">	    	val stageTaskSets =</span><br><span class="line">        		taskSetsByStageIdAndAttempt.getOrElseUpdate(stage, <span class="keyword">new</span> HashMap[Int, TaskSetManager])</span><br><span class="line">        		</span><br><span class="line">        	<span class="comment">// 建立taskset与manager 的对应关系</span></span><br><span class="line">			stageTaskSets(taskSet.stageAttemptId) = manager</span><br><span class="line">			</span><br><span class="line">			<span class="comment">// TaskSetManager会被放入调度池中。</span></span><br><span class="line">			schedulableBuilder.addTaskSetManager(manager, manager.taskSet.properties)</span><br><span class="line">	    &#125;</span><br><span class="line">	    <span class="comment">// 为tasks分配资源，调度任务</span></span><br><span class="line">	    backend.reviveOffers()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里会初始化一个Manager对Tasks进行管理，在最开始也说过，对于失败或者落队的任务Manager会进行重试，并与上一级交互执行情况。不过对于本文章讨论的流程来说，这部分实际上最重要的，就是将Task提交到具体的Executor。也就是<code>backend.reviveOffers()</code>。<br>对于不同的任务，SchedulerBackend有两个实现类：</p>
+<ul>
+<li>CoarseGrainedSchedulerBackend</li>
+<li>LocalSchedulerBackend。</li>
 </ul>
+<p>这边就以CoarseGrainedSchedulerBackend为例进行继续讲解。他们的区别从命名其实就能猜到。</p>
+<h3 id="4-1）CoarseGrainedSchedulerBackend"><a href="#4-1）CoarseGrainedSchedulerBackend" class="headerlink" title="4.1）CoarseGrainedSchedulerBackend"></a>4.1）CoarseGrainedSchedulerBackend</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span>[spark] <span class="class"><span class="keyword">class</span> <span class="title">CoarseGrainedSchedulerBackend</span>(<span class="title">scheduler</span>: <span class="title">TaskSchedulerImpl</span>, <span class="title">val</span> <span class="title">rpcEnv</span>: <span class="title">RpcEnv</span>)</span></span><br><span class="line"><span class="class">  <span class="keyword">extends</span> <span class="title">ExecutorAllocationClient</span> <span class="title">with</span> <span class="title">SchedulerBackend</span> <span class="title">with</span> <span class="title">Logging</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">	<span class="function">override def <span class="title">reviveOffers</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		driverEndpoint.send(ReviveOffers)</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// driverEndpoint的初始化，都在CoarseGrainedSchedulerBackend类里。</span></span><br><span class="line">	<span class="function">override def <span class="title">start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    	val properties = <span class="keyword">new</span> ArrayBuffer[(String, String)]</span><br><span class="line">    	driverEndpoint = createDriverEndpointRef(properties)</span><br><span class="line">    &#125;	</span><br><span class="line">	<span class="function"><span class="keyword">protected</span> def <span class="title">createDriverEndpointRef</span><span class="params">(...)</span>: RpcEndpointRef </span>= &#123;</span><br><span class="line">		rpcEnv.setupEndpoint(ENDPOINT_NAME, createDriverEndpoint(properties))</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">protected</span> def <span class="title">createDriverEndpoint</span><span class="params">(properties: Seq[(String, String)</span>]): DriverEndpoint </span>= &#123;</span><br><span class="line">    	<span class="keyword">new</span> DriverEndpoint(rpcEnv, properties)</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于<code>reviveOffers</code>方法里会使用到<code>driverEndpoint</code>，这边一并将他的初始化源码附上。通过源码我们也能注意到，这里主要是<code>DriverEndpoint</code>完成了实际工作，毕竟，我们要发送ReviveOffers事件，这个事件从哪来的？进入DriverEndPoint一探究竟。</p>
+<blockquote>
+<p>DriverEndpoint是CoarseGrainedSchedulerBackend的一个内部类。</p>
+</blockquote>
+<h3 id="4-2）DriverEndpoint"><a href="#4-2）DriverEndpoint" class="headerlink" title="4.2）DriverEndpoint"></a>4.2）DriverEndpoint</h3><p>实际上，driverEndpoint.send(ReviveOffers)会触发DriverEndPoint的makeOffers方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DriverEndpoint</span>(...) <span class="keyword">extends</span> <span class="title">ThreadSafeRpcEndpoint</span> <span class="title">with</span> <span class="title">Logging</span> </span>&#123;</span><br><span class="line">	override def receive: PartialFunction[Any, Unit] = &#123;</span><br><span class="line">		<span class="keyword">case</span> ReviveOffers =&gt;</span><br><span class="line">        	makeOffers()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用makeOffers</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> def <span class="title">makeOffers</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// 主要是找出要在哪些Worker上启动哪些task。</span></span><br><span class="line">		val taskDescs = withLock &#123;</span><br><span class="line">			scheduler.resourceOffers(workOffers)</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (!taskDescs.isEmpty) &#123;</span><br><span class="line">        	launchTasks(taskDescs)</span><br><span class="line">      	&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>resourceOffers返回的是Seq[Seq[TaskDescription]] 类型，主要用途是找出要在哪些Worker上启动哪些task。最后调用launchTasks(taskDescs)。</p>
+<h3 id="4-3）launchTasks"><a href="#4-3）launchTasks" class="headerlink" title="4.3）launchTasks"></a>4.3）launchTasks</h3><p>主要完成序列化，发送任务的工作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> def <span class="title">launchTasks</span><span class="params">(tasks: Seq[Seq[TaskDescription]])</span> </span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (task &lt;- tasks.flatten) &#123;</span><br><span class="line">		<span class="comment">// 序列化Task</span></span><br><span class="line">        val serializedTask = TaskDescription.encode(task)</span><br><span class="line">        <span class="comment">// 省略一些判断</span></span><br><span class="line">        <span class="comment">// 发送序列化后的Task</span></span><br><span class="line">        executorData.executorEndpoint.send(LaunchTask(<span class="keyword">new</span> SerializableBuffer(serializedTask)))</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>至此，任务已经发往了Executor</p>
+<h2 id="5）Executor"><a href="#5）Executor" class="headerlink" title="5）Executor"></a>5）Executor</h2><p>先找到：CoarseGrainedExecutorBackend.scala</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span>[spark] <span class="class"><span class="keyword">class</span> <span class="title">CoarseGrainedExecutorBackend</span>(...)</span></span><br><span class="line"><span class="class">	<span class="keyword">extends</span> <span class="title">ThreadSafeRpcEndpoint</span> <span class="title">with</span> <span class="title">ExecutorBackend</span> <span class="title">with</span> <span class="title">Logging</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	override def receive: PartialFunction[Any, Unit] = &#123;</span><br><span class="line">		<span class="function"><span class="keyword">case</span> <span class="title">LaunchTask</span><span class="params">(data)</span> </span>=&gt;</span><br><span class="line">			val taskDesc = TaskDescription.decode(data.value)</span><br><span class="line">    	    logInfo(<span class="string">&quot;Got assigned task &quot;</span> + taskDesc.taskId)</span><br><span class="line">        	executor.launchTask(<span class="keyword">this</span>, taskDesc)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这部分代码完成：接收，生成Executor，在Executor上launchTask的任务。代码进入到Executor.scala</p>
+<h3 id="5-1）Executor-scala"><a href="#5-1）Executor-scala" class="headerlink" title="5.1）Executor.scala"></a>5.1）Executor.scala</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span>[spark] <span class="class"><span class="keyword">class</span> <span class="title">Executor</span>(...)</span>&#123;</span><br><span class="line">	<span class="keyword">private</span> val runningTasks = <span class="keyword">new</span> ConcurrentHashMap[Long, TaskRunner]</span><br><span class="line">  	<span class="function">def <span class="title">launchTask</span><span class="params">(context: ExecutorBackend, taskDescription: TaskDescription)</span>: Unit </span>= &#123;</span><br><span class="line">    	val tr = <span class="keyword">new</span> TaskRunner(context, taskDescription)</span><br><span class="line">    	runningTasks.put(taskDescription.taskId, tr)</span><br><span class="line">    	threadPool.execute(tr)</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里就是将我们的Task新起一个TaskRunner，并加入了线程池，所以具体的处理需要进入TaskRunner里。</p>
+<h3 id="5-2）TaskRunner"><a href="#5-2）TaskRunner" class="headerlink" title="5.2）TaskRunner"></a>5.2）TaskRunner</h3><p>这是一个继承了Runnable的线程，所以我们直接找到run方法，其实主要干了三件事：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TaskRunner</span>(...) <span class="keyword">extends</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">	<span class="function">override def <span class="title">run</span><span class="params">()</span>: Unit </span>= &#123;</span><br><span class="line">	<span class="comment">// 反序列化</span></span><br><span class="line">	    Executor.taskDeserializationProps.set(taskDescription.properties)</span><br><span class="line">        updateDependencies(taskDescription.addedFiles, taskDescription.addedJars)</span><br><span class="line">        task = ser.deserialize[Task[Any]](</span><br><span class="line">          taskDescription.serializedTask, Thread.currentThread.getContextClassLoader)</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 运行我们的任务，得到结果</span></span><br><span class="line">		val value = Utils.tryWithSafeFinally &#123;</span><br><span class="line">			task.run(</span><br><span class="line">        		taskAttemptId = taskId,</span><br><span class="line">        		attemptNumber = taskDescription.attemptNumber,</span><br><span class="line">        		metricsSystem = env.metricsSystem)</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 包装结果，序列化，并发回。</span></span><br><span class="line">	val valueBytes = resultSer.serialize(value)</span><br><span class="line">	val directResult = <span class="keyword">new</span> DirectTaskResult(valueBytes, accumUpdates)</span><br><span class="line">	val serializedDirectResult = ser.serialize(directResult)</span><br><span class="line">	val serializedResult: ByteBuffer = &#123;...serializedDirectResult...&#125;</span><br><span class="line">	execBackend.statusUpdate(taskId, TaskState.FINISHED, serializedResult)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>基本上到这里，整个执行流程就说完了。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ol>
+<li>SparkContext<br> 1）根据提交的master类型，deploy类型等，生成TaskScheduler、DAGScheduler、 SchedulerBackend<br> 2）解析程序的业务逻辑：数据源 → trans → action<br> 3）触发Action，就到了DAGScheduler </li>
+<li>DAGScheduler<br>1）runJob方法，最终目的就是拆分Stage<br>2）拆分方式是：先提交finalStage，如果尚有父Stage未提交，则会触发拆分。根据shuﬀle来 拆分。<br>3）总的来说，会一直递归，直到最父的Stage提交。最终才会提交finalStage 每次提交Stage，最终就会来到taskScheduler.submitTasks(new TaskSet) </li>
+<li>TaskScheduler<br> 1）将接收到的Stage封装成TaskSet。使用submitTasks(taskSet: TaskSet)提交。<br> 2）将每个Task拿出来，通过TaskDescription.encode(task)序列化，用于网络传输。<br> 3）通过executorData.executorEndpoint.send将任务发往Executor </li>
+<li>Executor<br> 1）receive方法接收发过来的Task。<br> 2）最终的处理逻辑在TaskRunner里。 <pre><code> 2.1）反序列化。task = ser.deserialize 执行func，
+ 2.2）返回结果。val value = Utils.tryWithSafeFinally &#123; task.run() &#125;
+ 2.3）将结果序列化。val serializedResult = serializedDirectResult 将结果发回。execBackend.statusUpdate
+</code></pre>
+</li>
+</ol>
 
-<div id="mobile-nav" class="side-nav sidenav">
-
-    <div class="mobile-head bg-color">
-        
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
-        
-        <div class="logo-name">Ssiu Blog</div>
-        <div class="logo-desc">
-            
-            Never really desperate, only the lost of the soul.
-            
-        </div>
+      
     </div>
 
     
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
-    <ul class="menu-list mobile-menu-list">
-        
-        <li class="m-nav-item">
-	  
-		<a href="/" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-home"></i>
-			
-			首页
-		</a>
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2018/09/30/spark-ren-wu-ti-jiao-liu-cheng/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
           
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/tags" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-tags"></i>
-			
-			标签
-		</a>
+            <a href="/2018/09/30/spark-ren-wu-ti-jiao-liu-cheng/" class="post-title-link" itemprop="url">Spark任务提交流程</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-09-30 22:42:24" itemprop="dateCreated datePublished" datetime="2018-09-30T22:42:24+08:00">2018-09-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-17 23:21:27" itemprop="dateModified" datetime="2020-02-17T23:21:27+08:00">2020-02-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spark/" itemprop="url" rel="index"><span itemprop="name">Spark</span></a>
+                </span>
+            </span>
+
           
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/categories" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bookmark"></i>
-			
-			分类
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/archives" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-archive"></i>
-			
-			归档
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/about" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-user-circle"></i>
-			
-			关于
-		</a>
-          
-        </li>
-        
-        
-    </ul>
-</div>
 
         </div>
-
-        
-    </nav>
-
-</header>
+      </header>
 
     
-    <div class="bg-cover pd-header about-cover">
-    <div class="container">
-    <div class="row">
-    <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
-        <div class="brand">
-            <div class="title center-align">
-                
-                Spark Hadoop Hbase
-                
-            </div>
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
-            <div class="description center-align">
-                
-                <span id="subtitle"></span>
-                <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
-                <script>
-                    var typed = new Typed("#subtitle", {
-                        strings: ['无名小站','无名小站'],
-                        startDelay: 300,
-                        typeSpeed: 100,
-                        loop: true,
-                        backSpeed: 50,
-                        showCursor: true
-                    });
-                </script>
-                
-            </div>
-        </div>
+      
+          <h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h1><p>通过源码，整理了下Spark-submit任务提交-&gt;执行流程。源码中其实有很多保证可靠性的判断代码，这边会将不那么核心的源码略去，所以贴的代码实际与源码会有些许区别。不过源码中的英文注释会保留重要的。<br>任务执行流程会放在另一篇博客。（马上就国庆节了~，连着写两篇）</p>
+<h1 id="Spark-submit提交"><a href="#Spark-submit提交" class="headerlink" title="Spark-submit提交"></a>Spark-submit提交</h1><h2 id="提交入口"><a href="#提交入口" class="headerlink" title="提交入口"></a>提交入口</h2><p>我们通过spark-submit提交我们的任务，所以打开spark-submit这个脚本，跳到最后，可以看到脚本具体调用的类<code>org.apache.spark.deploy.SparkSubmit</code>，<code>“$@”</code>表示所有传入参数</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">disable</span> randomized <span class="built_in">hash</span> <span class="keyword">for</span> string <span class="keyword">in</span> Python 3.3+</span></span><br><span class="line">export PYTHONHASHSEED=0</span><br><span class="line"></span><br><span class="line">exec &quot;$&#123;SPARK_HOME&#125;&quot;/bin/spark-class org.apache.spark.deploy.SparkSubmit &quot;$@&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="提交作业"><a href="#提交作业" class="headerlink" title="提交作业"></a>提交作业</h2><p>1）前往<code>spark.deploy.SparkSubmit</code>,找到<code>main</code>函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * This entry point is used by the launcher library to start in-process Spark applications.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span>[spark] object InProcessSparkSubmit &#123;</span><br><span class="line">  <span class="function">def <span class="title">main</span><span class="params">(args: Array[String])</span>: Unit </span>= &#123;</span><br><span class="line">    val submit = <span class="keyword">new</span> SparkSubmit()</span><br><span class="line">    submit.doSubmit(args)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过注释和源码，我们可以看到这是SparkApp的启动入口，我们的参数会传入submit.doSubmit(args)。</p>
+<h3 id="2）doSubmit"><a href="#2）doSubmit" class="headerlink" title="2）doSubmit"></a>2）doSubmit</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function">def <span class="title">doSubmit</span><span class="params">(args: Array[String])</span>: Unit </span>= &#123;</span><br><span class="line">   <span class="comment">// 初始化日志的一些操作</span></span><br><span class="line">   val uninitLog = initializeLogIfNecessary(<span class="keyword">true</span>, silent = <span class="keyword">true</span>)</span><br><span class="line"><span class="comment">// 解析我们传入的参数。</span></span><br><span class="line">   val appArgs = parseArguments(args)</span><br><span class="line">   <span class="comment">// 判断我们的操作，我们会match上SUBMIT。</span></span><br><span class="line">   appArgs.action match &#123;</span><br><span class="line">     <span class="keyword">case</span> SparkSubmitAction.SUBMIT =&gt; submit(appArgs, uninitLog)</span><br><span class="line">     <span class="keyword">case</span> SparkSubmitAction.KILL =&gt; kill(appArgs)</span><br><span class="line">     <span class="keyword">case</span> SparkSubmitAction.REQUEST_STATUS =&gt; requestStatus(appArgs)</span><br><span class="line">     <span class="keyword">case</span> SparkSubmitAction.PRINT_VERSION =&gt; printVersion()</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">接下来，由于我们是submit操作，理所应到会调用```submit(appArgs, uninitLog)```方法</span><br><span class="line"></span><br><span class="line">### 3）submit(appArgs, uninitLog)</span><br><span class="line">```java</span><br><span class="line">  /**</span><br><span class="line">   * Submit the application using the provided parameters, ensuring to first wrap</span><br><span class="line">   * in a doAs when --proxy-user is specified.</span><br><span class="line">   */</span><br><span class="line">  @tailrec</span><br><span class="line">  private def submit(args: SparkSubmitArguments, uninitLog: Boolean): Unit = &#123;</span><br><span class="line">	</span><br><span class="line">	def doRunMain(): Unit = &#123;...&#125;</span><br><span class="line"></span><br><span class="line">  	// 这边以常用的Yarn/local为例，所以直接进入else。if里的内容暂时省略</span><br><span class="line">    if (args.isStandaloneCluster &amp;&amp; args.useRest) &#123;</span><br><span class="line">      	// 其实主要也是 doRunMain() 方法。不过会有一些其他判断。</span><br><span class="line">      &#125;</span><br><span class="line">    // 对于其他Mode，直接doRunMain</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      doRunMain()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>因为这次以local或yarn模式进行演示，这个地方我们直接就来到了 <code>doRunMain</code>方法。</p>
+<h3 id="4）doRunMain"><a href="#4）doRunMain" class="headerlink" title="4）doRunMain()"></a>4）doRunMain()</h3><p>方法其实也就在这个方法里面。我们把方法具体展开：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">def <span class="title">doRunMain</span><span class="params">()</span>: Unit </span>= &#123;</span><br><span class="line">      <span class="keyword">if</span> (args.proxyUser != <span class="keyword">null</span>) &#123;</span><br><span class="line">        val proxyUser = UserGroupInformation.createProxyUser(args.proxyUser,</span><br><span class="line">          UserGroupInformation.getCurrentUser())</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">          proxyUser.doAs(<span class="keyword">new</span> PrivilegedExceptionAction[Unit]() &#123;</span><br><span class="line">            <span class="function">override def <span class="title">run</span><span class="params">()</span>: Unit </span>= &#123;</span><br><span class="line">              runMain(args, uninitLog)</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;)</span><br><span class="line">        &#125; </span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        runMain(args, uninitLog)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>主要就是判断下<code>args.proxyUser</code>，这个主要是模拟提交应用程序的用户，具体用途参考Spark的参数就好了。</p>
+<h3 id="5）runMain"><a href="#5）runMain" class="headerlink" title="5）runMain()"></a>5）runMain()</h3><p>源码中会有很多判断和log信息，这边删去方便看到核心</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> def <span class="title">runMain</span><span class="params">(args: SparkSubmitArguments, uninitLog: Boolean)</span>: Unit </span>= &#123;</span><br><span class="line">    val (childArgs, childClasspath, sparkConf, childMainClass) = prepareSubmitEnvironment(args)</span><br><span class="line">    </span><br><span class="line">    val loader = Thread.currentThread.getContextClassLoader)</span><br><span class="line">    Thread.currentThread.setContextClassLoader(loader)</span><br><span class="line">    </span><br><span class="line">    addJarToClasspath(jar, loader)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> mainClass: Class[_] = <span class="keyword">null</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      mainClass = Utils.classForName(childMainClass)</span><br><span class="line">    &#125; <span class="keyword">catch</span> &#123;...&#125;</span><br><span class="line"></span><br><span class="line">    val app: SparkApplication = <span class="keyword">if</span> (classOf[SparkApplication].isAssignableFrom(mainClass)) &#123;</span><br><span class="line">      mainClass.newInstance().asInstanceOf[SparkApplication]</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">new</span> JavaMainApplication(mainClass)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      app.start(childArgs.toArray, sparkConf)</span><br><span class="line">    &#125; <span class="keyword">catch</span> &#123;...&#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码其实将jar包、依赖加入<code>Classpath</code>，生成一个<code>SparkApplication</code>。调用<code>app.start</code>，将参数传入，启动app。由于<code>SparkApplication</code>是一个<code>trait</code>，它的具体实现类有三个：</p>
+<ul>
+<li>ClientApp </li>
+<li>RestSubmissionClientApp </li>
+<li>JavaMainApplication</li>
+</ul>
+<p>那么具体是调用哪个呢？我们先进入<code>prepareSubmitEnvironment(args)</code>，这个方法的内容非常多，我们只找我们需要的，通过观察源码，构建Spark Application的关键参数其实是<code>childMainClass</code>，我们现在找这个就行了，这是一个String类型的变量。</p>
+<h3 id="6）prepareSubmitEnvironment"><a href="#6）prepareSubmitEnvironment" class="headerlink" title="6）prepareSubmitEnvironment"></a>6）prepareSubmitEnvironment</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> childMainClass = <span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (deployMode == CLIENT) &#123;</span><br><span class="line">      childMainClass = args.mainClass</span><br><span class="line">	&#125;</span><br><span class="line"><span class="keyword">if</span> (args.isStandaloneCluster) &#123;</span><br><span class="line">      <span class="keyword">if</span> (args.useRest) &#123;</span><br><span class="line">        childMainClass = REST_CLUSTER_SUBMIT_CLASS</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        childMainClass = STANDALONE_CLUSTER_SUBMIT_CLASS</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> (isYarnCluster) &#123;</span><br><span class="line">      childMainClass = YARN_CLUSTER_SUBMIT_CLASS</span><br><span class="line">	&#125;</span><br><span class="line"><span class="comment">// 其他模式暂时省略，有兴趣可以翻阅具体源码</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 上述部分变量的具体值：</span></span><br><span class="line"><span class="keyword">private</span>[deploy] val YARN_CLUSTER_SUBMIT_CLASS =</span><br><span class="line">    <span class="string">&quot;org.apache.spark.deploy.yarn.YarnClusterApplication&quot;</span></span><br><span class="line"><span class="keyword">private</span>[deploy] val REST_CLUSTER_SUBMIT_CLASS = classOf[RestSubmissionClientApp].getName()</span><br><span class="line"><span class="keyword">private</span>[deploy] val STANDALONE_CLUSTER_SUBMIT_CLASS = classOf[ClientApp].getName()</span><br></pre></td></tr></table></figure>
+<p>这下就很清楚了，我们的SparkApplication是在<code>runMain</code>中的这里创建的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">val app: SparkApplication = <span class="keyword">if</span> (classOf[SparkApplication].isAssignableFrom(mainClass)) &#123;</span><br><span class="line">  mainClass.newInstance().asInstanceOf[SparkApplication]</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="keyword">new</span> JavaMainApplication(mainClass)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">而yarn并非SparkApplication的子类，则false进入创建```JavaMainApplication```</span><br><span class="line"></span><br><span class="line">### 7）JavaMainApplication</span><br><span class="line">```java</span><br><span class="line">private[deploy] class JavaMainApplication(klass: Class[_]) extends SparkApplication &#123;</span><br><span class="line"></span><br><span class="line">  override def start(args: Array[String], conf: SparkConf): Unit = &#123;</span><br><span class="line">    val mainMethod = klass.getMethod(&quot;main&quot;, new Array[String](0).getClass)</span><br><span class="line">    val sysProps = conf.getAll.toMap</span><br><span class="line">    sysProps.foreach &#123; case (k, v) =&gt;</span><br><span class="line">      sys.props(k) = v</span><br><span class="line">    &#125;</span><br><span class="line">    mainMethod.invoke(null, args)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最终就是调用<code>mainMethod.invoke(null, args)</code><br>后面就是Java部分的内容了。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>将主要的方法和参数用幕布整理了下。</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217224352.png" alt="Spark任务提交"></p>
+<p>其实提交流程简单来说可以是：</p>
+<ol>
+<li>解析参数。     </li>
+<li>将该添加的内容添加到ClassPath。     </li>
+<li>判断deploy模式。     </li>
+<li>提交任务。</li>
+</ol>
+
+      
     </div>
-</div>
 
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2018/08/05/tong-guo-baserelation-zi-ding-yi-sparksql-shu-ju-yuan/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/08/05/tong-guo-baserelation-zi-ding-yi-sparksql-shu-ju-yuan/" class="post-title-link" itemprop="url">通过BaseRelation自定义SparkSQL数据源</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-08-05 22:38:12" itemprop="dateCreated datePublished" datetime="2018-08-05T22:38:12+08:00">2018-08-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-17 23:21:27" itemprop="dateModified" datetime="2020-02-17T23:21:27+08:00">2020-02-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spark/" itemprop="url" rel="index"><span itemprop="name">Spark</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>使用<code>org.apache.spark.sql.sources.interfaces</code>中的接口可以实现自定义SparkSql数据源。不过对此在官网和相关书籍中没有找到相关信息，使用网上资料实际使用时其实遇到很多坑，特此记录下。<br>本身是用Spark中的源码JdbcRelationProvider作为参考。这部分解析就不写了。<br>本文章主要记录整体流程和使用过程中遇到的问题。</p>
+<blockquote>
+<p>Spark版本：spark2.1.1</p>
+</blockquote>
+<h1 id="DefaultSource类"><a href="#DefaultSource类" class="headerlink" title="DefaultSource类"></a>DefaultSource类</h1><p>实现自定义数据源，第一步是新建一个名为<code>DefaultSource</code>的类，并需要实现一些Trait，其中<code>RelationProvider</code>是必须实现的。</p>
+<h2 id="实现RelationProvider"><a href="#实现RelationProvider" class="headerlink" title="实现RelationProvider"></a>实现RelationProvider</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DefaultSource</span> <span class="keyword">extends</span> <span class="title">RelationProvider</span></span>&#123;...&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>1）DefaultSource必须一字不差。除非我们在META-INFO中注册。<br>2）必须实现RelationProvider接口。<br>3）其他常用接口：SchemaRelationProvider、DataSourceRegister。</p>
+</blockquote>
+<h2 id="实现SchemaRelationProvider（Optional）"><a href="#实现SchemaRelationProvider（Optional）" class="headerlink" title="实现SchemaRelationProvider（Optional）"></a>实现SchemaRelationProvider（Optional）</h2><p>实际使用的时候，为了方便，我们还会实现SchemaRelationProvider。<br>所以常见构造其实是这样：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DefaultSource</span> <span class="keyword">extends</span> <span class="title">RelationProvider</span> <span class="title">with</span> <span class="title">SchemaRelationProvider</span></span>&#123;</span><br><span class="line">	<span class="comment">// RelationProvider </span></span><br><span class="line">	<span class="function">override def <span class="title">createRelation</span><span class="params">(sqlContext:SQLContext,parameters:Map[String,String])</span>:BaseRelation</span>=&#123;...&#125;</span><br><span class="line">	<span class="comment">// SchemaRelationProvider</span></span><br><span class="line">	<span class="function">override def <span class="title">createRelation</span><span class="params">(sqlContext:SQLContext,parameters:Map[String,String],schema:StructType)</span>:BaseRelation</span>=&#123;...&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>两个Provider会提供同名的方法，不过通过SchemaRelationProvider我们能够轻松的拿到用户想要传入的Schema信息。parameters则是用户在<code>.option</code>传入的一些映射数据。</p>
+<h2 id="实现DataSourceRegister（Optional）"><a href="#实现DataSourceRegister（Optional）" class="headerlink" title="实现DataSourceRegister（Optional）"></a>实现DataSourceRegister（Optional）</h2><p>如果没有实现DataSourceRegister，我们使用时就必须要写完整包名，并且<strong>类名只能为DefaultSource</strong>。该Trait只有一个方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">override def <span class="title">shortName</span><span class="params">()</span>:String </span>= <span class="string">&quot;yourName&quot;</span></span><br></pre></td></tr></table></figure>
+<p>系统自带的数据源，比如说jdbc，csv等，都是通过这个方法定义的。不过，实现这个方法还不能被系统识别，我们需要在META-INFO中进行注册，具体位置：<code>spark/sql/core/src/main/resources/META-INF/services/org.apache.spark.sql.sources.DataSourceRegister</code>：<br><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/win/20200217223839.png" alt="包位置"></p>
+<h2 id="附：source的名字在哪检测？"><a href="#附：source的名字在哪检测？" class="headerlink" title="附：source的名字在哪检测？"></a>附：source的名字在哪检测？</h2><p>debug源码，可以很清楚的看到整个逻辑：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">/** Given a provider name, look up the data source class definition. */</span></span><br><span class="line"> <span class="function">def <span class="title">lookupDataSource</span><span class="params">(provider: String, conf: SQLConf)</span>: Class[_] </span>= &#123;</span><br><span class="line">   val provider1 = backwardCompatibilityMap.getOrElse(provider, provider) match &#123;...&#125;</span><br><span class="line">   <span class="comment">// DefaultSource的由来</span></span><br><span class="line">   val provider2 = s<span class="string">&quot;$provider1.DefaultSource&quot;</span></span><br><span class="line">   val loader = Utils.getContextOrSparkClassLoader</span><br><span class="line">   val serviceLoader = ServiceLoader.load(classOf[DataSourceRegister], loader)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这边会进行查找，先回找别称，没找到就会去找xxx.DefaultSource</span></span><br><span class="line">   <span class="keyword">try</span> &#123;</span><br><span class="line">     serviceLoader.asScala.filter(_.shortName().equalsIgnoreCase(provider1)).toList match &#123;</span><br><span class="line">       <span class="comment">// the provider format did not match any given registered aliases</span></span><br><span class="line">       <span class="keyword">case</span> Nil =&gt;</span><br><span class="line">         <span class="keyword">try</span> &#123;</span><br><span class="line">           Try(loader.loadClass(provider1)).orElse(Try(loader.loadClass(provider2))) match &#123;</span><br></pre></td></tr></table></figure>
+<p>provider就是我们<code>.format(&quot;xxx&quot;)</code>传入的xxx<br>系统首先会先去找别称，没找到再去补充找全称。</p>
+<h1 id="Relation"><a href="#Relation" class="headerlink" title="Relation"></a>Relation</h1><p>观察DefaultSource，可以发现其需要返回BaseRelation，这是一个抽象类，所以我们第二步就是实现它。这个类倒是没有什么命名要求。</p>
+<h2 id="继承BaseRelation"><a href="#继承BaseRelation" class="headerlink" title="继承BaseRelation"></a>继承BaseRelation</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ETLRelation</span>(...) <span class="keyword">extends</span> <span class="title">BaseRelation</span></span>&#123;</span><br><span class="line">	override def schema:StructType=&#123;...&#125;</span><br><span class="line">	override def sqlContext:SQLContext=&#123;...&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>继承该类，需要实现两个方法，即拿到schema和sqlContext。这个时候观察DefaultSource，schema和sqlContext其实可以传进来。所以这部分其实常常为这个样子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ETLRelation</span>(<span class="title">userSchema</span>:<span class="title">StructType</span>)(<span class="title">override</span> <span class="title">val</span> <span class="title">sqlContext</span>:<span class="title">SQLContext</span>) <span class="keyword">extends</span> <span class="title">BaseRelation</span></span>&#123;</span><br><span class="line">	override def schema:StructType=&#123;</span><br><span class="line">		<span class="keyword">if</span>(userSchema==<span class="keyword">null</span>)&#123;</span><br><span class="line">			userSchema</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="comment">//TODO.. StructType(StructField()::Nil)</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这边会给schema设置一个默认值，当然也可以不设，仿照sqlContext的写法就好了。为了方便使用，我一般会将override的参数与一般参数分开放。构造体中我们可以传入其他需要的参数。<br>Relation的框已经搭起来了，下一步就是实现读取功能了。</p>
+<h2 id="TableScan"><a href="#TableScan" class="headerlink" title="TableScan"></a>TableScan</h2><p>Spark提供了几种Trait供使用：<br>| trait              | 用途                                                         |<br>| :—————– | :———————————————————– |<br>| TableScan          | 将所有列进行读入                                             |<br>| PrunedScan         | 不需要的列不会从外部数据源加载。                             |<br>| PrunedFilteredScan | 在PrunedScan的基础上，并且加入Filter，在加载数据也的时候就进行过滤 |<br>| CatalystScan       | Catalyst的支持传入expressions来进行Scan。支持列裁剪和Filter。 |<br>三个Trait均有一个同名方法：buildScan</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">trait TableScan &#123;</span><br><span class="line">  <span class="function">def <span class="title">buildScan</span><span class="params">()</span>: RDD[Row]</span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function">trait PrunedScan </span>&#123;</span><br><span class="line">  <span class="function">def <span class="title">buildScan</span><span class="params">(requiredColumns: Array[String])</span>: RDD[Row]</span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function">trait PrunedFilteredScan </span>&#123;</span><br><span class="line">  <span class="function">def <span class="title">buildScan</span><span class="params">(requiredColumns: Array[String], filters: Array[Filter])</span>: RDD[Row]</span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function">trait CatalystScan </span>&#123;</span><br><span class="line">  <span class="function">def <span class="title">buildScan</span><span class="params">(requiredColumns: Seq[Attribute], filters: Seq[Expression])</span>: RDD[Row]</span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>requiredColumns与filters两个参数是在我们操作DataFrame时传入的，如使用filter算子时。以PrunedFilteredScan 为例，实现这个Trait的好处时Spark能够将我们的filter和select实现下压操作。这样我们就无需将所有数据都读进来供后面的运算了。</p>
+<blockquote>
+<p>不实现PrunedFilteredScan我们仍然能够使用filter、select等算子，只是不支持下压操作。</p>
+</blockquote>
+<p>本文就以实现TableScan 为例继续：（假设我们需要读取一个文件）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">myRelation</span>(<span class="title">schema</span>:<span class="title">StructType</span>,<span class="title">parameters</span>:<span class="title">Map</span>[<span class="title">String</span>,<span class="title">String</span>])(<span class="title">override</span> <span class="title">val</span> <span class="title">sqlContext</span>:<span class="title">SQLContext</span>)</span></span><br><span class="line"><span class="class">	<span class="keyword">extends</span> <span class="title">BaseRelation</span> <span class="title">with</span> <span class="title">TableScan</span> <span class="title">with</span> <span class="title">Loggin</span></span>&#123;</span><br><span class="line">	<span class="function">override def <span class="title">builScan</span><span class="params">()</span>:RDD[Row]</span>=&#123;</span><br><span class="line">		val triedGetPath = Try(parameters.get(<span class="string">&quot;path&quot;</span>))</span><br><span class="line">		val path = triedGetPath match &#123;</span><br><span class="line">			<span class="function"><span class="keyword">case</span> <span class="title">Failure</span><span class="params">(exception)</span> </span>=&gt; logError(<span class="string">&quot;Path must set&quot;</span>);sys.exit(<span class="number">1</span>)<span class="comment">//TODO..</span></span><br><span class="line">			<span class="function"><span class="keyword">case</span> <span class="title">Success</span><span class="params">(value)</span> </span>=&gt; value.get</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// rdd是Tuple类型，(文件地址,文件内容)。</span></span><br><span class="line">		val rdd = sqlContext.sparkContext.wholeTextFiles(path)</span><br><span class="line">		<span class="comment">// 我们只需要文件内容，先分行，再拆分出单词。</span></span><br><span class="line">		val res = rdd.map(_._2)</span><br><span class="line">			.flatMap(_.split(<span class="string">&quot;\n&quot;</span>))</span><br><span class="line">			.map(_.split(<span class="string">&quot;\t&quot;</span>).toSeq)</span><br><span class="line">		<span class="comment">// 构成Row类型，并返回。注意要和Schema对应上。</span></span><br><span class="line">		res.map(Row.fromSeq(_))</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为节省页面，上面代码只有builScan这个函数。<br>其实我们就是将rdd的处理进行了一层封装。返回SparkSql能够识别的数据。 所以其他Rdd的操作在这里都是允许的，我们需要按照需求选取即可</p>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val session = SparkSession.builder().....</span><br><span class="line">val df = session.read.format(<span class="string">&quot;com.bigdata.csdn&quot;</span>).option(<span class="string">&quot;path&quot;</span>,<span class="string">&quot;xxx&quot;</span>).load</span><br><span class="line">df.show</span><br><span class="line">session.stop()</span><br></pre></td></tr></table></figure>
+<p>format里需要写DefaultSource所在的包名。系统会自动加上DefaultSource。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2018/07/01/scala-zhong-de-option-try-either-lei-xing-jian-jie/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/01/scala-zhong-de-option-try-either-lei-xing-jian-jie/" class="post-title-link" itemprop="url">Scala中的Option、Try、Either类型简介</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-07-01 12:40:21" itemprop="dateCreated datePublished" datetime="2018-07-01T12:40:21+08:00">2018-07-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-17 23:21:27" itemprop="dateModified" datetime="2020-02-17T23:21:27+08:00">2020-02-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Scala/" itemprop="url" rel="index"><span itemprop="name">Scala</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Scala中的异常处理"><a href="#Scala中的异常处理" class="headerlink" title="Scala中的异常处理"></a>Scala中的异常处理</h2><p>Scala提供了许多选择来处理异常的数据。总的来说，三种类型解决三个方面的问题：</p>
+<ul>
+<li><p>Option：Null或空指针问题。</p>
+</li>
+<li><p>Try：运行时函数抛出异常的问题。</p>
+</li>
+<li><p>Either：返回值不确定的问题</p>
+<blockquote>
+<p>Scala版本：2.11.x</p>
+</blockquote>
+<h2 id="Option-Some-None："><a href="#Option-Some-None：" class="headerlink" title="Option/Some/None："></a>Option/Some/None：</h2><p>Option类型其实包含有三类：Option、Some、None。其中Some和None都是继承自Option。</p>
+</li>
+<li><p>Some：返回有效数据。</p>
+</li>
+<li><p>None：返回无效数据（或空值）。</p>
+</li>
+</ul>
+<h3 id="使用Option"><a href="#使用Option" class="headerlink" title="使用Option"></a>使用Option</h3><p>定义一个拥有Option类型的函数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">def <span class="title">validateName</span><span class="params">(name: String)</span>: Option[String] </span>= &#123;</span><br><span class="line">	<span class="keyword">if</span> (name.isEmpty) <span class="function">None</span></span><br><span class="line"><span class="function">	<span class="keyword">else</span> <span class="title">Some</span><span class="params">(name)</span></span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>当input为空时，会返回None类型。否则返回Some类型。对于Some，通过get就能够拿到value。<br>Option主要用来处理Null值。通过getOrElse方法可以避免一些异常。</p>
+<h2 id="Try-Success-Failure"><a href="#Try-Success-Failure" class="headerlink" title="Try/Success/Failure"></a>Try/Success/Failure</h2><p>在java中，对于可能会出现Exception的情况。我们可以选择try-catch来包裹。在Scala中，Try类型会让代码看上去更加优雅。<br>我们定义一个方法，用Try来对toInt进行包装，避免转换出现异常。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">def <span class="title">parseInt</span><span class="params">(value: String)</span>: Try[Int] </span>= Try(value.toInt)</span><br><span class="line"></span><br><span class="line"><span class="comment">//模式匹配</span></span><br><span class="line">val list = List(<span class="string">&quot;a&quot;</span>,<span class="string">&quot;b&quot;</span>,<span class="string">&quot;1&quot;</span>,<span class="string">&quot;2&quot;</span>)</span><br><span class="line">    list.map(parseInt).foreach &#123;</span><br><span class="line">      <span class="function"><span class="keyword">case</span> <span class="title">Failure</span><span class="params">(exception)</span> </span>=&gt; println(exception)</span><br><span class="line">      <span class="function"><span class="keyword">case</span> <span class="title">Success</span><span class="params">(value)</span> </span>=&gt; println(value)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">// isSuccess、isFailure</span></span><br><span class="line">list.map(parseInt).foreach(x=&gt;&#123;</span><br><span class="line">      <span class="keyword">if</span>(x.isSuccess) println(x.get)</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+<p>我们可以通过模式匹配来判断Try的结果，并对应处理。也可以通过isSuccess、isFailure来进行判断。<br>使用逻辑上适合try-catch是差不多的。<br>注意：</p>
+<blockquote>
+<p>1）Try可以调用toOption方法转换成Option类型。isFailure会转换成None。<br>2）recover，recoverWith，transform可以让你优雅地处理Success和Failure的结果。</p>
+</blockquote>
+<h3 id="故障恢复"><a href="#故障恢复" class="headerlink" title="故障恢复"></a>故障恢复</h3><p>利用recover，recoverWith方法，能够帮助我们取处理异常，并从故障中恢复。<br>以recover为例，其接收一个偏函数，返回一个新的Try[U]</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">def recover[U &gt;: T](f: PartialFunction[Throwable, U]): Try[U]</span><br></pre></td></tr></table></figure>
+<p>我们可以将上面的代码改造一下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">list.map(parseInt).foreach(x=&gt;&#123;</span><br><span class="line">      val triedInt = x.recover &#123;<span class="keyword">case</span> e:NumberFormatException=&gt; <span class="number">0</span> &#125;</span><br><span class="line">      println(triedInt)</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+<p>这样，我们可以对异常进行匹配，并进行对应的处理，并返回一个新的Try类型</p>
+<h2 id="Either-Left-Right"><a href="#Either-Left-Right" class="headerlink" title="Either/Left/Right"></a>Either/Left/Right</h2><p>有时候，我们需要在函数中返回两种不同类型的值，Either就派上了用场。Left和Right代表了两种不同的类型。<br>如果 Either[A, B] 对象包含的是 A 的实例，那它就是 Left 实例，B则是 Right 实例。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">def <span class="title">validateName</span><span class="params">(name: String)</span>: Either[Int, String] </span>= &#123;</span><br><span class="line"><span class="keyword">if</span> (name.isEmpty) Left(<span class="number">0</span>)</span><br><span class="line"><span class="keyword">else</span> Right(name)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>后续我们可以通过模式匹配来获取结果。</p>
+<h3 id="Projection"><a href="#Projection" class="headerlink" title="Projection"></a>Projection</h3><p>注意：Either是无偏向的，我们在使用Try时，能够直接使用map算子，默认情况下map会只对Success进行处理，并忽略Failure。但Either不一样。<br>对于Either对象，我们能够调用left、right方法拿到LeftProjection 或 RightProjection实例。并在之后进行map操作：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">validateName(&quot;&quot;).left.map(_ + 1).left.get</span><br></pre></td></tr></table></figure>
+<p>这样，我们可以将left的数据进行+1处理，right的数据则不进行处理。需要注意，map返回的时一个Either类型，而不是leftProjection。</p>
+<blockquote>
+<p>例中get的使用其实是有问题的，当left没有数据时，get会报错。如果确实需要get值，建议使用getOrElse。</p>
+</blockquote>
+<h2 id="如何选择："><a href="#如何选择：" class="headerlink" title="如何选择："></a>如何选择：</h2><ol>
+<li>Option[T]：当值不存在或者某些验证可能失败，并且你不关心为什么失败是。</li>
+<li>Try[T]：当无法在函数中处理异常时可以选择使用Try。</li>
+<li>Either[L,R]：当前两种都无法满足你的需求时。</li>
+</ol>
+<hr>
+<p>参考：<a target="_blank" rel="noopener" href="https://xebia.com/blog/try-option-or-either/">Try, Option or Either?</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2018/06/16/shuffle-in-spark/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/06/16/shuffle-in-spark/" class="post-title-link" itemprop="url">Shuffle in Spark</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-06-16 11:29:31" itemprop="dateCreated datePublished" datetime="2018-06-16T11:29:31+08:00">2018-06-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-18 11:10:30" itemprop="dateModified" datetime="2020-02-18T11:10:30+08:00">2020-02-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spark/" itemprop="url" rel="index"><span itemprop="name">Spark</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="什么是Shuffle"><a href="#什么是Shuffle" class="headerlink" title="什么是Shuffle"></a>什么是Shuffle</h1><p>Shuffle简单来说就是将同一特征的数据经过网络/磁盘IO，分别分发聚集到各自的Executor上，因为这个过程涉及着数据的落地，传输。自然是费性能的。<br>在Spark中，负责shuffle过程的执行、计算和处理的组件主要就是ShuffleManager，也即shuffle管理器。新版本的spark，已经移除了HashShuffleManager。但仍然需要了解。Shuffle整体可调整的内容有限。<br>虽然很多文章总说要尽量避免shuffle，但shuffle很多时候是不可避免的。目前比较好的解决办法是SMB-Join，但这个是从存储角度出发的解决方案，且有很多的局限性。其实SMB-Join的就是在理解Shuffle上实现的。MapJoin其实本质上也是在理解Shuffle上实现的，所以理解Shuffle很重要。</p>
+<h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><p>Shuffle总体可以分为Write和Read两个阶段：</p>
+<ol>
+<li>Write：即MapTask将数据写出。<br> Write数据会优先写入内存中，达到阈值后再溢写到文件内。</li>
+<li>Read：即ReduceTask将数据读入。<br> Reduce会去读MapTask写出的文件，只读自己需要的Key的数据。<br> ReduceTask也会有自己的read buffer缓冲，但理解上没啥难度，通过参数调整大小即可。</li>
+</ol>
+<blockquote>
+<p>本文基于Spark 2.2.x</p>
+</blockquote>
+<h1 id="HashShuffleManager（2-0后已弃用）"><a href="#HashShuffleManager（2-0后已弃用）" class="headerlink" title="HashShuffleManager（2.0后已弃用）"></a>HashShuffleManager（2.0后已弃用）</h1><p>相比于MapReduce中的shuffle，Spark的第一版本Shuffle是不存在排序过程的，Spark认为减少排序这一过程能够提高性能。但HashShuffle最后之所以被弃用，主要还是在shuffle过程中会产生大量磁盘中间文件，导致大量的磁盘IO操作，影响性能。<br>尽管已经弃用，但理解HashShuffle能够帮助去理解新的shuffleManager。<br>HashShuffle整个生命流程有两个阶段，本文简称未经优化V1，和优化后V2版本。</p>
+<ol>
+<li>未经优化：</li>
+</ol>
+<p>Shuffle的MapTask会根据ReduceTask的数量，生成等量的文件，这也是为什么HashShuffle的文件数异常的多。<br>即可能会产生M * R个文件（MapTask数量 * ReduceTask数量）<br>具体逻辑见图：</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1581825369515.png" alt="HashShuffle"></p>
+<ol start="2">
+<li>优化后：</li>
+</ol>
+<p>针对上一个版本的问题，HashShuffle进行了一层优化：<br>    同一个Core的连续任务会将文件写入到一个FileGroup中：仍然是一个reduceTask对应一个文件，不过在一个Core中连续执行的MapTask会共用这些文件，而非单独生成。<br>即会产生 Core * R 个文件。<br>具体逻辑看图：</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1581825492345.png" alt="优化后的HashShuffle"></p>
+<h1 id="SortShuffleManager（1-2后默认）"><a href="#SortShuffleManager（1-2后默认）" class="headerlink" title="SortShuffleManager（1.2后默认）"></a>SortShuffleManager（1.2后默认）</h1><p>SortShuffle是参考MapReduce的Shuffle原理设计的，正如名字，会有Sort这一过程。SortShuffle会有3类，不过后两类其实都是在特殊条件下触发的，通过舍弃/修改一些基础步骤，从而得到更好的性能，所以重点还是理解第一类。</p>
+<h2 id="普通"><a href="#普通" class="headerlink" title="普通"></a>普通</h2><p>SortShuffle通过index解决了中间文件过多的问题，也正因为这样所以才需要排序。具体实现逻辑如图：</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1581825966812.png" alt="SortShuffle"></p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1581826998269.png" alt="SortShuffle"></p>
+<p>具体步骤：</p>
+<ol>
+<li>写入内存前：</li>
+</ol>
+<p>Spark根据不同Shuffle算子，可能会选用不同的数据结构：</p>
+<table>
+<thead>
+<tr>
+<th>算子</th>
+<th>数据结构</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Reduce等预聚合</td>
+<td>Map数据结构，一边通过Map进行聚合，一边写入内存</td>
+</tr>
+<tr>
+<td>Shuffle等普通</td>
+<td>Array数据结构，直接写入内存。</td>
+</tr>
+<tr>
+<td>（GroupByKey没有Map预聚合，应该算第二类）</td>
+<td></td>
+</tr>
+</tbody></table>
+<ol start="2">
+<li>写入磁盘文件前：</li>
+</ol>
+<p>内存数据达到阈值后，Spark会先进行排序，然后通过BufferedOutputStream，通过缓冲Buffer，分批写入到文件中。<br>即这个阶段会发送多次溢写操作，产生多个临时文件。由于有数据的落地，也伴随着这序列化/反序列化。</p>
+<ol start="3">
+<li>合并文件：</li>
+</ol>
+<p>上一步产生的磁盘文件会进行合并。并生成一个索引文件表示key的offset。</p>
+<ol start="4">
+<li>索引文件：</li>
+</ol>
+<p>因为所有的Key都放在了一个文件中，所以会为合并的文件生成一个索引文件。<br>标识了下游各个task的数据在文件中的start offset与end offset。（主要包含的就是一个Tuple3（partition， offset, length），其中partition就指定了这个segment数据片段属于哪一个下游的reduceTask，offset和length决定这个segment数据数据内容是哪些。）</p>
+<p>最终会产生2 * M个文件。</p>
+<h2 id="Bypass"><a href="#Bypass" class="headerlink" title="Bypass"></a>Bypass</h2><p>Bypass会在满足触发条件后自动触发，具有更快的Shuffle速度。</p>
+<ol>
+<li>shuffle map task数量小于<code>spark.shuffle.sort.bypassMergeThreshold</code>参数的值。</li>
+<li>非Map端聚合类的shuffle算子（比如join）</li>
+</ol>
+<blockquote>
+<ol>
+<li>no map-side combine is specified</li>
+<li>the number of partitions is less than or equal to spark.shuffle.sort.bypassMergeThreshold</li>
+</ol>
+</blockquote>
+<p> 其实Bypass机制可以理解为加速非map聚合shuffle算子的shuffle速度，所以我们主要关注的还是<code>spark.shuffle.sort.bypassMergeThreshold</code>参数的值。</p>
+<p>Bypass的逻辑如图所示：</p>
+<p><img src="https://my-blog-1259467560.cos.ap-chengdu.myqcloud.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1581826653584.png" alt="Bypass"></p>
+<p>很明显，相比于普通的：</p>
+<ol>
+<li>少了一个排序过程。这也是为什么比较快的地方。</li>
+</ol>
+<blockquote>
+<p>Sorting is slower than hashing. It might worth tuning the bypassMergeThreshold parameter for your own cluster to find a sweet spot, but in general for most of the clusters it is even too high with its default</p>
+</blockquote>
+<ol start="2">
+<li>那么Bypass的Index文件是如何产生的呢？其实数据按key进行hash然后根据key的hash值，将key写入对应的磁盘文件之中。</li>
+</ol>
+<h2 id="Unsafe-Shuffle-or-Tungsten-Sort"><a href="#Unsafe-Shuffle-or-Tungsten-Sort" class="headerlink" title="Unsafe Shuffle or Tungsten Sort"></a>Unsafe Shuffle or Tungsten Sort</h2><p>Spark 1.4.0+，Spark启动了TungstenSort，即钨丝计划。具体参见：<a target="_blank" rel="noopener" href="https://issues.apache.org/jira/browse/SPARK-7081">SPARK-7081</a>、<a target="_blank" rel="noopener" href="https://issues.apache.org/jira/browse/SPARK-7075">SPARK-7075</a>。</p>
+<p>Spark 1.6.0+ Tungsten-sort并入Sort Based Shuffle,由SortShuffleManager自动判断选择最佳Shuffle方式，如果检测到满足Tungsten-sort条件会自动采用Tungsten-sort Based Shuffle。</p>
+<p>简单来讲，Tungsten Sort带来了如下优化点：</p>
+<blockquote>
+<ol>
+<li>Operate directly on serialized binary data without the need to deserialize it. It uses unsafe (sun.misc.Unsafe) memory copy functions to directly copy the data itself, which works fine for serialized data as in fact it is just a byte array.</li>
+<li>Uses special cache-efficient sorter ShuffleExternalSorter that sorts arrays of compressed record pointers and partition ids. By using only 8 bytes of space per record in the sorting array, it works more efficienly with CPU cache.</li>
+<li>As the records are not deserialized, spilling of the serialized data is performed directly (no deserialize-compare-serialize-spill logic)</li>
+</ol>
+</blockquote>
+<p>翻译概括以下：</p>
+<blockquote>
+<ol>
+<li>将数据记录用二进制的方式存储，直接在序列化的二进制数据上sort而不是反序列化为java 对象，这样一方面可以减少memory的使用和GC的开销，另一方面避免shuffle过程中频繁的序列化以及反序列化。</li>
+<li>在排序过程中，它提供cache-efficient sorter —— <a target="_blank" rel="noopener" href="https://github.com/apache/spark/blob/master/core/src/main/java/org/apache/spark/shuffle/sort/ShuffleExternalSorter.java">ShuffleExternalSorter</a>，使用一个8 bytes的指针，把排序转化成了一个指针数组的排序，极大的优化了排序性能。</li>
+</ol>
+</blockquote>
+<p>开启条件：</p>
+<blockquote>
+<ol>
+<li>The shuffle dependency specifies no aggregation or output ordering.</li>
+<li>The shuffle serializer supports relocation of serialized values (this is currently supported<br>by KryoSerializer and Spark SQL’s custom serializers).</li>
+<li>The shuffle produces fewer than 16777216 output partitions.</li>
+<li>No individual record is larger than 128 MB when serialized.</li>
+</ol>
+</blockquote>
+<ol>
+<li>shuffle阶段不能有aggregate操作。</li>
+<li>shuffle的produce输出需要少于16777216 分区。</li>
+<li>序列化时。单条记录小于128 MB。</li>
+<li>能够移动数据的序列化器，如使用Kryo序列化器。</li>
+</ol>
+<h1 id="三种sortShuffle的判定顺序"><a href="#三种sortShuffle的判定顺序" class="headerlink" title="三种sortShuffle的判定顺序"></a>三种sortShuffle的判定顺序</h1><p>观察源码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">if (SortShuffleWriter.shouldBypassMergeSort(conf, dependency)) &#123;</span><br><span class="line">...</span><br><span class="line">      new BypassMergeSortShuffleHandle[K, V](</span><br><span class="line">        shuffleId, numMaps, dependency.asInstanceOf[ShuffleDependency[K, V, V]])</span><br><span class="line">    &#125; else if (SortShuffleManager.canUseSerializedShuffle(dependency)) &#123;</span><br><span class="line">...</span><br><span class="line">      new SerializedShuffleHandle[K, V](</span><br><span class="line">        shuffleId, numMaps, dependency.asInstanceOf[ShuffleDependency[K, V, V]])</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">...</span><br><span class="line">      new BaseShuffleHandle(shuffleId, numMaps, dependency)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，目前Spark主要的shuffle有三种方式组成，并且判定的<strong>先后顺序</strong>：BypassMergeSortShuffle，SerializedShuffle(Tungsten)，BaseShuffle(SortShuffle)。在使用非map端聚合算子且无需排序时，尽量能够满足触发前两者的条件，这能够带来一些性能提升。</p>
+<h1 id="常见参数："><a href="#常见参数：" class="headerlink" title="常见参数："></a>常见参数：</h1><ol>
+<li><p>spark.shuffle.file.buffer<br>默认值：32k<br>即MapTask输出内存的大小。增加会占用Execution内存，但能够减少溢写次数。</p>
+</li>
+<li><p>spark.shuffle.sort.bypassMergeThreshold<br>默认值：200<br>Bypass触发的条件，当使用非map聚合算子，且reduce的分区数小于该值时触发。</p>
+</li>
+<li><p>spark.reducer.maxSizeInFlight<br>默认值：48m<br>reduce端的缓冲大小，调大该参数，增加会占用Execution内存，但能够减少拉取次数。</p>
+</li>
+</ol>
+<hr>
+<p>参考文章：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://0x0fff.com/spark-architecture-shuffle/">Spark Architecture: Shuffle</a></li>
+<li><a target="_blank" rel="noopener" href="https://databricks.com/blog/2015/04/28/project-tungsten-bringing-spark-closer-to-bare-metal.html">Project Tungsten: Bringing Apache Spark Closer to Bare Metal</a></li>
+<li><a target="_blank" rel="noopener" href="https://issues.apache.org/jira/browse/SPARK-7075">SPARK-7075</a></li>
+<li><a target="_blank" rel="noopener" href="https://issues.apache.org/jira/browse/SPARK-7081">SPARK-7081</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/apache/spark/blob/master/core/src/main/scala/org/apache/spark/shuffle/sort/SortShuffleManager.scala">SortShuffleManager</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.iteblog.com/archives/1672.html">Spark性能优化：shuffle调优</a></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
 
 <script>
-    // 每天切换 banner 图.  Switch banner image every day.
-    $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay() + '.jpg)');
-</script>
-
-
-    </div>
-</div>
-
-
-<main class="content">
-
-    
-
-    
-
-    <!-- 所有文章卡片 -->
-    <article id="articles" class="container articles">
-        <div class="row article-row">
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2017/07/07/kafka-server-stop-xian-shi-no-kafka-server-to-stop-de-jie-jue-ban-fa/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="kafka-server-stop显示No kafka server to stop的解决办法">
-                            
-                            <span class="card-title">kafka-server-stop显示No kafka server to stop的解决办法</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                我们想通过kafka-server-stop.sh友好的关闭kafka时，一般会出现：No kafka server to stop。如图：
-
-其实原因很简单，脚本没有找到kafka的PID。解决方案：修改kafka-server-stop
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2017-07-07
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Kafka/" class="post-category">
-                                    Kafka
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Kafka/">
-                            <span class="chip bg-color">Kafka</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2017/06/14/shi-yong-yin-shi-zhuan-huan-wei-spark-rdd-tian-jia-jian-dan-de-suan-zi/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="使用隐式转换为Spark-RDD添加简单的算子">
-                            
-                            <span class="card-title">使用隐式转换为Spark-RDD添加简单的算子</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                干啥用的RDD已经提供了非常多的算子供使用，不过人有时候就是想偷懒，或者有些新想法。比如说我想快速的输出rdd的前x个元素（就像DataFrame中的show一样）利用scala的隐式转换，我们可以对RDD进行一些简单的扩展，将一些常用的操
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2017-06-14
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Spark/" class="post-category">
-                                    Spark
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Scala/">
-                            <span class="chip bg-color">Scala</span>
-                        </a>
-                        
-                        <a href="/tags/Spark/">
-                            <span class="chip bg-color">Spark</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2017/02/14/hadoop-fs-ls-xiang-guan-shi-yong-wen-ti-de-ji-lu/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="hadoop fs -ls 相关使用问题的记录">
-                            
-                            <span class="card-title">hadoop fs -ls 相关使用问题的记录</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                hadoop fs -ls 相关使用问题记录新人新学，如有错误，烦请提出指正。
-1）直接使用：hadoop fs -ls正确的使用方式是：
-hadoop fs [-ls [-d] [-h] [-R] [&lt;path&gt; ...]]如
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2017-02-14
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Hadoop/" class="post-category">
-                                    Hadoop
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Hadoop/">
-                            <span class="chip bg-color">Hadoop</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2017/02/10/yarn-gong-zuo-liu-cheng/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="Yarn工作流程(Spark cluster)">
-                            
-                            <span class="card-title">Yarn工作流程(Spark cluster)</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                
-
-客户端向yarn提交作业，yarn会启动ApplicationsManager。
-RM为作业分配NM，启动ApplicationMaster（AM）
-AM向ApplicationManager注册，并向ResourceScheduler
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2017-02-10
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Hadoop/" class="post-category">
-                                    Hadoop
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Hadoop/">
-                            <span class="chip bg-color">Hadoop</span>
-                        </a>
-                        
-                        <a href="/tags/Spark/">
-                            <span class="chip bg-color">Spark</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-        </div>
-    </article>
-
-</main>
-
-
-<div class="container paging">
-    <div class="row">
-        <div class="col s6 m4 l4">
-            
-            <a href="/page/8/"
-               class="left btn-floating btn-large waves-effect waves-light bg-color">
-                <i class="fas fa-angle-left"></i>
-            </a>
-            
-        </div>
-        <div class="page-info col m4 l4 hide-on-small-only">
-            <div class="center-align b-text-gray">9 / 9</div>
-        </div>
-        <div class="col s6 m4 l4">
-            
-            <a class="right btn-floating btn-large disabled">
-                <i class="fas fa-angle-right"></i>
-            </a>
-            
-        </div>
-    </div>
-</div>
-
-
-
-
-    <footer class="page-footer bg-color">
-    <div class="container row center-align" style="margin-bottom: 0px !important;">
-        <div class="col s12 m8 l8 copy-right">
-            Copyright&nbsp;&copy;
-            <span id="year">2017-2020</span>
-            <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
-            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
-            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
-            <br>
-            
-            
-            
-            
-            
-            
-            <span id="busuanzi_container_site_pv" style="display:none">
-                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
-                    class="white-color"></span>&nbsp;次
-            </span>
-            
-            
-            <span id="busuanzi_container_site_uv" style="display:none">
-                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
-                    class="white-color"></span>&nbsp;人
-            </span>
-            
-            
-        </div>
-        <div class="col s12 m4 l4 social-link social-statis">
-
-
-    <a href="mailto:smokeriu@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
-        <i class="fas fa-envelope-open"></i>
-    </a>
-
-
-
-
-
-
-
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=604522169" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 604522169" data-position="top" data-delay="50">
-        <i class="fab fa-qq"></i>
-    </a>
-
-
-
-
-
-
-
-</div>
-    </div>
-</footer>
-
-<div class="progress-bar"></div>
-
-<script language=javascript>
-    function siteTime() {
-        window.setTimeout("siteTime()", 1000);
-        var seconds = 1000;
-        var minutes = seconds * 60;
-        var hours = minutes * 60;
-        var days = hours * 24;
-	var months = days * 30;
-        var years = days * 365;
-        var today = new Date();
-        var todayYear = today.getFullYear();
-        var todayMonth = today.getMonth() + 1;
-        var todayDate = today.getDate();
-        var todayHour = today.getHours();
-        var todayMinute = today.getMinutes();
-        var todaySecond = today.getSeconds();
-        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
-        year - 作为date对象的年份，为4位年份值
-        month - 0-11之间的整数，做为date对象的月份
-        day - 1-31之间的整数，做为date对象的天数
-        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
-        minutes - 0-59之间的整数，做为date对象的分钟数
-        seconds - 0-59之间的整数，做为date对象的秒数
-        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
-        var t1 = Date.UTC(2017, 02, 12, 00, 00, 00); //北京时间2018-2-13 00:00:00
-        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
-        var diff = t2 - t1;
-        var diffYears = Math.floor(diff / years);
-        var diffDays = Math.floor((diff / days) - diffYears * 365);
-        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
-        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
-        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
-        document.getElementById("sitetime").innerHTML = "本站已运行 " +diffYears+" 年 "+diffDays + " 天 ";
-    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
-    siteTime();
-</script>
-
-
-<script>
-    $(document).ready(function () {
-
-        var int = setInterval(fixCount, 50);  // 50ms周期检测函数
-        var pvcountOffset = 5423;  // 初始化首次数据
-        var uvcountOffset = 3322;
-
-        function fixCount() {
-            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
-                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
-                clearInterval(int);
-            }
-            if ($("#busuanzi_container_site_pv").css("display") != "none") {
-                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
-                clearInterval(int); // 停止检测
-            }
-        }
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
     });
+  }
 </script>
 
-
-
-    <!-- 搜索遮罩框 -->
-<div id="searchModal" class="modal">
-    <div class="modal-content">
-        <div class="search-header">
-            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
-            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
-                   class="search-input">
         </div>
-        <div id="searchResult"></div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ssiu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
     </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ssiu</span>
 </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
 
-<script src="/js/search.js"></script>
-<script type="text/javascript">
-$(function () {
-    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
-});
-</script>
-    <!-- 回到顶部按钮 -->
-<div id="backTop" class="top-scroll">
-    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
-        <i class="fas fa-arrow-up"></i>
-    </a>
-</div>
+        
 
 
-    <script src="/libs/materialize/materialize.min.js"></script>
-    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
-    <script src="/libs/aos/aos.js"></script>
-    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
-    <script src="/js/matery.js"></script>
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <!-- Baidu Analytics -->
 
-    <!-- Baidu Push -->
 
-<script>
-    (function () {
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        } else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-</script>
 
-    
-    
-    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
-    
 
-    
+      </div>
+    </footer>
+  </div>
 
-    
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
-    
+<script src="/js/utils.js"></script>
 
-    
+<script src="/js/motion.js"></script>
 
-    
-    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
-    
-    
-    
-    <script src="/libs/instantpage/instantpage.js" type="module"></script>
-    
 
-</body>
+<script src="/js/schemes/pisces.js"></script>
 
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
 </html>

@@ -1,783 +1,962 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="zh-CN">
-
-
 <head>
-    <meta charset="utf-8">
-    <meta name="keywords" content="Ssiu Blog">
-    <meta name="description" content="Ssiu Blog">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="renderer" content="webkit|ie-stand|ie-comp">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Ssiu Blog</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
-    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/matery.css">
-    <link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" href="/css/main.css">
 
-    <script src="/libs/jquery/jquery.min.js"></script>
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-material.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.ibuer.fun","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Ssiu Blog">
+<meta property="og:url" content="http://blog.ibuer.fun/page/6/index.html">
+<meta property="og:site_name" content="Ssiu Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Ssiu">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.ibuer.fun/page/6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Ssiu Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Ssiu Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
     
-<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
-<body>
-    <header class="navbar-fixed">
-    <nav id="headNav" class="bg-color nav-transparent">
-        <div id="navContainer" class="nav-wrapper container">
-            <div class="brand-logo">
-                <a href="/" class="waves-effect waves-light">
-                    
-                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
-                    
-                    <span class="logo-span">Ssiu Blog</span>
-                </a>
-            </div>
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2020/05/21/structured-li-hui-fu-ying-yong-cheng-xu/">
 
-<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
-<ul class="right nav-menu">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/21/structured-li-hui-fu-ying-yong-cheng-xu/" class="post-title-link" itemprop="url">structured里恢复应用程序</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-21 16:02:32" itemprop="dateCreated datePublished" datetime="2020-05-21T16:02:32+08:00">2020-05-21</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
   
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/" class="waves-effect waves-light">
-      
-      <i class="fas fa-home" style="zoom: 0.6;"></i>
-      
-      <span>首页</span>
-    </a>
-    
-  </li>
   
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/tags" class="waves-effect waves-light">
-      
-      <i class="fas fa-tags" style="zoom: 0.6;"></i>
-      
-      <span>标签</span>
-    </a>
-    
-  </li>
   
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/categories" class="waves-effect waves-light">
+
       
-      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
-      
-      <span>分类</span>
-    </a>
-    
-  </li>
   
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/archives" class="waves-effect waves-light">
-      
-      <i class="fas fa-archive" style="zoom: 0.6;"></i>
-      
-      <span>归档</span>
-    </a>
-    
-  </li>
   
-  <li class="hide-on-med-and-down nav-item">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2020/05/20/kafka-bu-fen-topic-wu-fa-tong-guo-wu-ren-zheng-duan-kou-cha-xun-de-wen-ti-chu-li/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/20/kafka-bu-fen-topic-wu-fa-tong-guo-wu-ren-zheng-duan-kou-cha-xun-de-wen-ti-chu-li/" class="post-title-link" itemprop="url">kafka部分topic无法通过无认证端口查询的问题处理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-05-20 20:02:49 / 修改时间：20:22:55" itemprop="dateCreated datePublished" datetime="2020-05-20T20:02:49+08:00">2020-05-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Kafka/" itemprop="url" rel="index"><span itemprop="name">Kafka</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
     
-    <a href="/about" class="waves-effect waves-light">
-      
-      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
-      
-      <span>关于</span>
-    </a>
     
-  </li>
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="kafka部分topic无法通过无认证端口查询的问题处理"><a href="#kafka部分topic无法通过无认证端口查询的问题处理" class="headerlink" title="kafka部分topic无法通过无认证端口查询的问题处理"></a>kafka部分topic无法通过无认证端口查询的问题处理</h1><h2 id="环境概述"><a href="#环境概述" class="headerlink" title="环境概述"></a>环境概述</h2><p>公司一套XX系统，采用无认证的方式访问XX的kafka集群。另外现场环境开启了kerberos认证。</p>
+<h2 id="情况概述"><a href="#情况概述" class="headerlink" title="情况概述"></a>情况概述</h2><p>现场由于还是部署测试环境。忽然有一天部署小哥给我说之前好好的topic，现在在页面上访问不了（页面走的无认证端口去访问的kafka），而新建的topic又能够访问。并且这些所有topic都能够通过kinit认证后的命令行访问。并且log里没有相关的报错信息。</p>
+<h2 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h2><p>本身问题很简单，不过由于我是和现场小哥远程交流，现场，那个小哥也是新来的，我也刚刚接手这个项目，现场还是没用过的hw环境，走了不少弯路。</p>
+<blockquote>
+<p>先上结论，hw的1.1的kafka再删除topic后，acl的信息会保留。导致新建同名topic时，acl认证信息会继承。暂不清楚开源及后续版本有没有类似问题。</p>
+</blockquote>
+<p>心路历程：</p>
+<p>最开始翻代码来定位问题，代码里走的都是adminclient的api，也确实走的kafka的无认证端口。</p>
+<p>1、担心认证问题，由于我们的topic是走无认证页面建立的，随尝试kdestory后，通过producer测试下topic的权限问题。发现确实之前的topic带着认证。不过现场小哥一直说都是通过页面建立的topic。也让我很疑惑。</p>
+<p>2、当时怀疑会不会是代码哪块把认证加进去了，因为刚刚接手还不太熟悉，所以写了个简单的java代码，让前方测试，证实代码本身没问题。</p>
+<p>3、不过原因发现了是认证问题，且代码本身没问题，并且由于是部署环境，为了不耽误进度，表象表示今天new的topic又能正常使用，所以我让现场小哥把之前的topic删掉，重新new topic继续部署测试。</p>
+<p>4、结果小哥反馈给我说，同一时间new的topic，有的正常，有的依旧异常。</p>
+<p>5、最后灵光一闪，找小哥测试核对了下，确实是：依旧异常的topic与之前建立的第一次遇到问题的topic都是重名，正常的topic之前都没见过。当时以为是不是kafka没删干净。（1.1版本），随取zk和log.dir下核实。发现确实删干净了。</p>
+<p>6、最后没包多大希望，让小哥看了下kafka-acl。最终定位问题，将kafka-acl里的topic remove掉就ok了</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
   
-  <li>
-    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
-      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
-    </a>
-  </li>
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2020/05/18/flink-zhong-shi-yong-cep/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/18/flink-zhong-shi-yong-cep/" class="post-title-link" itemprop="url">Flink中使用cep</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-18 15:24:33" itemprop="dateCreated datePublished" datetime="2020-05-18T15:24:33+08:00">2020-05-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-19 10:07:17" itemprop="dateModified" datetime="2020-05-19T10:07:17+08:00">2020-05-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Flink/" itemprop="url" rel="index"><span itemprop="name">Flink</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Flink中使用CEP进行复杂计算"><a href="#Flink中使用CEP进行复杂计算" class="headerlink" title="Flink中使用CEP进行复杂计算"></a>Flink中使用CEP进行复杂计算</h1><h2 id="CEP简介："><a href="#CEP简介：" class="headerlink" title="CEP简介："></a>CEP简介：</h2><p>官网介绍: <a target="_blank" rel="noopener" href="https://ci.apache.org/projects/flink/flink-docs-stable/dev/libs/cep.html">Complex event processing for Flink</a><br>CEP主要用于流式处理过程中的数据状态转移，我们假设一个场景，我们接受的流数据有2两个字段：（id，name），利用cep，我们就可以监控上下文。</p>
+<p>即在流数据场景中，是否存在先达成状态1，后达成状态2的情景。</p>
+<p>简单来说，最初我们在监控id这个字段，并希望得到id=1的数据。这个时候称之为状态1。当我们确实收到了id=1的数据时，就发生了状态转移，这时候我们开始关注name=zhangsan的数据。这称为状态2。在状态2下，我们已经不关心id这个字段是几，只有当name=zhangsan时，才会出发状态2的结束，进入状态3或者完成CEP。<br>当然这是最简单的情景，更加完善的解释可以参见官网和其他博文。</p>
+<h2 id="Flink使用CEP："><a href="#Flink使用CEP：" class="headerlink" title="Flink使用CEP："></a>Flink使用CEP：</h2><h3 id="Getting-Started"><a href="#Getting-Started" class="headerlink" title="Getting Started"></a>Getting Started</h3><ol>
+<li>引入依赖： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.apache.flink&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;flink-cep-scala_$&#123;scala.binary.version&#125;&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;$&#123;flink.version&#125;&lt;/version&gt;</span><br><span class="line">	&lt;scope&gt;compile&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li>简单的CEP程序：</li>
+</ol>
+  <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> input: <span class="type">DataStream</span>[<span class="type">Event</span>] = ...</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> pattern = <span class="type">Pattern</span>.begin[<span class="type">Event</span>](<span class="string">&quot;start&quot;</span>).where(_.getId == <span class="number">42</span>).optional.times(<span class="number">5</span>).greedy</span><br><span class="line">	.next(<span class="string">&quot;middle&quot;</span>).subtype(classOf[<span class="type">SubEvent</span>]).where(_.name.equals(<span class="string">&quot;zhangsan&quot;</span>))</span><br><span class="line">	.within(<span class="type">Time</span>.seconds(<span class="number">10</span>))</span><br><span class="line">  </span><br><span class="line"><span class="keyword">val</span> patternStream = <span class="type">CEP</span>.pattern(input, pattern)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> result: <span class="type">DataStream</span>[<span class="type">Alert</span>] = patternStream.process(</span><br><span class="line">	<span class="keyword">new</span> <span class="type">PatternProcessFunction</span>[<span class="type">Event</span>, <span class="type">Alert</span>]() &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">processMatch</span></span>(</span><br><span class="line">          `<span class="keyword">match</span>`: util.<span class="type">Map</span>[<span class="type">String</span>, util.<span class="type">List</span>[<span class="type">Event</span>]],</span><br><span class="line">          ctx: <span class="type">PatternProcessFunction</span>.<span class="type">Context</span>,</span><br><span class="line">          out: <span class="type">Collector</span>[<span class="type">Alert</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line">          	out.collect(createAlertFrom(pattern))</span><br><span class="line">          &#125;</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>  pattern是CEP最重要的地方，这里定义了如何对Event进行处理。示例中，定义了第一个状态为start，匹配条件是id=42。其中：</p>
+<ul>
+<li>Next/followedBy表示转换成下一状态。</li>
+<li>where表示状态判定</li>
+<li>subtype的作用是进行类型校验。SubEvent需要时Event的子类。</li>
+<li>times表示需要匹配上n次才进入下一阶段。</li>
+<li>within表示需要在n时间内完成所有状态，否则是无效的。</li>
+<li>optional表示这个匹配条件是可选的。即便没匹配也会进入下一阶段的匹配。</li>
+<li>greedy表示贪婪，即可以无视当前状态进行匹配。greedy需要跟在times后面，表示取最后n次匹配到的。</li>
 </ul>
+<p>  实际计算时，我们将input输入和pattern捆绑在一起。</p>
+<p>  最终，在processMatch中就是在我们完成所有状态匹配后出发，match: util.Map[String, util.List[Event]]里保存了所有匹配上的结果，其中key是state的名字，value是匹配上的值。需要注意，如果启用了optional，没匹配的情况下不会存在value中。</p>
+<h3 id="定义模式"><a href="#定义模式" class="headerlink" title="定义模式"></a>定义模式</h3><ol>
+<li><p>模式间的联系：</p>
+<p>主要分为三种：严格连续性（next/notNext），宽松连续性（followedBy/notFollowedBy），和非确定宽松连续性（followedByAny）。</p>
+<ul>
+<li>严格连续性：需要消息的顺序到达与模式完全一致。</li>
+<li>宽松连续性：允许忽略不匹配的事件。</li>
+<li>非确定宽松连性：不仅可以忽略不匹配的事件，也可以忽略已经匹配的事件。</li>
+</ul>
+</li>
+<li><p>模式属性：</p>
+<p>正如示例中，分为循环模式times和可选属性。</p>
+<p>循环属性可以定义模式匹配发生固定次数（<strong>times</strong>），匹配发生一次以上（<strong>oneOrMore</strong>），匹配发生多次以上。(<strong>timesOrMore</strong>)。</p>
+<p>可选属性可以设置模式是贪婪的（<strong>greedy</strong>），即匹配最长的串，或设置为可选的（<strong>optional</strong>），有则匹配，无则忽略。</p>
+</li>
+<li><p>模式有效期：</p>
+<p>通过within设置一个全局有效区，防止数据过度缓存。</p>
+</li>
+<li><p>多模式组合：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> start: <span class="type">Pattern</span>[<span class="type">Event</span>, _] = <span class="type">Pattern</span>.begin(</span><br><span class="line">    <span class="type">Pattern</span>.begin[<span class="type">Event</span>](<span class="string">&quot;start&quot;</span>).where(...).followedBy(<span class="string">&quot;start_middle&quot;</span>).where(...)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
-<div id="mobile-nav" class="side-nav sidenav">
+<p>可以将pattern如此进行复用</p>
+</li>
+<li><p>处理结果：</p>
+<p>处理匹配的结果主要有四个接口： PatternFlatSelectFunction，PatternSelectFunction，PatternFlatTimeoutFunction和PatternTimeoutFunction。</p>
+<p>输出可以分为两类：</p>
+<ul>
+<li>select和flatSelect指定输出一条还是多条</li>
+<li>timeoutFunction和不带timeout的Function指定可不可以对超时事件进行旁路输出。</li>
+<li></li>
+</ul>
+</li>
+<li><p>关于PatternStream</p>
+<p>Stream和Pattern组合会得到PatternStream，其下主要有3类方法：process，select，flatSelect。以接受函数适应不同的处理需求，所有函数会在完成匹配后触发。</p>
+</li>
+</ol>
 
-    <div class="mobile-head bg-color">
-        
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
-        
-        <div class="logo-name">Ssiu Blog</div>
-        <div class="logo-desc">
-            
-            Never really desperate, only the lost of the soul.
-            
-        </div>
+      
     </div>
 
     
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
-    <ul class="menu-list mobile-menu-list">
-        
-        <li class="m-nav-item">
-	  
-		<a href="/" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-home"></i>
-			
-			首页
-		</a>
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2020/05/15/structured-li-shi-yong-state-ji-suan/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
           
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/tags" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-tags"></i>
-			
-			标签
-		</a>
+            <a href="/2020/05/15/structured-li-shi-yong-state-ji-suan/" class="post-title-link" itemprop="url">structured里使用state计算</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-15 10:47:25" itemprop="dateCreated datePublished" datetime="2020-05-15T10:47:25+08:00">2020-05-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-20 20:02:52" itemprop="dateModified" datetime="2020-05-20T20:02:52+08:00">2020-05-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spark/" itemprop="url" rel="index"><span itemprop="name">Spark</span></a>
+                </span>
+            </span>
+
           
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/categories" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bookmark"></i>
-			
-			分类
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/archives" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-archive"></i>
-			
-			归档
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/about" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-user-circle"></i>
-			
-			关于
-		</a>
-          
-        </li>
-        
-        
-    </ul>
-</div>
 
         </div>
-
-        
-    </nav>
-
-</header>
+      </header>
 
     
-    <div class="bg-cover pd-header about-cover">
-    <div class="container">
-    <div class="row">
-    <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
-        <div class="brand">
-            <div class="title center-align">
-                
-                Spark Hadoop Hbase
-                
-            </div>
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
-            <div class="description center-align">
-                
-                <span id="subtitle"></span>
-                <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
-                <script>
-                    var typed = new Typed("#subtitle", {
-                        strings: ['无名小站','无名小站'],
-                        startDelay: 300,
-                        typeSpeed: 100,
-                        loop: true,
-                        backSpeed: 50,
-                        showCursor: true
-                    });
-                </script>
-                
-            </div>
-        </div>
+      
+          <h1 id="structured里使用state计算"><a href="#structured里使用state计算" class="headerlink" title="structured里使用state计算"></a>structured里使用state计算</h1><p>structured主要提供了mapGroupsWithState和flatMapGroupsWithState来进行有状态计算，以mapGroupsWithState为例，其主要接受：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mapGroupsWithState</span></span>[<span class="type">S</span>: <span class="type">Encoder</span>, <span class="type">U</span>: <span class="type">Encoder</span>](</span><br><span class="line">      timeoutConf: <span class="type">GroupStateTimeout</span>)(</span><br><span class="line">      func: (<span class="type">K</span>, <span class="type">Iterator</span>[<span class="type">V</span>], <span class="type">GroupState</span>[<span class="type">S</span>]) =&gt; <span class="type">U</span>): <span class="type">Dataset</span>[<span class="type">U</span>] = &#123;...&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于func来说：</p>
+<ul>
+<li>K：Key</li>
+<li>Iterator[V]：Value的迭代器</li>
+<li>GroupState[S]：现在的State</li>
+<li>U：输出的类型。</li>
+</ul>
+<h2 id="超时"><a href="#超时" class="headerlink" title="超时"></a>超时</h2><p>在使用[map|flatMap]GroupsWithState是，可以通过GroupStateTimeout完成对与超时数据的设置。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.mapGroupsWithState(<span class="type">GroupStateTimeout</span>.<span class="type">EventTimeTimeout</span>())(updateAcrossEvents)</span><br></pre></td></tr></table></figure>
+
+<p>几个注意点：</p>
+<ol>
+<li><p>GroupStateTimeout设置的参数类型对整个GroupState都有效。但具体的值设置是当group使用setTimeout方法时确定的。</p>
+</li>
+<li><p>对于ProcessingTimeTimeout，可以通过<strong>GroupState.setTimeoutDuration</strong>设置超时值。如果超时时间设置为Dms：</p>
+<ul>
+<li>时钟时间增加Dms前，超时不会发生。</li>
+<li>超时时间没有严格的上限限制，<strong>即如果数据流中没有任何数据，就没有出发超时的机会，知道有数据时才会触发超时处理。</strong></li>
+</ul>
+</li>
+<li><p>对于EventTimeTimeout，需要设置Dataset.withWatermark()，这样，超时的事件时间会被直接过滤。超时值可以通过**GroupState.setTimeoutTimestamp()**来设置。setTimeoutTimestamp有两类版本，一类是设定一个固定时间戳，另一类是在一个指定的时间戳上再指定一个duration：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">setTimeoutTimestamp</span></span>(timestampMs: <span class="type">Long</span>): <span class="type">Unit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">setTimeoutTimestamp</span></span>(timestampMs: <span class="type">Long</span>, additionalDuration: <span class="type">String</span>): <span class="type">Unit</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>对于事件时间，是否超时将有两个因素控制：水位线和timeout设置：</p>
+<ul>
+<li>当水印时间大于timeout设置时，timeout永远不会发生。</li>
+<li>与ProcessingTimeout一样，<strong>超时时间没有严格的上限限制</strong>。</li>
+</ul>
+</li>
+<li><p>在func被调用时，timeout会被重置。即当有新数据到达，或发生超时时。</p>
+</li>
+</ol>
+
+      
     </div>
-</div>
 
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2020/05/14/manage-sparktask-in-code/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/14/manage-sparktask-in-code/" class="post-title-link" itemprop="url">manage sparkTask in code</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-05-14 14:11:34 / 修改时间：14:16:28" itemprop="dateCreated datePublished" datetime="2020-05-14T14:11:34+08:00">2020-05-14</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Manage-SparkTask-in-code"><a href="#Manage-SparkTask-in-code" class="headerlink" title="Manage SparkTask in code"></a>Manage SparkTask in code</h1><h2 id="submit-Spark"><a href="#submit-Spark" class="headerlink" title="submit Spark"></a>submit Spark</h2><ol>
+<li>Get SparkLauncher:</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// init SparkLauncher</span></span><br><span class="line">SparkLauncher sparkLauncher = <span class="keyword">new</span> SparkLauncher();</span><br><span class="line"><span class="comment">// set SparkLauncher</span></span><br><span class="line">sparkLauncher.setConf().setXXX()...;</span><br><span class="line"><span class="keyword">return</span> sparkLauncher;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>Start SparkTask, get SparkAppHandle:</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SparkAppHandle handle = sparkLauncher.startApplication();</span><br></pre></td></tr></table></figure>
+<ol>
+<li>(optional) 如果使用yarn的cluster模式，在Saprk任务running后，需要切断当前机器与AM的联系，这样可以释放一些资源。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String appIdOnYarn = handle.getAppId();</span><br><span class="line">	if (appIdOnYarn != null) &#123;</span><br><span class="line">	handle.disconnect();</span><br><span class="line">	handle.kill();</span><br><span class="line">&#125;</span><br><span class="line">	// 切段后，需要在我们本地管理的中将handle职位null，这有助于之后判断如何去管理这个spark任务。</span><br></pre></td></tr></table></figure>
+
+<h2 id="stop-Spark"><a href="#stop-Spark" class="headerlink" title="stop Spark"></a>stop Spark</h2><h3 id="Task-have-not-submit-success"><a href="#Task-have-not-submit-success" class="headerlink" title="Task have not submit success."></a>Task have not submit success.</h3><p>use SparkHandle to Stop:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// get SparkHandle , eg. manage in a map: runningApplications.</span><br><span class="line">runningApplications.get(appId).getSparkAppHandle().kill();</span><br></pre></td></tr></table></figure>
+<h3 id="Task-on-Yarn"><a href="#Task-on-Yarn" class="headerlink" title="Task on Yarn"></a>Task on Yarn</h3><p>use YarnClient to Stop:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 0. 之前操作有拿到appIdOnYarn</span><br><span class="line">String appIdOnYarn = handle.getAppId();</span><br><span class="line">// 1. 拼接。为上面拿到的appIdOnYarn增加前缀，并生成ApplicationId</span><br><span class="line">int pos1 = &quot;application_&quot;.length() - 1;</span><br><span class="line">int pos2 = appIdStr.indexOf(95, pos1 + 1);</span><br><span class="line">if (pos2 &lt; 0) &#123;</span><br><span class="line">	throw new IllegalArgumentException(&quot;Invalid ApplicationId: &quot; + appIdStr);</span><br><span class="line">&#125; else &#123;</span><br><span class="line">	long rmId = Long.parseLong(appIdStr.substring(pos1 + 1, pos2));</span><br><span class="line">	int appId = Integer.parseInt(appIdStr.substring(pos2 + 1));</span><br><span class="line">	return ApplicationId.newInstance(rmId, appId); =&gt; ApplicationIdInstance</span><br><span class="line">&#125;</span><br><span class="line">// 3. Stop:</span><br><span class="line">yarnClient.killApplication(ApplicationIdInstance);</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.ibuer.fun/2020/04/27/kerberos-on-cdh/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ssiu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ssiu Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/27/kerberos-on-cdh/" class="post-title-link" itemprop="url">kerberos on CDH</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-27 17:29:21" itemprop="dateCreated datePublished" datetime="2020-04-27T17:29:21+08:00">2020-04-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-16 14:49:10" itemprop="dateModified" datetime="2020-06-16T14:49:10+08:00">2020-06-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CDH/" itemprop="url" rel="index"><span itemprop="name">CDH</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="为CDH提供kerberos认证："><a href="#为CDH提供kerberos认证：" class="headerlink" title="为CDH提供kerberos认证："></a>为CDH提供kerberos认证：</h2><h3 id="0-准备工作："><a href="#0-准备工作：" class="headerlink" title="0.准备工作："></a>0.准备工作：</h3><ol>
+<li>部署JDK、CDH。网上文章很多，暂略。</li>
+<li>安装NTP保证时间同步。网上文章很多，暂略。</li>
+<li>修改hosts，指定域名。.localdomain 就是域名，之后会使用到。 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.xx.xx hadoop       hadoop.localdomain</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="1-kerberos安装与配置："><a href="#1-kerberos安装与配置：" class="headerlink" title="1.kerberos安装与配置："></a>1.kerberos安装与配置：</h3><h4 id="1-1-kdc-server-安装"><a href="#1-1-kdc-server-安装" class="headerlink" title="1.1 kdc server 安装"></a>1.1 kdc server 安装</h4><p>选择一台机器作为kdc server。其他机器就是client。<br>这里用的是MIT，这是官网：<a target="_blank" rel="noopener" href="https://web.mit.edu/kerberos/">Kerberos: The Network Authentication Protocol
+</a><br>centos貌似会自带，没有带用yum安装一下就好</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install krb5-server krb5-libs__</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>tips：生产上一般建议单独提供一台安装kdc server的机器。这边是测试所以会把cm和kdc server装一台机器上</p>
+</blockquote>
+<h4 id="1-2-kdc-server配置"><a href="#1-2-kdc-server配置" class="headerlink" title="1.2 kdc server配置"></a>1.2 kdc server配置</h4><h5 id="1-2-1-配置-etc-krb5-conf，下面是一个示例："><a href="#1-2-1-配置-etc-krb5-conf，下面是一个示例：" class="headerlink" title="1.2.1 配置/etc/krb5.conf，下面是一个示例："></a>1.2.1 配置/etc/krb5.conf，下面是一个示例：</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[libdefaults]</span><br><span class="line">    default_realm = LOCALDOMAIN</span><br><span class="line">    dns_lookup_realm = false</span><br><span class="line">    dns_lookup_kdc = false</span><br><span class="line">    ticket_lifetime = 24h</span><br><span class="line">    forwardable = true</span><br><span class="line">    udp_preference_limit = 1000000</span><br><span class="line">[realms]</span><br><span class="line">    LOCALDOMAIN = &#123;</span><br><span class="line">        kdc = hadoop</span><br><span class="line">        admin_server = hadoop</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">[domain_realm]</span><br><span class="line">    .localdomain = LOCALDOMAIN</span><br><span class="line">    localdomain = LOCALDOMAIN</span><br><span class="line"></span><br><span class="line">[logging]</span><br><span class="line">    kdc = FILE:/var/log/krb5kdc.log</span><br><span class="line">    admin_server = FILE:/var/log/kadmin.log</span><br><span class="line">    default = FILE:/var/log/krb5lib.log</span><br></pre></td></tr></table></figure>
+<p>几个注意点：</p>
+<blockquote>
+<p>[realms]里的hadoop ，配置成自己的hostname。后面可以跟域名也可以不跟。<br>注意域名LOCALDOMAIN要大写（domain_realm左边要小写）。最好和准备里hosts里的一样。不一样没测试过。</p>
+</blockquote>
+<h5 id="1-2-2-配置-var-kerberos-krb5kdc-kdc-conf，下面是一个示例："><a href="#1-2-2-配置-var-kerberos-krb5kdc-kdc-conf，下面是一个示例：" class="headerlink" title="1.2.2 配置/var/kerberos/krb5kdc/kdc.conf，下面是一个示例："></a>1.2.2 配置/var/kerberos/krb5kdc/kdc.conf，下面是一个示例：</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">default_realm = LOCALDOMAIN</span><br><span class="line"></span><br><span class="line">[kdcdefaults]</span><br><span class="line"> kdc_ports = 88</span><br><span class="line"> kdc_tcp_ports = 88</span><br><span class="line"></span><br><span class="line">[realms]</span><br><span class="line"> LOCALDOMAIN = &#123;</span><br><span class="line">  acl_file = /var/kerberos/krb5kdc/kadm5.acl</span><br><span class="line">  dict_file = /usr/share/dict/words</span><br><span class="line">  admin_keytab = /var/kerberos/krb5kdc/kadm5.keytab</span><br><span class="line">  supported_enctypes = aes128-cts:normal des3-hmac-sha1:normal arcfour-hmac:normal camellia128-cts:normal des-hmac-sha1:normal des-cbc-md5:normal des-cbc-crc:normal</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>注意点：</p>
+<blockquote>
+<p>supported_enctypes这一项，默认包含aes256-cts。这个需要在server和client上额外安装。本次示例没使用，直接删去该项。如果需要，可参考：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo wget http://download.oracle.com/otn-pub/java/jce/8/jce_policy-8.zip</span><br><span class="line">sudo unzip jce_policy-8.zip</span><br><span class="line">sudo mv UnlimitedJCEPolicyJDK8/*.jar $JAVA_HOME/jre/lib/security </span><br><span class="line">pscp -h list_krb_clients $JAVA_HOME/jre/lib/security/US_export_policy.jar /tmp </span><br><span class="line">pscp -h list_krb_clients $JAVA_HOME/jre/lib/security/local_policy.jar /tmp </span><br><span class="line">pssh -h list -l admin -A &quot;sudo cp /tmp/US_export_policy.jar $JAVA_HOME/jre/lib/security/&quot; </span><br><span class="line">pssh -h list -l admin -A &quot;sudo cp /tmp/local_policy.jar $JAVA_HOME/jre/lib/security/&quot;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h5 id="1-2-3-配置-var-kerberos-krb5kdc-kadm5-acl"><a href="#1-2-3-配置-var-kerberos-krb5kdc-kadm5-acl" class="headerlink" title="1.2.3 配置/var/kerberos/krb5kdc/kadm5.acl"></a>1.2.3 配置/var/kerberos/krb5kdc/kadm5.acl</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*/admin@LOCALDOMAIN	    *</span><br></pre></td></tr></table></figure>
+<h5 id="1-2-4-为kerberos创建数据库"><a href="#1-2-4-为kerberos创建数据库" class="headerlink" title="1.2.4 为kerberos创建数据库"></a>1.2.4 为kerberos创建数据库</h5><ol>
+<li>创建数据库： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kdb5_util create -r CW.COM -s</span><br></pre></td></tr></table></figure>
+ 这段代码含义是：-r 指定realm，简单来说就是本例的LOCALDOMAIN。-s表示会给master key在stash file中创建一份copy。<br> 这一步会要求为这个数据库设置密码。</li>
+<li>创建用户： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@kdc ~]# kadmin.local</span><br><span class="line">kadmin.local:  addprinc root/admin  &lt;= 创建一个root/admin用户。接着会让你设置密码</span><br><span class="line">kadmin.local:  ktadd -k /var/kerberos/krb5kdc/root.keytab root/admin  &lt;= 将该用户写入keytab，可选。</span><br><span class="line">kadmin.local:  exit</span><br></pre></td></tr></table></figure>
+</li>
+<li>启动服务，并设置自启： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl start krb5kdc.service</span><br><span class="line">systemctl start kadmin.service</span><br><span class="line">systemctl enable krb5kdc.service</span><br><span class="line">systemctl enable kadmin.service</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="1-2-5-测试："><a href="#1-2-5-测试：" class="headerlink" title="1.2.5 测试："></a>1.2.5 测试：</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kinit root/admin  &lt;= 刚刚创建的，回车输入密码。</span><br><span class="line">kinit -kt /var/kerberos/krb5kdc/root.keytab root/admin@LOCALDOMAIN &lt;= 使用keytab登陆。密码已存在keytab中。</span><br><span class="line">klist  &lt;= 查看当前认证的用户</span><br></pre></td></tr></table></figure>
+<h4 id="1-3-client安装："><a href="#1-3-client安装：" class="headerlink" title="1.3 client安装："></a>1.3 client安装：</h4><h5 id="1-3-1-所有client安装："><a href="#1-3-1-所有client安装：" class="headerlink" title="1.3.1 所有client安装："></a>1.3.1 所有client安装：</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install krb5-workstation krb5-libs</span><br></pre></td></tr></table></figure>
+<p>然后将kdc server的/etc/krb5.conf 分发到所有集群上。替换他们的/etc/krb5.conf。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp /etc/krb5.conf hadoop002:/etc/</span><br></pre></td></tr></table></figure>
+<h5 id="1-3-2-cm所在节点额外安装："><a href="#1-3-2-cm所在节点额外安装：" class="headerlink" title="1.3.2 cm所在节点额外安装："></a>1.3.2 cm所在节点额外安装：</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install openldap-clients</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-kerberos-on-cdh"><a href="#2-kerberos-on-cdh" class="headerlink" title="2.kerberos on cdh"></a>2.kerberos on cdh</h2><h3 id="2-1-为cm创建账号："><a href="#2-1-为cm创建账号：" class="headerlink" title="2.1 为cm创建账号："></a>2.1 为cm创建账号：</h3><p>和1.2.4中一样，记住这步设置的密码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@kdc ~]# kadmin.local</span><br><span class="line">Authenticating as principal root/admin@LOCALDOMAIN with password.    </span><br><span class="line">kadmin.local:  addprinc cloudera-scm/admin@LOCALDOMAIN</span><br><span class="line">kadmin.local:  exit</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-cm启用kerberos："><a href="#2-2-cm启用kerberos：" class="headerlink" title="2.2 cm启用kerberos："></a>2.2 cm启用kerberos：</h3><blockquote>
+<p>主要是界面操作。这一步的坑主要是第四步的加密算法。</p>
+</blockquote>
+<ol>
+<li>点击Administration -&gt; security -&gt; kerberos -&gt; enable</li>
+<li>阅读一些提示信息，没问题就下一步。(基本就是让你确认kerberos是否装好了)<ul>
+<li>KDC已经安装好并且正在运行</li>
+<li>将KDC配置为允许renewable tickets with non-zerolifetime，我们在之前修改kdc.conf文件的时候已经添加了max_life和max_renewable_life这个2个属性，前者表示服务端允许的Service ticket最大生命周期，后者表示服务端允许的Service ticket更新周期。这2个属性必须分别大于等于客户端对应的配置ticket_lifetime和renew_lifetime。我们假设，不这样进行配置：ticket_lifetime = 8d, max_life = 7d, renew_lifetime = 25h, max_renew_life = 24h，那么可能造成的结果就是当service持有的票据超过24小时没有去更新，在第24.5小时的时候去进行更新，请求会遭到拒绝，报错：Ticket expired while renewing credentials，永远无法进行正常更新。对于Cloudera来说，因为更新机制被透明(Cloudera有renew进程会去定期更新)，即使我们手动使用<code>modprinc -maxrenewlife 1week krbtgt/DOMAIN.COM@DOMAIN.COM</code> 进行更新，也无济于事。</li>
+<li>在Cloudera Manager Server上安装openldap-clients；</li>
+<li>为Cloudera Manager创建了超级管理员principal，使其能够有权限在KDC中创建其他的principals；</li>
+</ul>
+</li>
+<li>配置kdc信息：<ul>
+<li>注意填写的内容与krb5.conf里一一对应。</li>
+<li>这里的 Kerberos Encryption Types 一定要选择之前krb5.conf或/var/kerberos/krb5kdc/kdc.conf里配置有的。不然可能会报错：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">KDC has no support for encryption type while getting initial credentials</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>尽量不让cdh管理krb5.conf：</li>
+<li>后面一路continue即可。</li>
+</ol>
+<p>这一步cdh实际会进行如下操作：</p>
+<pre><code>1. 集群中有多少个节点，每个账户就会生成对应个数的 principal ;
+2. 为每个对应的 principal 创建 keytab；
+3. 部署 keytab 文件到指定的节点中；
+4. 在每个服务的配置文件中加入有关 Kerberos 的配置；
+</code></pre>
+<p>到这里，其实集群就已经完成kerberos认证了。不过真正要使用，还需要些其他操作。</p>
+<h3 id="2-3-创建我们使用的认证账户"><a href="#2-3-创建我们使用的认证账户" class="headerlink" title="2.3 创建我们使用的认证账户"></a>2.3 创建我们使用的认证账户</h3><p>之前，我们使用hdfs，都会使用cdh提供的hdfs账户。不过完成kerberos认证后，hdfs账户不能直接使用了，而cdh创建的我们又不知道密码。所以我们可以为其在kerberos生成一个key：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@kdc ~]# kadmin.local</span><br><span class="line">Authenticating as principal root/admin@LOCALDOMAIN with password.    </span><br><span class="line">kadmin.local:  addprinc hdfs/test@LOCALDOMAIN  &lt;= 保证/前是hdfs即可</span><br><span class="line">kadmin.local:  exit</span><br></pre></td></tr></table></figure>
+<p>之后通过kinit登陆该认证，就可以以hdfs用户的身份操作cdh了。</p>
+<h2 id="3-测试及常见问题："><a href="#3-测试及常见问题：" class="headerlink" title="3.测试及常见问题："></a>3.测试及常见问题：</h2><h3 id="3-1-基本测试："><a href="#3-1-基本测试：" class="headerlink" title="3.1 基本测试："></a>3.1 基本测试：</h3><ol>
+<li><p>登陆：</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kadmin.local &lt;= kdc可以直接使用kadmin.local登陆。client需要先kinit认证后，使用kadmin登陆。</span><br><span class="line">klist &lt;= 登陆后使用klist列出当前的认证账户。</span><br></pre></td></tr></table></figure></li>
+<li><p>hdfs使用：</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kinit后可以直接使用hadoop fs -ls / 查看hdfs的情况。</span><br><span class="line">kdestory后将无法使用hadoop fs -ls / 查看hdfs的情况。</span><br></pre></td></tr></table></figure></li>
+<li><p>运行mr/spark任务：</p>
+<blockquote>
+<p>spark需要额外设置才能使用,点一点界面就能完成很简单,参考：<a target="_blank" rel="noopener" href="https://docs.cloudera.com/documentation/enterprise/6/6.3/topics/sg_spark_auth.html">Spark Authentication</a></p>
+</blockquote>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-0.20-mapreduce/hadoop-examples.jar pi 10 10000</span><br><span class="line"></span><br><span class="line">spark-submit --class org.apache.spark.examples.SparkPi --master yarn --deploy-mode cluster $SPARK_HOME/lib/spark-examples.jar 10</span><br></pre></td></tr></table></figure></li>
+<li><p>使用yarn查看任务log：</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn logs -applicationId &lt;ID&gt;</span><br></pre></td></tr></table></figure>
+<p> 注意查看log的认证账户要与提交的用户一致，否则看不到log</p>
+<h3 id="3-2-常见问题："><a href="#3-2-常见问题：" class="headerlink" title="3.2 常见问题："></a>3.2 常见问题：</h3></li>
+<li><p>运行mr/spark任务时提示没有用户：<br> 问题：</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">	Application application_1527494654301_0004 failed 2 times due to AM Container for appattempt_1527494654301_0004_000002 exited with exitCode: -1000</span><br><span class="line">For more detailed output, check application tracking page:http://fetch-master:8088/proxy/application_1527494654301_0004/Then, click on links to logs of each attempt.</span><br><span class="line">Diagnostics: Application application_1527494654301_0004 initialization failed (exitCode=255) with output: main : command provided 0</span><br><span class="line">main : run as user is admin</span><br><span class="line">main : requested hdfs user is admin</span><br><span class="line">User admin not found</span><br><span class="line">Failing this attempt. Failing the application.</span><br></pre></td></tr></table></figure>
+<p> 解决：<br> 参考2.3，创建需要的用户认证。这里就是创建一个admin@xxx</p>
+</li>
+<li><p>运行mr/spark任务时提示id异常：<br> 问题：</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Requested user hdfs is not whitelisted and has id 488,which is below the minimum allowed 1000</span><br></pre></td></tr></table></figure>
+<p> 解决：</p>
+<ol>
+<li>修改用户id。</li>
+<li>或修改Clouder关于这个该项的设置 ：ARN -&gt; NodeManager -&gt; Security -&gt; min.user.id改为0</li>
+</ol>
+</li>
+<li><p>运行mr/spark任务时提示用户被禁用：<br> 问题：</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Requested user hdfs is banned</span><br></pre></td></tr></table></figure>
+<p> 解决：<br> 在CM yarn-&gt; Configuration页面，配置禁止的系统用户banned.users列表。</p>
+</li>
+<li><p>找不到yarn log<br> 问题：</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Can not find the logs for the application with the appOwner: hdfs</span><br></pre></td></tr></table></figure>
+<p> 解决：<br> 用运行这个任务的认证查看yarn log</p>
+</li>
+<li><p>没有账号</p>
+<p>问题：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Client &#x27;USERNAME-REDACTED&#x27; not found in Kerberos database while getting initial credentials</span><br></pre></td></tr></table></figure>
+
+<p>解决：</p>
+<p>创建账号，也可能是账号填错了</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
 
 <script>
-    // 每天切换 banner 图.  Switch banner image every day.
-    $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay() + '.jpg)');
-</script>
-
-
-    </div>
-</div>
-
-
-<main class="content">
-
-    
-
-    
-
-    <!-- 所有文章卡片 -->
-    <article id="articles" class="container articles">
-        <div class="row article-row">
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2019/05/18/hbase-de-du-xie-liu-cheng/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="HBase的读写流程">
-                            
-                            <span class="card-title">HBase的读写流程</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                前言HBase虽然也是分布式架构，但相比于HDFS，读写流程有点特殊，简单来说读写操作不需要走Master。Master只负责涉及表结构的变更。
-
-写流程
-zookeeper：
-去ZK拿到/hbase/meta-region-server。
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-05-18
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/HBase/" class="post-category">
-                                    HBase
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/HBase/">
-                            <span class="chip bg-color">HBase</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2019/05/01/hbase-gai-nian-ji-jia-gou/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="HBase概念及架构">
-                            
-                            <span class="card-title">HBase概念及架构</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                基础概念
-HBase版本：1.2.x
-
-组成HBase也是主从结构，本身主要由两部分组成：
-
-HMaster：主节点，表相关的工作都会经过Hmaster，包括表的管理、Region的管理。
-HRegionServer：从节点，主要关注数据的
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-05-01
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/HBase/" class="post-category">
-                                    HBase
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/HBase/">
-                            <span class="chip bg-color">HBase</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2019/02/18/jvm-zhong-de-la-ji-hui-shou/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="JVM中的垃圾回收">
-                            
-                            <span class="card-title">JVM中的垃圾回收</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                垃圾回收算法JVM的垃圾回收针对哪些内容Java堆、方法栈。
-如何定位垃圾
-引用计数法（已经基本不用）
-每个对象都有一个引用计数器。被引用是计数器+1。引用失效时，计数器-1。回收计数器为0的对象。
-存在问题：两个对象相互引用时，无法回收。
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-02-18
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/JVM/" class="post-category">
-                                    JVM
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/JVM/">
-                            <span class="chip bg-color">JVM</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2019/02/02/jvm-de-yun-xing-shi-shu-ju-qu/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="JVM的运行时数据区">
-                            
-                            <span class="card-title">JVM的运行时数据区</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                前言JDK8中，JVM的运行时数据区逻辑上由5个部分组成：
-
-程序计数器（PC Register）
-JVM栈
-本地方法栈
-堆
-方法区
-
-
-
-程序计数器主要功能：指向当前线程字节码文件执行到哪了。直白来说，就是指向当前线程执行到哪行代码了。
-
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-02-02
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/JVM/" class="post-category">
-                                    JVM
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/JVM/">
-                            <span class="chip bg-color">JVM</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/12/31/spark-zhong-de-chuang-kou-han-shu-shi-yong/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Spark中的窗口函数使用">
-                            
-                            <span class="card-title">Spark中的窗口函数使用</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                前言spark自1.4版本后就支持了window function。与sql里的xxx over xxx类似，便于人们进行聚合参数。本文主要是学习时的一些理解，已经遇到的一些注意点。有错误望指正。
-创建window//需要import这个包
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-12-31
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Spark/" class="post-category">
-                                    Spark
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Spark/">
-                            <span class="chip bg-color">Spark</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/10/01/sparkcontext-zhi-xing-liu-cheng/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="SparkContext执行流程">
-                            
-                            <span class="card-title">SparkContext执行流程</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                前言其实这个也算是Spark任务提交的内容之一。Spark任务的关键就是构建DAG图，Action触发然后去解析DAG图，将Stage交给Executor处理，executor处理完成后返回结果。Spark程序都是以SparkContext
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-10-01
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Spark/" class="post-category">
-                                    Spark
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Spark/">
-                            <span class="chip bg-color">Spark</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-        </div>
-    </article>
-
-</main>
-
-
-<div class="container paging">
-    <div class="row">
-        <div class="col s6 m4 l4">
-            
-            <a href="/page/5/"
-               class="left btn-floating btn-large waves-effect waves-light bg-color">
-                <i class="fas fa-angle-left"></i>
-            </a>
-            
-        </div>
-        <div class="page-info col m4 l4 hide-on-small-only">
-            <div class="center-align b-text-gray">6 / 9</div>
-        </div>
-        <div class="col s6 m4 l4">
-            
-            <a href="/page/7/"
-               class="right btn-floating btn-large waves-effect waves-light bg-color">
-                <i class="fas fa-angle-right"></i>
-            </a>
-            
-        </div>
-    </div>
-</div>
-
-
-
-
-    <footer class="page-footer bg-color">
-    <div class="container row center-align" style="margin-bottom: 0px !important;">
-        <div class="col s12 m8 l8 copy-right">
-            Copyright&nbsp;&copy;
-            <span id="year">2017-2020</span>
-            <a href="http://blog.ibuer.fun" target="_blank">Ssiu</a>
-            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
-            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
-            <br>
-            
-            
-            
-            
-            
-            
-            <span id="busuanzi_container_site_pv" style="display:none">
-                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
-                    class="white-color"></span>&nbsp;次
-            </span>
-            
-            
-            <span id="busuanzi_container_site_uv" style="display:none">
-                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
-                    class="white-color"></span>&nbsp;人
-            </span>
-            
-            
-        </div>
-        <div class="col s12 m4 l4 social-link social-statis">
-
-
-    <a href="mailto:smokeriu@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
-        <i class="fas fa-envelope-open"></i>
-    </a>
-
-
-
-
-
-
-
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=604522169" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 604522169" data-position="top" data-delay="50">
-        <i class="fab fa-qq"></i>
-    </a>
-
-
-
-
-
-
-
-</div>
-    </div>
-</footer>
-
-<div class="progress-bar"></div>
-
-<script language=javascript>
-    function siteTime() {
-        window.setTimeout("siteTime()", 1000);
-        var seconds = 1000;
-        var minutes = seconds * 60;
-        var hours = minutes * 60;
-        var days = hours * 24;
-	var months = days * 30;
-        var years = days * 365;
-        var today = new Date();
-        var todayYear = today.getFullYear();
-        var todayMonth = today.getMonth() + 1;
-        var todayDate = today.getDate();
-        var todayHour = today.getHours();
-        var todayMinute = today.getMinutes();
-        var todaySecond = today.getSeconds();
-        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
-        year - 作为date对象的年份，为4位年份值
-        month - 0-11之间的整数，做为date对象的月份
-        day - 1-31之间的整数，做为date对象的天数
-        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
-        minutes - 0-59之间的整数，做为date对象的分钟数
-        seconds - 0-59之间的整数，做为date对象的秒数
-        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
-        var t1 = Date.UTC(2017, 02, 12, 00, 00, 00); //北京时间2018-2-13 00:00:00
-        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
-        var diff = t2 - t1;
-        var diffYears = Math.floor(diff / years);
-        var diffDays = Math.floor((diff / days) - diffYears * 365);
-        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
-        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
-        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
-        document.getElementById("sitetime").innerHTML = "本站已运行 " +diffYears+" 年 "+diffDays + " 天 ";
-    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
-    siteTime();
-</script>
-
-
-<script>
-    $(document).ready(function () {
-
-        var int = setInterval(fixCount, 50);  // 50ms周期检测函数
-        var pvcountOffset = 5423;  // 初始化首次数据
-        var uvcountOffset = 3322;
-
-        function fixCount() {
-            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
-                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
-                clearInterval(int);
-            }
-            if ($("#busuanzi_container_site_pv").css("display") != "none") {
-                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
-                clearInterval(int); // 停止检测
-            }
-        }
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
     });
+  }
 </script>
 
-
-
-    <!-- 搜索遮罩框 -->
-<div id="searchModal" class="modal">
-    <div class="modal-content">
-        <div class="search-header">
-            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
-            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
-                   class="search-input">
         </div>
-        <div id="searchResult"></div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ssiu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
     </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ssiu</span>
 </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
 
-<script src="/js/search.js"></script>
-<script type="text/javascript">
-$(function () {
-    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
-});
-</script>
-    <!-- 回到顶部按钮 -->
-<div id="backTop" class="top-scroll">
-    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
-        <i class="fas fa-arrow-up"></i>
-    </a>
-</div>
+        
 
 
-    <script src="/libs/materialize/materialize.min.js"></script>
-    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
-    <script src="/libs/aos/aos.js"></script>
-    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
-    <script src="/js/matery.js"></script>
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <!-- Baidu Analytics -->
 
-    <!-- Baidu Push -->
 
-<script>
-    (function () {
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        } else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-</script>
 
-    
-    
-    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
-    
 
-    
+      </div>
+    </footer>
+  </div>
 
-    
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
-    
+<script src="/js/utils.js"></script>
 
-    
+<script src="/js/motion.js"></script>
 
-    
-    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
-    
-    
-    
-    <script src="/libs/instantpage/instantpage.js" type="module"></script>
-    
 
-</body>
+<script src="/js/schemes/pisces.js"></script>
 
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
 </html>
